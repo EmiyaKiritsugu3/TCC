@@ -35,7 +35,7 @@
    para gestão do negócio*. 4. ed., 2019. Cap. 2 (§§2.8, 2.9, 2.11) e Cap. 3.
    [TODO: confirmar cidade/editora no exemplar]
 10. FEW, S. *Information dashboard design: the effective visual communication of
-    data*. 2006. [RASCUNHO — confirmar cap. no exemplar UFRN]
+    data*. Sebastopol: O'Reilly Media, 2006. Cap. 1 (§1.3.1), Cap. 3 e Cap. 5 (§5.1).
 
 ## Apêndices sugeridos
 

@@ -32,12 +32,13 @@ não Pollard; os valores não são diretamente comparáveis.
 A análise de negócios descritiva — isto é, BI — é o nível de entrada da taxonomia
 analítica, respondendo "O que aconteceu?" (Sharda; Delen; Turban, 2019, Cap. 3),
 o que legitima o escopo exclusivamente descritivo deste trabalho. Sua interface
-típica é o dashboard: informações consolidadas numa única tela, digeríveis num
-relance, com KPIs e drill-down (§2.11) — arquitetura seguida pelo `app.py`
-(cartões → séries → tabela de partidas). As codificações seguem o guia do próprio
-referencial: linhas para tendências temporais, barras (inclusive empilhadas) para
-comparar categorias (§2.9). [A CONFIRMAR NO FEW 2006: princípios de comunicação
-visual eficaz e erros a evitar.]
+típica é o dashboard: "visual display of the most important information needed to
+achieve one or more objectives; consolidated and arranged on a single screen so
+the information can be monitored at a glance" (Few, 2006, Cap. 1). O `app.py`
+segue a definição — tela única por aba, cartões de KPIs, séries e tabela com
+drill-down — e evita os erros catalogados no Cap. 3 (tela estourada, contexto
+insuficiente, precisão excessiva, decoração inútil), buscando a simplicidade do
+Cap. 5: só o necessário, condensado sem perda de sentido.
 
 ## Síntese
 

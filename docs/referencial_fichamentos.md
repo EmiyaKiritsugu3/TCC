@@ -91,14 +91,22 @@ Cap. 2 (especialmente §§2.8, 2.9 e 2.11) e Cap. 3.
   (Dallas Cowboys com Tableau, Caso 2.7).
 - **Conexão:** Cap. 2.3 e justificativa das telas/gráficos no Cap. 4.
 
-## 7. Few, S. (2006). [RASCUNHO — CONFIRMAR NO EXEMPLAR UFRN]
+## 7. Few, S. (2006). [CONTEÚDO VERIFICADO NO PDF]
 
 *Information dashboard design: the effective visual communication of data.*
-[CONFIRMAR cap.: princípios de comunicação visual.]
+Sebastopol: O'Reilly Media. Cap. 1 (§1.3.1), Cap. 3 e Cap. 5 (§5.1).
 
-- **Núcleo a confirmar:** painel para compreensão *at-a-glance*; codificar a
-  mensagem com o gráfico certo (barras/linhas); evitar decoração sem informação.
-- **Conexão:** justifica cartões, séries e barras empilhadas do `app.py`.
+- **Definição (§1.3.1):** "visual display of the most important information needed
+  to achieve one or more objectives; consolidated and arranged on a single screen
+  so the information can be monitored at a glance" — o `app.py` segue à risca:
+  tela única por aba, cartões + séries + tabela.
+- **Erros a evitar (Cap. 3):** estourar a tela única, contexto insuficiente,
+  detalhe/precisão excessivos, variedade sem sentido, mídia inadequada,
+  codificação imprecisa, má organização, destaque ineficaz, decoração inútil.
+- **Simplicidade (§5.1):** "Simplify, simplify, simplify"; incluir só o necessário,
+  condensado sem perda de sentido, em mídia legível mesmo pequena; o dashboard
+  dá o panorama instantâneo, o detalhe vem depois (drill-down → aba de partidas).
+- **Conexão:** justifica cada decisão visual do Cap. 4 e o que o projeto evitou.
 
 ## Síntese para o cap. 2
 
