@@ -72,6 +72,25 @@ texto integral em acesso aberto no mesmo endereço.]
 - **Conexão:** explica nosso 2020 (Pollard 60,2%, abaixo da média): torcida ausente +
   VAR + calendário atípico. Reforça declarar 2020 como temporada anômala na discussão.
 
+## 6. Sharda et al. (2019). [RASCUNHO — CONFIRMAR NO EXEMPLAR UFRN]
+
+*Business intelligence e análise de dados para gestão do negócio*. 4. ed.
+[CONFIRMAR cap.: fundamentos de BI/DSS.]
+
+- **Núcleo a confirmar:** BI como transformação de dados em informação para
+  decisão; análise descritiva como camada de base — sustenta o dashboard
+  descritivo deste TCC em vez de modelo preditivo.
+- **Conexão:** Cap. 2.3 e justificativa das telas no Cap. 4.
+
+## 7. Few, S. (2006). [RASCUNHO — CONFIRMAR NO EXEMPLAR UFRN]
+
+*Information dashboard design: the effective visual communication of data.*
+[CONFIRMAR cap.: princípios de comunicação visual.]
+
+- **Núcleo a confirmar:** painel para compreensão *at-a-glance*; codificar a
+  mensagem com o gráfico certo (barras/linhas); evitar decoração sem informação.
+- **Conexão:** justifica cartões, séries e barras empilhadas do `app.py`.
+
 ## Síntese para o cap. 2
 
 A literatura converge em VC persistente no Brasil (~65% Pollard, acima da Europa),
