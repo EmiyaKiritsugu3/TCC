@@ -29,20 +29,15 @@ não Pollard; os valores não são diretamente comparáveis.
 
 ## 2.3 Análise de dados e visualização como apoio à decisão
 
-[RASCUNHO — AGUARDA CONFIRMAÇÃO NOS EXEMPLARES, ver checklist no fim.]
-
-Business intelligence é a infraestrutura de dados, modelos e interfaces que
-transforma registros operacionais em informação para decisão, tendo a análise
-descritiva ("o que aconteceu") como camada de base (Sharda et al., 2019).
-O dashboard é a interface dessa camada: exibição visual consolidada para
-compreensão *at-a-glance* (Few, 2006). Daí derivam as decisões deste projeto:
-indicadores agregados em cartões, séries temporais em linhas, composições em
-barras empilhadas e tabela de detalhe — codificações adequadas à mensagem,
-sem decoração que não informa.
-
-**Checklist de confirmação (5 min com os livros):** [ ] nº/título do cap. de
-fundamentos de BI no Sharda; [ ] nº/título do cap. de princípios visuais no Few;
-[ ] ajustar as entradas do Cap. 7; [ ] remover este banner.
+A análise de negócios descritiva — isto é, BI — é o nível de entrada da taxonomia
+analítica, respondendo "O que aconteceu?" (Sharda; Delen; Turban, 2019, Cap. 3),
+o que legitima o escopo exclusivamente descritivo deste trabalho. Sua interface
+típica é o dashboard: informações consolidadas numa única tela, digeríveis num
+relance, com KPIs e drill-down (§2.11) — arquitetura seguida pelo `app.py`
+(cartões → séries → tabela de partidas). As codificações seguem o guia do próprio
+referencial: linhas para tendências temporais, barras (inclusive empilhadas) para
+comparar categorias (§2.9). [A CONFIRMAR NO FEW 2006: princípios de comunicação
+visual eficaz e erros a evitar.]
 
 ## Síntese
 

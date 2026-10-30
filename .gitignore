@@ -4,3 +4,4 @@ data/raw/*.csv
 data/raw/*.txt
 __pycache__/
 .streamlit/
+*.pdf

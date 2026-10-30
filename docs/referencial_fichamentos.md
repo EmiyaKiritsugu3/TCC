@@ -72,15 +72,24 @@ texto integral em acesso aberto no mesmo endereço.]
 - **Conexão:** explica nosso 2020 (Pollard 60,2%, abaixo da média): torcida ausente +
   VAR + calendário atípico. Reforça declarar 2020 como temporada anômala na discussão.
 
-## 6. Sharda et al. (2019). [RASCUNHO — CONFIRMAR NO EXEMPLAR UFRN]
+## 6. Sharda, R.; Delen, D.; Turban, E. (2019). [CONTEÚDO VERIFICADO NO PDF]
 
 *Business intelligence e análise de dados para gestão do negócio*. 4. ed.
-[CONFIRMAR cap.: fundamentos de BI/DSS.]
+Cap. 2 (especialmente §§2.8, 2.9 e 2.11) e Cap. 3.
 
-- **Núcleo a confirmar:** BI como transformação de dados em informação para
-  decisão; análise descritiva como camada de base — sustenta o dashboard
-  descritivo deste TCC em vez de modelo preditivo.
-- **Conexão:** Cap. 2.3 e justificativa das telas no Cap. 4.
+- **BI = análise descritiva:** "a análise de negócios descritiva (isto é, BI) é o
+  nível de entrada na taxonomia", respondendo "O que aconteceu?" (Cap. 3) —
+  legitima o escopo exclusivamente descritivo do TCC em vez de preditivo.
+- **Visualização:** "o uso de representações visuais para explorar, dar sentido
+  e comunicar dados" (§2.8, citando Few, 2007); o retratado são informações
+  (dados agregados e contextualizados), não fatos brutos.
+- **Gráficos (§2.9):** linhas para séries temporais/tendências; barras para
+  comparar categorias (podendo ser empilhadas); pizza só para poucas categorias.
+- **Dashboards (§2.11):** informações consolidadas numa única tela, digeríveis
+  "num simples relance", com KPIs e aprofundamento por drill-down — exatamente
+  a arquitetura do `app.py` (cartões → séries → tabela). Há até caso esportivo
+  (Dallas Cowboys com Tableau, Caso 2.7).
+- **Conexão:** Cap. 2.3 e justificativa das telas/gráficos no Cap. 4.
 
 ## 7. Few, S. (2006). [RASCUNHO — CONFIRMAR NO EXEMPLAR UFRN]
 

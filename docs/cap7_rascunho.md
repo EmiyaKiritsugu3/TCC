@@ -31,8 +31,9 @@
 8. MATOS, R. M.; AMARO, N.; POLLARD, R. How best to quantify home advantage in
    team sports. *RICYDE*, v. 16, n. 59, p. 12–23, 2020.
    DOI: 10.5232/ricyde2020.05902 (acesso aberto).
-9. SHARDA et al. *Business intelligence e análise de dados para gestão do negócio*.
-   4. ed., 2019. [RASCUNHO — confirmar cap. e dados no exemplar UFRN]
+9. SHARDA, R.; DELEN, D.; TURBAN, E. *Business intelligence e análise de dados
+   para gestão do negócio*. 4. ed., 2019. Cap. 2 (§§2.8, 2.9, 2.11) e Cap. 3.
+   [TODO: confirmar cidade/editora no exemplar]
 10. FEW, S. *Information dashboard design: the effective visual communication of
     data*. 2006. [RASCUNHO — confirmar cap. no exemplar UFRN]
 
