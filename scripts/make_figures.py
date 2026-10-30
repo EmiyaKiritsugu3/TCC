@@ -38,6 +38,7 @@ def fig_pollard(t):
     ax.axhline(50, color="black", linestyle="--", linewidth=1, label="50% (neutro)")
     ax.plot(t["season"], t["pollard"], marker="o", color=AZUL)
     ax.set_xlabel("Temporada")
+    ax.set_xticks(range(2006, 2025, 2))
     ax.set_ylabel("Índice de Pollard (%)")
     ax.legend()
     fig.tight_layout()
@@ -52,6 +53,7 @@ def fig_resultados(t):
     ax.bar(t["season"], t["p_away"],
            bottom=t["p_home"] + t["p_draw"], color=VERMELHO, label="Vit. visitante")
     ax.set_xlabel("Temporada")
+    ax.set_xticks(range(2006, 2025, 2))
     ax.set_ylabel("% de partidas")
     ax.set_ylim(0, 100)
     ax.legend()
@@ -65,6 +67,7 @@ def fig_gols(t):
     ax.plot(t["season"], t["avg_home_goals"], marker="o", color=AZUL, label="Mandante")
     ax.plot(t["season"], t["avg_away_goals"], marker="o", color=VERMELHO, label="Visitante")
     ax.set_xlabel("Temporada")
+    ax.set_xticks(range(2006, 2025, 2))
     ax.set_ylabel("Gols por partida (média)")
     ax.legend()
     fig.tight_layout()
