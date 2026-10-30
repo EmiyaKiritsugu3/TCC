@@ -1,0 +1,36 @@
+{
+  "loaded": 8785,
+  "excluded": {
+    "fora_do_recorde_2006_2024": 1566
+  },
+  "kept": 7219,
+  "coverage_per_season": {
+    "2006": 380,
+    "2007": 380,
+    "2008": 380,
+    "2009": 380,
+    "2010": 380,
+    "2011": 380,
+    "2012": 380,
+    "2013": 380,
+    "2014": 380,
+    "2015": 380,
+    "2016": 379,
+    "2017": 380,
+    "2018": 380,
+    "2019": 380,
+    "2020": 380,
+    "2021": 380,
+    "2022": 380,
+    "2023": 380,
+    "2024": 380
+  },
+  "seasons_below_expected": {
+    "2016": 1
+  },
+  "notes": [
+    "2016 tem 379 partidas: Chapecoense x Atletico-MG (rodada 38) cancelada.",
+    "Temporada 2020 vai de 2020-08-08 a 2021-02-25 (COVID-19); temporada atribuída por intervalo, não por ano civil.",
+    "Barueri (2009) e Gremio Prudente (2010): mesma franquia renomeada; mantidas separadas por temporada."
+  ]
+}

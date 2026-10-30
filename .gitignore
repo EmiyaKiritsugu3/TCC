@@ -1,0 +1,6 @@
+# Bruto da fonte NÃO versionado (plano B — sem LICENSE na fonte).
+# Ver data/raw/FONTE.md para download reproduzível.
+data/raw/*.csv
+data/raw/*.txt
+__pycache__/
+.streamlit/
