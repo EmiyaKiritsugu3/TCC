@@ -32,8 +32,8 @@
    team sports. *RICYDE*, v. 16, n. 59, p. 12–23, 2020.
    DOI: 10.5232/ricyde2020.05902 (acesso aberto).
 9. SHARDA, R.; DELEN, D.; TURBAN, E. *Business intelligence e análise de dados
-   para gestão do negócio*. 4. ed., 2019. Cap. 2 (§§2.8, 2.9, 2.11) e Cap. 3.
-   [TODO: confirmar cidade/editora no exemplar]
+   para gestão do negócio*. 4. ed. Porto Alegre: Bookman, 2019. Cap. 2 (§§2.8,
+   2.9, 2.11) e Cap. 3. (dados conferidos no exemplar, ano e editora ✓)
 10. FEW, S. *Information dashboard design: the effective visual communication of
     data*. Sebastopol: O'Reilly Media, 2006. Cap. 1 (§1.3.1), Cap. 3 e Cap. 5 (§5.1).
 

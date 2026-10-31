@@ -1,6 +1,6 @@
 # Resumo executivo para o orientador — TCC vantagem de jogar em casa
 
-**Aluno:** [nome] · **Curso:** Sistemas de Informação · **Data:** 28/10/2026
+**Aluno:** José Inamar de Medeiros Júnior · **Curso:** Sistemas de Informação · **Data:** 28/10/2026
 **Título proposto:** *Análise estatística da vantagem de jogar em casa no Campeonato
 Brasileiro Série A: desenvolvimento de um dashboard interativo para análise de
 resultados históricos* (alternativo curto na spec, §2).
