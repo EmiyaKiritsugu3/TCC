@@ -8,17 +8,14 @@
 > está entre **[TODO]**. Na conversão para o template: Times New Roman ou Arial 12,
 > espaçamento 1,5, margens 3 cm esq. / 2 cm dir., A4. Ficha catalográfica é emitida
 > pela SISBI no depósito da BDM (não incluir por conta própria). Pós-orientador:
-> aplicar as 5 decisões de `docs/resumo_orientador.md`; confirmar com ele o
-> departamento da capa (DCT — como nos TCCs 2025 — ou DCEA, como na Resolução 2016).
+> aplicar as 5 decisões de `docs/resumo_orientador.md` (departamento da capa já
+> confirmado: DCT).
 
 ---
 
 ## CAPA (elemento pré-textual, p. 1 — sem número)
 
-<!-- Bloco institucional no padrão dos TCCs do curso (Centralizado, uma linha por item).
-     CONFIRMAR com o orientador: "Departamento de Computação e Tecnologia" (DCT, usado
-     nos TCCs 2025 da BDM) ou "Departamento de Ciências Exatas e Aplicadas" (DCEA,
-     como na Resolução Nº 001/2016-CSI). -->
+     Departamento confirmado: "Departamento de Computação e Tecnologia" (DCT), como nos TCCs do curso na BDM. -->
 
 UNIVERSIDADE FEDERAL DO RIO GRANDE DO NORTE
 CENTRO DE ENSINO SUPERIOR DO SERIDÓ
@@ -68,7 +65,7 @@ Aprovado em: __/__ /____ — Nota: ______
 Banca Examinadora:
 
 Dr. Francisco Marcio Barboza
-Orientador — DCT/UFRN [CONFIRMAR vínculo/departamento]
+Orientador — DCT/UFRN
 
 **[TODO: 2º membro da banca — nome, titulação, vínculo]**
 
