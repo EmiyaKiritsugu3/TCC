@@ -48,17 +48,21 @@ def fig_pollard(t):
 
 def fig_resultados(t):
     fig, ax = plt.subplots()
-    ax.bar(t["season"], t["p_home"], color=AZUL, label="Vit. mandante")
-    ax.bar(t["season"], t["p_draw"], bottom=t["p_home"], color=CINZA, label="Empate")
-    ax.bar(t["season"], t["p_away"],
-           bottom=t["p_home"] + t["p_draw"], color=VERMELHO, label="Vit. visitante")
+    n = len(t)
+    ax.bar(t["season"], t["p_home"], width=0.62, color=AZUL, label="Vit. mandante")
+    ax.bar(t["season"], t["p_draw"], bottom=t["p_home"], width=0.62,
+           color=CINZA, label="Empate")
+    ax.bar(t["season"], t["p_away"], bottom=t["p_home"] + t["p_draw"], width=0.62,
+           color=VERMELHO, label="Vit. visitante")
     ax.set_xlabel("Temporada")
     ax.set_xticks(range(2006, 2025, 2))
     ax.set_ylabel("% de partidas")
+    ax.set_xlim(2005.4, 2024.6)
     ax.set_ylim(0, 100)
-    ax.legend()
+    # legenda FORA do plot (abaixo, 3 colunas) — não sobrepõe as barras
+    ax.legend(loc="upper center", bbox_to_anchor=(0.5, -0.14), ncols=3, frameon=False)
     fig.tight_layout()
-    fig.savefig(FIG / "fig3_resultados_temporadas.png", dpi=150)
+    fig.savefig(FIG / "fig3_resultados_temporadas.png", dpi=150, bbox_inches="tight")
     plt.close(fig)
 
 

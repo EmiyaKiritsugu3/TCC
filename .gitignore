@@ -5,3 +5,7 @@ data/raw/*.txt
 __pycache__/
 .streamlit/
 *.pdf
+
+# Ambiente e artefatos de sessão
+.venv/
+.playwright-mcp/
