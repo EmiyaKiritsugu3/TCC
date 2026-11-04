@@ -2,9 +2,12 @@
 # Ver data/raw/FONTE.md para download reproduzível.
 data/raw/*.csv
 data/raw/*.txt
+data/processed/*.csv
 __pycache__/
 .streamlit/
 *.pdf
+!apresentacao/apresentacao_tcc.pdf
+!docs/monografia_final.pdf
 
 # Ambiente e artefatos de sessão
 .venv/

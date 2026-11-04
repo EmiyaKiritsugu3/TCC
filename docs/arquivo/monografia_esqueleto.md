@@ -10,7 +10,7 @@
 - Vantagem de jogar em casa; índice de Pollard (1986) com fórmula.
 - Comparar definições da literatura (não misturar escalas — spec §10.4).
 - Análise de dados, estatística descritiva, visualização da informação.
-- [TODO: redigir a partir de `docs/referencial_fichamentos.md` (fichas 1–5 prontas;
+- [TODO: redigir a partir de `docs/arquivo/referencial_fichamentos.md` (fichas 1–5 prontas;
   Pollard via *apud* + Matos 2020 como âncora legível)]
 
 ## 3. Metodologia

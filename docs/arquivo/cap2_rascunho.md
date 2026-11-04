@@ -1,6 +1,6 @@
 # Rascunho — Capítulo 2. Referencial teórico
 
-> Montado a partir de `docs/referencial_fichamentos.md` (fichas 1–5).
+> Montado a partir de `docs/arquivo/referencial_fichamentos.md` (fichas 1–5).
 > [TODO] marca o que exige o aluno.
 
 ## 2.1 A vantagem de jogar em casa

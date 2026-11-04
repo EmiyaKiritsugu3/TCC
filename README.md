@@ -28,9 +28,17 @@ fixa as versões do ambiente em que os resultados foram validados. Para desenvol
 
 A base bruta (`data/raw/`, commit `15f027c`) não é redistribuída — ver `data/raw/FONTE.md`
 (repositório sem LICENSE; `scripts/fetch_raw.py` baixa do commit pinado).
+O `data/processed/matches_processed.csv` também não é versionado: é gerado
+localmente por `scripts/build_processed.py` (ver `data/processed/README.md`).
 Validação cruzada 2018–2024 contra o OpenFootball (CC0, versionado em
 `data/external/`): **2.659/2.660 idênticas, zero divergências de placar**
 (1 exceção de data explicada — jogo de dois dias). Ver `docs/validacao_cruzada.md`.
+
+## Monografia
+
+Texto vigente em `docs/monografia_v2.md` (Tabelas 1–4, Figuras 1–8, apêndices A–D).
+O PDF final de depósito (`docs/monografia_final.pdf`) será adicionado quando existir.
+Titularidade e proveniência em `NOTICE.md`.
 
 ## Estrutura
 

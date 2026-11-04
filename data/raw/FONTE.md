@@ -32,6 +32,8 @@ Os dois hashes são conferidos por `scripts/fetch_raw.py` após o download;
 - Para conferir cópias já baixadas sem acessar a rede: `python3 scripts/fetch_raw.py --check`.
 - A base processada/derivada (`data/processed/`) contém apenas resultados factuais
 - (placares) com coluna `source` de atribuição — prática padrão de citação acadêmica.
+- Sem autorização escrita do autor, o CSV processado completo também NÃO é
+- versionado (ver `data/processed/README.md` e `NOTICE.md`); só o `quality_report.json` acompanha o repositório.
 
 ## Observações sobre a fonte
 
