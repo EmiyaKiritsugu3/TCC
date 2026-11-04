@@ -21,6 +21,21 @@ Ampliação aplicada em 04/11/2026 (proativa): §§1.2, 1.5, 2.1, 2.2, 2.3, 3.1�
 4.1–4.4, 5.3 e 6 expandidas; Tabelas 2 (literatura), 3 (rastreabilidade RF) e 4
 (síntese dos testes) criadas; corpo ≥ 5.500 palavras.
 
+## Edição normativa adotada (05/11/2026)
+
+Por decisão do autor, a formatação segue as edições **vigentes** (não as
+contemporâneas à Resolução 001/2016-CSI): **NBR 14724:2024** (4ª ed.,
+apresentação), **NBR 6023:2018** (referências), **NBR 10520:2023** (citações)
+e **NBR 6028:2021** (resumo). A 14724:2024 revogou a de 2011; as bibliotecas
+universitárias (incl. SISBI/UFRN) trabalham com a edição vigente.
+
+Delta aplicado da 2024: crédito de figura/tabela própria como
+"Fonte: Elaboração própria" (antes "Fonte: elaborado pelo autor").
+Rascunho gerado em `docs/monografia_draft_abnt.docx` (+ PDF) via
+`scripts/build_docx.py`: A4, margens 3/2, Times 12, 1,5, justificado.
+Placeholders mantidos: ficha catalográfica (SISBI), folha de avaliação
+assinada, numeração do sumário (passe final no template do curso).
+
 ## Bloqueios externos (04/11/2026, QA final)
 
 - **PDF da monografia (`docs/monografia_final.pdf`):** depende do template

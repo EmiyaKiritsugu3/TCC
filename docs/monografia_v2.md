@@ -228,7 +228,7 @@ A Tabela 2 sintetiza essas evidências para leitura comparada com o presente est
 | Ribeiro et al. (2022) | 2018–2020 | n = 2.280 | ((H−A)/A)×100% | Queda na Série A com torcida ausente e VAR; sem causa isolada |
 | Este trabalho | 2006–2024 | n = 7.219 (19 temporadas) | Pollard | 63,7% no período; 58,2%–69,5% ao ano |
 
-Fonte: elaborado pelo autor a partir das referências.
+Fonte: Elaboração própria, a partir das referências.
 
 ## 2.3 Análise de dados e visualização como apoio à decisão
 
@@ -310,23 +310,23 @@ As quatro telas do sistema são evidenciadas nas Figuras 1 a 4. A Tabela 3 mostr
 | RF10 — Filtros sem resultados | Todas | avisos + `st.stop`; recorte vazio retorna Nones |
 | RF11 — Exportar CSV | Equipes e partidas | botão de download do recorte filtrado |
 
-Fonte: elaborado pelo autor a partir da especificação.
+Fonte: Elaboração própria, a partir da especificação.
 
 **Figura 1 — Aba Visão geral do dashboard.**
 (`figuras/app1_visao_geral.png`)
-Legenda: filtros, cartões de indicadores e distribuição de resultados (recorte 2006–2024). Fonte: elaborado pelo autor.
+Legenda: filtros, cartões de indicadores e distribuição de resultados (recorte 2006–2024). Fonte: Elaboração própria.
 
 **Figura 2 — Aba Evolução histórica do dashboard.**
 (`figuras/app2_evolucao_historica.png`)
-Legenda: índice de Pollard por temporada, distribuição de resultados, médias de gol e tabela anual. Fonte: elaborado pelo autor.
+Legenda: índice de Pollard por temporada, distribuição de resultados, médias de gol e tabela anual. Fonte: Elaboração própria.
 
 **Figura 3 — Aba Equipes e partidas do dashboard.**
 (`figuras/app3_equipes_partidas.png`)
-Legenda: consulta por equipe/temporada, desempenho em casa e fora e tabela de partidas (recorte: temporada 2019, equipe Flamengo). Fonte: elaborado pelo autor.
+Legenda: consulta por equipe/temporada, desempenho em casa e fora e tabela de partidas (recorte: temporada 2019, equipe Flamengo). Fonte: Elaboração própria.
 
 **Figura 4 — Aba Metodologia e dados do dashboard.**
 (`figuras/app4_metodologia_dados.png`)
-Legenda: fonte, período, regras de limpeza e relatório de qualidade. Fonte: elaborado pelo autor.
+Legenda: fonte, período, regras de limpeza e relatório de qualidade. Fonte: Elaboração própria.
 
 > Renumeração concluída: Figuras 1–4 no capítulo 4 e Figuras 5–8 no capítulo 5, com legendas completas nas seções correspondentes e resumo na Lista de Figuras (`figuras/LEGENDAS.md` é a fonte das legendas).
 
@@ -344,7 +344,7 @@ Vinte e dois testes automatizados (Pytest) cobrem o caso de referência da espec
 | `test_formatting` (2) | pt-BR e separador dos gráficos | 2 passed |
 | `test_integrity` (1) | SHA-256 aceita/rejeita | 1 passed |
 
-Fonte: elaborado pelo autor; detalhamento em Apêndice D.
+Fonte: Elaboração própria; detalhamento em Apêndice D.
 
 ---
 
@@ -356,11 +356,11 @@ No conjunto das 7.219 partidas analisadas, os mandantes venceram 49,0% dos jogos
 
 **Figura 5 — Distribuição dos resultados das 7.219 partidas da Série A, 2006–2024.**
 (`figuras/fig1_distribuicao_geral.png`)
-Legenda: mandante 49,0%; empates 26,8%; visitante 24,1%. Fonte: elaborado pelo autor a partir da base validada.
+Legenda: mandante 49,0%; empates 26,8%; visitante 24,1%. Fonte: Elaboração própria, a partir da base validada.
 
 **Figura 6 — Média de gols por partida de mandantes e visitantes por temporada, 2006–2024.**
 (`figuras/fig4_gols_temporadas.png`)
-Legenda: período — casa 1,49 × fora 1,00. Fonte: elaborado pelo autor a partir da base validada.
+Legenda: período — casa 1,49 × fora 1,00. Fonte: Elaboração própria, a partir da base validada.
 
 ## 5.2 Variação entre temporadas
 
@@ -368,11 +368,11 @@ O índice anual variou de **58,2% (2017)** a **69,5% (2018)** (**Figura 7**, Tab
 
 **Figura 7 — Índice de vantagem em casa de Pollard por temporada, 2006–2024.**
 (`figuras/fig2_pollard_temporadas.png`)
-Legenda: variação de 58,2% (2017) a 69,5% (2018); linha tracejada = 50% (neutralidade). Fonte: elaborado pelo autor a partir da base validada.
+Legenda: variação de 58,2% (2017) a 69,5% (2018); linha tracejada = 50% (neutralidade). Fonte: Elaboração própria, a partir da base validada.
 
 **Figura 8 — Proporção de vitórias do mandante, empates e vitórias do visitante por temporada, 2006–2024.**
 (`figuras/fig3_resultados_temporadas.png`)
-Legenda: barras de 100% empilhadas. Fonte: elaborado pelo autor a partir da base validada.
+Legenda: barras de 100% empilhadas. Fonte: Elaboração própria, a partir da base validada.
 
 **Tabela 1 — Indicadores por temporada, 2006–2024.**
 (`figuras/tab1_indicadores_temporada.csv`; vírgula decimal)
@@ -399,7 +399,7 @@ Legenda: barras de 100% empilhadas. Fonte: elaborado pelo autor a partir da base
 | 2023 | 380 | 46,84 | 25,79 | 27,37 | 1,42 | 1,07 | 0,35 | 632,00 | 410,00 | 60,65 |
 | 2024 | 380 | 47,37 | 26,58 | 26,05 | 1,41 | 1,03 | 0,38 | 641,00 | 398,00 | 61,69 |
 
-Fonte: elaborado pelo autor a partir da base validada.
+Fonte: Elaboração própria, a partir da base validada.
 
 Dois anos merecem registro metodológico. Em **2016** (n = 379), falta o confronto Chapecoense × Atlético-MG, cancelado após a tragédia do voo — documentado, sem imputação. Em **2020** (Pollard 60,2%, abaixo da média), a temporada estendeu-se até 25/02/2021, sem torcida: a literatura do período (RIBEIRO et al., 2022) associa a queda ao conjunto torcida ausente + estreia do VAR na Série A em 2019 + calendário atípico, sem atribuir causalidade isolada — posição adotada aqui.
 
