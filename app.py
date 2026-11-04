@@ -8,7 +8,7 @@ import sys
 sys.path.insert(0, str(Path(__file__).resolve().parent / "src"))
 
 from charts import goals_by_season, outcome_distribution, outcomes_by_season, pollard_series
-from metrics import by_season, summarize, team_season
+from metrics import by_season, summarize, team_season, teams_in_season
 
 BASE = Path(__file__).resolve().parent
 PROCESSED = BASE / "data" / "processed" / "matches_processed.csv"
@@ -83,26 +83,40 @@ with t2:  # RF04 + RF05
     st.plotly_chart(goals_by_season(por_temp), use_container_width=True)
     st.dataframe(por_temp.round(2), use_container_width=True, hide_index=True)
 
-with t3:  # RF06 + RF07
-    equipes = sorted(set(base["home_team"]) | set(base["away_team"]))
+with t3:  # RF06 + RF07 + RF10
     col1, col2 = st.columns(2)
-    equipe = col1.selectbox("Equipe", equipes)
-    temp = col2.selectbox("Temporada", sorted(base["season"].unique().tolist()))
-    ts = team_season(df, equipe, int(temp))
-    c = st.columns(4)
-    c[0].metric(f"{equipe} em casa", f"{ts['home_points']} pts",
-                f"{ts['home_w']}V {ts['home_d']}E {ts['home_l']}D em {ts['home_n']} jogos")
-    c[1].metric(f"{equipe} fora", f"{ts['away_points']} pts",
-                f"{ts['away_w']}V {ts['away_d']}E {ts['away_l']}D em {ts['away_n']} jogos")
-    c[2].metric("Total", f"{ts['home_points'] + ts['away_points']} pts")
-    c[3].metric("Jogos", f"{ts['home_n'] + ts['away_n']}")
-    jogos = base[((base["home_team"] == equipe) | (base["away_team"] == equipe))
-                 & (base["season"] == int(temp))].sort_values("date")
-    st.dataframe(jogos[["date", "round", "home_team", "home_goals", "away_goals",
-                        "away_team", "result"]], use_container_width=True, hide_index=True)
-    st.download_button("Baixar recorte filtrado (CSV)",  # RF11
-                       base.to_csv(index=False).encode("utf-8"),
-                       file_name="recorte_filtrado.csv", mime="text/csv")
+    temp = col1.selectbox(
+        "Temporada", sorted(base["season"].unique().tolist()), key="temporada"
+    )
+    equipes = teams_in_season(base, int(temp))
+    if not equipes:
+        st.warning("Nenhuma equipe para a temporada selecionada. (RF10)")
+        st.stop()
+    if st.session_state.get("equipe") not in equipes:
+        st.session_state["equipe"] = equipes[0]
+    equipe = col2.selectbox("Equipe", equipes, key="equipe")
+
+    ts = team_season(base, equipe, int(temp))
+    if ts["home_n"] + ts["away_n"] == 0:
+        st.warning(
+            f"{equipe} não disputou a Série A em {temp}. "
+            "Selecione outra temporada ou equipe. (RF10)"
+        )
+    else:
+        c = st.columns(4)
+        c[0].metric(f"{equipe} em casa", f"{ts['home_points']} pts",
+                    f"{ts['home_w']}V {ts['home_d']}E {ts['home_l']}D em {ts['home_n']} jogos")
+        c[1].metric(f"{equipe} fora", f"{ts['away_points']} pts",
+                    f"{ts['away_w']}V {ts['away_d']}E {ts['away_l']}D em {ts['away_n']} jogos")
+        c[2].metric("Total", f"{ts['home_points'] + ts['away_points']} pts")
+        c[3].metric("Jogos", f"{ts['home_n'] + ts['away_n']}")
+        jogos = base[((base["home_team"] == equipe) | (base["away_team"] == equipe))
+                     & (base["season"] == int(temp))].sort_values("date")
+        st.dataframe(jogos[["date", "round", "home_team", "home_goals", "away_goals",
+                            "away_team", "result"]], use_container_width=True, hide_index=True)
+        st.download_button("Baixar recorte filtrado (CSV)",  # RF11
+                           base.to_csv(index=False).encode("utf-8"),
+                           file_name="recorte_filtrado.csv", mime="text/csv")
 
 with t4:  # RF09
     st.markdown(f"""**Fonte:** Brasileirão_Dataset (`adaoduque`), commit `15f027c`, acesso 2026-10-28.

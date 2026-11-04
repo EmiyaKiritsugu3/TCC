@@ -78,3 +78,9 @@ def team_season(df: pd.DataFrame, team: str, season: int) -> dict:
         "away_l": int((away["result"] == RESULT_HOME).sum()) if len(away) else 0,
         "away_points": int(sa["away_points"]),
     }
+
+
+def teams_in_season(df: pd.DataFrame, season: int) -> list[str]:
+    """Equipes que disputaram a temporada, em ordem alfabética."""
+    g = df[df["season"] == season]
+    return sorted(set(g["home_team"]) | set(g["away_team"]))

@@ -7,7 +7,7 @@ import pytest
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "src"))
 
-from metrics import by_season, pollard, summarize, team_season
+from metrics import by_season, pollard, summarize, team_season, teams_in_season
 
 PROCESSED = Path(__file__).resolve().parent.parent / "data" / "processed" / "matches_processed.csv"
 
@@ -89,3 +89,14 @@ def test_flamengo_2019_pontuacao_oficial():
     assert (ts["home_points"], ts["away_points"]) == (53, 37)
     assert ts["home_points"] + ts["away_points"] == 90
     assert ts["home_n"] + ts["away_n"] == 38
+
+
+def test_teams_in_season_respeita_temporada():
+    d = _df([(1, 0), (1, 0), (1, 0)])
+    d["season"] = [2006, 2006, 2019]
+    d["home_team"] = ["America-MG", "Flamengo", "Flamengo"]
+    d["away_team"] = ["Flamengo", "America-MG", "Flamengo"]
+
+    assert teams_in_season(d, 2006) == ["America-MG", "Flamengo"]
+    assert teams_in_season(d, 2019) == ["Flamengo"]
+    assert teams_in_season(d, 2020) == []

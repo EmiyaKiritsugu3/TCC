@@ -11,7 +11,8 @@ Pollard por temporada, distribuição de resultados, médias de gol e tabela anu
 Fonte: elaborado pelo autor.
 
 **Figura 3 — `app3_equipes_partidas.png`.** Aba Equipes e partidas: consulta por
-equipe/temporada, desempenho em casa e fora e tabela de partidas.
+equipe/temporada, desempenho em casa e fora e tabela de partidas (recorte:
+temporada 2019, equipe Flamengo).
 Fonte: elaborado pelo autor.
 
 **Figura 4 — `app4_metodologia_dados.png`.** Aba Metodologia e dados: fonte,
