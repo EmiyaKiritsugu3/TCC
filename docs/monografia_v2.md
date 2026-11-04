@@ -93,7 +93,24 @@ Tabela 4 — Síntese dos testes automatizados por grupo.
 
 ## LISTA DE SIGLAS
 
-**[TODO-SIGLAS: montar na versão final (ex.: CBF, HA/VC, SISBI, VAR); conferir quais siglas aparecem no texto]**
+BDM — Biblioteca Digital de Monografias (UFRN).
+BSI — Bacharelado em Sistemas de Informação.
+CBF — Confederação Brasileira de Futebol.
+CC0 — Creative Commons Zero (dedicação ao domínio público).
+CERES — Centro de Ensino Superior do Seridó (UFRN).
+CSV — valores separados por vírgula (*comma-separated values*).
+DCT — Departamento de Computação e Tecnologia (CERES/UFRN).
+DOI — identificador de objeto digital (*digital object identifier*).
+HA — vantagem de jogar em casa (*home advantage*).
+JSON — notação de objetos JavaScript (*JavaScript object notation*).
+NBR — Norma Brasileira (ABNT).
+RF — requisito funcional.
+RNF — requisito não funcional.
+SHA — algoritmo de hash seguro (*secure hash algorithm*; SHA-256 na verificação de integridade).
+SISBI — Sistema de Bibliotecas da UFRN.
+UFRN — Universidade Federal do Rio Grande do Norte.
+VAR — árbitro assistente de vídeo (*video assistant referee*).
+VC — vantagem em casa (índice de Pollard).
 
 ---
 

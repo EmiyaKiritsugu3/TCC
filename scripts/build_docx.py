@@ -20,6 +20,8 @@ from pathlib import Path
 
 from docx import Document
 from docx.enum.text import WD_ALIGN_PARAGRAPH
+from docx.oxml import OxmlElement
+from docx.oxml.ns import qn
 from docx.shared import Cm, Pt
 
 RAIZ = Path(__file__).resolve().parent.parent
@@ -80,6 +82,29 @@ def tabela(doc, linhas, fonte=10):
             if j < len(cab):
                 add_runs(cel.paragraphs[0], celula.strip(), tamanho=fonte)
     doc.add_paragraph()
+
+
+def rodape_numerado(doc):
+    """Rodapé centralizado com campo PAGE (avaliado no Word/LibreOffice)."""
+    par = doc.sections[0].footer.paragraphs[0]
+    par.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    fld = OxmlElement("w:fldSimple")
+    fld.set(qn("w:instr"), "PAGE")
+    run = OxmlElement("w:r")
+    rpr = OxmlElement("w:rPr")
+    nome = OxmlElement("w:rFonts")
+    nome.set(qn("w:ascii"), "Times New Roman")
+    nome.set(qn("w:hAnsi"), "Times New Roman")
+    rpr.append(nome)
+    tam = OxmlElement("w:sz")
+    tam.set(qn("w:val"), "20")
+    rpr.append(tam)
+    run.append(rpr)
+    txt = OxmlElement("w:t")
+    txt.text = "1"
+    run.append(txt)
+    fld.append(run)
+    par._p.append(fld)
 
 
 def main() -> None:
@@ -196,6 +221,7 @@ def main() -> None:
 
     if bloco_tabela:
         tabela(doc, [r.split("|")[1:-1] for r in bloco_tabela])
+    rodape_numerado(doc)
     doc.save(SAIDA)
     print(f"gravado em: {SAIDA} ({SAIDA.stat().st_size} bytes)")
 
