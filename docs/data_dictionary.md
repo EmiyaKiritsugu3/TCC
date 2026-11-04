@@ -17,7 +17,7 @@ Base limpa gerada por `scripts/build_processed.py` a partir de
 | `result` | `H`/`D`/`A` | Sim | Resultado recalculado do placar: vitória mandante / empate / vitória visitante. |
 | `home_points` | 0/1/3 | Sim | Pontos do mandante (3/1/0). |
 | `away_points` | 0/1/3 | Sim | Pontos do visitante. |
-| `stadium` | texto | Não | Arena da fonte (pode conter espaço inicial herdado do original). |
+| `stadium` | texto | Não | Arena da fonte (espaços removidos na limpeza). |
 | `source` | texto | Sim | Rastreabilidade: `Brasileirao_Dataset commit 15f027c (acesso 2026-10-28)`. |
 
 ## Regras aplicadas (seção 15 da spec)

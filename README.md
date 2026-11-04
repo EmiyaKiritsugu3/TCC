@@ -13,13 +13,18 @@ Proposta completa em `spec_tcc_vantagem_casa_brasileirao.md`.
 ## Como executar
 
 ```bash
-python3 -m pip install -r requirements.txt
+python3 -m pip install -r requirements-lock.txt  # versões exatas do ambiente validado
 python3 scripts/fetch_raw.py         # baixa o bruto (não versionado, plano B)
+python3 scripts/fetch_raw.py --check # confere o SHA-256 das cópias locais
 python3 scripts/build_processed.py   # gera data/processed/
-python3 -m pytest tests/ -q          # 12 testes
+python3 -m pytest tests/ -q          # 22 testes
 python3 scripts/validate_cross.py    # validação OpenFootball 2018–2024
 python3 -m streamlit run app.py
 ```
+
+`requirements.txt` traz faixas compatíveis (pandas 2.2–3.x); `requirements-lock.txt`
+fixa as versões do ambiente em que os resultados foram validados. Para desenvolver,
+`requirements-dev.txt` acrescenta o `python-pptx` usado na geração do deck.
 
 A base bruta (`data/raw/`, commit `15f027c`) não é redistribuída — ver `data/raw/FONTE.md`
 (repositório sem LICENSE; `scripts/fetch_raw.py` baixa do commit pinado).

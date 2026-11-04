@@ -7,7 +7,7 @@ import pytest
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "src"))
 
-from clean_data import clean_matches
+from clean_data import _strip, clean_matches
 
 
 def _raw(rows):
@@ -74,3 +74,17 @@ def test_resultado_recalculado_do_placar():
     assert df["result"].tolist() == ["H", "D", "A"]
     assert df["home_points"].tolist() == [3, 1, 0]
     assert df["away_points"].tolist() == [0, 1, 3]
+
+
+def test_strip_remove_espacos_em_string_dtype():
+    df = pd.DataFrame({"team": pd.Series([" Flamengo ", "São Paulo"], dtype="string")})
+    out = _strip(df)
+    assert out["team"].tolist() == ["Flamengo", "São Paulo"]
+
+
+def test_clube_ausente_rejeitado():
+    raw = _raw([{"mandante": "A", "visitante": "B", "hg": "1", "ag": "0"}])
+    raw.loc[0, "mandante"] = None
+    df, rep = clean_matches(raw)
+    assert len(df) == 0
+    assert rep["excluded"].get("clube_ausente", 0) == 1

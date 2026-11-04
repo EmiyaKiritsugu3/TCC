@@ -18,8 +18,8 @@ EXPECTED_PER_SEASON = 380
 def _strip(df: pd.DataFrame) -> pd.DataFrame:
     df = df.copy()
     for c in df.columns:
-        if df[c].dtype == object:
-            df[c] = df[c].astype(str).str.strip()
+        if pd.api.types.is_string_dtype(df[c]) or df[c].dtype == object:
+            df[c] = df[c].astype("string").str.strip()
     return df
 
 
@@ -84,8 +84,12 @@ def clean_matches(df_raw: pd.DataFrame) -> tuple[pd.DataFrame, dict]:
         | (df["away_goals"] % 1 != 0)
     )
     df = drop(bad_goal, "placar_invalido", df)
+    vazio = (
+        df["home_team"].isna() | df["away_team"].isna()
+        | df["home_team"].eq("") | df["away_team"].eq("")
+    )
+    df = drop(vazio.fillna(False), "clube_ausente", df)
     df = drop(df["home_team"] == df["away_team"], "mandante_igual_visitante", df)
-    df = drop(df["home_team"].eq("") | df["away_team"].eq(""), "clube_ausente", df)
 
     # Duplicatas: mantém a primeira ocorrência, registra o resto.
     df = df.sort_values(["date_dt", "match_id"]).reset_index(drop=True)
