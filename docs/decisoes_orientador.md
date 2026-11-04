@@ -20,3 +20,14 @@
 Ampliação aplicada em 04/11/2026 (proativa): §§1.2, 1.5, 2.1, 2.2, 2.3, 3.1–3.4,
 4.1–4.4, 5.3 e 6 expandidas; Tabelas 2 (literatura), 3 (rastreabilidade RF) e 4
 (síntese dos testes) criadas; corpo ≥ 5.500 palavras.
+
+## Bloqueios externos (04/11/2026, QA final)
+
+- **PDF da monografia (`docs/monografia_final.pdf`):** depende do template
+  oficial do curso (UFRN/CERES-BSI, Resolução 001/2016-CSI). Nenhum modelo
+  `.dotx`/`.ott` foi localizado no repositório; a conversão Markdown → DOCX
+  sem o template arriscaria margens, capa e paginação fora da norma. Texto
+  vigente e fechado em `docs/monografia_v2.md`; gerar o DOCX/PDF final quando
+  o modelo for fornecido.
+- **Respostas do orientador (decisões 1–5):** ainda pendentes; texto mantém
+  apenas o descritivo (sem Spearman) e as tags `[TODO-BANCA/SIGLAS/CBF/ORIENTADOR]`.
