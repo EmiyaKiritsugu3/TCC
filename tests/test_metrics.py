@@ -7,7 +7,9 @@ import pytest
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "src"))
 
-from metrics import by_season, pollard, summarize
+from metrics import by_season, pollard, summarize, team_season
+
+PROCESSED = Path(__file__).resolve().parent.parent / "data" / "processed" / "matches_processed.csv"
 
 
 def _df(rows):
@@ -56,3 +58,34 @@ def test_by_season_agrega():
     t = by_season(d)
     assert list(t["season"]) == [2010, 2011]
     assert t.loc[t["season"] == 2010, "pollard"].iloc[0] == 100.0
+
+
+def test_team_season_separa_pontos_de_casa_e_fora():
+    casa = _df([(2, 0), (1, 1), (0, 2), (3, 0)])
+    casa["season"] = 2019
+    casa["home_team"] = "Flamengo"
+    casa["away_team"] = ["A", "B", "C", "D"]
+
+    fora = _df([(0, 2), (1, 1), (2, 0)])
+    fora["season"] = 2019
+    fora["home_team"] = ["A", "B", "C"]
+    fora["away_team"] = "Flamengo"
+
+    d = pd.concat([casa, fora], ignore_index=True)
+    ts = team_season(d, "Flamengo", 2019)
+
+    assert (ts["home_w"], ts["home_d"], ts["home_l"]) == (2, 1, 1)
+    assert ts["home_points"] == 7          # 3 + 1 + 0 + 3
+    assert (ts["away_w"], ts["away_d"], ts["away_l"]) == (1, 1, 1)
+    assert ts["away_points"] == 4          # 3 + 1 + 0
+    assert isinstance(ts["home_points"], int)
+    assert isinstance(ts["away_points"], int)
+
+
+@pytest.mark.skipif(not PROCESSED.exists(), reason="rode scripts/build_processed.py")
+def test_flamengo_2019_pontuacao_oficial():
+    df = pd.read_csv(PROCESSED)
+    ts = team_season(df, "Flamengo", 2019)
+    assert (ts["home_points"], ts["away_points"]) == (53, 37)
+    assert ts["home_points"] + ts["away_points"] == 90
+    assert ts["home_n"] + ts["away_n"] == 38

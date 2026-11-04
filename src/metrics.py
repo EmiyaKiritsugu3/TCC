@@ -72,9 +72,9 @@ def team_season(df: pd.DataFrame, team: str, season: int) -> dict:
         "home_n": sh["n"], "home_w": int((home["result"] == RESULT_HOME).sum()) if len(home) else 0,
         "home_d": int((home["result"] == RESULT_DRAW).sum()) if len(home) else 0,
         "home_l": int((home["result"] == RESULT_AWAY).sum()) if len(home) else 0,
-        "home_points": sh["home_points"] + sh["away_points"],
+        "home_points": int(sh["home_points"]),
         "away_n": sa["n"], "away_w": int((away["result"] == RESULT_AWAY).sum()) if len(away) else 0,
         "away_d": int((away["result"] == RESULT_DRAW).sum()) if len(away) else 0,
         "away_l": int((away["result"] == RESULT_HOME).sum()) if len(away) else 0,
-        "away_points": sa["home_points"] + sa["away_points"],
+        "away_points": int(sa["away_points"]),
     }
