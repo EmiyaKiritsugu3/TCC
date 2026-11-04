@@ -87,6 +87,9 @@ Figura 8 — Proporção de vitórias do mandante, empates e vitórias do visita
 ## LISTA DE TABELAS
 
 Tabela 1 — Indicadores por temporada: n, proporções de resultados, médias de gols, pontos e índice de Pollard.
+Tabela 2 — Evidências da vantagem de jogar em casa na literatura brasileira e neste trabalho.
+Tabela 3 — Matriz de rastreabilidade: requisito funcional, tela e evidência/teste.
+Tabela 4 — Síntese dos testes automatizados por grupo.
 
 ## LISTA DE SIGLAS
 
@@ -168,6 +171,8 @@ Este trabalho trata da vantagem de jogar em casa no Campeonato Brasileiro Série
 
 No futebol, equipes mandantes conquistam historicamente mais pontos que visitantes, fenômeno conhecido como vantagem de jogar em casa e quantificado desde Pollard (1986, *apud* Almeida et al., 2011) pelo percentual de pontos conquistados pelos mandantes. No Brasil, estudos apontam patamar próximo de 65% (SILVA; MOREIRA, 2008; ALMEIDA et al., 2011), acima das ligas europeias.
 
+A literatura nacional, porém, trabalha com janelas temporais distintas e granularidades diferentes: Silva e Moreira (2008) cobrem 2002/03–2006/07; Almeida et al. (2011) cobrem 2003–2009 de forma agregada; Ribeiro et al. (2022) concentram-se em 2018–2020. Falta, nesse conjunto, uma série anual longa e homogênea — restrita ao formato estável de 20 clubes em pontos corridos, com auditoria documentada da base e validação externa — que permita observar como o fenômeno varia ano a ano sem trocar de régua no meio do caminho. É essa lacuna que delimita o problema: sem uma série nessas condições, qualquer comparação entre temporadas corre o risco de confundir efeito de formato, de fonte ou de métrica com variação real da vantagem de jogar em casa.
+
 A partir desse contexto, a pergunta de pesquisa é: qual foi a magnitude da vantagem de jogar em casa no Campeonato Brasileiro Série A entre 2006 e 2024, e como os indicadores de mandantes e visitantes variaram entre as temporadas? Perguntas secundárias: proporções de resultados; médias de gols; evolução anual do índice de Pollard; diferenças entre temporadas e clubes.
 
 A pesquisa parte de duas hipóteses, formuladas antes da análise. **H1:** o índice de Pollard do período 2006–2024 será superior a 50%, indicando que os mandantes somaram mais pontos que os visitantes. **H2:** o índice não permanecerá constante entre as temporadas, com variação observável na série anual.
@@ -192,6 +197,8 @@ A motivação para este trabalho nasce de dois interesses que correram em parale
 
 A temática é adequada a Sistemas de Informação porque envolve aquisição e tratamento de dados, definição de indicadores, visualização interativa e construção de um sistema de apoio à análise — uma aplicação direta do que a análise de negócios descritiva discute, respondendo "o que aconteceu?" (SHARDA; DELEN; TURBAN, 2019). A contribuição não é alegar ineditismo do fenômeno, e sim combinar um recorte histórico longo e homogêneo (19 temporadas), um fluxo de tratamento reproduzível e auditado e um dashboard interativo para exploração dos dados, permanecendo útil como ferramenta de consulta após o término do curso.
 
+Em termos práticos, a contribuição se desdobra em três entregas verificáveis. A primeira é a série anual homogênea de 19 temporadas (2006–2024), com 7.219 partidas válidas, regras de limpeza documentadas e dois casos metodológicos tratados sem imputação (2016 e 2020). A segunda é o fluxo reproduzível e auditado: download pinado por commit com verificação SHA-256, construção determinística da base processada, validação cruzada externa de 99,96% e recálculo dos 19 campeões a partir dos placares. A terceira é o dashboard reutilizável, com quatro abas que cobrem do panorama geral à consulta por equipe, coberto por 22 testes automatizados e formatado em português. Nenhuma das três depende de alegação causal: o valor está na medida repetível e na exploração assistida, não na explicação do fenômeno.
+
 ## 1.6 Estrutura do trabalho
 
 O restante do documento organiza-se em cinco capítulos: o capítulo 2 revisa a literatura sobre vantagem em casa e fundamentos de análise de dados e visualização; o capítulo 3 descreve a metodologia; o capítulo 4 detalha o desenvolvimento do sistema; o capítulo 5 apresenta e discute os resultados; o capítulo 6 conclui, com limitações e trabalhos futuros.
@@ -204,17 +211,34 @@ O restante do documento organiza-se em cinco capítulos: o capítulo 2 revisa a 
 
 Fenômeno documentado em diversos esportes coletivos, a vantagem de jogar em casa define-se operacionalmente, desde Pollard (1986, *apud* ALMEIDA et al., 2011), pelo percentual de pontos conquistados pelos mandantes: acima de 50% em competição equilibrada de ida e volta indica vantagem. O método — incluindo empates no cálculo — é o adotado neste trabalho (ver seção 3.4) e está descrito em texto aberto em Matos, Amaro e Pollard (2020), que o compara a alternativas de quantificação. Fatores associados na literatura: torcida, arbitragem, familiaridade com o campo e deslocamentos (NEVILL; HOLDER, 1999, *apud* ALMEIDA et al., 2011).
 
+Cada um desses fatores tem um mecanismo plausível, ainda que nenhum seja medido neste estudo. A torcida atua como pressão ambiental: apoio contínuo aos mandantes e hostilidade aos visitantes, com possível efeito indireto sobre decisões da arbitragem em lances interpretativos. Os deslocamentos impõem fadiga de viagem e quebra de rotina aos visitantes — fator que Almeida et al. (2011) aventam ao comparar divisões com logísticas distintas. A arbitragem, por sua vez, concentra a hipótese de viés inconsciente pró-mandante em decisões discricionárias, e não de favorecimento deliberado. A familiaridade com o campo cobre dimensões do estádio, gramado e referências espaciais que beneficiam quem treina e joga habitualmente no local. Há ainda o componente territorial e de rotina: dormir em casa, manter horários de treino e evitar hotéis e aeroportos preservam a preparação do mandante. O ponto metodológico relevante é que esses mecanismos são correlacionados entre si — torcida cheia, viagem longa do adversário e arbitragem sob pressão costumam ocorrer juntos —, de modo que dados de placar e mando, sozinhos, não permitem isolar causas. Por isso este trabalho trata o conjunto como contexto interpretativo da literatura e restringe suas conclusões ao plano descritivo: medir a magnitude e a variação, sem atribuir parcela a cada mecanismo.
+
 ## 2.2 Evidências no futebol brasileiro
 
 Silva e Moreira (2008) encontraram para a Série A (2002/03–2006/07) 64,9 ± 2,2%, acima de Alemanha, Argentina, Espanha, Inglaterra, Itália e Portugal (só a França não diferiu) — primeira âncora numérica nacional. Almeida et al. (2011), em 2003–2009 (n = 5.497), reportaram Série B (69 ± 2,3%) acima da Série A (65 ± 2,3%), com grande tamanho de efeito (η² = 0,57), aventando viagens e condições de campo como explicação; usaram o mandante nominal da CBF, convenção mantida aqui. Ribeiro et al. (2022), em 2018–2020 (n = 2.280), observaram queda na Série A coincidente com torcida ausente e estreia do VAR (2019) — sem atribuição causal isolada, posição também adotada aqui. Atenção às escalas: Ribeiro et al. usam ((H−A)/A)×100%, não o índice de Pollard; os valores não são diretamente comparáveis.
 
+A Tabela 2 sintetiza essas evidências para leitura comparada com o presente estudo. Três observações orientam a comparação. Primeiro, o patamar brasileiro situa-se consistentemente na faixa de 60–70% na escala de Pollard, acima do que se reporta para as grandes ligas europeias — o que torna o Brasil um caso empiricamente interessante, e não apenas uma réplica. Segundo, a diferença entre divisões encontrada por Almeida et al. (2011), com efeito de grande magnitude, sugere que condições estruturais (viagens, estádios) pesam tanto quanto a força das equipes, hipótese compatível com a decisão deste trabalho de manter a análise no plano descritivo. Terceiro, a janela 2018–2020 de Ribeiro et al. (2022) ilumina exatamente o período de ruptura sanitária e regulatória (pandemia, VAR), e seus resultados são o contraponto direto para a leitura da temporada 2020 neste trabalho (ver §5.3). A contribuição incremental do presente estudo nesse quadro é a granularidade anual contínua sobre 19 temporadas homogêneas, com base auditada e validação externa — escala temporal que nenhum dos três estudos cobre com o mesmo recorte de formato.
+
+**Tabela 2 — Evidências da vantagem de jogar em casa no futebol brasileiro.**
+
+| Estudo | Período | Amostra | Métrica | Resultado principal |
+|---|---|---|---|---|
+| Silva e Moreira (2008) | 2002/03–2006/07 | Série A (5 temporadas) | Pollard | 64,9 ± 2,2%; acima de 6 ligas europeias |
+| Almeida et al. (2011) | 2003–2009 | n = 5.497 (A + B) | Pollard | Série B 69 ± 2,3% acima da Série A 65 ± 2,3% (η² = 0,57) |
+| Ribeiro et al. (2022) | 2018–2020 | n = 2.280 | ((H−A)/A)×100% | Queda na Série A com torcida ausente e VAR; sem causa isolada |
+| Este trabalho | 2006–2024 | n = 7.219 (19 temporadas) | Pollard | 63,7% no período; 58,2%–69,5% ao ano |
+
+Fonte: elaborado pelo autor a partir das referências.
+
 ## 2.3 Análise de dados e visualização como apoio à decisão
 
-A análise de negócios descritiva — o nível de entrada da taxonomia analítica de Sharda, Delen e Turban (2019) — responde "o que aconteceu?", o que legitima o escopo exclusivamente descritivo deste trabalho. Sua interface típica é o dashboard, definido por Few (2006) como exibição visual das informações mais importantes para um ou mais objetivos, consolidadas em tela única e monitoráveis de relance. O sistema desenvolvido segue a definição — tela única por aba, cartões de indicadores, séries e tabela com exploração detalhada — e evita os erros catalogados por Few: tela estourada, contexto insuficiente, precisão excessiva e decoração inútil, buscando a simplicidade de "só o necessário, condensado sem perda de sentido".
+A análise de negócios descritiva — o nível de entrada da taxonomia analítica de Sharda, Delen e Turban (2019) — responde "o que aconteceu?", o que legitima o escopo exclusivamente descritivo deste trabalho. Acima dela, na mesma taxonomia, estariam os níveis diagnóstico ("por que aconteceu?"), preditivo ("o que vai acontecer?") e prescritivo ("o que fazer?") — todos deliberadamente fora do escopo, conforme a delimitação (§1.4). Essa renúncia é uma decisão de desenho, não uma lacuna acidental: com apenas placar e mando nominal, o trabalho não dispõe das variáveis (público, arbitragem, elenco, viagens) que qualquer pretensão diagnóstica ou preditiva exigiria.
+
+Sua interface típica é o dashboard, definido por Few (2006) como exibição visual das informações mais importantes para um ou mais objetivos, consolidadas em tela única e monitoráveis de relance. O sistema desenvolvido segue a definição — tela única por aba, cartões de indicadores, séries e tabela com exploração detalhada — e evita os erros catalogados por Few: tela estourada, contexto insuficiente, precisão excessiva e decoração inútil, buscando a simplicidade de "só o necessário, condensado sem perda de sentido". Na prática, isso se traduz em quatro abas de navegação única (sem menus aninhados), sete cartões na visão geral com unidade explícita, ajuda metodológica embutida no próprio indicador de Pollard e mensagens de estado vazio em vez de telas quebradas (RF10). A formatação em português com vírgula decimal (RNF04) e a separação entre cálculo, gráfico e interface (RNF06) completam a aderência: o usuário lê números no padrão local, e o código mantém cada camada testável isoladamente.
 
 ## 2.4 Síntese
 
-A vantagem em casa persiste no Brasil em torno de 65% (escala de Pollard), é sensível a contexto e não tem causa única estabelecida. Este trabalho não propõe nova teoria: estende a série (2006–2024, granularidade anual), audita a base e entrega a análise em sistema reproduzível.
+A vantagem em casa persiste no Brasil em torno de 65% (escala de Pollard), é sensível a contexto e não tem causa única estabelecida. Este trabalho não propõe nova teoria: estende a série (2006–2024, granularidade anual), audita a base e entrega a análise em sistema reproduzível. O fio que une as três frentes revisadas é a medida comum: o percentual de pontos do mandante permite comparar divisões, décadas e contextos regulatórios distintos sem trocar de régua, e é sobre essa régua estável que os capítulos seguintes assentam metodologia, sistema e resultados.
 
 ---
 
@@ -222,7 +246,7 @@ A vantagem em casa persiste no Brasil em torno de 65% (escala de Pollard), é se
 
 ## 3.1 Classificação da pesquisa
 
-Pesquisa aplicada (resulta em artefato de software), quantitativa, de objetivos exploratórios e descritivos, por procedimentos de pesquisa documental e análise de dados secundários. Unidade de análise: a partida, agregada por temporada e, secundariamente, por equipe.
+Pesquisa aplicada (resulta em artefato de software), quantitativa, de objetivos exploratórios e descritivos, por procedimentos de pesquisa documental e análise de dados secundários. Unidade de análise: a partida, agregada por temporada e, secundariamente, por equipe. O desenho segue as etapas da especificação (§9.2): revisão bibliográfica, escolha e auditoria da fonte, limpeza padronizada, construção dos indicadores, desenvolvimento do dashboard, testes contra casos manuais e base processada, e análise com registro de limitações. A opção pela partida como unidade — em vez do clube-temporada — preserva a granularidade máxima da fonte e permite qualquer agregação posterior sem perda; as agregações por temporada e por equipe são visões derivadas, recalculadas das mesmas linhas, o que elimina divergência entre telas por construção (RNF03).
 
 ## 3.2 Fonte e validação dos dados
 
@@ -231,6 +255,8 @@ Fonte primária: repositório público *Brasileirao_Dataset* (commit `15f027c`, 
 O recorte 2006–2024 contém 7.219 partidas válidas, com dois casos documentados: 2016 com 379 jogos (a partida Chapecoense × Atlético-MG foi cancelada após a tragédia do voo da equipe) e a temporada 2020 estendida até 25/02/2021 (temporada atribuída por intervalo entre partidas, não por ano civil).
 
 Validação cruzada independente contra o OpenFootball (domínio público, CC0) em 2018–2024: 2.659 de 2.660 partidas idênticas, zero divergências de placar; a única exceção é de data e explicada (jogo disputado em dois dias, 2023). Como segurança adicional, a classificação final de cada temporada foi recalculada a partir dos placares e confirmou os 19 campeões oficiais.
+
+As ameaças à validade são declaradas de partida. Validade de constructo: o "mando" é o mandante nominal da fonte, que nem sempre corresponde ao estádio habitual da equipe (clássicos com mando trocado, reformas, punições com portões fechados) — o indicador mede, portanto, vantagem do mandante designado, não do estádio próprio. Validade interna: sem grupo de controle nem covariáveis (público, arbitragem, elenco, viagens, clima), nenhuma diferença observada admite leitura causal; o desenho é observacional sobre dados secundários. Validade externa: os resultados valem para a Série A masculina em pontos corridos com 20 clubes (2006–2024) e não se generalizam para outras divisões, formatos (mata-mata), futebol feminino ou outros países — a própria diferença entre Séries A e B reportada por Almeida et al. (2011) adverte contra a extrapolação. Validade de conclusão: todas as conclusões são descritivas sobre a série observada; a correlação de Spearman entre ano e índice anual, cogitada como análise exploratória de tendência, ficou condicionada à decisão do orientador e não foi executada — o texto não alega tendência, apenas amplitude.
 
 **[TODO-CBF: confronto por amostra com a CBF, se o orientador exigir]**
 
@@ -252,17 +278,39 @@ H1 é avaliada pelo índice agregado do período; H2, pela comparação descriti
 
 ## 4.1 Arquitetura
 
-Pipeline em camadas separadas: `load_data` (leitura da cópia imutável da fonte), `clean_data` (padronização e regras de limpeza), `metrics` (funções puras dos indicadores), `charts` (gráficos em Plotly) e a aplicação Streamlit com quatro abas. A base processada acompanha um relatório de qualidade em JSON; a reprodução do fluxo exige dois comandos (baixar a fonte fixada; construir a base) e os testes automatizados rodam com um terceiro.
+Pipeline em camadas separadas: `load_data` (leitura da cópia imutável da fonte), `clean_data` (padronização e regras de limpeza), `metrics` (funções puras dos indicadores), `charts` (gráficos em Plotly) e a aplicação Streamlit com quatro abas. A separação segue o RNF06 (manutenibilidade): cálculos não conhecem interface, gráficos não calculam — recebem dicionários prontos — e a aplicação apenas filtra, formata e exibe. Essa disciplina é o que permite testar cada camada isoladamente: `metrics` com DataFrames sintéticos de três linhas, `clean_data` com brutos fabricados, `charts` com dicionários e a interface com `AppTest`, sem Selenium nem servidor de verdade.
+
+A reprodutibilidade (RNF02) é garantida por construção determinística. O fluxo exige três comandos encadeados: baixar a fonte pinada (`fetch_raw.py`, com verificação SHA-256 e modo `--check` offline), construir a base (`build_processed.py`, mesma entrada → mesma saída, sem aleatoriedade nem dependência de relógio) e rodar os testes. As versões exatas do ambiente estão fixadas em `requirements-lock.txt` (pandas 3.1.0, Streamlit 1.66.1, Plotly 7.1.0), com faixas compatíveis em `requirements.txt`. A base processada acompanha um relatório de qualidade em JSON; a reprodução do fluxo produz os mesmos 7.219 registros e o mesmo relatório, byte a byte salvo o carimbo de execução.
 
 ## 4.2 Tratamento dos dados e cálculos
 
-A conversão de tipos não faz coerção silenciosa: placar ausente não se torna 0–0; valores negativos são rejeitados. A temporada é atribuída por intervalo entre partidas, método robusto a reagendamentos (caso 2020). Resultado e pontos são recalculados do placar. Dois casos permanecem documentados: 2016 com 379 jogos e conclusão da temporada 2020 em fevereiro de 2021.
+A conversão de tipos não faz coerção silenciosa: placar ausente não se torna 0–0; valores negativos são rejeitados. A regra de espaços foi endurecida para o pandas 3 (`_strip` apara colunas de texto e do dtype `string`, preservando `NA`), e a ordem dos filtros importa: clubes ausentes são removidos antes da comparação mandante × visitante, para que `NA` não contamine a contagem de exclusões. A temporada é atribuída por intervalo entre partidas, método robusto a reagendamentos (caso 2020). Resultado e pontos são recalculados do placar. Dois casos permanecem documentados: 2016 com 379 jogos e conclusão da temporada 2020 em fevereiro de 2021.
+
+A unicidade da base é fiscalizada em três níveis: `match_id` duplicado, linha integral duplicada e tripla (data, mandante, visitante) repetida — mantendo-se a primeira ocorrência e registrando o resto (zero ocorrências na base atual). Cada exclusão é contabilizada por motivo no `quality_report.json`, sem remoções silenciosas. A reconstrução da base após o endurecimento do pipeline alterou exclusivamente espaços em branco do campo `stadium`; todos os demais campos permaneceram idênticos célula a célula, prova verificada por comparação automatizada antes/depois.
 
 ## 4.3 Requisitos e telas
 
 O sistema atende 11 requisitos funcionais (carga validada, filtros por temporada, indicadores gerais, séries temporais, médias de gols, consulta por equipe, tabela de partidas, ajuda metodológica, informações de proveniência, tratamento de estado vazio e exportação CSV) e 8 requisitos não funcionais (simplicidade, reprodutibilidade, consistência entre gráficos, usabilidade em português, robustez, manutenibilidade, portabilidade e ausência de dados pessoais).
 
-As quatro telas do sistema são evidenciadas nas Figuras 1 a 4.
+As quatro telas do sistema são evidenciadas nas Figuras 1 a 4. A Tabela 3 mostra a rastreabilidade de cada requisito funcional até a tela que o atende e a evidência que o comprova.
+
+**Tabela 3 — Matriz de rastreabilidade (requisito → tela → evidência).**
+
+| Requisito | Tela | Evidência / teste |
+|---|---|---|
+| RF01 — Carregar dados validados | Todas (carga na abertura) | erro legível se base ausente/vazia/sem colunas; `carregar()` |
+| RF02 — Filtrar temporadas | Filtros globais + todas | multiselect alimenta `base`; respeitado por cartões e gráficos |
+| RF03 — Indicadores gerais | Visão geral (Figura 1) | 7 cartões; `test_caso_referencia_tres_partidas` |
+| RF04 — Comparar temporadas | Evolução histórica (Figura 2) | série de Pollard + barras 100%; `by_season` |
+| RF05 — Comparar gols | Evolução histórica (Figura 2) | linha casa × fora; médias 1,49 × 1,00 |
+| RF06 — Consultar equipe | Equipes e partidas (Figura 3) | `team_season` (53/37/90/38 Flamengo 2019) |
+| RF07 — Tabela de partidas | Equipes e partidas (Figura 3) | dataframe filtrado por equipe/temporada |
+| RF08 — Explicar indicadores | Visão geral + Metodologia | ajuda do Pollard; fórmulas na aba Metodologia |
+| RF09 — Informações dos dados | Metodologia (Figura 4) | fonte, período, qualidade em JSON |
+| RF10 — Filtros sem resultados | Todas | avisos + `st.stop`; recorte vazio retorna Nones |
+| RF11 — Exportar CSV | Equipes e partidas | botão de download do recorte filtrado |
+
+Fonte: elaborado pelo autor a partir da especificação.
 
 **Figura 1 — Aba Visão geral do dashboard.**
 (`figuras/app1_visao_geral.png`)
@@ -285,6 +333,18 @@ Legenda: fonte, período, regras de limpeza e relatório de qualidade. Fonte: el
 ## 4.4 Testes
 
 Vinte e dois testes automatizados (Pytest) cobrem o caso de referência da especificação (três partidas manuais → índice de Pollard exatamente 50%), proporções, tratamento de denominador zero, recorte vazio, pontuação por equipe/temporada (incluindo Flamengo 2019: 53/37/90/38), filtro da aba Equipes, formatação pt-BR, integridade SHA-256 e regras de limpeza. Todos passam (`22 passed`). Complemento de verificação externa: a validação cruzada contra o OpenFootball atingiu 99,96% de concordância (seção 3.2).
+
+**Tabela 4 — Síntese dos testes por grupo.**
+
+| Grupo | O que verifica | Testes |
+|---|---|---:|
+| `test_metrics` (9) | fórmulas, Pollard, agregações, equipe/temporada | 9 passed |
+| `test_data_validation` (8) | regras de limpeza e exclusões contabilizadas | 8 passed |
+| `test_app` (2) | aba Equipes: filtro e recorte Flamengo 2019 | 2 passed |
+| `test_formatting` (2) | pt-BR e separador dos gráficos | 2 passed |
+| `test_integrity` (1) | SHA-256 aceita/rejeita | 1 passed |
+
+Fonte: elaborado pelo autor; detalhamento em Apêndice D.
 
 ---
 
@@ -345,7 +405,11 @@ Dois anos merecem registro metodológico. Em **2016** (n = 379), falta o confron
 
 ## 5.3 Discussão frente à literatura
 
-O valor do período (63,7%) é compatível com o patamar brasileiro reportado por Almeida et al. (2011) para a Série A em 2003–2009 (65 ± 2,3%), abaixo do qual este trabalho estende a série com granularidade anual. A persistência acima de 50% em todas as 19 temporadas reforça o caráter estrutural do fenômeno no recorte, sem que se possa afirmar causa: torcida, arbitragem, viagens e qualidade dos elencos não são medidos por este estudo (ver Limitações, capítulo 6).
+O valor do período (63,7%) é compatível com o patamar brasileiro reportado por Almeida et al. (2011) para a Série A em 2003–2009 (65 ± 2,3%): situa-se dentro do intervalo 62,7–67,3%, abaixo do qual este trabalho estende a série com granularidade anual. Essa compatibilidade é relevante porque as janelas se sobrepõem parcialmente (2006–2009 em comum) sem compartilhar fonte nem pipeline — duas medições independentes convergindo para a mesma faixa. A persistência acima de 50% em todas as 19 temporadas reforça o caráter estrutural do fenômeno no recorte, sem que se possa afirmar causa: torcida, arbitragem, viagens e qualidade dos elencos não são medidos por este estudo (ver Limitações, capítulo 6).
+
+A granularidade anual revela o que o agregado esconde. A amplitude de 11,3 pontos percentuais entre 2017 (58,2%) e 2018 (69,5%) mostra que "vantagem de jogar em casa" não é uma constante do calendário, mas uma faixa de variação com anos atipicamente baixos e altos. O ano de 2017 combina o menor Pollard da série com o maior percentual de vitórias visitantes (28,9%); o de 2018, o maior Pollard com o menor percentual de visitantes vencedores (17,9%) — espelho quase simétrico, o que sugere que a oscilação passa sobretudo pelo desempenho dos visitantes, não por empates. Nenhum ano cai abaixo de 50%, de modo que H2 se sustenta descritivamente: há variação substantiva entre temporadas, sem inversão do mando em nenhuma delas.
+
+A temporada 2020 (Pollard 60,2%, abaixo da média de 63,7%) merece leitura à luz de Ribeiro et al. (2022): disputada até 25/02/2021, sem torcida, com estreia do VAR na Série A em 2019 e calendário atípico. Os autores associam a queda do período pandêmico ao conjunto torcida ausente + VAR + calendário, sem atribuir causalidade isolada — posição mantida aqui. Duas cautelas adicionais: a escala de Ribeiro et al. (((H−A)/A)×100%) não é o índice de Pollard, de modo que seus valores não se comparam ponto a ponto com a Tabela 1; e 2020, embora baixo, permanece bem acima do neutro, de modo que nem mesmo a conjunção mais adversa da série (estádios vazios + arbitragem assistida + maratona de jogos) foi suficiente para apagar a vantagem do mandante. Esse é, talvez, o achado descritivo mais forte do trabalho: o piso da série, sob condições extremas, continua sendo vantagem.
 
 ## 5.4 Resposta às perguntas de pesquisa
 
@@ -360,19 +424,19 @@ O valor do período (63,7%) é compatível com o patamar brasileiro reportado po
 
 ## 6.1 Resposta à pergunta
 
-No período 2006–2024 (7.219 partidas), os mandantes somaram mais pontos que os visitantes em todas as temporadas: índice de Pollard geral de 63,7%, variando de 58,2% (2017) a 69,5% (2018). Mandantes venceram 49,0% dos jogos e marcaram 1,49 gol por partida, contra 24,1% e 1,00 dos visitantes.
+No período 2006–2024 (7.219 partidas), os mandantes somaram mais pontos que os visitantes em todas as temporadas: índice de Pollard geral de 63,7%, variando de 58,2% (2017) a 69,5% (2018). Mandantes venceram 49,0% dos jogos e marcaram 1,49 gol por partida, contra 24,1% e 1,00 dos visitantes. Respondendo diretamente à pergunta de pesquisa: a magnitude da vantagem de jogar em casa na Série A foi de 13,7 pontos percentuais acima da neutralidade no agregado do período, com variação anual de 11,3 pontos entre o piso e o teto da série. As hipóteses se confirmam no plano descritivo: H1, porque 63,7% supera 50% com folga equivalente a mais de 5 mil pontos de diferença acumulada (12.554 × 7.166); H2, porque a série anual oscila de 58,2% a 69,5% sem jamais tocar o neutro. Nenhuma temporada inverteu o mando, nem mesmo 2020 sob estádios vazios.
 
 ## 6.2 Contribuição
 
-Série anual homogênea de 19 temporadas, tratamento documentado e auditado, validação cruzada externa de 99,96% e um dashboard reutilizável para exploração — artefato que permanece útil após a defesa.
+Série anual homogênea de 19 temporadas, tratamento documentado e auditado, validação cruzada externa de 99,96% e um dashboard reutilizável para exploração — artefato que permanece útil após a defesa. Para a área de Sistemas de Informação, a contribuição é o encadeamento completo dado → indicador → decisão assistida: pipeline reproduzível com verificação de integridade, métricas puras e testadas, visualização em português e rastreabilidade de cada requisito até sua evidência (Tabela 3). Para a literatura sobre vantagem em casa no Brasil, a contribuição é a série anual contínua mais longa com base auditada e validação externa, permitindo que trabalhos futuros testem hipóteses sobre 2017, 2018 ou 2020 contra números já conferidos, em vez de reconstruir a base do zero.
 
 ## 6.3 Limitações
 
-A análise é observacional, baseada em placar e mando nominal: torcida, arbitragem, elenco, viagens ou clima não são medidos; o mando nominal nem sempre corresponde ao estádio habitual; a base histórica pode conter omissões (o relatório de qualidade integra o trabalho); não há inferência causal nem valor preditivo.
+A análise é observacional, baseada em placar e mando nominal: torcida, arbitragem, elenco, viagens ou clima não são medidos; o mando nominal nem sempre corresponde ao estádio habitual; a base histórica pode conter omissões (o relatório de qualidade integra o trabalho); não há inferência causal nem valor preditivo. Acrescentam-se três limites de escopo. Primeiro, o recorte exclui 2003–2005 (formato com mais de 20 clubes) e 2025 (temporada incompleta na data de acesso), de modo que nada se afirma fora de 2006–2024. Segundo, a fonte primária não tem licença explícita, o que restringe a redistribuição do bruto e condiciona a reprodução ao download pinado — limitação jurídica, não técnica, mitigada pelo plano B documentado. Terceiro, a validação externa cobre apenas 2018–2024 (limite do OpenFootball); as temporadas 2006–2017 dependem da auditoria interna, rigorosa mas de fonte única.
 
 ## 6.4 Trabalhos futuros
 
-Teste de tendência (correlação de Spearman entre ano e índice anual, como análise exploratória, se o orientador solicitar); extensão às Séries B–D; incorporação de público e arbitragem; atualização anual do pipeline.
+Teste de tendência (correlação de Spearman entre ano e índice anual, como análise exploratória, se o orientador solicitar); extensão às Séries B–D; incorporação de público e arbitragem; atualização anual do pipeline. A extensão natural mais barata é a atualização anual: o pipeline aceita novas temporadas sem mudança de código, bastando refazer o download pinado e reconstruir — o que manteria a série viva a cada dezembro. A incorporação de público pagante por partida (dados públicos da CBF) permitiria testar diretamente a hipótese da torcida que este trabalho apenas contextualiza. E a comparação com Séries B–D, na linha de Almeida et al. (2011), verificaria se a hierarquia entre divisões persiste duas décadas depois, com a mesma régua.
 
 ---
 
