@@ -26,14 +26,14 @@ Distribuição dos resultados das 7.219 partidas da Série A, 2006–2024
 (mandante 49,0%; empates 26,8%; visitante 24,1%).
 Fonte: elaborado pelo autor a partir da base validada.
 
-**Figura 6 — `fig2_pollard_temporadas.png`.**
-Índice de vantagem em casa de Pollard por temporada, 2006–2024
-(variação 58,2% em 2017 a 69,5% em 2018; linha tracejada = 50% neutro).
-Fonte: elaborado pelo autor.
-
-**Figura 7 — `fig4_gols_temporadas.png`.**
+**Figura 6 — `fig4_gols_temporadas.png`.**
 Média de gols por partida de mandantes e visitantes por temporada,
 2006–2024 (período: casa 1,49 × fora 1,00).
+Fonte: elaborado pelo autor.
+
+**Figura 7 — `fig2_pollard_temporadas.png`.**
+Índice de vantagem em casa de Pollard por temporada, 2006–2024
+(variação 58,2% em 2017 a 69,5% em 2018; linha tracejada = 50% neutro).
 Fonte: elaborado pelo autor.
 
 **Figura 8 — `fig3_resultados_temporadas.png`.**
