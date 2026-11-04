@@ -8,6 +8,7 @@ import sys
 sys.path.insert(0, str(Path(__file__).resolve().parent / "src"))
 
 from charts import goals_by_season, outcome_distribution, outcomes_by_season, pollard_series
+from formatting import num, pct, signed
 from metrics import by_season, summarize, team_season, teams_in_season
 
 BASE = Path(__file__).resolve().parent
@@ -64,24 +65,24 @@ t1, t2, t3, t4 = st.tabs(["Visão geral", "Evolução histórica", "Equipes e pa
 with t1:  # RF03 + RF08
     c = st.columns(4)
     c[0].metric("Partidas", f"{resumo['n']:,}".replace(",", "."))
-    c[1].metric("Vit. mandante", f"{resumo['p_home']:.1f}%")
-    c[2].metric("Empates", f"{resumo['p_draw']:.1f}%")
-    c[3].metric("Vit. visitante", f"{resumo['p_away']:.1f}%")
+    c[1].metric("Vit. mandante", pct(resumo["p_home"]))
+    c[2].metric("Empates", pct(resumo["p_draw"]))
+    c[3].metric("Vit. visitante", pct(resumo["p_away"]))
     c = st.columns(4)
-    c[0].metric("Gols/partida (casa)", f"{resumo['avg_home_goals']:.2f}")
-    c[1].metric("Gols/partida (fora)", f"{resumo['avg_away_goals']:.2f}")
-    c[2].metric("Diferença média", f"{resumo['goal_diff']:+.2f}")
-    c[3].metric("Pollard", f"{resumo['pollard']:.2f}%",
+    c[0].metric("Gols/partida (casa)", num(resumo["avg_home_goals"]))
+    c[1].metric("Gols/partida (fora)", num(resumo["avg_away_goals"]))
+    c[2].metric("Diferença média", signed(resumo["goal_diff"]))
+    c[3].metric("Pollard", pct(resumo["pollard"], 2),
                 help="VC = Pm/(Pm+Pv)×100. Pm/Pv = pontos de mandantes/visitantes no recorte. 50% = neutro.")
-    st.plotly_chart(outcome_distribution(resumo), use_container_width=True)
+    st.plotly_chart(outcome_distribution(resumo), width="stretch")
     st.info("Índice de Pollard: acima de 50% = mandantes somaram mais pontos no recorte. "
             "É uma descrição agregada, não uma causa. (RF08)")
 
 with t2:  # RF04 + RF05
-    st.plotly_chart(pollard_series(por_temp), use_container_width=True)
-    st.plotly_chart(outcomes_by_season(por_temp), use_container_width=True)
-    st.plotly_chart(goals_by_season(por_temp), use_container_width=True)
-    st.dataframe(por_temp.round(2), use_container_width=True, hide_index=True)
+    st.plotly_chart(pollard_series(por_temp), width="stretch")
+    st.plotly_chart(outcomes_by_season(por_temp), width="stretch")
+    st.plotly_chart(goals_by_season(por_temp), width="stretch")
+    st.dataframe(por_temp.round(2), width="stretch", hide_index=True)
 
 with t3:  # RF06 + RF07 + RF10
     col1, col2 = st.columns(2)
@@ -113,7 +114,7 @@ with t3:  # RF06 + RF07 + RF10
         jogos = base[((base["home_team"] == equipe) | (base["away_team"] == equipe))
                      & (base["season"] == int(temp))].sort_values("date")
         st.dataframe(jogos[["date", "round", "home_team", "home_goals", "away_goals",
-                            "away_team", "result"]], use_container_width=True, hide_index=True)
+                            "away_team", "result"]], width="stretch", hide_index=True)
         st.download_button("Baixar recorte filtrado (CSV)",  # RF11
                            base.to_csv(index=False).encode("utf-8"),
                            file_name="recorte_filtrado.csv", mime="text/csv")
