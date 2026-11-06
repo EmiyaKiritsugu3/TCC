@@ -5,7 +5,7 @@
 > padrão UFRN/CERES-BSI** (Resolução Nº 001/2016-CSI, Anexo 1 + 3 TCCs do curso na
 > BDM: capa institucional, folha de rosto, folha de avaliação, listas, cap. 1 com
 > 1.1–1.6 no padrão do curso). Texto pronto em 3ª pessoa; o que ainda exige o aluno
-> está marcado com as tags [TODO-BANCA], [TODO-SIGLAS], [TODO-CBF] ou [TODO-ORIENTADOR]. Na conversão para o template: Times New Roman ou Arial 12,
+> está marcado com as tags [TODO-BANCA], [TODO-CBF] ou [TODO-ORIENTADOR]. Na conversão para o template: Times New Roman ou Arial 12,
 > espaçamento 1,5, margens 3 cm esq. / 2 cm dir., A4. Ficha catalográfica é emitida
 > pela SISBI no depósito da BDM (não incluir por conta própria). Pós-orientador:
 > aplicar as 5 decisões de `docs/resumo_orientador.md` (departamento da capa já
@@ -191,7 +191,7 @@ No futebol, equipes mandantes conquistam historicamente mais pontos que visitant
 
 A literatura nacional, porém, trabalha com janelas temporais distintas e granularidades diferentes: Silva e Moreira (2008) cobrem 2002/03–2006/07; Almeida et al. (2011) cobrem 2003–2009 de forma agregada; Ribeiro et al. (2022) concentram-se em 2018–2020. Falta, nesse conjunto, uma série anual longa e homogênea — restrita ao formato estável de 20 clubes em pontos corridos, com auditoria documentada da base e validação externa — que permita observar como o fenômeno varia ano a ano sem trocar de régua no meio do caminho. É essa lacuna que delimita o problema: sem uma série nessas condições, qualquer comparação entre temporadas corre o risco de confundir efeito de formato, de fonte ou de métrica com variação real da vantagem de jogar em casa.
 
-A partir desse contexto, a pergunta de pesquisa é: qual foi a magnitude da vantagem de jogar em casa no Campeonato Brasileiro Série A entre 2006 e 2024, e como os indicadores de mandantes e visitantes variaram entre as temporadas? Perguntas secundárias: proporções de resultados; médias de gols; evolução anual do índice de Pollard; diferenças entre temporadas e clubes.
+A partir desse contexto, a pergunta de pesquisa é: qual foi a magnitude da vantagem de jogar em casa no Campeonato Brasileiro Série A entre 2006 e 2024, e como os indicadores de mandantes e visitantes variaram entre as temporadas? Perguntas secundárias: proporções de resultados; médias de gols; evolução anual do índice de Pollard; diferenças entre temporadas e clubes; efeito do contexto da partida (viagem, descanso, força e era).
 
 A pesquisa parte de duas hipóteses, formuladas antes da análise. **H1:** o índice de Pollard do período 2006–2024 será superior a 50%, indicando que os mandantes somaram mais pontos que os visitantes. **H2:** o índice não permanecerá constante entre as temporadas, com variação observável na série anual.
 
@@ -250,9 +250,9 @@ Fonte: Elaboração própria, a partir das referências.
 
 ## 2.3 Análise de dados e visualização como apoio à decisão
 
-A análise de negócios descritiva — o nível de entrada da taxonomia analítica de Sharda, Delen e Turban (2019) — responde "o que aconteceu?", o que legitima o escopo exclusivamente descritivo deste trabalho. Acima dela, na mesma taxonomia, estariam os níveis diagnóstico ("por que aconteceu?"), preditivo ("o que vai acontecer?") e prescritivo ("o que fazer?") — todos deliberadamente fora do escopo, conforme a delimitação (§1.4). Essa renúncia é uma decisão de desenho, não uma lacuna acidental: com apenas placar e mando nominal, o trabalho não dispõe das variáveis (público, arbitragem, elenco, viagens) que qualquer pretensão diagnóstica ou preditiva exigiria.
+A análise de negócios descritiva — o nível de entrada da taxonomia analítica de Sharda, Delen e Turban (2019) — responde "o que aconteceu?", o que legitima o escopo exclusivamente descritivo deste trabalho. Acima dela, na mesma taxonomia, estariam os níveis diagnóstico ("por que aconteceu?"), preditivo ("o que vai acontecer?") e prescritivo ("o que fazer?") — todos deliberadamente fora do escopo, conforme a delimitação (§1.4). Essa renúncia é uma decisão de desenho, não uma lacuna acidental: com apenas placar e mando nominal, o trabalho não dispõe das variáveis (público, arbitragem, elenco — e da viagem, só a distância entre sedes) que qualquer pretensão diagnóstica ou preditiva exigiria.
 
-Sua interface típica é o dashboard, definido por Few (2006) como exibição visual das informações mais importantes para um ou mais objetivos, consolidadas em tela única e monitoráveis de relance. O sistema desenvolvido segue a definição — tela única por aba, cartões de indicadores, séries e tabela com exploração detalhada — e evita os erros catalogados por Few: tela estourada, contexto insuficiente, precisão excessiva e decoração inútil, buscando a simplicidade de "só o necessário, condensado sem perda de sentido". Na prática, isso se traduz em quatro abas de navegação única (sem menus aninhados), sete cartões na visão geral com unidade explícita, ajuda metodológica embutida no próprio indicador de Pollard e mensagens de estado vazio em vez de telas quebradas (RF10). A formatação em português com vírgula decimal (RNF04) e a separação entre cálculo, gráfico e interface (RNF06) completam a aderência: o usuário lê números no padrão local, e o código mantém cada camada testável isoladamente.
+Sua interface típica é o dashboard, definido por Few (2006) como exibição visual das informações mais importantes para um ou mais objetivos, consolidadas em tela única e monitoráveis de relance. O sistema desenvolvido segue a definição — tela única por aba, cartões de indicadores, séries e tabela com exploração detalhada — e evita os erros catalogados por Few: tela estourada, contexto insuficiente, precisão excessiva e decoração inútil, buscando a simplicidade de "só o necessário, condensado sem perda de sentido". Na prática, isso se traduz em quatro abas de navegação única (sem menus aninhados), oito cartões na visão geral com unidade explícita, ajuda metodológica embutida no próprio indicador de Pollard e mensagens de estado vazio em vez de telas quebradas (RF10). A formatação em português com vírgula decimal (RNF04) e a separação entre cálculo, gráfico e interface (RNF06) completam a aderência: o usuário lê números no padrão local, e o código mantém cada camada testável isoladamente.
 
 ## 2.4 Síntese
 
@@ -298,7 +298,7 @@ H1 é avaliada pelo índice agregado do período; H2, pela comparação descriti
 
 Pipeline em camadas separadas: `load_data` (leitura da cópia imutável da fonte), `clean_data` (padronização e regras de limpeza), `metrics` (funções puras dos indicadores), `context` (variáveis descritivas de viagem, descanso, tabela e era), `charts` (gráficos em Plotly) e a aplicação Streamlit com quatro abas. A separação segue o RNF06 (manutenibilidade): cálculos não conhecem interface, gráficos não calculam — recebem dicionários prontos — e a aplicação apenas filtra, formata e exibe. Essa disciplina é o que permite testar cada camada isoladamente: `metrics` com DataFrames sintéticos de três linhas, `clean_data` com brutos fabricados, `charts` com dicionários e a interface com `AppTest`, sem Selenium nem servidor de verdade.
 
-A reprodutibilidade (RNF02) é garantida por construção determinística. O fluxo exige três comandos encadeados: baixar a fonte pinada (`fetch_raw.py`, com verificação SHA-256 e modo `--check` offline), construir a base (`build_processed.py`, mesma entrada → mesma saída, sem aleatoriedade nem dependência de relógio) e rodar os testes. As versões exatas do ambiente estão fixadas em `requirements-lock.txt` (pandas 3.1.0, Streamlit 1.66.1, Plotly 7.1.0), com faixas compatíveis em `requirements.txt`. A base processada acompanha um relatório de qualidade em JSON; a reprodução do fluxo produz os mesmos 7.219 registros e o mesmo relatório, byte a byte salvo o carimbo de execução.
+A reprodutibilidade (RNF02) é garantida por construção determinística. O fluxo exige três comandos encadeados: baixar a fonte pinada (`fetch_raw.py`, com verificação SHA-256 e modo `--check` offline), construir a base (`build_processed.py`, mesma entrada → mesma saída, sem aleatoriedade nem dependência de relógio) e rodar os testes. As versões exatas do ambiente estão fixadas em `requirements-lock.txt` (pandas 3.1.0, Streamlit 1.66.1, Plotly 7.1.0), com faixas compatíveis em `requirements.txt`. A base processada acompanha um relatório de qualidade em JSON; a reprodução do fluxo produz os mesmos 7.219 registros e o mesmo relatório.
 
 ## 4.2 Tratamento dos dados e cálculos
 
@@ -346,7 +346,7 @@ Legenda: consulta por equipe/temporada, desempenho em casa e fora e tabela de pa
 (`figuras/app4_metodologia_dados.png`)
 Legenda: fonte, período, regras de limpeza e relatório de qualidade. Fonte: Elaboração própria.
 
-> Renumeração concluída: Figuras 1–4 no capítulo 4 e Figuras 5–8 no capítulo 5, com legendas completas nas seções correspondentes e resumo na Lista de Figuras (`figuras/LEGENDAS.md` é a fonte das legendas).
+<!-- Renumeração concluída: Figuras 1–4 no capítulo 4 e Figuras 5–8 no capítulo 5, com legendas completas nas seções correspondentes e resumo na Lista de Figuras (`figuras/LEGENDAS.md` é a fonte das legendas). -->
 
 ## 4.4 Testes
 
@@ -446,7 +446,7 @@ Fonte: Elaboração própria, a partir da base validada.
 
 1. Proporção no período: 49,0% vitórias mandantes, 26,8% empates, 24,1% visitantes.
 2. Sim: mandantes marcaram mais (1,49 × 1,00 por jogo, em todas as temporadas).
-3. O índice de Pollard oscilou entre 58,2% e 69,5% ao ano, com média de 63,7%.
+3. O índice de Pollard oscilou entre 58,2% e 69,5% ao ano, com índice de 63,7% no período.
 4. Sim, há diferenças descritivas relevantes (amplitude de 11,3 p.p.), lideradas pelos extremos de 2017 e 2018; por equipe, ver a aba “Equipes e partidas” do dashboard (Figura 3); a Tabela 1 apresenta os indicadores por temporada, não por equipe.
 5. O mando cresce com a viagem? Não de forma relevante (63,4%–63,9% nas três faixas, Tabela 5). Descanso e força graduam o índice sem invertê-lo, sempre acima de 50%.
 
@@ -464,7 +464,7 @@ Série anual homogênea de 19 temporadas, tratamento documentado e auditado, val
 
 ## 6.3 Limitações
 
-A análise é observacional, baseada em placar e mando nominal: torcida, arbitragem, elenco, viagens ou clima não são medidos; o mando nominal nem sempre corresponde ao estádio habitual; a base histórica pode conter omissões (o relatório de qualidade integra o trabalho); não há inferência causal nem valor preditivo. Acrescentam-se três limites de escopo. Primeiro, o recorte exclui 2003–2005 (formato com mais de 20 clubes) e 2025 (temporada incompleta na data de acesso), de modo que nada se afirma fora de 2006–2024. Segundo, a fonte primária não tem licença explícita, o que restringe a redistribuição do bruto e condiciona a reprodução ao download pinado — limitação jurídica, não técnica, mitigada pelo plano B documentado. Terceiro, a validação externa cobre apenas 2018–2024 (limite do OpenFootball); as temporadas 2006–2017 dependem da auditoria interna, rigorosa mas de fonte única.
+A análise é observacional, baseada em placar e mando nominal: torcida, arbitragem, elenco ou clima não são medidos (da viagem, apenas a distância entre cidades-sede, como proxy, sem fadiga, logística ou mando alternativo); o mando nominal nem sempre corresponde ao estádio habitual; a base histórica pode conter omissões (o relatório de qualidade integra o trabalho); não há inferência causal nem valor preditivo. Acrescentam-se três limites de escopo. Primeiro, o recorte exclui 2003–2005 (formato com mais de 20 clubes) e 2025 (temporada incompleta na data de acesso), de modo que nada se afirma fora de 2006–2024. Segundo, a fonte primária não tem licença explícita, o que restringe a redistribuição do bruto e condiciona a reprodução ao download pinado — limitação jurídica, não técnica, mitigada pelo plano B documentado. Terceiro, a validação externa cobre apenas 2018–2024 (limite do OpenFootball); as temporadas 2006–2017 dependem da auditoria interna, rigorosa mas de fonte única.
 
 ## 6.4 Trabalhos futuros
 
@@ -476,13 +476,13 @@ Teste de tendência (correlação de Spearman entre ano e índice anual, como an
 
 ALMEIDA, L. G.; OLIVEIRA, M. L.; SILVA, C. D. Uma análise da vantagem de jogar em casa nas duas principais divisões do futebol profissional brasileiro. *Revista Brasileira de Educação Física e Esporte*, v. 25, n. 1, p. 49–54, 2011. DOI: 10.1590/S1807-55092011000100006 (CC BY-NC 4.0).
 
-DUQUE, A. *Brasileirao_Dataset* — Campeonato Brasileiro de Futebol, 2003–2024. GitHub, commit `15f027c` (acesso em 28/10/2026). https://github.com/adaoduque/Brasileirao_Dataset (sem licença explícita; uso conforme arquivo de proveniência).
+DUQUE, A. *Brasileirao_Dataset* — Campeonato Brasileiro de Futebol, 2003–2024. GitHub, commit `15f027c`. Disponível em: https://github.com/adaoduque/Brasileirao_Dataset. Acesso em: 28 out. 2026. (sem licença explícita; uso conforme arquivo de proveniência).
 
 FEW, S. *Information dashboard design*: the effective visual communication of data. Sebastopol: O'Reilly Media, 2006. Cap. 1 (§1.3.1), Cap. 3 e Cap. 5 (§5.1).
 
 MATOS, R. M.; AMARO, N.; POLLARD, R. How best to quantify home advantage in team sports. *RICYDE*, v. 16, n. 59, p. 12–23, 2020. DOI: 10.5232/ricyde2020.05902 (acesso aberto).
 
-OPENFOOTBALL. South America (Brazil). Domínio público, CC0-1.0, commit `f51b2dc` (acesso em 28/10/2026). https://github.com/openfootball/south-america
+OPENFOOTBALL. South America (Brazil). Domínio público, CC0-1.0, commit `f51b2dc`. Disponível em: https://github.com/openfootball/south-america. Acesso em: 28 out. 2026.
 
 POLLARD, R. Home advantage in soccer: a retrospective analysis. *Journal of Sports Sciences*, v. 4, n. 3, p. 237–248, 1986. DOI: 10.1080/02640418608732122. (Original em paywall — citado via *apud* ALMEIDA et al., 2011; método documentado em MATOS; AMARO; POLLARD, 2020.)
 

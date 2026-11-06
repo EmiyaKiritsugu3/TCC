@@ -18,6 +18,8 @@ Limitações conhecidas do rascunho (não do conteúdo):
 """
 from pathlib import Path
 
+import re
+
 from docx import Document
 from docx.enum.text import WD_ALIGN_PARAGRAPH
 from docx.oxml import OxmlElement
@@ -181,6 +183,10 @@ def main() -> None:
             continue
         if s.startswith("## "):
             titulo = s[3:]
+            # Títulos pré-textuais carregam instruções de trabalho entre
+            # parênteses no .md ("CAPA (elemento...)", "SUMÁRIO (obrigatório)");
+            # o rascunho exibe só o nome da seção.
+            titulo = re.sub(r"\s*\([^)]*\)\s*$", "", titulo)
             if titulo in ("RESUMO", "ABSTRACT"):
                 simples = True
             elif titulo in PRE_CENTRALIZAR or titulo.startswith(("LISTA", "SUMÁRIO")):
