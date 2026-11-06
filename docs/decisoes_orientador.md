@@ -21,6 +21,10 @@ Ampliação aplicada em 04/11/2026 (proativa): §§1.2, 1.5, 2.1, 2.2, 2.3, 3.1�
 4.1–4.4, 5.3 e 6 expandidas; Tabelas 2 (literatura), 3 (rastreabilidade RF) e 4
 (síntese dos testes) criadas; corpo ≥ 5.500 palavras.
 
+Fase 1 (variáveis contextuais) implementada em 06/11/2026 por decisão do
+aluno, pendente de validação do orientador: `src/context.py` + 9 testes,
+achado principal de que a distância não move o índice (Tabela 5 da monografia).
+
 ## Edição normativa adotada (05/11/2026)
 
 Por decisão do autor, a formatação segue as edições **vigentes** (não as

@@ -90,6 +90,7 @@ Tabela 1 — Indicadores por temporada: n, proporções de resultados, médias d
 Tabela 2 — Evidências da vantagem de jogar em casa na literatura brasileira e neste trabalho.
 Tabela 3 — Matriz de rastreabilidade: requisito funcional, tela e evidência/teste.
 Tabela 4 — Síntese dos testes automatizados por grupo.
+Tabela 5 — Pollard por faixa de distância do visitante, 2006–2024.
 
 ## LISTA DE SIGLAS
 
@@ -214,7 +215,7 @@ A motivação para este trabalho nasce de dois interesses que correram em parale
 
 A temática é adequada a Sistemas de Informação porque envolve aquisição e tratamento de dados, definição de indicadores, visualização interativa e construção de um sistema de apoio à análise — uma aplicação direta do que a análise de negócios descritiva discute, respondendo "o que aconteceu?" (SHARDA; DELEN; TURBAN, 2019). A contribuição não é alegar ineditismo do fenômeno, e sim combinar um recorte histórico longo e homogêneo (19 temporadas), um fluxo de tratamento reproduzível e auditado e um dashboard interativo para exploração dos dados, permanecendo útil como ferramenta de consulta após o término do curso.
 
-Em termos práticos, a contribuição se desdobra em três entregas verificáveis. A primeira é a série anual homogênea de 19 temporadas (2006–2024), com 7.219 partidas válidas, regras de limpeza documentadas e dois casos metodológicos tratados sem imputação (2016 e 2020). A segunda é o fluxo reproduzível e auditado: download pinado por commit com verificação SHA-256, construção determinística da base processada, validação cruzada externa de 99,96% e recálculo dos 19 campeões a partir dos placares. A terceira é o dashboard reutilizável, com quatro abas que cobrem do panorama geral à consulta por equipe, coberto por 22 testes automatizados e formatado em português. Nenhuma das três depende de alegação causal: o valor está na medida repetível e na exploração assistida, não na explicação do fenômeno.
+Em termos práticos, a contribuição se desdobra em três entregas verificáveis. A primeira é a série anual homogênea de 19 temporadas (2006–2024), com 7.219 partidas válidas, regras de limpeza documentadas e dois casos metodológicos tratados sem imputação (2016 e 2020). A segunda é o fluxo reproduzível e auditado: download pinado por commit com verificação SHA-256, construção determinística da base processada, validação cruzada externa de 99,96% e recálculo dos 19 campeões a partir dos placares. A terceira é o dashboard reutilizável, com quatro abas que cobrem do panorama geral à consulta por equipe, coberto por 31 testes automatizados e formatado em português. Nenhuma das três depende de alegação causal: o valor está na medida repetível e na exploração assistida, não na explicação do fenômeno.
 
 ## 1.6 Estrutura do trabalho
 
@@ -295,7 +296,7 @@ H1 é avaliada pelo índice agregado do período; H2, pela comparação descriti
 
 ## 4.1 Arquitetura
 
-Pipeline em camadas separadas: `load_data` (leitura da cópia imutável da fonte), `clean_data` (padronização e regras de limpeza), `metrics` (funções puras dos indicadores), `charts` (gráficos em Plotly) e a aplicação Streamlit com quatro abas. A separação segue o RNF06 (manutenibilidade): cálculos não conhecem interface, gráficos não calculam — recebem dicionários prontos — e a aplicação apenas filtra, formata e exibe. Essa disciplina é o que permite testar cada camada isoladamente: `metrics` com DataFrames sintéticos de três linhas, `clean_data` com brutos fabricados, `charts` com dicionários e a interface com `AppTest`, sem Selenium nem servidor de verdade.
+Pipeline em camadas separadas: `load_data` (leitura da cópia imutável da fonte), `clean_data` (padronização e regras de limpeza), `metrics` (funções puras dos indicadores), `context` (variáveis descritivas de viagem, descanso, tabela e era), `charts` (gráficos em Plotly) e a aplicação Streamlit com quatro abas. A separação segue o RNF06 (manutenibilidade): cálculos não conhecem interface, gráficos não calculam — recebem dicionários prontos — e a aplicação apenas filtra, formata e exibe. Essa disciplina é o que permite testar cada camada isoladamente: `metrics` com DataFrames sintéticos de três linhas, `clean_data` com brutos fabricados, `charts` com dicionários e a interface com `AppTest`, sem Selenium nem servidor de verdade.
 
 A reprodutibilidade (RNF02) é garantida por construção determinística. O fluxo exige três comandos encadeados: baixar a fonte pinada (`fetch_raw.py`, com verificação SHA-256 e modo `--check` offline), construir a base (`build_processed.py`, mesma entrada → mesma saída, sem aleatoriedade nem dependência de relógio) e rodar os testes. As versões exatas do ambiente estão fixadas em `requirements-lock.txt` (pandas 3.1.0, Streamlit 1.66.1, Plotly 7.1.0), com faixas compatíveis em `requirements.txt`. A base processada acompanha um relatório de qualidade em JSON; a reprodução do fluxo produz os mesmos 7.219 registros e o mesmo relatório, byte a byte salvo o carimbo de execução.
 
@@ -349,13 +350,14 @@ Legenda: fonte, período, regras de limpeza e relatório de qualidade. Fonte: El
 
 ## 4.4 Testes
 
-Vinte e dois testes automatizados (Pytest) cobrem o caso de referência da especificação (três partidas manuais → índice de Pollard exatamente 50%), proporções, tratamento de denominador zero, recorte vazio, pontuação por equipe/temporada (incluindo Flamengo 2019: 53/37/90/38), filtro da aba Equipes, formatação pt-BR, integridade SHA-256 e regras de limpeza. Todos passam (`22 passed`). Complemento de verificação externa: a validação cruzada contra o OpenFootball atingiu 99,96% de concordância (seção 3.2).
+Trinta e um testes automatizados (Pytest) cobrem o caso de referência da especificação (três partidas manuais → índice de Pollard exatamente 50%), proporções, tratamento de denominador zero, recorte vazio, pontuação por equipe/temporada (incluindo Flamengo 2019: 53/37/90/38), variáveis contextuais (viagem, descanso, tabela, eras), filtro da aba Equipes, formatação pt-BR, integridade SHA-256 e regras de limpeza. Todos passam (`31 passed`). Complemento de verificação externa: a validação cruzada contra o OpenFootball atingiu 99,96% de concordância (seção 3.2).
 
 **Tabela 4 — Síntese dos testes por grupo.**
 
 | Grupo | O que verifica | Testes |
 |---|---|---:|
 | `test_metrics` (9) | fórmulas, Pollard, agregações, equipe/temporada | 9 passed |
+| `test_context` (9) | viagem, descanso, tabela, eras, cobertura dos 43 clubes | 9 passed |
 | `test_data_validation` (8) | regras de limpeza e exclusões contabilizadas | 8 passed |
 | `test_app` (2) | aba Equipes: filtro e recorte Flamengo 2019 | 2 passed |
 | `test_formatting` (2) | pt-BR e separador dos gráficos | 2 passed |
@@ -428,12 +430,25 @@ A granularidade anual revela o que o agregado esconde. A amplitude de 11,3 ponto
 
 A temporada 2020 (Pollard 60,2%, abaixo da média de 63,7%) merece leitura à luz de Ribeiro et al. (2022): disputada até 25/02/2021, sem torcida, com estreia do VAR na Série A em 2019 e calendário atípico. Os autores associam a queda do período pandêmico ao conjunto torcida ausente + VAR + calendário, sem atribuir causalidade isolada — posição mantida aqui. Duas cautelas adicionais: a escala de Ribeiro et al. (((H−A)/A)×100%) não é o índice de Pollard, de modo que seus valores não se comparam ponto a ponto com a Tabela 1; e 2020, embora baixo, permanece bem acima do neutro, de modo que nem mesmo a conjunção mais adversa da série (estádios vazios + arbitragem assistida + maratona de jogos) foi suficiente para apagar a vantagem do mandante. Esse é, talvez, o achado descritivo mais forte do trabalho: o piso da série, sob condições extremas, continua sendo vantagem.
 
+**Contexto da partida: viagem, descanso, força e era.** Quatro variáveis descritivas, calculadas sem tocar em placar ou mando (`src/context.py`): distância da cidade do visitante (haversine entre cidades-sede, clássicos locais = 0), descanso em dias desde a partida anterior de cada clube, pontos e posição na tabela antes da partida (por temporada) e marcadores de era (VAR desde 2019; pandemia em 2020–2021). Os resultados autorizam três leituras, todas no plano descritivo. Primeiro, a viagem não move o índice (Tabela 5): 63,4% nas curtas, 63,8% nas médias, 63,9% nas longas — amplitude de 0,5 ponto contra 11,3 pontos entre temporadas. A hipótese de que deslocamentos longos inflariam o mando não se confirma nestes dados. Segundo, descanso e força graduam, sem inverter: mandante ao menos tão descansado quanto o visitante, 64,3% contra 62,0%; mandante favorito na tabela, 70,6% contra 56,8% como zebra — ainda acima do neutro mesmo desfavorecido. Terceiro, a era VAR (61,0%) fica abaixo do pré-VAR (64,9%), e as temporadas pandêmicas (61,0%) abaixo das demais (64,0%) — quedas concomitantes com torcida ausente, VAR e calendário atípico, sem atribuição causal possível aqui, na mesma posição de Ribeiro et al. (2022).
+
+**Tabela 5 — Pollard por faixa de distância do visitante, 2006–2024.**
+
+| Faixa de viagem do visitante | n | Pollard |
+|---|---|---:|
+| Curta (<500 km) | 2.670 | 63,37% |
+| Média (500–1.500 km) | 3.137 | 63,80% |
+| Longa (≥1.500 km) | 1.412 | 63,90% |
+
+Fonte: Elaboração própria, a partir da base validada.
+
 ## 5.4 Resposta às perguntas de pesquisa
 
 1. Proporção no período: 49,0% vitórias mandantes, 26,8% empates, 24,1% visitantes.
 2. Sim: mandantes marcaram mais (1,49 × 1,00 por jogo, em todas as temporadas).
 3. O índice de Pollard oscilou entre 58,2% e 69,5% ao ano, com média de 63,7%.
 4. Sim, há diferenças descritivas relevantes (amplitude de 11,3 p.p.), lideradas pelos extremos de 2017 e 2018; por equipe, ver a aba “Equipes e partidas” do dashboard (Figura 3); a Tabela 1 apresenta os indicadores por temporada, não por equipe.
+5. O mando cresce com a viagem? Não de forma relevante (63,4%–63,9% nas três faixas, Tabela 5). Descanso e força graduam o índice sem invertê-lo, sempre acima de 50%.
 
 ---
 
@@ -531,9 +546,10 @@ Validação dos campeões (`python3 scripts/validate_champions.py`, recálculo p
 
 ## APÊNDICE D — Casos de teste e instruções de execução
 
-Suíte Pytest (`python3 -m pytest tests/ -q`): **22 passed**.
+Suíte Pytest (`python3 -m pytest tests/ -q`): **31 passed**.
 
 - `tests/test_metrics.py`: caso de referência de três partidas (Pollard exatamente 50%); tudo-mandante acima de 50% e tudo-visitante abaixo; proporções somam 100; Pollard indefinido sem pontos; recorte vazio não quebra; agregação `by_season`; `team_season` separa pontos de casa e fora; Flamengo 2019 (53/37/90/38); `teams_in_season` respeita a temporada.
+- `tests/test_context.py` (9): haversine (São Paulo–Rio ≈ 360 km; zero na mesma cidade); clássicos locais com viagem zero; distância interestadual na faixa esperada; descanso em dias (incluindo estreia sem anterior e jogo no mesmo dia); pontos e posição antes da partida; flags de era; cobertura dos 43 clubes e somas da base real (7.219).
 - `tests/test_data_validation.py`: placar ausente não vira zero; gols negativos rejeitados; mandante igual a visitante rejeitado; fora do recorte excluído; `match_id` duplicado mantém o primeiro; resultado recalculado do placar; `_strip` apara dtype `string`; clube ausente rejeitado.
 - `tests/test_app.py`: aba Equipes filtra temporada e confere Flamengo 2019 (53/37/90/38); aba Equipes respeita o filtro global.
 - `tests/test_formatting.py`: formatação pt-BR (`49,0%`, `63,66%`, `—`, `1,49`, `+0,49`); gráfico usa separador pt-BR (`,.`).
@@ -546,7 +562,7 @@ python3 -m pip install -r requirements-lock.txt  # versões exatas do ambiente v
 python3 scripts/fetch_raw.py         # baixa o bruto (não versionado, plano B)
 python3 scripts/fetch_raw.py --check # confere o SHA-256 das cópias locais
 python3 scripts/build_processed.py   # gera data/processed/
-python3 -m pytest tests/ -q          # 22 testes
+python3 -m pytest tests/ -q          # 31 testes
 python3 scripts/validate_cross.py    # validação OpenFootball 2018–2024
 python3 -m streamlit run app.py
 ```

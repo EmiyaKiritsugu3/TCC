@@ -17,7 +17,7 @@ python3 -m pip install -r requirements-lock.txt  # versões exatas do ambiente v
 python3 scripts/fetch_raw.py         # baixa o bruto (não versionado, plano B)
 python3 scripts/fetch_raw.py --check # confere o SHA-256 das cópias locais
 python3 scripts/build_processed.py   # gera data/processed/
-python3 -m pytest tests/ -q          # 22 testes
+python3 -m pytest tests/ -q          # 31 testes
 python3 scripts/validate_cross.py    # validação OpenFootball 2018–2024
 python3 -m streamlit run app.py
 ```
@@ -43,7 +43,7 @@ Titularidade e proveniência em `NOTICE.md`.
 ## Estrutura
 
 - `app.py` — dashboard (4 abas)
-- `src/load_data.py`, `src/clean_data.py`, `src/metrics.py`, `src/charts.py`
+- `src/load_data.py`, `src/clean_data.py`, `src/metrics.py`, `src/context.py`, `src/charts.py`
 - `scripts/audit_fase1.py`, `scripts/build_processed.py`
-- `tests/test_metrics.py`, `tests/test_data_validation.py`
+- `tests/test_metrics.py`, `tests/test_context.py`, `tests/test_data_validation.py`
 - `docs/auditoria_fase1.md`, `docs/data_dictionary.md`
