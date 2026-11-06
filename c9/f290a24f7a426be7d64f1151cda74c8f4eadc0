@@ -1,0 +1,22 @@
+README.md
+  h_5d68cec99831c8 20,46,48
+docs/decisoes_orientador.md
+  h_5d68cec99831c8 24-27
+docs/monografia_v2.md
+  h_5d68cec99831c8 93,218,299,353,360,433-444,451,549,552,565
+src/context.py
+  h_5d68cec99831c8 1-168
+tests/test_context.py
+  h_5d68cec99831c8 1-101
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "c9f290a24f7a426be7d64f1151cda74c8f4eadc0",
+  "prompts": {},
+  "humans": {
+    "h_5d68cec99831c8": {
+      "author": "EmiyaKiritsugu3 <inamarjunior2@gmail.com>"
+    }
+  }
+}
