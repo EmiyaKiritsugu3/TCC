@@ -94,6 +94,21 @@ for l in linhas:
         print(f"DIVERGÊNCIA Tabela 1/{ano}: md={vals} csv={esp}")
 confere(ok, "Tabela 1 diverge do CSV")
 
+# --- Tabela 1 (CSV) == base recalculada (por construção, tolera arredondamento) ---
+base = by_season(df).sort_values("season").reset_index(drop=True)
+for c in ["p_home", "p_draw", "p_away", "avg_home_goals", "avg_away_goals",
+          "goal_diff", "home_points", "away_points", "pollard"]:
+    a = tab1[c].round(2).tolist()
+    b = base[c].round(2).tolist()
+    confere(a == b, f"coluna {c} do CSV diverge da base")
+confere((tab1["n"] == base["n"]).all(), "coluna n diverge da base")
+confere((tab1["season"] == base["season"]).all(), "temporadas divergem")
+
+# --- citações novas com ano casando com a referência ---
+for cit in ["Gil (2008)", "Nevill, Balmer e Williams (2002)", "Neave e Wolfson (2003)",
+            "Pollard, Silva e Medeiros (2008)"]:
+    confere(cit in T, f"citação ausente: {cit}")
+
 # --- Tabela 5 == bandas calculadas ---
 d = df.copy()
 d["travel"] = travel_km(d)
