@@ -133,12 +133,14 @@ for i in range(1, 6):
 
 # --- citações x referências ---
 refs = T.split("# REFERÊNCIAS", 1)[1].split("## APÊNDICE", 1)[0]
-for sobrenome in ["ALMEIDA", "DUQUE", "FEW", "MATOS", "OPENFOOTBALL",
-                  "POLLARD", "RIBEIRO", "SHARDA", "SILVA", "STREAMLIT"]:
+for sobrenome in ["ALMEIDA", "DUQUE", "FEW", "GIL", "MATOS", "NEAVE", "NEVILL",
+                  "OPENFOOTBALL", "POLLARD", "RIBEIRO", "SHARDA", "SILVA",
+                  "STREAMLIT"]:
     confere(sobrenome in refs, f"referência ausente: {sobrenome}")
     confere(sobrenome in corpo or sobrenome in T.split("## RESUMO")[0], f"citação órfã: {sobrenome}")
-confere(re.search(r"(?m)^NEVILL[,;]", refs) is None and "NEVILL" in corpo,
-         "NEVILL deve ser só apud (sem entrada própria)")
+confere(re.search(r"(?m)^NEVILL, A\. M\.; BALMER", refs) is not None,
+         "entrada NEVILL 2002 ausente")
+confere("NEVILL; HOLDER, 1999" in corpo, "apud 1999 sumiu")
 
 # --- siglas usadas no texto ---
 for sigla in ["BDM", "BSI", "CBF", "CC0", "CERES", "CSV", "DCT", "DOI", "HA",

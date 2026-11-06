@@ -229,7 +229,7 @@ O restante do documento organiza-se em cinco capítulos: o capítulo 2 revisa a 
 
 Fenômeno documentado em diversos esportes coletivos, a vantagem de jogar em casa define-se operacionalmente, desde Pollard (1986, *apud* ALMEIDA et al., 2011), pelo percentual de pontos conquistados pelos mandantes: acima de 50% em competição equilibrada de ida e volta indica vantagem. O método — incluindo empates no cálculo — é o adotado neste trabalho (ver seção 3.4) e está descrito em texto aberto em Matos, Amaro e Pollard (2020), que o compara a alternativas de quantificação. Fatores associados na literatura: torcida, arbitragem, familiaridade com o campo e deslocamentos (NEVILL; HOLDER, 1999, *apud* ALMEIDA et al., 2011).
 
-Cada um desses fatores tem um mecanismo plausível, ainda que nenhum seja medido neste estudo. A torcida atua como pressão ambiental: apoio contínuo aos mandantes e hostilidade aos visitantes, com possível efeito indireto sobre decisões da arbitragem em lances interpretativos. Os deslocamentos impõem fadiga de viagem e quebra de rotina aos visitantes — fator que Almeida et al. (2011) aventam ao comparar divisões com logísticas distintas. A arbitragem, por sua vez, concentra a hipótese de viés inconsciente pró-mandante em decisões discricionárias, e não de favorecimento deliberado. A familiaridade com o campo cobre dimensões do estádio, gramado e referências espaciais que beneficiam quem treina e joga habitualmente no local. Há ainda o componente territorial e de rotina: dormir em casa, manter horários de treino e evitar hotéis e aeroportos preservam a preparação do mandante. O ponto metodológico relevante é que esses mecanismos são correlacionados entre si — torcida cheia, viagem longa do adversário e arbitragem sob pressão costumam ocorrer juntos —, de modo que dados de placar e mando, sozinhos, não permitem isolar causas. Por isso este trabalho trata o conjunto como contexto interpretativo da literatura e restringe suas conclusões ao plano descritivo: medir a magnitude e a variação, sem atribuir parcela a cada mecanismo.
+Cada um desses fatores tem um mecanismo plausível, ainda que nenhum seja medido neste estudo. A torcida atua como pressão ambiental: apoio contínuo aos mandantes e hostilidade aos visitantes, com possível efeito indireto sobre decisões da arbitragem em lances interpretativos. Os deslocamentos impõem fadiga de viagem e quebra de rotina aos visitantes — fator que Almeida et al. (2011) aventam ao comparar divisões com logísticas distintas. A arbitragem, por sua vez, concentra a hipótese de viés inconsciente pró-mandante em decisões discricionárias, e não de favorecimento deliberado. O experimento de Nevill, Balmer e Williams (2002) mediu esse canal: árbitros avaliando lances com barulho de torcida marcaram 15,5% menos faltas contra o mandante do que em silêncio. A familiaridade com o campo cobre dimensões do estádio, gramado e referências espaciais que beneficiam quem treina e joga habitualmente no local. Há ainda o componente territorial e de rotina: dormir em casa, manter horários de treino e evitar hotéis e aeroportos preservam a preparação do mandante. Na vertente biológica, Neave e Wolfson (2003) associam o mando à territorialidade, com elevação de testosterona nos mandantes. O ponto metodológico relevante é que esses mecanismos são correlacionados entre si — torcida cheia, viagem longa do adversário e arbitragem sob pressão costumam ocorrer juntos —, de modo que dados de placar e mando, sozinhos, não permitem isolar causas. Por isso este trabalho trata o conjunto como contexto interpretativo da literatura e restringe suas conclusões ao plano descritivo: medir a magnitude e a variação, sem atribuir parcela a cada mecanismo.
 
 ## 2.2 Evidências no futebol brasileiro
 
@@ -264,7 +264,7 @@ A vantagem em casa persiste no Brasil em torno de 65% (escala de Pollard), é se
 
 ## 3.1 Classificação da pesquisa
 
-Pesquisa aplicada (resulta em artefato de software), quantitativa, de objetivos exploratórios e descritivos, por procedimentos de pesquisa documental e análise de dados secundários. Unidade de análise: a partida, agregada por temporada e, secundariamente, por equipe. O desenho segue as etapas da especificação (§9.2): revisão bibliográfica, escolha e auditoria da fonte, limpeza padronizada, construção dos indicadores, desenvolvimento do dashboard, testes contra casos manuais e base processada, e análise com registro de limitações. A opção pela partida como unidade — em vez do clube-temporada — preserva a granularidade máxima da fonte e permite qualquer agregação posterior sem perda; as agregações por temporada e por equipe são visões derivadas, recalculadas das mesmas linhas, o que elimina divergência entre telas por construção (RNF03).
+Pesquisa aplicada (resulta em artefato de software), quantitativa, de objetivos exploratórios e descritivos, por procedimentos de pesquisa documental e análise de dados secundários, conforme a classificação de Gil (2008). Unidade de análise: a partida, agregada por temporada e, secundariamente, por equipe. O desenho segue as etapas da especificação (§9.2): revisão bibliográfica, escolha e auditoria da fonte, limpeza padronizada, construção dos indicadores, desenvolvimento do dashboard, testes contra casos manuais e base processada, e análise com registro de limitações. A opção pela partida como unidade — em vez do clube-temporada — preserva a granularidade máxima da fonte e permite qualquer agregação posterior sem perda; as agregações por temporada e por equipe são visões derivadas, recalculadas das mesmas linhas, o que elimina divergência entre telas por construção (RNF03).
 
 ## 3.2 Fonte e validação dos dados
 
@@ -480,7 +480,13 @@ DUQUE, A. *Brasileirao_Dataset* — Campeonato Brasileiro de Futebol, 2003–202
 
 FEW, S. *Information dashboard design*: the effective visual communication of data. Sebastopol: O'Reilly Media, 2006. Cap. 1 (§1.3.1), Cap. 3 e Cap. 5 (§5.1).
 
+GIL, A. C. *Métodos e técnicas de pesquisa social*. 6. ed. São Paulo: Atlas, 2008.
+
 MATOS, R. M.; AMARO, N.; POLLARD, R. How best to quantify home advantage in team sports. *RICYDE*, v. 16, n. 59, p. 12–23, 2020. DOI: 10.5232/ricyde2020.05902 (acesso aberto).
+
+NEAVE, N.; WOLFSON, S. Testosterone, territoriality, and the 'home advantage'. *Physiology & Behavior*, v. 78, n. 2, p. 269–275, 2003. DOI: 10.1016/S0031-9384(02)00969-1.
+
+NEVILL, A. M.; BALMER, N. J.; WILLIAMS, A. M. The influence of crowd noise and experience upon refereeing decisions in football. *Psychology of Sport and Exercise*, v. 3, n. 4, p. 261–272, 2002. DOI: 10.1016/S1469-0292(01)00033-4.
 
 OPENFOOTBALL. South America (Brazil). Domínio público, CC0-1.0, commit `f51b2dc`. Disponível em: https://github.com/openfootball/south-america. Acesso em: 28 out. 2026.
 
@@ -494,7 +500,7 @@ SILVA, C. D.; MOREIRA, D. G. A vantagem em casa no futebol: comparação entre o
 
 STREAMLIT. *Documentação oficial*. Acesso em: 4 nov. 2026. https://docs.streamlit.io/
 
-> Nota: NEVILL; HOLDER (1999) é citado apenas via *apud* ALMEIDA et al. (2011); o original não foi consultado, por isso não há entrada própria, conforme a NBR 6023 para citação indireta.
+> Nota: NEVILL; HOLDER (1999) segue citado apenas via *apud* ALMEIDA et al. (2011) (original não consultado); a entrada de NEVILL et al. (2002) acima é obra distinta, sobre ruído da torcida e arbitragem.
 
 ## APÊNDICE A — Dicionário de dados
 
