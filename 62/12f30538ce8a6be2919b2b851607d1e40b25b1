@@ -1,0 +1,16 @@
+docs/monografia_v2.md
+  h_5d68cec99831c8 232,267,483-484,487-490,503
+scripts/check_monografia.py
+  h_5d68cec99831c8 136-138,141-143
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "6212f30538ce8a6be2919b2b851607d1e40b25b1",
+  "prompts": {},
+  "humans": {
+    "h_5d68cec99831c8": {
+      "author": "EmiyaKiritsugu3 <inamarjunior2@gmail.com>"
+    }
+  }
+}
