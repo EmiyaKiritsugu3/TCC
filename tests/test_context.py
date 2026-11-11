@@ -1,11 +1,8 @@
 """Testes das variáveis contextuais descritivas (Fase 1)."""
-import sys
 from pathlib import Path
 
 import pandas as pd
 import pytest
-
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "src"))
 
 from context import (
     CLUB_COORDS,

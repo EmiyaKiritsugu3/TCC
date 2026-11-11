@@ -1,7 +1,4 @@
-import sys
 from pathlib import Path
-
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "src"))
 
 from charts import outcome_distribution
 from formatting import num, pct, signed

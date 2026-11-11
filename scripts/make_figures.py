@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 """Figuras finais da monografia (Sprint 2). PNG 150 DPI, rótulos em PT-BR."""
-import sys
 from pathlib import Path
 
 import matplotlib
@@ -8,7 +7,6 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import pandas as pd
 
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "src"))
 from metrics import by_season, summarize
 
 RAIZ = Path(__file__).resolve().parent.parent

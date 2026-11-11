@@ -1,11 +1,8 @@
 #!/usr/bin/env python3
 """Validação cruzada 2018–2024: base primária x OpenFootball (CC0)."""
-import sys
 from pathlib import Path
 
 import pandas as pd
-
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "src"))
 
 from openfootball import comparar, parse_arquivo
 
