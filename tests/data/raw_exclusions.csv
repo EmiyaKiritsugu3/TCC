@@ -1,0 +1,7 @@
+ID,rodata,data,hora,mandante,visitante,mandante_Placar,visitante_Placar,vencedor,arena
+1,1,05/05/2010,16:00,A,B,1,0,-,Arena
+2,2,31/02/2010,16:00,A,C,1,0,-,Arena
+3,2,08/05/2010,16:00,C,B,1.5,0,-,Arena
+4,3,12/05/2010,16:00,B,C,0,0,-,Arena
+5,3,12/05/2010,18:00,B,C,0,1,-,Arena
+6,4,19/05/2010,16:00,C,A,2,1,-,Arena

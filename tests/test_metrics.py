@@ -79,6 +79,7 @@ def test_team_season_separa_pontos_de_casa_e_fora():
     assert isinstance(ts["away_points"], int)
 
 
+@pytest.mark.integration
 @pytest.mark.skipif(not PROCESSED.exists(), reason="rode scripts/build_processed.py")
 def test_flamengo_2019_pontuacao_oficial():
     df = pd.read_csv(PROCESSED)

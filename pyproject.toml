@@ -30,3 +30,6 @@ py-modules = [
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 pythonpath = ["src"]
+markers = [
+    "integration: requer data/processed/matches_processed.csv gerado por scripts/build_processed.py",
+]

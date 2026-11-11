@@ -1,0 +1,4 @@
+ID,rodata,data,hora,mandante,visitante,mandante_Placar,visitante_Placar,vencedor,arena
+1,01,10/05/2010,16:00,Flamengo,Santos,2,1,Flamengo,Maracana
+2,01,11/05/2010,18:00,Corinthians,Sao Paulo,0,0,-,Arena
+3,02,17/05/2010,16:00,Santos,Flamengo,1,3,Flamengo,Vila Belmiro

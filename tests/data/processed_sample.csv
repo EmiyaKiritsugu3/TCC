@@ -1,0 +1,5 @@
+match_id,season,date,round,home_team,away_team,home_goals,away_goals,result,home_points,away_points,stadium,source
+m1,2018,2018-05-05,1,A,B,2,0,H,3,0,Estadio,sintetico
+m2,2018,2018-05-06,1,C,D,1,1,D,1,1,Estadio,sintetico
+m3,2019,2019-05-05,1,A,C,0,1,A,0,3,Estadio,sintetico
+m4,2019,2019-05-06,1,B,D,0,3,A,0,3,Estadio,sintetico
