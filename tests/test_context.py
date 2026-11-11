@@ -1,11 +1,8 @@
 """Testes das variáveis contextuais descritivas (Fase 1)."""
-import sys
 from pathlib import Path
 
 import pandas as pd
 import pytest
-
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "src"))
 
 from context import (
     CLUB_COORDS,
@@ -90,6 +87,7 @@ def test_flags_de_era():
     assert f["pandemia"].tolist() == [False, False, True, True, False]
 
 
+@pytest.mark.integration
 @pytest.mark.skipif(not PROCESSED.exists(), reason="rode scripts/build_processed.py")
 def test_base_real_coberta_e_soma_confere():
     df = pd.read_csv(PROCESSED)

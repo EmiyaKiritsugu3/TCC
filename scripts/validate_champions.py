@@ -1,12 +1,9 @@
 #!/usr/bin/env python3
 """Validação da integridade da base: o campeão calculado por temporada
 confere com o campeão oficial? (Sprint 9)"""
-import sys
 from pathlib import Path
 
 import pandas as pd
-
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "src"))
 
 ESPERADO = {
     2006: "Sao Paulo", 2007: "Sao Paulo", 2008: "Sao Paulo",

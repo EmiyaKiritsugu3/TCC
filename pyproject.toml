@@ -1,0 +1,35 @@
+[project]
+name = "tcc-home-advantage"
+version = "0.1.0"
+description = "Vantagem de jogar em casa — Brasileirão Série A (2006–2024)"
+requires-python = ">=3.11"
+dependencies = [
+    "pandas>=2.2,<4.0",
+    "plotly>=5.0,<8.0",
+    "streamlit>=1.30,<2.0",
+    "matplotlib>=3.0,<4.0",
+]
+
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+py-modules = [
+    "charts",
+    "clean_data",
+    "context",
+    "formatting",
+    "integrity",
+    "load_data",
+    "metrics",
+    "openfootball",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+markers = [
+    "integration: requer data/processed/matches_processed.csv gerado por scripts/build_processed.py",
+]

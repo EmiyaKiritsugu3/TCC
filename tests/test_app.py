@@ -1,4 +1,3 @@
-import sys
 from pathlib import Path
 
 import pytest
@@ -7,9 +6,12 @@ from streamlit.testing.v1 import AppTest
 RAIZ = Path(__file__).resolve().parent.parent
 PROCESSED = RAIZ / "data" / "processed" / "matches_processed.csv"
 
-pytestmark = pytest.mark.skipif(
-    not PROCESSED.exists(), reason="rode scripts/build_processed.py"
-)
+pytestmark = [
+    pytest.mark.integration,
+    pytest.mark.skipif(
+        not PROCESSED.exists(), reason="rode scripts/build_processed.py"
+    ),
+]
 
 
 def test_aba_equipes_filtra_temporada_e_flamengo_2019():

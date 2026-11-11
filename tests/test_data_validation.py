@@ -1,11 +1,8 @@
 """Testes de validação da limpeza (seção 16.1, parte de dados)."""
-import sys
 from pathlib import Path
 
 import pandas as pd
 import pytest
-
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "src"))
 
 from clean_data import _strip, clean_matches
 

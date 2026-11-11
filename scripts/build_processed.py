@@ -1,9 +1,6 @@
 #!/usr/bin/env python3
 """Gera data/processed/ a partir da base bruta (Fase 2)."""
-import sys
 from pathlib import Path
-
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "src"))
 
 from clean_data import clean_matches, save_processed
 from load_data import load_raw
