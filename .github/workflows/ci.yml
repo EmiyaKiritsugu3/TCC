@@ -1,0 +1,52 @@
+name: CI
+
+"on":
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  validacao:
+    name: Cadeia de validacao
+    runs-on: ubuntu-latest
+    env:
+      # Modulos de src/ sao importados no topo (ex.: from metrics import summarize).
+      PYTHONPATH: src
+    steps:
+      - name: Obter codigo
+        uses: actions/checkout@v7
+
+      - name: Configurar Python 3.11
+        uses: actions/setup-python@v7
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+          cache-dependency-path: requirements-lock.txt
+
+      - name: Instalar dependencias fixadas
+        run: python3 -m pip install -r requirements-lock.txt
+
+      # A base bruta nao e versionada (.gitignore): em runner limpo ela e baixada
+      # do commit pinado e conferida por SHA-256.
+      - name: Baixar base bruta (commit pinado)
+        run: python3 scripts/fetch_raw.py
+
+      - name: Conferir base bruta (SHA-256)
+        run: python3 scripts/fetch_raw.py --check
+
+      - name: Construir base processada
+        run: python3 scripts/build_processed.py
+
+      - name: Rodar testes
+        run: python3 -m pytest tests/ -q
+
+      - name: Validacao cruzada (OpenFootball 2018-2024)
+        run: python3 scripts/validate_cross.py
+
+      - name: Validacao dos campeoes por temporada
+        run: python3 scripts/validate_champions.py
+
+      - name: Auditoria da monografia
+        run: python3 scripts/check_monografia.py
