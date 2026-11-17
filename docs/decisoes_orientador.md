@@ -78,7 +78,7 @@ assinada, numeração do sumário (passe final no template do curso).
 ## Status final — Sprint 4 (mass-ulw) — 2026-11-12 22:35:54
 
 **Validações executadas:**
-- `pytest tests/ -q` (PYTHONPATH=src): **64 passed** ✓
+- `pytest tests/ -q` (PYTHONPATH=src): **68 passed** ✓
 - `scripts/validate_cross.py`: **PASS — 2.659/2.660 idênticas, zero divergências de placar** (1 exceção conhecida) ✓
 - `scripts/validate_champions.py`: **PASS — 19/19 campeões** ✓
 - `scripts/check_monografia.py` (PYTHONPATH=src): **AUDITORIA NUMÉRICA: tudo confere** ✓
@@ -86,7 +86,7 @@ assinada, numeração do sumário (passe final no template do curso).
 **Artefatos prontos para envio:**
 - `docs/monografia_v2.md` (5994 palavras corpo, figuras [1..8], tabelas atualizadas)
 - `docs/monografia_draft_abnt.pdf` (38 páginas, regenerado) / `docs/monografia_draft_abnt.docx`
-- `docs/resumo_orientador.md` (atualizado: 64 testes, variáveis contextuais)
+- `docs/resumo_orientador.md` (atualizado: 68 testes, variáveis contextuais)
 - `apresentacao/apresentacao_tcc.pdf`
 - Repositório `main` com histórico limpo
 

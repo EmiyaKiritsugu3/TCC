@@ -31,12 +31,13 @@ def baixar(url: str, destino: Path) -> None:
         shutil.copyfileobj(resposta, arquivo)
 
 
-def main() -> None:
+def main(argv: list[str] | None = None) -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--check", action="store_true", help="apenas confere os hashes locais")
-    args = parser.parse_args()
+    args = parser.parse_args(argv)
     check = args.check
-    DEST.mkdir(parents=True, exist_ok=True)
+    if not check:
+        DEST.mkdir(parents=True, exist_ok=True)
     for nome in ARQUIVOS:
         out = DEST / nome
         if check:

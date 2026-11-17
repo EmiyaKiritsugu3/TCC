@@ -20,7 +20,7 @@ python3 -m pip install -e .           # instala o pacote (imports de src/ sem sy
 python3 scripts/fetch_raw.py         # baixa o bruto (não versionado, plano B)
 python3 scripts/fetch_raw.py --check # confere o SHA-256 das cópias locais
 python3 scripts/build_processed.py   # gera data/processed/
-python3 -m pytest tests/ -q          # 64 testes (57 rápidos + 7 de integração)
+python3 -m pytest tests/ -q          # 68 testes (61 rápidos + 7 de integração)
 python3 scripts/validate_cross.py    # validação OpenFootball 2018–2024
 python3 -m streamlit run app.py
 ```
@@ -32,7 +32,7 @@ rápidos, sem precisar do CSV gerado. A cadeia completa também roda no CI
 
 `requirements.txt` traz faixas compatíveis (pandas 2.2–3.x); `requirements-lock.txt`
 fixa as versões do ambiente em que os resultados foram validados. Para desenvolver,
-`requirements-dev.txt` acrescenta o `python-pptx` usado na geração do deck.
+`requirements-dev.txt` acrescenta `python-pptx` (deck), `python-docx` (rascunho ABNT) e `pytest-cov` (cobertura).
 
 A base bruta (`data/raw/`, commit `15f027c`) não é redistribuída — ver `data/raw/FONTE.md`
 (repositório sem LICENSE; `scripts/fetch_raw.py` baixa do commit pinado).
@@ -46,7 +46,7 @@ Validação cruzada 2018–2024 contra o OpenFootball (CC0, versionado em
 
 Texto vigente em `docs/monografia_v2.md` (Tabelas 1–4, Figuras 1–8, apêndices A–D).
 Antes de alterar qualquer número no texto, rode `python3 scripts/check_monografia.py`
-— ele falha (exit 1) na primeira divergência entre texto, base e tabelas.
+— ele acumula as divergências entre texto, base e tabelas e falha (exit 1) ao final da auditoria.
 O PDF final de depósito (`docs/monografia_final.pdf`) será adicionado quando existir.
 Titularidade e proveniência em `NOTICE.md`.
 

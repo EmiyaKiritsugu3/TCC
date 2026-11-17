@@ -153,7 +153,8 @@ def checar_lock(py: Path) -> bool:
         elif atual == pin:
             ok(f"{nome} {atual} (pin {pin})")
         else:
-            aviso(f"{nome} {atual} diverge do pin {pin}; rode `python3 scripts/bootstrap.py` para realinhar")
+            falha(f"{nome} {atual} diverge do pin {pin}; rode `python3 scripts/bootstrap.py` para realinhar")
+            estado = False
     return estado
 
 
@@ -182,7 +183,11 @@ def checar_processed() -> bool:
 
 
 def checar_coleta(py: Path, env: dict[str, str]) -> bool:
-    proc = rodar([str(py), "-m", "pytest", "--collect-only", "-q"], env)
+    env_sem_escrita = dict(env, PYTHONDONTWRITEBYTECODE="1")
+    proc = rodar(
+        [str(py), "-m", "pytest", "-p", "no:cacheprovider", "--collect-only", "-q"],
+        env_sem_escrita,
+    )
     if proc.returncode != 0:
         falha("pytest não conseguiu coletar os testes")
         mostrar(proc)
@@ -225,6 +230,17 @@ def instalar_lock(py: Path, env: dict[str, str]) -> bool:
         mostrar(proc, linhas=40)
         return False
     ok("dependências instaladas conforme requirements-lock.txt")
+    return True
+
+
+def instalar_pacote(py: Path, env: dict[str, str]) -> bool:
+    """Instala o projeto em modo editável para que app.py importe `src/` sem PYTHONPATH."""
+    proc = rodar([str(py), "-m", "pip", "install", "-e", str(RAIZ)], env)
+    if proc.returncode != 0:
+        falha("pip install -e . falhou")
+        mostrar(proc, linhas=40)
+        return False
+    ok("projeto instalado em modo editável (pip install -e .)")
     return True
 
 
@@ -277,6 +293,7 @@ def preparar(py: Path, env: dict[str, str]) -> int:
     print("[bootstrap] python3 scripts/bootstrap.py")
     etapas = [
         ("instalar dependências", lambda: instalar_lock(py, env)),
+        ("instalar projeto", lambda: instalar_pacote(py, env)),
         ("obter base bruta", lambda: garantir_raw(py, env)),
         ("gerar base processada", lambda: construir_processed(py, env)),
         ("rodar testes", lambda: rodar_testes(py, env)),
@@ -288,7 +305,7 @@ def preparar(py: Path, env: dict[str, str]) -> int:
             print(f"FALHOU em: {nome}")
             return 1
     print()
-    print("OK: ambiente pronto. Rode `python3 -m streamlit run app.py`.")
+    print(f"OK: ambiente pronto. Rode `{py} -m streamlit run app.py`.")
     return 0
 
 
