@@ -15,7 +15,7 @@
 > a análise está fechada e o repositório está na branch de melhorias
 > (`feat/sprints-melhorias`): 7.219 partidas 2006–2024, Pollard 63,7% no período
 > (58,2% em 2017 – 69,5% em 2018), validação cruzada 99,96% e 19/19 campeões
-> recalculados, 70 testes passando. Monografia consolidada em
+> recalculados, 71 testes passando. Monografia consolidada em
 > `docs/monografia_v2.md` (+ rascunho formatado `docs/monografia_draft_abnt.docx`,
 > NBR 14724:2024) e resumo do estado em `docs/resumo_orientador.md`.
 >

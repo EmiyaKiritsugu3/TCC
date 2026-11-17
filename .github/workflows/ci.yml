@@ -24,15 +24,16 @@ jobs:
           python-version: '3.11'
           cache: 'pip'
           cache-dependency-path: |
+            requirements-hashed.txt
             requirements-dev.txt
             requirements-lock.txt
 
       - name: Instalar dependencias fixadas (inclui extras de desenvolvimento)
-        run: python3 -m pip install -r requirements-dev.txt
+        run: python3 -m pip install --require-hashes --only-binary :all: -r requirements-hashed.txt
 
       - name: Validar empacotamento
         run: |
-          python3 -m pip install -e .
+          python3 -m pip install --only-binary :all: -e .
           env -u PYTHONPATH python3 -c "import metrics, context, openfootball"
 
       # A base bruta nao e versionada (.gitignore): em runner limpo ela e baixada

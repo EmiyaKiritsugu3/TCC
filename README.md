@@ -20,7 +20,7 @@ python3 -m pip install -e .           # instala o pacote (imports de src/ sem sy
 python3 scripts/fetch_raw.py         # baixa o bruto (não versionado, plano B)
 python3 scripts/fetch_raw.py --check # confere o SHA-256 das cópias locais
 python3 scripts/build_processed.py   # gera data/processed/
-python3 -m pytest tests/ -q          # 70 testes (63 rápidos + 7 de integração)
+python3 -m pytest tests/ -q          # 71 testes (64 rápidos + 7 de integração)
 python3 scripts/validate_cross.py    # validação OpenFootball 2018–2024
 python3 -m streamlit run app.py
 ```

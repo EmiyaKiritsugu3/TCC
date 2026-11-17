@@ -68,6 +68,14 @@ def test_ci_valida_import_do_pacote_sem_pythonpath():
     assert "env -u PYTHONPATH python3 -c \"import metrics, context, openfootball\"" in ci
 
 
+def test_auditor_rejeita_caminho_fora_do_projeto(capsys):
+    import check_monografia
+    with pytest.raises(SystemExit) as exc:
+        check_monografia.main(["--monografia", "/etc/passwd"])
+    assert exc.value.code == 2
+    assert "fora do projeto" in capsys.readouterr().err
+
+
 def test_guardas_da_auditoria_sao_integracao():
     import test_check_monografia_guard as guardas
     marcas = [getattr(m, "name", str(m)) for m in getattr(guardas, "pytestmark", [])]

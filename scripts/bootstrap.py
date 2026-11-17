@@ -34,6 +34,7 @@ SRC = RAIZ / "src"
 LOCK = RAIZ / "requirements-lock.txt"
 RAW_CSV = RAIZ / "data" / "raw" / "campeonato-brasileiro-full.csv"
 PROCESSED = RAIZ / "data" / "processed" / "matches_processed.csv"
+FETCH_RAW = RAIZ / "scripts" / "fetch_raw.py"
 PYTHON_MINIMO = (3, 11)
 
 CODIGO_VERSOES = """
@@ -160,7 +161,7 @@ def checar_lock(py: Path) -> bool:
 
 
 def checar_raw(py: Path, env: dict[str, str]) -> bool:
-    proc = rodar([str(py), str(RAIZ / "scripts" / "fetch_raw.py"), "--check"], env)
+    proc = rodar([str(py), str(FETCH_RAW), "--check"], env)
     if proc.returncode != 0:
         falha("base bruta ausente ou com SHA-256 divergente")
         mostrar(proc)
@@ -193,7 +194,7 @@ def checar_coleta(py: Path, env: dict[str, str]) -> bool:
         falha("pytest não conseguiu coletar os testes")
         mostrar(proc)
         return False
-    caso = re.search(r"(\d+) tests? collected", proc.stdout)
+    caso = re.search(r"(\d+) test", proc.stdout)
     coletados = int(caso.group(1)) if caso else 0
     if coletados == 0:
         falha("pytest coletou 0 testes")
@@ -246,18 +247,18 @@ def instalar_pacote(py: Path, env: dict[str, str]) -> bool:
 
 
 def garantir_raw(py: Path, env: dict[str, str]) -> bool:
-    proc = rodar([str(py), str(RAIZ / "scripts" / "fetch_raw.py"), "--check"], env)
+    proc = rodar([str(py), str(FETCH_RAW), "--check"], env)
     if proc.returncode == 0:
         ok("base bruta já presente e íntegra")
         return True
 
     print("  baixando a base bruta...")
-    proc = rodar([str(py), str(RAIZ / "scripts" / "fetch_raw.py")], env)
+    proc = rodar([str(py), str(FETCH_RAW)], env)
     if proc.returncode != 0:
         falha("scripts/fetch_raw.py falhou")
         mostrar(proc, linhas=40)
         return False
-    proc = rodar([str(py), str(RAIZ / "scripts" / "fetch_raw.py"), "--check"], env)
+    proc = rodar([str(py), str(FETCH_RAW), "--check"], env)
     if proc.returncode != 0:
         falha("SHA-256 da base bruta não confere após o download")
         mostrar(proc)

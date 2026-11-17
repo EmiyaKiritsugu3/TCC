@@ -16,7 +16,10 @@ pytestmark = [
 
 
 def _auditar_com_texto(tmp_path, texto):
-    alvo = tmp_path / "monografia.md"
+    # O auditor aceita apenas arquivos dentro do projeto (mitigação S8707).
+    diretorio = RAIZ / ".monografia_teste"
+    diretorio.mkdir(exist_ok=True)
+    alvo = diretorio / f"{tmp_path.name}.md"
     alvo.write_text(texto, encoding="utf-8")
     return subprocess.run(
         [sys.executable, str(RAIZ / "scripts" / "check_monografia.py"),
@@ -28,7 +31,7 @@ def _auditar_com_texto(tmp_path, texto):
 
 def test_auditor_rejeita_numero_desatualizado(tmp_path):
     texto = (RAIZ / "docs" / "monografia_v2.md").read_text(encoding="utf-8")
-    resultado = _auditar_com_texto(tmp_path, texto.replace("70 testes", "99 testes"))
+    resultado = _auditar_com_texto(tmp_path, texto.replace("71 testes", "99 testes"))
     assert resultado.returncode == 1
     assert "DIVERGÊNCIA" in resultado.stdout
 

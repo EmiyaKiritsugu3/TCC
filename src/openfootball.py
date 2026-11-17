@@ -117,7 +117,8 @@ def comparar(base: pd.DataFrame, aberta: pd.DataFrame) -> dict:
     chave = ["date", "home_team", "away_team"]
     b = base.copy()
     a = aberta.copy()
-    m = b.merge(a, on=chave, how="outer", suffixes=("_base", "_of"), indicator=True)
+    m = b.merge(a, on=chave, how="outer", suffixes=("_base", "_of"), indicator=True,
+                validate="many_to_many")
     ambos = m[m["_merge"] == "both"]
     placar_ok = ((ambos["home_goals_base"] == ambos["home_goals_of"])
                  & (ambos["away_goals_base"] == ambos["away_goals_of"])).sum()

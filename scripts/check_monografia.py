@@ -31,9 +31,6 @@ def conferir(texto: str, df: pd.DataFrame, tab1: pd.DataFrame) -> list[str]:
     s = summarize(df)
     t = by_season(df).set_index("season")
 
-    def cel(season, col):
-        return tab1.loc[tab1.season == season, col].iloc[0]
-
     def secao(marcador: str) -> str:
         """Texto após um cabeçalho; falta vira divergência, não traceback."""
         if marcador not in T:
@@ -57,7 +54,7 @@ def conferir(texto: str, df: pd.DataFrame, tab1: pd.DataFrame) -> list[str]:
                    "63,7%", "12.554", "7.166", "58,2% (2017)", "69,5% (2018)",
                    "28,9%", "17,9%", "60,2%", "n = 379", "379 jogos",
                    "62,4% em 2019", "61,8% em 2021", "11,3 p.p",
-                   "2.659 de 2.660", "99,96%", "19/19", "70 testes", "70 passed",
+                   "2.659 de 2.660", "99,96%", "19/19", "71 testes", "71 passed",
                    "25/02/2021", "Flamengo 2019: 53/37/90/38"]:
         confere(pedaco in T, f"trecho ausente: {pedaco!r}")
     confere("`tests/test_context.py` (10)" in T, "contagem de test_context no Apendice D")
@@ -194,9 +191,12 @@ def main(argv: list[str] | None = None) -> int:
                    default=RAIZ / "docs" / "monografia_v2.md",
                    help="caminho do texto a auditar")
     args = p.parse_args(argv)
-    if not args.monografia.exists():
+    caminho = args.monografia.resolve()
+    if RAIZ.resolve() not in caminho.parents:
+        p.error(f"--monografia fora do projeto: {args.monografia}")
+    if not caminho.exists():
         p.error(f"arquivo não encontrado: {args.monografia}")
-    texto = args.monografia.read_text(encoding="utf-8")
+    texto = caminho.read_text(encoding="utf-8")
     df = pd.read_csv(RAIZ / "data" / "processed" / "matches_processed.csv")
     tab1 = pd.read_csv(RAIZ / "figuras" / "tab1_indicadores_temporada.csv").sort_values("season")
     erros = conferir(texto, df, tab1)
