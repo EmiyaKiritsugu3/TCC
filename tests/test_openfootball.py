@@ -58,3 +58,10 @@ def test_comparar_contabiliza_divergentes_e_exclusivos():
     assert r["so_na_base"]["home_team"].tolist() == ["C"]
     assert r["so_na_of"]["home_team"].tolist() == ["E"]
     assert len(r["divergencias"]) == 1
+
+
+def test_jogo_antes_da_data_falha_com_mensagem(tmp_path):
+    arquivo = tmp_path / "2024_br1.txt"
+    arquivo.write_text("16:00 CR Flamengo v Santos FC 2 - 1\n", encoding="utf-8")
+    with pytest.raises(ValueError, match="data"):
+        parse_arquivo(arquivo, 2024)

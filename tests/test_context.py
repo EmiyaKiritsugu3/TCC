@@ -97,3 +97,9 @@ def test_base_real_coberta_e_soma_confere():
     assert len(t) == 7219 and (t >= 0).all()
     r = rest_days(df)
     assert (r["home_rest"].fillna(0) >= 0).all()
+
+
+def test_travel_km_clube_nao_mapeado_falha():
+    df = pd.DataFrame([{"home_team": "Flamengo", "away_team": "Clube Inexistente"}])
+    with pytest.raises(ValueError, match="Clube Inexistente"):
+        travel_km(df)

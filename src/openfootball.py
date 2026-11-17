@@ -67,6 +67,7 @@ def parse_arquivo(path: str | Path, temporada: int) -> pd.DataFrame:
     rodada: int | None = None
     ano_corrente = temporada
     mes_atual: int | None = None
+    data_iso: str | None = None
 
     for ln in linhas:
         m_rod = RE_RODADA.search(ln)
@@ -92,6 +93,8 @@ def parse_arquivo(path: str | Path, temporada: int) -> pd.DataFrame:
             continue
         m_jg = RE_JOGO.match(ln)
         if m_jg and "Matchday" not in ln and "v" in ln.lower():
+            if data_iso is None:
+                raise ValueError(f"Jogo sem data anterior em {path}: {ln.strip()!r}")
             casa_raw, fora_raw = _norm(m_jg.group(1)), _norm(m_jg.group(2))
             if casa_raw not in MAPA_TIMES or fora_raw not in MAPA_TIMES:
                 raise ValueError(f"Time sem mapeamento em {path}: {casa_raw!r} x {fora_raw!r}")
