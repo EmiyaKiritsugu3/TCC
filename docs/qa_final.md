@@ -16,6 +16,7 @@
 ## 3. Consistência numérica e de contagem
 
 - `pytest tests/ -q` — **58 passed**.
+- Baseline de cobertura (`.venv/bin/python -m pytest tests/ -m "not integration" --cov=src`): **98%** (342 statements, 6 não cobertos em `src/clean_data.py:182-188`, gravação do relatório).
 - Busca por restos obsoletos (`12 testes`, `Doze testes`, `0 pts`, `55 pts`, `108 pts`): só ocorre em `docs/arquivo/cap4_rascunho.md` (rascunho histórico arquivado, substituído pela monografia vigente).
 - Números principais preservados: 7.219 partidas; 49,0% / 26,8% / 24,1%; 1,49 × 1,00; Pollard 63,66%; anual 58,2%–69,5%; Flamengo 2019 53/37/90/38.
 

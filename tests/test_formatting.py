@@ -1,4 +1,3 @@
-from pathlib import Path
 
 from charts import outcome_distribution
 from formatting import num, pct, signed

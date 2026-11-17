@@ -46,7 +46,6 @@ def fig_pollard(t):
 
 def fig_resultados(t):
     fig, ax = plt.subplots()
-    n = len(t)
     ax.bar(t["season"], t["p_home"], width=0.62, color=AZUL, label="Vit. mandante")
     ax.bar(t["season"], t["p_draw"], bottom=t["p_home"], width=0.62,
            color=CINZA, label="Empate")
@@ -78,7 +77,7 @@ def fig_gols(t):
 
 
 def main():
-    FIG.mkdir(exist_ok=True)
+    FIG.mkdir(parents=True, exist_ok=True)
     df = pd.read_csv(RAIZ / "data" / "processed" / "matches_processed.csv")
     s = summarize(df)
     t = by_season(df).sort_values("season")
