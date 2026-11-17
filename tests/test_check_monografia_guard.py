@@ -23,3 +23,12 @@ def test_auditor_rejeita_numero_desatualizado(tmp_path):
     resultado = _auditar_com_texto(tmp_path, texto.replace("58 testes", "99 testes"))
     assert resultado.returncode == 1
     assert "DIVERGÊNCIA" in resultado.stdout
+
+
+def test_auditor_rejeita_cabecalho_ausente(tmp_path):
+    texto = (RAIZ / "docs" / "monografia_v2.md").read_text(encoding="utf-8")
+    sem_referencias = texto.replace("# REFERÊNCIAS", "# REFERENCIAS")
+    resultado = _auditar_com_texto(tmp_path, sem_referencias)
+    assert resultado.returncode == 1
+    assert "DIVERGÊNCIA" in resultado.stdout
+    assert "Traceback" not in resultado.stderr

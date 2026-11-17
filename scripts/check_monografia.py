@@ -34,6 +34,13 @@ def conferir(texto: str, df: pd.DataFrame, tab1: pd.DataFrame) -> list[str]:
     def cel(season, col):
         return tab1.loc[tab1.season == season, col].iloc[0]
 
+    def secao(marcador: str) -> str:
+        """Texto após um cabeçalho; falta vira divergência, não traceback."""
+        if marcador not in T:
+            confere(False, f"cabeçalho ausente: {marcador!r}")
+            return ""
+        return T.split(marcador, 1)[1]
+
     # --- agregados do período ---
     confere(s["n"] == 7219, "n total")
     confere(round(s["p_home"], 1) == 49.0, "p_home")
@@ -77,7 +84,7 @@ def conferir(texto: str, df: pd.DataFrame, tab1: pd.DataFrame) -> list[str]:
     confere((ts["away_w"], ts["away_d"], ts["away_l"]) == (11, 4, 4), "fla fora VED")
 
     # --- Tabela 1 do md == CSV ---
-    bloco = T.split("**Tabela 1", 1)[1].split("Fonte:", 1)[0]
+    bloco = secao("**Tabela 1").split("Fonte:", 1)[0]
     linhas = [l for l in bloco.splitlines() if re.match(r"^\| 20\d\d \|", l)]
     confere(len(linhas) == 19, f"Tabela 1 tem {len(linhas)} linhas, esperado 19")
     ok = True
@@ -135,7 +142,7 @@ def conferir(texto: str, df: pd.DataFrame, tab1: pd.DataFrame) -> list[str]:
     confere(round(summarize(f[f.pandemia])["pollard"], 2) == 61.00, "pandemia")
 
     # --- figuras, tabelas, todos ---
-    corpo = T.split("# 1 INTRODUÇÃO", 1)[1]
+    corpo = secao("# 1 INTRODUÇÃO")
     nums, ordem = [], []
     for n in re.findall(r"Figura (\d)", corpo):
         nums.append(int(n))
@@ -146,7 +153,7 @@ def conferir(texto: str, df: pd.DataFrame, tab1: pd.DataFrame) -> list[str]:
         confere(f"Tabela {i}" in T, f"Tabela {i} ausente")
 
     # --- citações x referências ---
-    refs = T.split("# REFERÊNCIAS", 1)[1].split("## APÊNDICE", 1)[0]
+    refs = secao("# REFERÊNCIAS").split("## APÊNDICE", 1)[0]
     for sobrenome in ["ALMEIDA", "DUQUE", "FEW", "GIL", "MATOS", "NEAVE", "NEVILL",
                       "OPENFOOTBALL", "POLLARD", "RIBEIRO", "SHARDA", "SILVA",
                       "STREAMLIT"]:
