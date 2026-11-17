@@ -5,7 +5,7 @@
 > padrão UFRN/CERES-BSI** (Resolução Nº 001/2016-CSI, Anexo 1 + 3 TCCs do curso na
 > BDM: capa institucional, folha de rosto, folha de avaliação, listas, cap. 1 com
 > 1.1–1.6 no padrão do curso). Texto pronto em 3ª pessoa; o que ainda exige o aluno
-> está marcado com as tags [TODO-BANCA], [TODO-CBF] ou [TODO-ORIENTADOR]. Na conversão para o template: Times New Roman ou Arial 12,
+> está marcado com a tag [PENDENTE - ORIENTADOR]. Na conversão para o template: Times New Roman ou Arial 12,
 > espaçamento 1,5, margens 3 cm esq. / 2 cm dir., A4. Ficha catalográfica é emitida
 > pela SISBI no depósito da BDM (não incluir por conta própria). Pós-orientador:
 > aplicar as 5 decisões de `docs/resumo_orientador.md` (departamento da capa já
@@ -215,7 +215,7 @@ A motivação para este trabalho nasce de dois interesses que correram em parale
 
 A temática é adequada a Sistemas de Informação porque envolve aquisição e tratamento de dados, definição de indicadores, visualização interativa e construção de um sistema de apoio à análise — uma aplicação direta do que a análise de negócios descritiva discute, respondendo "o que aconteceu?" (SHARDA; DELEN; TURBAN, 2019). A contribuição não é alegar ineditismo do fenômeno, e sim combinar um recorte histórico longo e homogêneo (19 temporadas), um fluxo de tratamento reproduzível e auditado e um dashboard interativo para exploração dos dados, permanecendo útil como ferramenta de consulta após o término do curso.
 
-Em termos práticos, a contribuição se desdobra em três entregas verificáveis. A primeira é a série anual homogênea de 19 temporadas (2006–2024), com 7.219 partidas válidas, regras de limpeza documentadas e dois casos metodológicos tratados sem imputação (2016 e 2020). A segunda é o fluxo reproduzível e auditado: download pinado por commit com verificação SHA-256, construção determinística da base processada, validação cruzada externa de 99,96% e recálculo dos 19 campeões a partir dos placares. A terceira é o dashboard reutilizável, com quatro abas que cobrem do panorama geral à consulta por equipe, coberto por 31 testes automatizados e formatado em português. Nenhuma das três depende de alegação causal: o valor está na medida repetível e na exploração assistida, não na explicação do fenômeno.
+Em termos práticos, a contribuição se desdobra em três entregas verificáveis. A primeira é a série anual homogênea de 19 temporadas (2006–2024), com 7.219 partidas válidas, regras de limpeza documentadas e dois casos metodológicos tratados sem imputação (2016 e 2020). A segunda é o fluxo reproduzível e auditado: download pinado por commit com verificação SHA-256, construção determinística da base processada, validação cruzada externa de 99,96% e recálculo dos 19 campeões a partir dos placares. A terceira é o dashboard reutilizável, com quatro abas que cobrem do panorama geral à consulta por equipe, coberto por 58 testes automatizados (54 rápidos + 4 de integração) e formatado em português. Nenhuma das três depende de alegação causal: o valor está na medida repetível e na exploração assistida, não na explicação do fenômeno.
 
 ## 1.6 Estrutura do trabalho
 
@@ -350,18 +350,27 @@ Legenda: fonte, período, regras de limpeza e relatório de qualidade. Fonte: El
 
 ## 4.4 Testes
 
-Trinta e um testes automatizados (Pytest) cobrem o caso de referência da especificação (três partidas manuais → índice de Pollard exatamente 50%), proporções, tratamento de denominador zero, recorte vazio, pontuação por equipe/temporada (incluindo Flamengo 2019: 53/37/90/38), variáveis contextuais (viagem, descanso, tabela, eras), filtro da aba Equipes, formatação pt-BR, integridade SHA-256 e regras de limpeza. Todos passam (`31 passed`). Complemento de verificação externa: a validação cruzada contra o OpenFootball atingiu 99,96% de concordância (seção 3.2).
+Cinquenta e oito testes automatizados (Pytest; 54 rápidos e 4 de integração) cobrem o caso de referência da especificação (três partidas manuais → índice de Pollard exatamente 50%), proporções, tratamento de denominador zero, recorte vazio, pontuação por equipe/temporada (incluindo Flamengo 2019: 53/37/90/38), variáveis contextuais (viagem, descanso, tabela, eras), filtro da aba Equipes, formatação pt-BR, integridade SHA-256 e regras de limpeza. Todos passam (`58 passed`). Complemento de verificação externa: a validação cruzada contra o OpenFootball atingiu 99,96% de concordância (seção 3.2).
 
 **Tabela 4 — Síntese dos testes por grupo.**
 
 | Grupo | O que verifica | Testes |
 |---|---|---:|
-| `test_metrics` (9) | fórmulas, Pollard, agregações, equipe/temporada | 9 passed |
-| `test_context` (9) | viagem, descanso, tabela, eras, cobertura dos 43 clubes | 9 passed |
-| `test_data_validation` (8) | regras de limpeza e exclusões contabilizadas | 8 passed |
-| `test_app` (2) | aba Equipes: filtro e recorte Flamengo 2019 | 2 passed |
-| `test_formatting` (2) | pt-BR e separador dos gráficos | 2 passed |
-| `test_integrity` (1) | SHA-256 aceita/rejeita | 1 passed |
+| `test_metrics` | fórmulas, Pollard, agregações, equipe/temporada | 9 passed |
+| `test_context` | viagem, descanso, tabela, eras, cobertura dos 43 clubes | 10 passed |
+| `test_data_validation` | regras de limpeza e exclusões contabilizadas | 8 passed |
+| `test_load_data` | leitura como texto e validação de colunas | 5 passed |
+| `test_openfootball` | parser, virada de ano, time não mapeado | 5 passed |
+| `test_metrics_indicadores` | indicadores derivados e extremos anuais | 3 passed |
+| `test_context_tabela` | tabela antes da partida e desempates | 3 passed |
+| `test_clean_data_pipeline` | esquema, deduplicação e resultado recalculado | 3 passed |
+| `test_charts_composicao` | séries, rótulos pt-BR e separador | 3 passed |
+| `test_formatting` | pt-BR e separador dos gráficos | 2 passed |
+| `test_app` | aba Equipes: filtro e recorte Flamengo 2019 | 2 passed |
+| `test_integrity` | SHA-256 aceita/rejeita | 1 passed |
+| `test_check_monografia_guard` | auditor rejeita número obsoleto e cabeçalho ausente | 2 passed |
+| `test_validate_cross_excecao` | tolerância da exceção conhecida de data | 2 passed |
+| **Total** | **54 rápidos + 4 de integração** | **58 passed** |
 
 Fonte: Elaboração própria; detalhamento em Apêndice D.
 
@@ -554,7 +563,7 @@ Validação dos campeões (`python3 scripts/validate_champions.py`, recálculo p
 
 ## APÊNDICE D — Casos de teste e instruções de execução
 
-Suíte Pytest (`python3 -m pytest tests/ -q`): **31 passed**.
+Suíte Pytest (`python3 -m pytest tests/ -q`): **58 passed** (54 rápidos + 4 de integração).
 
 - `tests/test_metrics.py`: caso de referência de três partidas (Pollard exatamente 50%); tudo-mandante acima de 50% e tudo-visitante abaixo; proporções somam 100; Pollard indefinido sem pontos; recorte vazio não quebra; agregação `by_season`; `team_season` separa pontos de casa e fora; Flamengo 2019 (53/37/90/38); `teams_in_season` respeita a temporada.
 - `tests/test_context.py` (9): haversine (São Paulo–Rio ≈ 360 km; zero na mesma cidade); clássicos locais com viagem zero; distância interestadual na faixa esperada; descanso em dias (incluindo estreia sem anterior e jogo no mesmo dia); pontos e posição antes da partida; flags de era; cobertura dos 43 clubes e somas da base real (7.219).
@@ -570,7 +579,7 @@ python3 -m pip install -r requirements-lock.txt  # versões exatas do ambiente v
 python3 scripts/fetch_raw.py         # baixa o bruto (não versionado, plano B)
 python3 scripts/fetch_raw.py --check # confere o SHA-256 das cópias locais
 python3 scripts/build_processed.py   # gera data/processed/
-python3 -m pytest tests/ -q          # 31 testes
+python3 -m pytest tests/ -q          # 58 testes (54 rápidos + 4 de integração)
 python3 scripts/validate_cross.py    # validação OpenFootball 2018–2024
 python3 -m streamlit run app.py
 ```
