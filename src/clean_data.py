@@ -51,18 +51,9 @@ def assign_seasons(dates: pd.Series, rounds: pd.Series) -> pd.Series:
     return first_year
 
 
-def clean_matches(df_raw: pd.DataFrame) -> tuple[pd.DataFrame, dict]:
-    """Padroniza a base bruta. Retorna (base_limpa, relatório)."""
-    report: dict = {"loaded": int(len(df_raw)), "excluded": {}}
-
-    def drop(mask, reason: str, df: pd.DataFrame) -> pd.DataFrame:
-        n = int(mask.sum())
-        if n:
-            report["excluded"][reason] = report["excluded"].get(reason, 0) + n
-        return df.loc[~mask].copy()
-
+def _normalizar(df_raw: pd.DataFrame) -> pd.DataFrame:
+    """Converte colunas-source para o esquema em inglês snake_case."""
     df = _strip(df_raw)
-
     df["match_id"] = df["ID"].astype(str)
     df["round"] = pd.to_numeric(df["rodata"], errors="coerce")
     df["date_dt"] = pd.to_datetime(df["data"], format="%d/%m/%Y", errors="coerce")
@@ -71,8 +62,11 @@ def clean_matches(df_raw: pd.DataFrame) -> tuple[pd.DataFrame, dict]:
     df["home_goals"] = pd.to_numeric(df["mandante_Placar"], errors="coerce")
     df["away_goals"] = pd.to_numeric(df["visitante_Placar"], errors="coerce")
     df["stadium"] = df["arena"] if "arena" in df.columns else ""
-    df["winner_raw"] = df["vencedor"] if "vencedor" in df.columns else ""
+    return df
 
+
+def _excluir_invalidos(df: pd.DataFrame, drop) -> pd.DataFrame:
+    """Aplica as regras de exclusão; `drop` registra o motivo no relatório."""
     df = drop(df["date_dt"].isna(), "data_invalida", df)
     # Placar ausente ou não-numérico: nunca vira 0 (seção 15, item 4).
     df = drop(df["home_goals"].isna() | df["away_goals"].isna(), "placar_ausente", df)
@@ -89,27 +83,24 @@ def clean_matches(df_raw: pd.DataFrame) -> tuple[pd.DataFrame, dict]:
         | df["home_team"].eq("") | df["away_team"].eq("")
     )
     df = drop(vazio.fillna(False), "clube_ausente", df)
-    df = drop(df["home_team"] == df["away_team"], "mandante_igual_visitante", df)
+    return drop(df["home_team"] == df["away_team"], "mandante_igual_visitante", df)
 
-    # Duplicatas: mantém a primeira ocorrência, registra o resto.
+
+def _remover_duplicatas(df: pd.DataFrame, drop, report: dict) -> pd.DataFrame:
+    """Mantém a primeira ocorrência de cada chave e contabiliza o resto."""
     df = df.sort_values(["date_dt", "match_id"]).reset_index(drop=True)
-    dup_id = df.duplicated(subset=["match_id"], keep="first")
-    df = drop(dup_id, "match_id_duplicado", df)
-    dup_full = df.duplicated(keep="first")
-    df = drop(dup_full, "linha_duplicada", df)
+    df = drop(df.duplicated(subset=["match_id"], keep="first"), "match_id_duplicado", df)
+    df = drop(df.duplicated(keep="first"), "linha_duplicada", df)
     dup_key = df.duplicated(subset=["date_dt", "home_team", "away_team"], keep="first")
     n_key = int(dup_key.sum())
     if n_key:
         report["excluded"]["tripla_data_mandante_visitante_repetida"] = n_key
         df = df.loc[~dup_key].copy()
+    return df
 
-    # Temporada por intervalo (robusto a reagendamentos) + filtro do recorte.
-    df["season"] = assign_seasons(df["date_dt"], df["round"]).astype(int)
-    fora = ~df["season"].between(SEASON_MIN, SEASON_MAX)
-    df = drop(fora, f"fora_do_recorde_{SEASON_MIN}_{SEASON_MAX}", df)
 
-    # Resultado e pontos recalculados do placar (seção 10.2); `vencedor`
-    # serve só para auditoria, nunca para o cálculo.
+def _adicionar_resultado(df: pd.DataFrame) -> pd.DataFrame:
+    """Resultado e pontos recalculados do placar (seção 10.2), nunca de `vencedor`."""
     df["home_goals"] = df["home_goals"].astype(int)
     df["away_goals"] = df["away_goals"].astype(int)
     df["result"] = "D"
@@ -117,8 +108,12 @@ def clean_matches(df_raw: pd.DataFrame) -> tuple[pd.DataFrame, dict]:
     df.loc[df["home_goals"] < df["away_goals"], "result"] = "A"
     df["home_points"] = df["result"].map({"H": 3, "D": 1, "A": 0}).astype(int)
     df["away_points"] = df["result"].map({"H": 0, "D": 1, "A": 3}).astype(int)
+    return df
 
-    clean = pd.DataFrame(
+
+def _montar_clean(df: pd.DataFrame) -> pd.DataFrame:
+    """Projeta o schema final ordenado da base processada."""
+    return pd.DataFrame(
         {
             "match_id": df["match_id"].astype(str),
             "season": df["season"].astype(int),
@@ -136,6 +131,9 @@ def clean_matches(df_raw: pd.DataFrame) -> tuple[pd.DataFrame, dict]:
         }
     ).sort_values(["season", "date", "match_id"]).reset_index(drop=True)
 
+
+def _montar_relatorio(clean: pd.DataFrame, report: dict) -> None:
+    """Acrescenta kept, cobertura e notas metodológicas ao relatório."""
     coverage = clean.groupby("season").size().to_dict()
     report.update(
         {
@@ -153,6 +151,29 @@ def clean_matches(df_raw: pd.DataFrame) -> tuple[pd.DataFrame, dict]:
             ],
         }
     )
+
+
+def clean_matches(df_raw: pd.DataFrame) -> tuple[pd.DataFrame, dict]:
+    """Padroniza a base bruta. Retorna (base_limpa, relatório)."""
+    report: dict = {"loaded": int(len(df_raw)), "excluded": {}}
+
+    def drop(mask, reason: str, df: pd.DataFrame) -> pd.DataFrame:
+        n = int(mask.sum())
+        if n:
+            report["excluded"][reason] = report["excluded"].get(reason, 0) + n
+        return df.loc[~mask].copy()
+
+    df = _excluir_invalidos(_normalizar(df_raw), drop)
+    df = _remover_duplicatas(df, drop, report)
+
+    # Temporada por intervalo (robusto a reagendamentos) + filtro do recorte.
+    df["season"] = assign_seasons(df["date_dt"], df["round"]).astype(int)
+    fora = ~df["season"].between(SEASON_MIN, SEASON_MAX)
+    df = drop(fora, f"fora_do_recorde_{SEASON_MIN}_{SEASON_MAX}", df)
+
+    df = _adicionar_resultado(df)
+    clean = _montar_clean(df)
+    _montar_relatorio(clean, report)
     return clean, report
 
 

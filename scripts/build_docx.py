@@ -36,7 +36,6 @@ PRE_CENTRALIZAR = ("CAPA", "FOLHA DE ROSTO", "FOLHA DE AVALIAÇÃO",
 
 def add_runs(par, texto, tamanho=12, negrito_base=False):
     """Adiciona runs com **negrito** e `código`."""
-    import re
     for i, parte in enumerate(re.split(r"(\*\*.+?\*\*|`.+?`)", texto)):
         if not parte:
             continue
@@ -109,9 +108,8 @@ def rodape_numerado(doc):
     par._p.append(fld)
 
 
-def main() -> None:
-    linhas = ENTRADA.read_text(encoding="utf-8").splitlines()
-    doc = Document()
+def _configurar_pagina(doc) -> None:
+    """A4, margens ABNT e fonte Times New Roman 12 no estilo Normal."""
     for secao in doc.sections:
         secao.page_width, secao.page_height = Cm(21.0), Cm(29.7)
         secao.top_margin, secao.left_margin = Cm(3), Cm(3)
@@ -120,6 +118,9 @@ def main() -> None:
     normal.font.name = "Times New Roman"
     normal.font.size = Pt(12)
 
+
+def _renderizar(doc, linhas: list[str]) -> None:
+    """Converte as linhas do Markdown em parágrafos/tabelas do documento."""
     secoes_pre = True
     simples = False
     em_codigo = False
@@ -190,6 +191,7 @@ def main() -> None:
             if titulo in ("RESUMO", "ABSTRACT"):
                 simples = True
             elif titulo in PRE_CENTRALIZAR or titulo.startswith(("LISTA", "SUMÁRIO")):
+                # branch intencionalmente vazia: PRE_CENTRALIZAR
                 pass
             else:
                 simples = False
@@ -227,6 +229,13 @@ def main() -> None:
 
     if bloco_tabela:
         tabela(doc, [r.split("|")[1:-1] for r in bloco_tabela])
+
+
+def main() -> None:
+    linhas = ENTRADA.read_text(encoding="utf-8").splitlines()
+    doc = Document()
+    _configurar_pagina(doc)
+    _renderizar(doc, linhas)
     rodape_numerado(doc)
     doc.save(SAIDA)
     print(f"gravado em: {SAIDA} ({SAIDA.stat().st_size} bytes)")

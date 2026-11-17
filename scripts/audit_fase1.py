@@ -14,14 +14,13 @@ Saída:     relatório textual no stdout (sem alterar nenhum arquivo).
 Este script não calcula indicadores (índice de Pollard etc.) — a Fase 3 cuida
 deles, após a base estar validada (seção 21 da especificação).
 """
-import sys
+import argparse
 import unicodedata
 from pathlib import Path
 
 import pandas as pd
 
 RAIZ = Path(__file__).resolve().parent.parent
-CSV = Path(sys.argv[1]) if len(sys.argv) > 1 else RAIZ / "data/raw/campeonato-brasileiro-full.csv"
 
 REF_POR_TEMPORADA = 380          # 20 clubes, turno e returno (2006 em diante)
 RECORTE = set(range(2006, 2025))  # temporadas 2006–2024
@@ -40,13 +39,8 @@ def sem_acento(txt):
     return "".join(c for c in unicodedata.normalize("NFKD", str(txt)) if not unicodedata.combining(c))
 
 
-def main():
-    df = pd.read_csv(CSV, dtype=str, keep_default_na=False, na_values=[])
-    print(f"Arquivo: {CSV}")
-    print(f"Linhas de dados: {len(df)}")
-    print(f"Colunas: {list(df.columns)}")
-
-    # ---- preparação -------------------------------------------------------
+def _preparar(df: pd.DataFrame) -> pd.DataFrame:
+    """Converte colunas-source em numéricas/datas e apara textos."""
     df["ID_num"] = pd.to_numeric(df["ID"], errors="coerce")
     df["rodada_n"] = pd.to_numeric(df["rodata"].str.strip(), errors="coerce")
     df["data_dt"] = pd.to_datetime(df["data"].str.strip(), format="%d/%m/%Y", errors="coerce")
@@ -54,42 +48,27 @@ def main():
     df["ag"] = pd.to_numeric(df["visitante_Placar"].str.strip(), errors="coerce")
     for c in ("mandante", "visitante", "vencedor"):
         df[c] = df[c].str.strip()
+    return df
 
-    # ---- 1. datas ----------------------------------------------------------
-    titulo("1. Datas")
-    sem_data = df["data_dt"].isna()
-    print(f"Datas não interpretáveis: {sem_data.sum()}")
-    if sem_data.sum():
-        print(df.loc[sem_data, ["ID", "data", "mandante", "visitante"]].head(10).to_string())
 
-    # ---- 2. segmentação de temporadas --------------------------------------
-    # A base não tem coluna de temporada, e jogos reagendados carregam a rodada
-    # ORIGINAL (ex.: rodada 1 de 2020 disputada em dez/2020 e jan/2021), o que
-    # impede segmentar por "rodada reinicia em 1". Regra adotada: um novo
-    # segmento começa quando há intervalo de datas > 45 dias desde a partida
-    # anterior seguido de rodada pequena (<= 5) — cobre os intervalos entre
-    # temporadas (>= 90 dias) sem quebrar pausas intra-temporada (<= ~30 dias)
-    # nem rodadas atrasadas isoladas (intervalo curto).
+def _segmentar(df: pd.DataFrame) -> pd.DataFrame:
+    """Segmenta temporadas por intervalo > 45 dias com rodada <= 5."""
     titulo("2. Temporadas detectadas (segmentação por intervalo entre rodadas)")
     d = df.sort_values(["data_dt", "ID_num"], na_position="last").reset_index(drop=True)
-
     seg = []
     atual = 0
-    prev_r = None
     prev_dt = None
     for r, dt in zip(d["rodada_n"], d["data_dt"]):
         novo = atual == 0
         if not novo and prev_dt is not None and not pd.isna(r):
-            gap = (dt - prev_dt).days
-            if gap > 45 and r <= 5:
+            if (dt - prev_dt).days > 45 and r <= 5:
                 novo = True
         if novo:
             atual += 1
         seg.append(atual)
-        prev_r, prev_dt = r, dt
+        prev_dt = dt
     d["segmento"] = seg
 
-    # mescla segmentos muito pequenos (< 50 partidas) no anterior
     pequenos = d.groupby("segmento").size()
     pequenos = pequenos[pequenos < 50].index.tolist()
     if pequenos:
@@ -99,7 +78,11 @@ def main():
         d["segmento"] = d["segmento"].factorize()[0] + 1
 
     d["temporada"] = d.groupby("segmento")["data_dt"].transform(lambda x: x.iloc[0].year)
+    return d
 
+
+def _resumir_temporadas(d: pd.DataFrame) -> None:
+    """Cobertura por temporada e contagem no recorte."""
     resumo = d.groupby("temporada").agg(
         partidas=("ID", "size"),
         inicio=("data_dt", "min"),
@@ -118,7 +101,6 @@ def main():
     esperado_total = d["temporada"].isin(RECORTE).sum()
     print(f"\nPartidas no recorte 2006–2024: {esperado_total}")
 
-    # ---- 3. recorte 2006–2024 vs 380 ---------------------------------------
     titulo("3. Recorte 2006–2024: observado vs esperado (380)")
     rec = d[d["temporada"].isin(RECORTE)]
     cont = rec.groupby("temporada").size()
@@ -128,7 +110,9 @@ def main():
         flag = "ok" if delta == 0 else ("FALTA" if delta < 0 else "EXCESSO")
         print(f"  {t}: {obs:4d} (esperado {REF_POR_TEMPORADA})  delta {delta:+d}  {flag}")
 
-    # ---- 4. placares --------------------------------------------------------
+
+def _checar_placares(d: pd.DataFrame) -> None:
+    """Placares ausentes, negativos e máximos."""
     titulo("4. Placares")
     sem_placar = d["hg"].isna() | d["ag"].isna()
     print(f"Placar ausente (total na base): {sem_placar.sum()}")
@@ -139,11 +123,11 @@ def main():
         print(d.loc[no_recorte, cols].to_string())
     neg = ((d["hg"] < 0) | (d["ag"] < 0)).sum()
     print(f"Gols negativos: {neg}")
-    gmax_h = d["hg"].max()
-    gmax_a = d["ag"].max()
-    print(f"Maior placar mandante: {gmax_h} | Maior placar visitante: {gmax_a}")
+    print(f"Maior placar mandante: {d['hg'].max()} | Maior placar visitante: {d['ag'].max()}")
 
-    # ---- 5. duplicatas ------------------------------------------------------
+
+def _checar_duplicatas(d: pd.DataFrame) -> None:
+    """Duplicatas por ID, linha, tripla e partidas espelhadas."""
     titulo("5. Duplicatas")
     dup_linha = d.duplicated().sum()
     dup_linha_sem_id = d.drop(columns=["ID", "ID_num"]).duplicated().sum()
@@ -171,23 +155,14 @@ def main():
         cols = ["data", "mandante", "visitante", "mandante_Placar", "visitante_Placar", "ID"]
         print(esp[cols].head(20).to_string())
 
-    # ---- 6. mandante == visitante ------------------------------------------
-    titulo("6. Mandante igual a visitante")
-    iguais = (d["mandante"] == d["visitante"]).sum()
-    print(f"Linhas com mandante == visitante: {iguais}")
-    if iguais:
-        print(d.loc[d["mandante"] == d["visitante"], ["temporada", "data", "mandante", "ID"]].to_string())
 
-    # ---- 7. vencedor vs placar (2006–2024) ----------------------------------
+def _checar_vencedor(rec: pd.DataFrame) -> None:
+    """Confronta o campo `vencedor` com o resultado recalculado do placar."""
     titulo("7. Campo `vencedor` vs placar recalculado (2006–2024)")
     r = rec.copy()
-    real = r["hg"].gt(r["ag"]).map({True: "H", False: None})
-    r["res_real"] = real
+    r["res_real"] = r["hg"].gt(r["ag"]).map({True: "H", False: None})
     r.loc[r["res_real"].isna() & r["hg"].notna() & r["ag"].notna(), "res_real"] = "A"
     r.loc[r["hg"] == r["ag"], "res_real"] = "E"
-
-    def norm(x):
-        return sem_acento(x).str.upper() if hasattr(sem_acento(x), "str") else sem_acento(x).upper()
 
     ven_norm = r["vencedor"].map(lambda x: sem_acento(x).upper() if pd.notna(x) else x)
     mand_norm = r["mandante"].map(lambda x: sem_acento(x).upper())
@@ -208,7 +183,9 @@ def main():
         cols = ["temporada", "data", "mandante", "visitante", "mandante_Placar", "visitante_Placar", "vencedor"]
         print(r.loc[diverge, cols].head(15).to_string())
 
-    # ---- 8. clubes (recorte) ------------------------------------------------
+
+def _checar_clubes(rec: pd.DataFrame) -> None:
+    """Nomes distintos e candidatos a variantes do mesmo clube."""
     titulo("8. Clubes distintos no recorte 2006–2024 (insumo p/ aliases)")
     casa = rec["mandante"].value_counts()
     fora = rec["visitante"].value_counts()
@@ -217,7 +194,6 @@ def main():
     print(f"Total de nomes distintos: {len(clubes)}")
     print(clubes.sort_index().to_string())
 
-    # nomes parecidos (possíveis variantes do mesmo clube)
     titulo("8.1 Candidatos a variantes (normalizados sem acento, contendo um no outro)")
     idx_norm = {sem_acento(i).upper(): i for i in clubes.index}
     nomes = sorted(idx_norm)
@@ -225,6 +201,42 @@ def main():
         for b in nomes:
             if a < b and (a in b or b in a):
                 print(f"  '{idx_norm[a]}' <-> '{idx_norm[b]}'")
+
+
+def main(caminho: str | None = None) -> None:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("csv", nargs="?", help="caminho do CSV bruto")
+    args = parser.parse_args()
+    csv = Path(args.csv or caminho or RAIZ / "data/raw/campeonato-brasileiro-full.csv")
+
+    df = pd.read_csv(csv, dtype=str, keep_default_na=False, na_values=[])
+    print(f"Arquivo: {csv}")
+    print(f"Linhas de dados: {len(df)}")
+    print(f"Colunas: {list(df.columns)}")
+
+    df = _preparar(df)
+
+    titulo("1. Datas")
+    sem_data = df["data_dt"].isna()
+    print(f"Datas não interpretáveis: {sem_data.sum()}")
+    if sem_data.sum():
+        print(df.loc[sem_data, ["ID", "data", "mandante", "visitante"]].head(10).to_string())
+
+    d = _segmentar(df)
+    _resumir_temporadas(d)
+    rec = d[d["temporada"].isin(RECORTE)]
+
+    _checar_placares(d)
+    _checar_duplicatas(d)
+
+    titulo("6. Mandante igual a visitante")
+    iguais = (d["mandante"] == d["visitante"]).sum()
+    print(f"Linhas com mandante == visitante: {iguais}")
+    if iguais:
+        print(d.loc[d["mandante"] == d["visitante"], ["temporada", "data", "mandante", "ID"]].to_string())
+
+    _checar_vencedor(rec)
+    _checar_clubes(rec)
 
 
 if __name__ == "__main__":
