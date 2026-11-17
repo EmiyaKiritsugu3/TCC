@@ -4,7 +4,7 @@
 Uso:  python3 scripts/fetch_raw.py [--check]
 Saída: data/raw/campeonato-brasileiro-full.csv (+ Legenda.txt)
 """
-import sys
+import argparse
 import urllib.request
 from pathlib import Path
 
@@ -25,7 +25,10 @@ SHA256 = {
 
 
 def main() -> None:
-    check = "--check" in sys.argv[1:]
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--check", action="store_true", help="apenas confere os hashes locais")
+    args = parser.parse_args()
+    check = args.check
     DEST.mkdir(parents=True, exist_ok=True)
     for nome in ARQUIVOS:
         out = DEST / nome
@@ -39,10 +42,10 @@ def main() -> None:
         tmp = out.with_name(out.name + ".tmp")
         print(f"baixando {url} ...")
         try:
-            urllib.request.urlretrieve(url, tmp)
+            urllib.request.urlretrieve(url, tmp, timeout=60)
             verify_sha256(tmp, SHA256[nome])
             tmp.replace(out)
-        except BaseException:
+        except (OSError, ValueError):
             tmp.unlink(missing_ok=True)
             raise
         print(f"  -> {out} ({out.stat().st_size} bytes)")
