@@ -51,7 +51,7 @@ a governança de entrega e a documentação estão desatualizadas:
 
 | ID | Critério | Verificação |
 |---|---|---|
-| S1 | Texto e auditoria concordam em 52 testes (48 rápidos + 4 integração) | `grep` + cadeia verde |
+| S1 | Texto e auditoria concordam em 58 testes (54 rápidos + 4 integração) — número final após inclusão dos 5 testes de guarda/borda previstos nesta spec | `grep` + cadeia verde |
 | S2 | Meta-teste prova que a auditoria falha se o número voltar a 31 | teste de guarda executado |
 | S3 | Nenhum valor obsoleto (22, 31, 5.511) em docs vigentes | `grep` em `docs/` exceto `arquivo/` |
 | S4 | `git status --short` sem modificações pendentes ao fim da Fase 0 | `git status` |
