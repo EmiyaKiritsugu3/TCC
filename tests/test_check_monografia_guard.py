@@ -4,7 +4,15 @@ import subprocess
 import sys
 from pathlib import Path
 
+import pytest
+
 RAIZ = Path(__file__).resolve().parent.parent
+PROCESSED = RAIZ / "data" / "processed" / "matches_processed.csv"
+
+pytestmark = [
+    pytest.mark.integration,
+    pytest.mark.skipif(not PROCESSED.exists(), reason="requer a base processada de build_processed.py"),
+]
 
 
 def _auditar_com_texto(tmp_path, texto):
@@ -20,7 +28,7 @@ def _auditar_com_texto(tmp_path, texto):
 
 def test_auditor_rejeita_numero_desatualizado(tmp_path):
     texto = (RAIZ / "docs" / "monografia_v2.md").read_text(encoding="utf-8")
-    resultado = _auditar_com_texto(tmp_path, texto.replace("58 testes", "99 testes"))
+    resultado = _auditar_com_texto(tmp_path, texto.replace("64 testes", "99 testes"))
     assert resultado.returncode == 1
     assert "DIVERGÊNCIA" in resultado.stdout
 

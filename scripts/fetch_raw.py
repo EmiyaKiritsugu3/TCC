@@ -5,6 +5,7 @@ Uso:  python3 scripts/fetch_raw.py [--check]
 Saída: data/raw/campeonato-brasileiro-full.csv (+ Legenda.txt)
 """
 import argparse
+import shutil
 import urllib.request
 from pathlib import Path
 
@@ -22,6 +23,12 @@ SHA256 = {
     "campeonato-brasileiro-full.csv": "c09d03d36debfd7d7aee71da9a9f0909b5e420fc80a1705f215efc93c76e83fc",
     "Legenda.txt": "dfedf5fb55d9d7b178bce0e0e0b639c380d42d27af76a7d3ef1f1d6db6d1de1f",
 }
+
+
+def baixar(url: str, destino: Path) -> None:
+    """Baixa `url` para `destino` com timeout; urlretrieve não aceita timeout."""
+    with urllib.request.urlopen(url, timeout=60) as resposta, destino.open("wb") as arquivo:
+        shutil.copyfileobj(resposta, arquivo)
 
 
 def main() -> None:
@@ -42,7 +49,7 @@ def main() -> None:
         tmp = out.with_name(out.name + ".tmp")
         print(f"baixando {url} ...")
         try:
-            urllib.request.urlretrieve(url, tmp, timeout=60)
+            baixar(url, tmp)
             verify_sha256(tmp, SHA256[nome])
             tmp.replace(out)
         except (OSError, ValueError):

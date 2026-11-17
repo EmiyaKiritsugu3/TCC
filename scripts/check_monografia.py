@@ -57,9 +57,10 @@ def conferir(texto: str, df: pd.DataFrame, tab1: pd.DataFrame) -> list[str]:
                    "63,7%", "12.554", "7.166", "58,2% (2017)", "69,5% (2018)",
                    "28,9%", "17,9%", "60,2%", "n = 379", "379 jogos",
                    "62,4% em 2019", "61,8% em 2021", "11,3 p.p",
-                   "2.659 de 2.660", "99,96%", "19/19", "58 testes", "58 passed",
+                   "2.659 de 2.660", "99,96%", "19/19", "64 testes", "64 passed",
                    "25/02/2021", "Flamengo 2019: 53/37/90/38"]:
         confere(pedaco in T, f"trecho ausente: {pedaco!r}")
+    confere("`tests/test_context.py` (10)" in T, "contagem de test_context no Apendice D")
 
     # --- extremos anuais ---
     confere(round(t.loc[2017, "pollard"], 2) == 58.24, "pollard 2017")

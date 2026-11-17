@@ -34,7 +34,7 @@ def assign_seasons(dates: pd.Series, rounds: pd.Series) -> pd.Series:
     """
     order = dates.sort_values(kind="mergesort").index
     seg = pd.Series(0, index=dates.index, dtype=int)
-    cur, prev_dt, prev_r = 0, None, None
+    cur, prev_dt = 0, None
     for i in order:
         dt, r = dates.loc[i], rounds.loc[i]
         novo = cur == 0
@@ -46,7 +46,6 @@ def assign_seasons(dates: pd.Series, rounds: pd.Series) -> pd.Series:
         seg.loc[i] = cur
         if pd.notna(dt):
             prev_dt = dt
-        prev_r = r
     first_year = dates.groupby(seg).transform("min").dt.year
     return first_year
 
