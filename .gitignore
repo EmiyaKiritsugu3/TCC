@@ -16,3 +16,4 @@ __pycache__/
 .omo/
 .coverage
 htmlcov/
+*.egg-info/
