@@ -32,7 +32,7 @@ rápidos, sem precisar do CSV gerado. A cadeia completa também roda no CI
 
 `requirements.txt` traz faixas compatíveis (pandas 2.2–3.x); `requirements-lock.txt`
 fixa as versões do ambiente em que os resultados foram validados. Para desenvolver,
-`requirements-dev.txt` acrescenta `python-pptx` (deck), `python-docx` (rascunho ABNT) e `pytest-cov` (cobertura).
+`requirements-dev.txt` acrescenta `python-pptx` (deck), `python-docx` (rascunho ABNT) e `pytest-cov` (cobertura). `requirements-hashed.txt` fixa hashes para o CI e `pylock.toml` é o lock PEP 751 equivalente.
 
 A base bruta (`data/raw/`, commit `15f027c`) não é redistribuída — ver `data/raw/FONTE.md`
 (repositório sem LICENSE; `scripts/fetch_raw.py` baixa do commit pinado).
