@@ -59,8 +59,10 @@ def test_excecao_rejeita_placares_diferentes():
 
 def test_ci_mede_cobertura_e_invalida_cache_do_lock():
     ci = (RAIZ / ".github" / "workflows" / "ci.yml").read_text(encoding="utf-8")
-    assert "--cov=src" in ci
-    assert "requirements-lock.txt" in ci
+    assert "python3 -m pytest tests/ -q --cov=src --cov-report=term --cov-fail-under=90" in ci
+    bloco_cache = ci.split("cache-dependency-path: |", 1)[1].split("      - name:", 1)[0]
+    arquivos = {linha.strip().lstrip("-").strip() for linha in bloco_cache.splitlines() if linha.strip()}
+    assert arquivos == {"requirements-hashed.txt", "requirements-dev.txt", "requirements-lock.txt"}
 
 
 def test_ci_valida_import_do_pacote_sem_pythonpath():

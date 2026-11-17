@@ -29,7 +29,8 @@ jobs:
             requirements-lock.txt
 
       - name: Instalar dependencias fixadas (inclui extras de desenvolvimento)
-        run: python3 -m pip install --require-hashes --only-binary :all: -r requirements-hashed.txt
+        run: |
+          python3 -m pip install --require-hashes --only-binary :all: -r requirements-hashed.txt
 
       - name: Validar empacotamento
         run: |

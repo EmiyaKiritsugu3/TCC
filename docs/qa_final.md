@@ -9,7 +9,7 @@
 
 - `scripts/fetch_raw.py` — baixou os 2 arquivos do commit pinado (1.187.343 e 2.113 bytes); SHA-256 conferido.
 - `scripts/build_processed.py` — `lidas: 8785, mantidas: 7219`, exclusão única `fora_do_recorde_2006_2024: 1566`; cobertura 380/temporada, 2016 com 379.
-- `pytest tests/ -q` — **71 passed**.
+- `pytest tests/ -q` — **22 passed** (valor histórico do commit `9b9540c`).
 - `scripts/validate_cross.py` — **RESULTADO: PASS — bases idênticas** (2.659/2.660; 1 exceção de data explicada, jogo de dois dias 2023).
 - `scripts/validate_champions.py` — **RESULTADO: PASS — 19/19 campeões**.
 
@@ -35,7 +35,7 @@
 
 ## 5. Deck e PDF (`apresentacao/`)
 
-- `apresentacao_tcc.pptx`: 10 slides; contém `63,7%`, link do repositório e `71 testes` (sem `12 testes`).
+- `apresentacao_tcc.pptx`: 10 slides; continha `63,7%`, link do repositório e `22 testes` (snapshot histórico; no branch atual o deck diz `71 testes`).
 - `apresentacao_tcc.pdf`: 10 páginas, regenerado via LibreOffice após a correção do slide 9.
 
 ## Artefatos de entrega

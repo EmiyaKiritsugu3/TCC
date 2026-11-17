@@ -194,7 +194,7 @@ def checar_coleta(py: Path, env: dict[str, str]) -> bool:
         falha("pytest não conseguiu coletar os testes")
         mostrar(proc)
         return False
-    caso = re.search(r"\b(\d{1,6}) test", proc.stdout)
+    caso = re.search(r"\b(\d{1,6}) tests? collected", proc.stdout)
     coletados = int(caso.group(1)) if caso else 0
     if coletados == 0:
         falha("pytest coletou 0 testes")

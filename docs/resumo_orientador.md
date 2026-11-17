@@ -25,8 +25,9 @@ e índice de Pollard por temporada e por equipe. Sem previsão, sem IA, sem apos
 - Fonte sem licença explícita → adotado plano B: CSV bruto não versionado,
   download pinado no build + citação (ver `data/raw/FONTE.md`).
 - **Variáveis contextuais (fase adicional):** `src/context.py` com viagem, descanso,
-  força e era (Tabela 5 na monografia). A distância não move o índice de forma
-  relevante (análise descritiva), pendente de validação do orientador.
+  força e era (Tabela 5 na monografia). Nas bandas de distância observadas, os
+  índices de Pollard são próximos (63,37% / 63,80% / 63,90%); trata-se de
+  associação descritiva, sem leitura causal, pendente de validação do orientador.
 
 ## 3. Resultados preliminares (respondem à pergunta de pesquisa)
 
