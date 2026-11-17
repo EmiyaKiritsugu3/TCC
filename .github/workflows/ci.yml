@@ -34,7 +34,7 @@ jobs:
 
       - name: Validar empacotamento
         run: |
-          python3 -m pip install --only-binary :all: --no-deps -e .
+          python3 -m pip install --no-deps -e .
           env -u PYTHONPATH python3 -c "import metrics, context, openfootball"
 
       # A base bruta nao e versionada (.gitignore): em runner limpo ela e baixada
