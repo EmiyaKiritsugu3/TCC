@@ -1,7 +1,7 @@
 # QA final — 17/11/2026 (branch `feat/sprints-melhorias`)
 
 > As seções 1–5 abaixo são o registro histórico do commit `9b9540c`. Neste branch
-> a cadeia completa foi reexecutada localmente (68 testes, validações PASS e
+> a cadeia completa foi reexecutada localmente (70 testes, validações PASS e
 > cobertura 98%), mas **um novo clone limpo ainda não foi feito** após a correção
 > do download em `fetch_raw.py` — registrar a revalidação antes do depósito.
 
@@ -9,7 +9,7 @@
 
 - `scripts/fetch_raw.py` — baixou os 2 arquivos do commit pinado (1.187.343 e 2.113 bytes); SHA-256 conferido.
 - `scripts/build_processed.py` — `lidas: 8785, mantidas: 7219`, exclusão única `fora_do_recorde_2006_2024: 1566`; cobertura 380/temporada, 2016 com 379.
-- `pytest tests/ -q` — **68 passed**.
+- `pytest tests/ -q` — **70 passed**.
 - `scripts/validate_cross.py` — **RESULTADO: PASS — bases idênticas** (2.659/2.660; 1 exceção de data explicada, jogo de dois dias 2023).
 - `scripts/validate_champions.py` — **RESULTADO: PASS — 19/19 campeões**.
 
@@ -20,8 +20,8 @@
 
 ## 3. Consistência numérica e de contagem
 
-- `pytest tests/ -q` — **68 passed**.
-- Baseline de cobertura (`.venv/bin/python -m pytest tests/ -m "not integration" --cov=src`): **98%** (61 passed, 7 deselecionados; 341 statements, 6 não cobertos em `src/clean_data.py:182-188`, gravação do relatório).
+- `pytest tests/ -q` — **70 passed**.
+- Baseline de cobertura (`.venv/bin/python -m pytest tests/ -m "not integration" --cov=src`): **98%** (63 passed, 7 deselecionados; 341 statements, 6 não cobertos em `src/clean_data.py:182-188`, gravação do relatório).
 - Busca por restos obsoletos (`12 testes`, `Doze testes`, `0 pts`, `55 pts`, `108 pts`): só ocorre em `docs/arquivo/cap4_rascunho.md` (rascunho histórico arquivado, substituído pela monografia vigente).
 - Números principais preservados: 7.219 partidas; 49,0% / 26,8% / 24,1%; 1,49 × 1,00; Pollard 63,66%; anual 58,2%–69,5%; Flamengo 2019 53/37/90/38.
 
@@ -30,12 +30,12 @@
 - Primeira citação das figuras em ordem: [1, 2, 3, 4, 5, 6, 7, 8].
 - Tabela 1 com 19 linhas (2006–2024); Tabelas 2–4 criadas; Lista de Tabelas atualizada.
 - Só resta a tag `[PENDENTE - ORIENTADOR]` (bloqueios externos).
-- Corpo: 6.080 palavras (meta proativa ≥ 5.500).
+- Corpo: 6.101 palavras (meta proativa ≥ 5.500).
 - PDF final pendente do template UFRN — bloqueio registrado em `docs/decisoes_orientador.md`.
 
 ## 5. Deck e PDF (`apresentacao/`)
 
-- `apresentacao_tcc.pptx`: 10 slides; contém `63,7%`, link do repositório e `68 testes` (sem `12 testes`).
+- `apresentacao_tcc.pptx`: 10 slides; contém `63,7%`, link do repositório e `70 testes` (sem `12 testes`).
 - `apresentacao_tcc.pdf`: 10 páginas, regenerado via LibreOffice após a correção do slide 9.
 
 ## Artefatos de entrega

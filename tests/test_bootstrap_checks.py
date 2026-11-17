@@ -1,5 +1,6 @@
 """Regressões dos comentários de revisão sobre bootstrap/fetch_raw (PT-BR)."""
 import subprocess
+import sys
 from pathlib import Path
 
 import pytest
@@ -46,6 +47,7 @@ def test_bootstrap_instala_pacote_e_mostra_interpreter(monkeypatch, capsys):
 
     monkeypatch.setattr(bootstrap, "rodar", fake)
     monkeypatch.setattr(bootstrap, "interpretador", lambda: Path("/tmp/.venv/bin/python"))
-    assert bootstrap.preparar(Path("/tmp/.venv/bin/python"), {}) == 0
+    monkeypatch.setattr(sys, "argv", ["bootstrap.py"])
+    assert bootstrap.main() == 0
     assert any("install" in c and "-e" in c for c in comandos)
     assert "/tmp/.venv/bin/python" in capsys.readouterr().out

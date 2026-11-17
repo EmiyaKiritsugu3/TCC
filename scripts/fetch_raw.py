@@ -53,7 +53,8 @@ def main(argv: list[str] | None = None) -> None:
             baixar(url, tmp)
             verify_sha256(tmp, SHA256[nome])
             tmp.replace(out)
-        except (OSError, ValueError):
+        except BaseException:
+            # Limpa mesmo em Ctrl-C ou resposta truncada: o bloco apenas re-levanta.
             tmp.unlink(missing_ok=True)
             raise
         print(f"  -> {out} ({out.stat().st_size} bytes)")

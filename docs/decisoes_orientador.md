@@ -1,7 +1,7 @@
 # Decisões do orientador — TCC vantagem de jogar em casa
 
 **Aluno:** José Inamar de Medeiros Júnior · **Curso:** Sistemas de Informação
-**Última atualização:** 04/11/2026 (ampliação proativa, sem resposta do orientador ainda)
+**Última atualização:** 17/11/2026 (ampliação proativa, sem resposta do orientador ainda)
 
 > Em 04/11/2026 o orientador ainda não havia respondido às 5 pendências. Por
 > decisão do autor, a monografia foi ampliada proativamente à meta de 5.500
@@ -69,7 +69,7 @@ assinada, numeração do sumário (passe final no template do curso).
 
 **Internos (podem ser resolvidos):**
 - Membros da banca ([PENDENTE - ORIENTADOR]) — aguardar indicação.
-- Confronto CBF por amostra ([PENDENTE - ORIENTADOR/CBF]) — só se exigido.
+- Confronto CBF por amostra ([PENDENTE - ORIENTADOR]) — só se exigido.
 - Revisão Resumo/Abstract após decisões — depende das respostas.
 
 **Pronto para envio ao orientador agora:** `docs/monografia_v2.md`, `docs/resumo_orientador.md`, `docs/monografia_draft_abnt.pdf/.docx`, `apresentacao/apresentacao_tcc.pdf`, repositório em `main` com validações OK.
@@ -78,7 +78,7 @@ assinada, numeração do sumário (passe final no template do curso).
 ## Status final — Sprint 4 (mass-ulw) — 2026-11-12 22:35:54
 
 **Validações executadas:**
-- `pytest tests/ -q` (PYTHONPATH=src): **68 passed** ✓
+- `pytest tests/ -q` (PYTHONPATH=src): **70 passed** ✓
 - `scripts/validate_cross.py`: **PASS — 2.659/2.660 idênticas, zero divergências de placar** (1 exceção conhecida) ✓
 - `scripts/validate_champions.py`: **PASS — 19/19 campeões** ✓
 - `scripts/check_monografia.py` (PYTHONPATH=src): **AUDITORIA NUMÉRICA: tudo confere** ✓
@@ -86,7 +86,7 @@ assinada, numeração do sumário (passe final no template do curso).
 **Artefatos prontos para envio:**
 - `docs/monografia_v2.md` (5994 palavras corpo, figuras [1..8], tabelas atualizadas)
 - `docs/monografia_draft_abnt.pdf` (38 páginas, regenerado) / `docs/monografia_draft_abnt.docx`
-- `docs/resumo_orientador.md` (atualizado: 68 testes, variáveis contextuais)
+- `docs/resumo_orientador.md` (atualizado: 70 testes, variáveis contextuais)
 - `apresentacao/apresentacao_tcc.pdf`
 - Repositório `main` com histórico limpo
 

@@ -34,20 +34,38 @@ def test_baixar_usa_timeout_e_grava_arquivo(tmp_path, monkeypatch):
 
 
 def test_excecao_rejeita_of_nao_relacionado():
-    base = pd.DataFrame([{"date": "2023-10-22", "home_team": "Botafogo-RJ", "away_team": "Athletico-PR"}])
-    of = pd.DataFrame([{"date": "2023-10-21", "home_team": "Flamengo", "away_team": "Vasco"}])
+    base = pd.DataFrame([{"date": "2023-10-22", "home_team": "Botafogo-RJ", "away_team": "Athletico-PR",
+                          "home_goals_base": 1, "away_goals_base": 1}])
+    of = pd.DataFrame([{"date": "2023-10-21", "home_team": "Flamengo", "away_team": "Vasco",
+                        "home_goals_of": 1, "away_goals_of": 1}])
     assert excecao_conhecida(2023, base, of, 0) is False
 
 
 def test_excecao_rejeita_base_fora_do_caso():
-    base = pd.DataFrame([{"date": "2022-05-10", "home_team": "Flamengo", "away_team": "Vasco"}])
-    of = pd.DataFrame([{"date": "2022-05-09", "home_team": "Flamengo", "away_team": "Vasco"}])
+    base = pd.DataFrame([{"date": "2022-05-10", "home_team": "Flamengo", "away_team": "Vasco",
+                          "home_goals_base": 1, "away_goals_base": 1}])
+    of = pd.DataFrame([{"date": "2022-05-09", "home_team": "Flamengo", "away_team": "Vasco",
+                        "home_goals_of": 1, "away_goals_of": 1}])
     assert excecao_conhecida(2022, base, of, 0) is False
+
+
+def test_excecao_rejeita_placares_diferentes():
+    base = pd.DataFrame([{"date": "2023-10-22", "home_team": "Botafogo-RJ",
+                          "away_team": "Athletico-PR", "home_goals_base": 2, "away_goals_base": 1}])
+    of = pd.DataFrame([{"date": "2023-10-21", "home_team": "Botafogo-RJ",
+                        "away_team": "Athletico-PR", "home_goals_of": 1, "away_goals_of": 1}])
+    assert excecao_conhecida(2023, base, of, 0) is False
+
+
+def test_ci_mede_cobertura_e_invalida_cache_do_lock():
+    ci = (RAIZ / ".github" / "workflows" / "ci.yml").read_text(encoding="utf-8")
+    assert "--cov=src" in ci
+    assert "requirements-lock.txt" in ci
 
 
 def test_ci_valida_import_do_pacote_sem_pythonpath():
     ci = (RAIZ / ".github" / "workflows" / "ci.yml").read_text(encoding="utf-8")
-    assert "env -u PYTHONPATH" in ci
+    assert "env -u PYTHONPATH python3 -c \"import metrics, context, openfootball\"" in ci
 
 
 def test_guardas_da_auditoria_sao_integracao():

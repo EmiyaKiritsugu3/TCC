@@ -203,11 +203,11 @@ def _checar_clubes(rec: pd.DataFrame) -> None:
                 print(f"  '{idx_norm[a]}' <-> '{idx_norm[b]}'")
 
 
-def main(caminho: str | None = None) -> None:
+def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("csv", nargs="?", help="caminho do CSV bruto")
     args = parser.parse_args()
-    csv = Path(args.csv or caminho or RAIZ / "data/raw/campeonato-brasileiro-full.csv")
+    csv = Path(args.csv or RAIZ / "data/raw/campeonato-brasileiro-full.csv")
 
     df = pd.read_csv(csv, dtype=str, keep_default_na=False, na_values=[])
     print(f"Arquivo: {csv}")

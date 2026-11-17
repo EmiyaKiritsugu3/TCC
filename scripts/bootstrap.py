@@ -7,9 +7,10 @@ Uso:
 
 Modo completo, nesta ordem:
   1. pip install -r requirements-lock.txt
-  2. scripts/fetch_raw.py   (baixa a base bruta e confere o SHA-256)
-  3. scripts/build_processed.py
-  4. pytest tests/
+  2. pip install -e .       (expõe os módulos de src/ para app.py e scripts)
+  3. scripts/fetch_raw.py   (baixa a base bruta e confere o SHA-256)
+  4. scripts/build_processed.py
+  5. pytest tests/
 
 Modo --check apenas informa o estado do ambiente: interpretador Python,
 versões fixadas em requirements-lock.txt, integridade da base bruta,

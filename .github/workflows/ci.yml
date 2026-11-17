@@ -23,7 +23,9 @@ jobs:
         with:
           python-version: '3.11'
           cache: 'pip'
-          cache-dependency-path: requirements-dev.txt
+          cache-dependency-path: |
+            requirements-dev.txt
+            requirements-lock.txt
 
       - name: Instalar dependencias fixadas (inclui extras de desenvolvimento)
         run: python3 -m pip install -r requirements-dev.txt
@@ -51,8 +53,8 @@ jobs:
           python3 scripts/export_table1.py > /dev/null
           python3 scripts/build_docx.py
 
-      - name: Rodar testes
-        run: python3 -m pytest tests/ -q
+      - name: Rodar testes com cobertura
+        run: python3 -m pytest tests/ -q --cov=src --cov-report=term --cov-fail-under=90
 
       - name: Validacao cruzada (OpenFootball 2018-2024)
         run: python3 scripts/validate_cross.py
