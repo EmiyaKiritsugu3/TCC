@@ -16,7 +16,7 @@ e índice de Pollard por temporada e por equipe. Sem previsão, sem IA, sem apos
 - Base primária auditada: zero duplicatas, zero placares ausentes, zero divergências
   vencedor×placar; 2016 com 379 jogos (Chapecoense×Atlético-MG cancelada) e 2020
   estendida até 25/02/2021 — ambos documentados.
-- Pipeline reproduzível + 22 testes automatizados passando.
+- Pipeline reproduzível + **52 testes automatizados** passando (48 rápidos + 4 de integração).
 - Monografia v2 fechada (04/11/2026): Tabela 1 no texto, figuras 1–8 em ordem,
   referências ABNT alfabéticas, apêndices A–D preenchidos; ampliação proativa
   da fundamentação em curso (meta ≥ 5.500 palavras), sem alterar resultados.
@@ -45,3 +45,6 @@ e índice de Pollard por temporada e por equipe. Sem previsão, sem IA, sem apos
 Escopo fechado (§7 da spec: fora previsão, IA, apostas, Séries B–D); análise
 observacional sem alegação causal; nomes de clubes normalizados com tabela de
 decisões documentada.
+
+
+- **Variáveis contextuais (fase adicional):** `src/context.py` com viagem, descanso, força e era (Tabela 5 na monografia). A distância não move o índice de forma relevante (análise descritiva), marcado como pendente de validação do orientador.

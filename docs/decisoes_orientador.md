@@ -50,3 +50,53 @@ assinada, numeração do sumário (passe final no template do curso).
   o modelo for fornecido.
 - **Respostas do orientador (decisões 1–5):** ainda pendentes; texto mantém
   apenas o descritivo (sem Spearman) e as tags `[TODO-BANCA/SIGLAS/CBF/ORIENTADOR]`.
+
+
+## Atualização 2026-11-12 22:33:33 — Sprint 1 (mass-ulw)
+
+**Comunicações preparadas/enviadas (tentativa):**
+- E-mail ao orientador (5 decisões + resumo + pedido de template): preparado em `docs/email_orientador_preparado.txt`. Tentativa via `mail` falhou (sem SMTP configurado) — precisa ser enviado manualmente.
+- E-mail ao autor do dataset (adaoduquesn@gmail.com, autorização escrita): preparado em `docs/email_autor_dataset_preparado.txt`. Tentativa via `mail` falhou — precisa ser enviado manualmente.
+
+**Evidências:** rascunhos em `docs/comunicacoes_pendentes.md`, notepad `/tmp/ulw-20261112-223203-09c557.md`.
+
+## Bloqueadores remanescentes (Sprint 3)
+
+**Externos (aguardam resposta):**
+1. **5 decisões do orientador** (recorte/título, artefato SI, fonte+licença, Spearman, formato/avaliação) — e-mails preparados em `docs/email_orientador_preparado.txt` (envio manual necessário).
+2. **Autorização escrita do autor do dataset** (adaoduquesn@gmail.com) — email preparado em `docs/email_autor_dataset_preparado.txt` (envio manual necessário).
+3. **Template oficial UFRN/CERES-BSI + ficha catalográfica SISBI + folha de avaliação** — necessário para gerar `docs/monografia_final.pdf` (atualmente só existe `monografia_draft_abnt.pdf`).
+
+**Internos (podem ser resolvidos):**
+- Membros da banca ([PENDENTE - ORIENTADOR]) — aguardar indicação.
+- Confronto CBF por amostra ([PENDENTE - ORIENTADOR/CBF]) — só se exigido.
+- Revisão Resumo/Abstract após decisões — depende das respostas.
+
+**Pronto para envio ao orientador agora:** `docs/monografia_v2.md`, `docs/resumo_orientador.md`, `docs/monografia_draft_abnt.pdf/.docx`, `apresentacao/apresentacao_tcc.pdf`, repositório em `main` com validações OK.
+
+
+## Status final — Sprint 4 (mass-ulw) — 2026-11-12 22:35:54
+
+**Validações executadas:**
+- `pytest tests/ -q` (PYTHONPATH=src): **52 passed** ✓
+- `scripts/validate_cross.py`: **PASS — 2.659/2.660 idênticas, zero divergências de placar** (1 exceção conhecida) ✓
+- `scripts/validate_champions.py`: **PASS — 19/19 campeões** ✓
+- `scripts/check_monografia.py` (PYTHONPATH=src): **AUDITORIA NUMÉRICA: tudo confere** ✓
+
+**Artefatos prontos para envio:**
+- `docs/monografia_v2.md` (5994 palavras corpo, figuras [1..8], tabelas atualizadas)
+- `docs/monografia_draft_abnt.pdf` (38 páginas, regenerado) / `docs/monografia_draft_abnt.docx`
+- `docs/resumo_orientador.md` (atualizado: 52 testes, variáveis contextuais)
+- `apresentacao/apresentacao_tcc.pdf`
+- Repositório `main` com histórico limpo
+
+**Checklist para envio ao orientador:**
+- [x] Base validada e reproduzível
+- [x] Monografia auditada numericamente
+- [x] Dashboard funcional (Streamlit)
+- [x] Testes e validações passando
+- [x] E-mails preparados (orientador + autor dataset) — envio manual pendente (sem SMTP)
+- [ ] Respostas às 5 decisões
+- [ ] Template oficial + ficha SISBI + folha de avaliação
+- [ ] Autorização escrita do autor do dataset (se necessário manter base processada)
+- [ ] `docs/monografia_final.pdf` gerado no template

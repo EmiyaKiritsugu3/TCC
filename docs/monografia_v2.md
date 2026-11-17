@@ -67,9 +67,9 @@ Banca Examinadora:
 Dr. Francisco Marcio Barboza
 Orientador — DCT/UFRN
 
-**[TODO-BANCA: 2º membro da banca — nome, titulação, vínculo]**
+**[PENDENTE - ORIENTADOR]** 2º membro da banca — aguardar indicação do orientador (nome, titulação, vínculo)
 
-**[TODO-BANCA: 3º membro da banca — nome, titulação, vínculo]**
+**[PENDENTE - ORIENTADOR]** 3º membro da banca — aguardar indicação do orientador (nome, titulação, vínculo)
 
 ---
 
@@ -127,7 +127,7 @@ This work presents a descriptive statistical analysis of home advantage in Brazi
 
 **Keywords:** home advantage; Pollard index; Brazilian football; dashboard; data visualization; descriptive analytics.
 
-**[TODO-ORIENTADOR: revisar Resumo/Abstract após as decisões do orientador; conferir contagem de palavras, se exigida]**
+**[PENDENTE - ORIENTADOR]** Revisar Resumo/Abstract após as 5 decisões (item 4: Spearman). Conferir contagem de palavras se exigida.
 
 ---
 
@@ -276,7 +276,7 @@ Validação cruzada independente contra o OpenFootball (domínio público, CC0) 
 
 As ameaças à validade são declaradas de partida. Validade de constructo: o "mando" é o mandante nominal da fonte, que nem sempre corresponde ao estádio habitual da equipe (clássicos com mando trocado, reformas, punições com portões fechados) — o indicador mede, portanto, vantagem do mandante designado, não do estádio próprio. Validade interna: sem grupo de controle nem covariáveis (público, arbitragem, elenco, viagens, clima), nenhuma diferença observada admite leitura causal; o desenho é observacional sobre dados secundários. Validade externa: os resultados valem para a Série A masculina em pontos corridos com 20 clubes (2006–2024) e não se generalizam para outras divisões, formatos (mata-mata), futebol feminino ou outros países — a própria diferença entre Séries A e B reportada por Almeida et al. (2011) adverte contra a extrapolação. Validade de conclusão: todas as conclusões são descritivas sobre a série observada; a correlação de Spearman entre ano e índice anual, cogitada como análise exploratória de tendência, ficou condicionada à decisão do orientador e não foi executada — o texto não alega tendência, apenas amplitude.
 
-**[TODO-CBF: confronto por amostra com a CBF, se o orientador exigir]**
+**[PENDENTE - ORIENTADOR/CBF]** Confronto por amostra com a CBF, caso o orientador exija. Base já validada por cruzamento com OpenFootball (99,96%) e por campeões (19/19).
 
 ## 3.3 Critérios de inclusão e exclusão
 
