@@ -1,11 +1,8 @@
 """Testes dos indicadores (seção 16.1 da spec)."""
-import sys
 from pathlib import Path
 
 import pandas as pd
 import pytest
-
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "src"))
 
 from metrics import by_season, pollard, summarize, team_season, teams_in_season
 
@@ -82,6 +79,7 @@ def test_team_season_separa_pontos_de_casa_e_fora():
     assert isinstance(ts["away_points"], int)
 
 
+@pytest.mark.integration
 @pytest.mark.skipif(not PROCESSED.exists(), reason="rode scripts/build_processed.py")
 def test_flamengo_2019_pontuacao_oficial():
     df = pd.read_csv(PROCESSED)

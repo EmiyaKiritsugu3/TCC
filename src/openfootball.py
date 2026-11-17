@@ -67,6 +67,7 @@ def parse_arquivo(path: str | Path, temporada: int) -> pd.DataFrame:
     rodada: int | None = None
     ano_corrente = temporada
     mes_atual: int | None = None
+    data_iso: str | None = None
 
     for ln in linhas:
         m_rod = RE_RODADA.search(ln)
@@ -92,6 +93,8 @@ def parse_arquivo(path: str | Path, temporada: int) -> pd.DataFrame:
             continue
         m_jg = RE_JOGO.match(ln)
         if m_jg and "Matchday" not in ln and "v" in ln.lower():
+            if data_iso is None:
+                raise ValueError(f"Jogo sem data anterior em {path}: {ln.strip()!r}")
             casa_raw, fora_raw = _norm(m_jg.group(1)), _norm(m_jg.group(2))
             if casa_raw not in MAPA_TIMES or fora_raw not in MAPA_TIMES:
                 raise ValueError(f"Time sem mapeamento em {path}: {casa_raw!r} x {fora_raw!r}")
@@ -114,7 +117,8 @@ def comparar(base: pd.DataFrame, aberta: pd.DataFrame) -> dict:
     chave = ["date", "home_team", "away_team"]
     b = base.copy()
     a = aberta.copy()
-    m = b.merge(a, on=chave, how="outer", suffixes=("_base", "_of"), indicator=True)
+    m = b.merge(a, on=chave, how="outer", suffixes=("_base", "_of"), indicator=True,
+                validate="one_to_one")
     ambos = m[m["_merge"] == "both"]
     placar_ok = ((ambos["home_goals_base"] == ambos["home_goals_of"])
                  & (ambos["away_goals_base"] == ambos["away_goals_of"])).sum()

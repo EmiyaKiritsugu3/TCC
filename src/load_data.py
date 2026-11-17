@@ -18,7 +18,6 @@ REQUIRED_COLUMNS = [
     "visitante_Placar",
 ]
 
-OPTIONAL_COLUMNS = ["hora", "vencedor", "arena"]
 
 
 def load_raw(path: str | Path) -> pd.DataFrame:

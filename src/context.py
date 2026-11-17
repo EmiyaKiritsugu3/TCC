@@ -76,6 +76,9 @@ def travel_km(df: pd.DataFrame) -> pd.Series:
     """
     out = []
     for h, a in zip(df["home_team"], df["away_team"]):
+        for clube in (h, a):
+            if clube not in CLUB_COORDS:
+                raise ValueError(f"Clube sem coordenadas: {clube!r}")
         hla, hlo = CLUB_COORDS[h]
         ala, alo = CLUB_COORDS[a]
         out.append(0.0 if (hla, hlo) == (ala, alo) else haversine_km(hla, hlo, ala, alo))

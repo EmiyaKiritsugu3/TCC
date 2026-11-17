@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 """Figuras finais da monografia (Sprint 2). PNG 150 DPI, rótulos em PT-BR."""
-import sys
 from pathlib import Path
 
 import matplotlib
@@ -8,7 +7,6 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import pandas as pd
 
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "src"))
 from metrics import by_season, summarize
 
 RAIZ = Path(__file__).resolve().parent.parent
@@ -48,7 +46,6 @@ def fig_pollard(t):
 
 def fig_resultados(t):
     fig, ax = plt.subplots()
-    n = len(t)
     ax.bar(t["season"], t["p_home"], width=0.62, color=AZUL, label="Vit. mandante")
     ax.bar(t["season"], t["p_draw"], bottom=t["p_home"], width=0.62,
            color=CINZA, label="Empate")
@@ -80,7 +77,7 @@ def fig_gols(t):
 
 
 def main():
-    FIG.mkdir(exist_ok=True)
+    FIG.mkdir(parents=True, exist_ok=True)
     df = pd.read_csv(RAIZ / "data" / "processed" / "matches_processed.csv")
     s = summarize(df)
     t = by_season(df).sort_values("season")

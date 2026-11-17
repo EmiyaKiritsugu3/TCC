@@ -4,9 +4,6 @@ from pathlib import Path
 import pandas as pd
 import streamlit as st
 
-import sys
-sys.path.insert(0, str(Path(__file__).resolve().parent / "src"))
-
 from charts import goals_by_season, outcome_distribution, outcomes_by_season, pollard_series
 from formatting import num, pct, signed
 from metrics import by_season, summarize, team_season, teams_in_season

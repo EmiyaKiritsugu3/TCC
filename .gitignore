@@ -13,3 +13,8 @@ __pycache__/
 # Ambiente e artefatos de sessão
 .venv/
 .playwright-mcp/
+.omo/
+.coverage
+htmlcov/
+*.egg-info/
+.monografia_teste/

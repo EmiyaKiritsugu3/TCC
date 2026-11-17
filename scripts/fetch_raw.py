@@ -4,12 +4,12 @@
 Uso:  python3 scripts/fetch_raw.py [--check]
 Saída: data/raw/campeonato-brasileiro-full.csv (+ Legenda.txt)
 """
-import sys
+import argparse
+import shutil
 import urllib.request
 from pathlib import Path
 
 RAIZ = Path(__file__).resolve().parent.parent
-sys.path.insert(0, str(RAIZ / "src"))
 
 from integrity import verify_sha256
 
@@ -25,9 +25,19 @@ SHA256 = {
 }
 
 
-def main() -> None:
-    check = "--check" in sys.argv[1:]
-    DEST.mkdir(parents=True, exist_ok=True)
+def baixar(url: str, destino: Path) -> None:
+    """Baixa `url` para `destino` com timeout; urlretrieve não aceita timeout."""
+    with urllib.request.urlopen(url, timeout=60) as resposta, destino.open("wb") as arquivo:
+        shutil.copyfileobj(resposta, arquivo)
+
+
+def main(argv: list[str] | None = None) -> None:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--check", action="store_true", help="apenas confere os hashes locais")
+    args = parser.parse_args(argv)
+    check = args.check
+    if not check:
+        DEST.mkdir(parents=True, exist_ok=True)
     for nome in ARQUIVOS:
         out = DEST / nome
         if check:
@@ -40,10 +50,11 @@ def main() -> None:
         tmp = out.with_name(out.name + ".tmp")
         print(f"baixando {url} ...")
         try:
-            urllib.request.urlretrieve(url, tmp)
+            baixar(url, tmp)
             verify_sha256(tmp, SHA256[nome])
             tmp.replace(out)
         except BaseException:
+            # Limpa mesmo em Ctrl-C ou resposta truncada: o bloco apenas re-levanta.
             tmp.unlink(missing_ok=True)
             raise
         print(f"  -> {out} ({out.stat().st_size} bytes)")

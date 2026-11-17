@@ -30,7 +30,7 @@ do Nilton Santos — iniciado no sábado (21/10), interrompido por quedas de
 energia e concluído no domingo (22/10). Fontes: ge.globo em 22/10/2023
 ("empate ... em jogo de dois dias") e globoplay ("jogo que durou dois dias").
 Mantida a data da base primária (conclusão), com esta nota. Codificada como
-`KNOWN_DATE_EXCEPTIONS` em `scripts/validate_cross.py`.
+`KNOWN_DATE_EXCEPTIONS` em `scripts/validacao_excecoes.py` (testado em `tests/test_validate_cross_excecao.py`).
 
 ## Limites
 

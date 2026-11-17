@@ -16,7 +16,7 @@ e índice de Pollard por temporada e por equipe. Sem previsão, sem IA, sem apos
 - Base primária auditada: zero duplicatas, zero placares ausentes, zero divergências
   vencedor×placar; 2016 com 379 jogos (Chapecoense×Atlético-MG cancelada) e 2020
   estendida até 25/02/2021 — ambos documentados.
-- Pipeline reproduzível + 22 testes automatizados passando.
+- Pipeline reproduzível + **71 testes automatizados** passando (64 rápidos + 7 de integração).
 - Monografia v2 fechada (04/11/2026): Tabela 1 no texto, figuras 1–8 em ordem,
   referências ABNT alfabéticas, apêndices A–D preenchidos; ampliação proativa
   da fundamentação em curso (meta ≥ 5.500 palavras), sem alterar resultados.
@@ -24,6 +24,10 @@ e índice de Pollard por temporada e por equipe. Sem previsão, sem IA, sem apos
   2018–2024 → 2.659/2.660 partidas idênticas, zero divergências de placar.
 - Fonte sem licença explícita → adotado plano B: CSV bruto não versionado,
   download pinado no build + citação (ver `data/raw/FONTE.md`).
+- **Variáveis contextuais (fase adicional):** `src/context.py` com viagem, descanso,
+  força e era (Tabela 5 na monografia). Nas bandas de distância observadas, os
+  índices de Pollard são próximos (63,37% / 63,80% / 63,90%); trata-se de
+  associação descritiva, sem leitura causal, pendente de validação do orientador.
 
 ## 3. Resultados preliminares (respondem à pergunta de pesquisa)
 
