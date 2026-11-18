@@ -1,9 +1,24 @@
-# QA final — 17/11/2026 (branch `feat/sprints-melhorias`)
+# QA final — 17/11/2026 (branch `main`, merge `5105dd5`)
 
-> As seções 1–5 abaixo são o registro histórico do commit `9b9540c`. Neste branch
-> a cadeia completa foi reexecutada localmente (71 testes, validações PASS e
-> cobertura 98%), mas **um novo clone limpo ainda não foi feito** após a correção
-> do download em `fetch_raw.py` — registrar a revalidação antes do depósito.
+> **Revalidação em clone limpo concluída** (abaixo, seção 0) no merge `5105dd5`:
+> clone novo, venv Python 3.11.15, instalação com hashes e cadeia completa do CI.
+> As seções 1–5 são o registro histórico do commit `9b9540c`.
+
+## 0. Revalidação em clone limpo — `main` @ `5105dd5` (17/11/2026)
+
+- Clone de `main` em `/tmp/opencode/tcc-qa-clean`; venv novo (`venv/bin/python`, Python 3.11.15).
+- Instalação: `pip install --require-hashes --only-binary :all: -r requirements-hashed.txt`
+  e `pip install --only-binary=:all: --no-deps -e .` — ambas OK.
+- `scripts/fetch_raw.py` baixou os 2 arquivos do commit pinado (1.187.343 e 2.113 bytes);
+  `fetch_raw.py --check` → **OK. Arquivos conferidos.**
+- `scripts/build_processed.py` → 7.219 partidas; cobertura 380/temporada, 2016 com 379.
+- `scripts/bootstrap.py --check` → **OK: 5 verificações passaram.**
+- `scripts/make_figures.py`, `export_table1.py` e `build_docx.py` → OK.
+- `pytest tests/ -q --cov=src --cov-report=term --cov-fail-under=90` →
+  **71 passed**, cobertura **98,24%** (341 statements, 6 não cobertos).
+- `scripts/validate_cross.py` → **PASS — bases idênticas** (2.659/2.660).
+- `scripts/validate_champions.py` → **PASS — 19/19 campeões**.
+- `scripts/check_monografia.py` → **AUDITORIA NUMÉRICA: tudo confere**.
 
 ## 1. Clone limpo (worktree `/tmp/opencode/tcc-qa`, venv novo, `requirements-lock.txt`) — histórico
 
