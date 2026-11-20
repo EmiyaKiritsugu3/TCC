@@ -51,7 +51,7 @@ Estimar uma vantagem de casa específica por equipe, com encolhimento:
 
 `γ_i ~ N(γ, σ_γ²)`
 
-O teste de `σ_γ²` responde a uma pergunta substantiva: a vantagem de casa é um fenômeno da liga ou varia de forma relevante entre clubes? O encolhimento também resolve o ruído das equipes com poucas temporadas — hoje o ranking por equipe tem correlação ítem-par de apenas 0,46, o que mostra que a estimativa isolada é instável.
+O teste de `σ_γ²` responde a uma pergunta substantiva: a vantagem de casa é um fenômeno da liga ou varia de forma relevante entre clubes? O encolhimento também resolve o ruído das equipes com poucas temporadas — hoje o ranking por equipe tem correlação ítem-par de apenas 0,46, o que mostra que a estimativa isolada é instável. Além disso, o modelo decompõe a variância total em qualidade de equipe, temporada, vantagem de casa e resíduo — a forma mais direta de quantificar o "resíduo grande" que hoje aparece só de forma qualitativa.
 
 ### 3. Mudança de nível com incerteza
 
