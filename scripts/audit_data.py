@@ -22,6 +22,10 @@ FALHAS: list[str] = []
 OK = 0
 
 
+def quase(a: float, b: float, tol: float = 1e-9) -> bool:
+    return abs(float(a) - float(b)) <= tol
+
+
 def check(nome: str, cond: bool, detalhe: str = "") -> None:
     global OK
     if cond:
@@ -84,19 +88,19 @@ check("base: source único", base.source.nunique() == 1)
 
 s = summarize(base)
 check("métrica: n=7.219", s["n"] == 7219)
-check("métrica: mandante 49,0%", round(s["p_home"], 1) == 49.0)
-check("métrica: empate 26,8%", round(s["p_draw"], 1) == 26.8)
-check("métrica: visitante 24,1%", round(s["p_away"], 1) == 24.1)
-check("métrica: gols casa 1,49", round(s["avg_home_goals"], 2) == 1.49)
-check("métrica: gols fora 1,00", round(s["avg_away_goals"], 2) == 1.00)
-check("métrica: Pollard 63,66", round(s["pollard"], 2) == 63.66)
+check("métrica: mandante 49,0%", quase(round(s["p_home"], 1), 49.0))
+check("métrica: empate 26,8%", quase(round(s["p_draw"], 1), 26.8))
+check("métrica: visitante 24,1%", quase(round(s["p_away"], 1), 24.1))
+check("métrica: gols casa 1,49", quase(round(s["avg_home_goals"], 2), 1.49))
+check("métrica: gols fora 1,00", quase(round(s["avg_away_goals"], 2), 1.00))
+check("métrica: Pollard 63,66", quase(round(s["pollard"], 2), 63.66))
 check("métrica: pontos casa 12.554", s["home_points"] == 12554)
 check("métrica: pontos fora 7.166", s["away_points"] == 7166)
 
 t = by_season(base).set_index("season")
 for ano, valor in [(2017, 58.24), (2018, 69.51), (2019, 62.38),
                    (2020, 60.17), (2021, 61.83)]:
-    check(f"métrica: Pollard {ano} = {valor}", round(t.loc[ano, "pollard"], 2) == valor,
+    check(f"métrica: Pollard {ano} = {valor}", quase(round(t.loc[ano, "pollard"], 2), valor),
           str(round(t.loc[ano, "pollard"], 2)))
 
 fla = base[(base.season == 2019) & (base.home_team == "Flamengo")]
@@ -153,11 +157,11 @@ check("BD: 2008 não-zero = 163", int(bd[bd.ano_campeonato == 2008].publico.gt(0
 check("BD: 2020 tem 380 zeros", int((bd[bd.ano_campeonato == 2020].publico == 0).sum()) == 380)
 check("BD: 2021 tem 218 zeros", int((bd[bd.ano_campeonato == 2021].publico == 0).sum()) == 218)
 check("BD: 2008 média dos não-zero 18.287",
-      round(bd[(bd.ano_campeonato == 2008) & bd.publico.gt(0)].publico.mean(), 0) == 18287)
+      quase(round(bd[(bd.ano_campeonato == 2008) & bd.publico.gt(0)].publico.mean(), 0), 18287))
 check("BD: 2007 média 17.659",
-      round(bd[bd.ano_campeonato == 2007].publico.mean(), 0) == 17659)
+      quase(round(bd[bd.ano_campeonato == 2007].publico.mean(), 0), 17659))
 check("BD: 2009 média 17.712",
-      round(bd[bd.ano_campeonato == 2009].publico.mean(), 0) == 17712)
+      quase(round(bd[bd.ano_campeonato == 2009].publico.mean(), 0), 17712))
 max_bd = bd.publico.max()
 check("BD: público máximo plausível (< 200 mil)", max_bd < 200000, str(max_bd))
 check("BD: público de 2024 começa em 2024-04-13",
@@ -238,7 +242,7 @@ check("validação: 286 pares de público", val["pares_publico"] == 286,
 check("validação: 243 públicos idênticos", val["iguais"] == 243, str(val["iguais"]))
 check("validação: 248 diferenças <= 100", val["ate_100"] == 248, str(val["ate_100"]))
 check("validação: 271 diferenças <= 1.000", val["ate_1000"] == 271, str(val["ate_1000"]))
-check("validação: diferença média 316,3", round(val["media_diferenca"], 1) == 316.3,
+check("validação: diferença média 316,3", quase(round(val["media_diferenca"], 1), 316.3),
       str(round(val["media_diferenca"], 1)))
 pares = val["pares"].dropna(subset=["publico", "attendance"]).copy()
 pares["dif"] = (pares.publico - pares.attendance).abs()
@@ -267,10 +271,10 @@ check("externa: 2020 com 380 zeros", int((ext[ext.season == 2020].publico == 0).
 check("externa: 2021 com 218 zeros", int((ext[ext.season == 2021].publico == 0).sum()) == 218)
 check("externa: 2024 com 376 registros", int(ext[ext.season == 2024].publico.notna().sum()) == 376)
 check("externa: 2024 média 27.330,9",
-      round(ext[ext.season == 2024].publico.mean(), 1) == 27330.9,
+      quase(round(ext[ext.season == 2024].publico.mean(), 1), 27330.9),
       str(round(ext[ext.season == 2024].publico.mean(), 1)))
 check("externa: 2024 mediana 26.582",
-      round(ext[ext.season == 2024].publico.median(), 1) == 26582.0,
+      quase(round(ext[ext.season == 2024].publico.median(), 1), 26582.0),
       str(round(ext[ext.season == 2024].publico.median(), 1)))
 check("externa: 2024 sem zeros", int((ext[ext.season == 2024].publico == 0).sum()) == 0)
 check("externa: fontes de público 6.528 BD + 90 FBref",
@@ -289,7 +293,7 @@ for bloco, esperado in [
 ]:
     b = next(x for x in resumo["blocos"] if x["bloco"] == bloco)
     check(f"resumo: bloco {bloco} Pollard {esperado}",
-          round(b["pollard"], 2) == esperado, str(round(b["pollard"], 2)))
+          quase(round(b["pollard"], 2), esperado), str(round(b["pollard"], 2)))
 
 # equipe-temporada: HA x público
 ts = team_season_features(ext).set_index(["season", "team"])
@@ -299,16 +303,16 @@ ts = ts.join(pub)
 p = ts[["ha", "publico_medio"]].dropna()
 rho_ha = float(p["ha"].rank().corr(p["publico_medio"].rank()))
 check("resumo: HA x público equipe-temporada 0,068",
-      round(rho_ha, 3) == 0.068, str(round(rho_ha, 3)))
+      quase(round(rho_ha, 3), 0.068), str(round(rho_ha, 3)))
 p2 = ts.loc[~ts.index.get_level_values("season").isin([2020, 2021]),
             ["ha", "publico_medio"]].dropna()
 rho_ha2 = float(p2["ha"].rank().corr(p2["publico_medio"].rank()))
 check("resumo: HA x público sem 2020–2021 −0,010",
-      round(rho_ha2, 3) == -0.010, str(round(rho_ha2, 3)))
+      quase(round(rho_ha2, 3), -0.010), str(round(rho_ha2, 3)))
 p3 = ts[["pts", "publico_medio"]].dropna()
 rho_pts = float(p3["pts"].rank().corr(p3["publico_medio"].rank()))
 check("resumo: pontos x público equipe-temporada 0,461",
-      round(rho_pts, 3) == 0.461, str(round(rho_pts, 3)))
+      quase(round(rho_pts, 3), 0.461), str(round(rho_pts, 3)))
 
 # partida: saldo x público bruto
 d = ext.copy()
@@ -316,7 +320,7 @@ d["goal_diff"] = d.home_goals - d.away_goals
 p4 = d[["goal_diff", "publico"]].dropna()
 rho_gd = float(p4["goal_diff"].rank().corr(p4["publico"].rank()))
 check("resumo: saldo x público bruto 0,079",
-      round(rho_gd, 3) == 0.079, str(round(rho_gd, 3)))
+      quase(round(rho_gd, 3), 0.079), str(round(rho_gd, 3)))
 
 # quartis de público por equipe
 g = ts.reset_index().dropna(subset=["publico_medio"]).groupby("team").agg(
@@ -339,11 +343,11 @@ for _, r in q.iterrows():
     check(f"quartil {r['quartil']}: times {int(r['times'])}",
           int(r["times"]) == item["times"])
     check(f"quartil {r['quartil']}: público {round(r['publico'])}",
-          round(r["publico"]) == round(item["publico"]))
+          quase(round(r["publico"]), round(item["publico"])))
     check(f"quartil {r['quartil']}: pontos {round(r['pts'], 1)}",
-          round(r["pts"], 1) == round(item["pts"], 1))
+          quase(round(r["pts"], 1), round(item["pts"], 1)))
     check(f"quartil {r['quartil']}: HA {round(r['ha'], 3)}",
-          round(r["ha"], 3) == round(item["ha"], 3))
+          quase(round(r["ha"], 3), round(item["ha"], 3)))
 
 # árbitros
 a = ext.dropna(subset=["arbitro"]).copy()
@@ -354,10 +358,10 @@ check("arbitragem: 6.821 jogos", len(a) == 6821, str(len(a)))
 check("arbitragem: 177 árbitros", por_arb.shape[0] == 177, str(por_arb.shape[0]))
 check("arbitragem: 50 árbitros com 40+ jogos", len(com40) == 50, str(len(com40)))
 check("arbitragem: taxa de vitória do mandante 48,9%",
-      round(a.home_win.mean() * 100, 1) == 48.9, str(round(a.home_win.mean() * 100, 1)))
+      quase(round(a.home_win.mean() * 100, 1), 48.9), str(round(a.home_win.mean() * 100, 1)))
 check("arbitragem: faixa 40,8%–67,4%",
-      round(com40.hw.min() * 100, 1) == 40.8
-      and round(com40.hw.max() * 100, 1) == 67.4,
+      quase(round(com40.hw.min() * 100, 1), 40.8)
+      and quase(round(com40.hw.max() * 100, 1), 67.4),
       f"{round(com40.hw.min()*100,1)}–{round(com40.hw.max()*100,1)}")
 # z-scores
 p0 = a.home_win.mean()
