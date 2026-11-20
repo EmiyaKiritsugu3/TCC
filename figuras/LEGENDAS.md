@@ -56,6 +56,13 @@ Matriz de correlação de Spearman por equipe-temporada (HA × desempenho,
 contexto e temporada), 2006–2024.
 Fonte: Elaboração própria, a partir da base validada.
 
+**Figura 12 — `fig12_publico_ha.png`.**
+Dispersão do público médio por equipe (2007–2024) contra a vantagem casa−fora
+(painel esquerdo) e os pontos por temporada (painel direito); 28 equipes com
+pelo menos cinco temporadas. ρ = Spearman.
+Fonte: Elaboração própria, a partir da base validada e da base externa
+(Base dos Dados/Transfermarkt e FBref).
+
 **Tabela 1 — `tab1_indicadores_temporada.csv`.**
 Indicadores por temporada (n, proporções, médias de gols, pontos, Pollard e IC
 95% do Pollard). 2016 com n = 379 (partida cancelada, ver metodologia); 2020
@@ -77,3 +84,8 @@ Correlações de Spearman com a vantagem casa−fora por equipe-temporada.
 A matriz completa (12×12) está em `matriz_equipe.csv`; a de partida, em
 `matriz_partida.csv`.
 Fonte: Elaboração própria, a partir da base validada.
+
+**Tabela 10 — `data/external/external_summary.json` (seção `equipe_publico`).**
+Quartis de público médio por equipe (mínimo de cinco temporadas), com pontos
+por temporada, HA e desempenho em casa/fora.
+Fonte: Elaboração própria, a partir da base validada e da base externa.

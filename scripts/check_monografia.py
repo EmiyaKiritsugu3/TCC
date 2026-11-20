@@ -112,9 +112,10 @@ def conferir(texto: str, df: pd.DataFrame, tab1: pd.DataFrame,
                    "4,7 p.p.", "0,13 ponto", "55,6%", "5,6 p.p.", "73,3%",
                    "17,7 p.p.", "0,46", "5.388", "12.554 vs. 7.166",
                    "Tabela 6", "Tabela 7", "Tabela 8", "Tabela 9",
-                   "Figura 9", "Figura 10", "Figura 11",
-                   "6.618", "6.821", "64,94", "60,17", "60,55",
-                   "0,068", "0,461", "−0,042", "185 árbitros", "48,9%",
+                   "Tabela 10", "Figura 9", "Figura 10", "Figura 11",
+                   "Figura 12", "6.618", "6.821", "64,94", "60,17", "60,55",
+                   "0,068", "0,461", "−0,042", "0,786", "0,043",
+                   "43,1", "59,4", "185 árbitros", "48,9%",
                    "65,1%", "60,6%", "4,5 p.p.", "3,0–6,0",
                    "−1,1", "0,57", "−0,46", "−0,01", "0,10", "0,19",
                    "380 equipe-temporadas"]:
@@ -349,6 +350,31 @@ def conferir(texto: str, df: pd.DataFrame, tab1: pd.DataFrame,
         confere(n_txt == _num(r[campo_n]), f"Tabela 9 n {relacao}")
         confere(abs(_num_pt(rho_txt) - r[campo]) < 0.006, f"Tabela 9 rho {relacao}")
 
+    # --- Tabela 10 == quartis de público por equipe ---
+    quartis = {q["quartil"]: q for q in externo["equipe_publico"]["quartis"]}
+    bloco10 = secao("**Tabela 10").split("Fonte:", 1)[0]
+    linhas10 = _linhas_tabela(bloco10, 7, "Quartil")
+    confere(len(linhas10) == len(quartis),
+            f"Tabela 10 tem {len(linhas10)} linhas, esperado {len(quartis)}")
+    for nome, times, publico, pts, ha, casa, fora in linhas10:
+        confere(nome in quartis, f"Tabela 10 quartil desconhecido: {nome}")
+        if nome not in quartis:
+            continue
+        r = quartis[nome]
+        confere(times == _num(r["times"]), f"Tabela 10 times {nome}")
+        confere(publico == _num(round(r["publico"])), f"Tabela 10 público {nome}")
+        confere(abs(_num_pt(pts) - r["pts"]) < 0.06, f"Tabela 10 pontos {nome}")
+        confere(abs(_num_pt(ha) - r["ha"]) < 0.006, f"Tabela 10 HA {nome}")
+        confere(abs(_num_pt(casa) - r["home_ppg"]) < 0.006, f"Tabela 10 casa {nome}")
+        confere(abs(_num_pt(fora) - r["away_ppg"]) < 0.006, f"Tabela 10 fora {nome}")
+    confere(set(quartis) == {linha[0] for linha in linhas10},
+            "Tabela 10 não cobre todos os quartis")
+    corr_equipe = externo["equipe_publico"]["correlacoes"]
+    confere(abs(corr_equipe["publico_ha"] - 0.043) < 0.001,
+            "correlação público × HA por equipe")
+    confere(abs(corr_equipe["publico_pts"] - 0.786) < 0.001,
+            "correlação público × pontos por equipe")
+
     confere(mat_eq.shape == (12, 12), f"matriz_equipe {mat_eq.shape} != (12, 12)")
     confere(mat_part.shape == (8, 8), f"matriz_partida {mat_part.shape} != (8, 8)")
     for nome, matriz in (("equipe", mat_eq), ("partida", mat_part)):
@@ -371,8 +397,10 @@ def conferir(texto: str, df: pd.DataFrame, tab1: pd.DataFrame,
         nums.append(int(n))
         if int(n) not in ordem:
             ordem.append(int(n))
-    confere(ordem == list(range(1, 12)), f"ordem figuras {ordem}")
-    for i in range(1, 10):
+    confere(ordem == list(range(1, 13)), f"ordem figuras {ordem}")
+    confere((RAIZ / "figuras" / "fig12_publico_ha.png").exists(),
+            "figura 12 ausente")
+    for i in range(1, 11):
         confere(f"Tabela {i}" in T, f"Tabela {i} ausente")
 
     # --- citações x referências ---

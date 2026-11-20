@@ -76,7 +76,7 @@ Orientador — DCT/UFRN
 
 ---
 
-## LISTA DE FIGURAS (opcional, recomendada — o trabalho tem 11 figuras)
+## LISTA DE FIGURAS (opcional, recomendada — o trabalho tem 12 figuras)
 
 Figura 1 — Aba Visão geral do dashboard: filtros, cartões de indicadores e distribuição de resultados.
 Figura 2 — Aba Evolução histórica: índice de Pollard por temporada, distribuição de resultados, médias de gol e tabela anual.
@@ -89,6 +89,7 @@ Figura 8 — Proporção de vitórias do mandante, empates e vitórias do visita
 Figura 9 — Série anual do índice de Pollard com intervalo de confiança de 95% e médias pré/pós-2019.
 Figura 10 — Pollard por contexto da partida: clássico, distância, mesma UF, estádio, descanso, força, era e pandemia.
 Figura 11 — Matriz de correlação por equipe-temporada (Spearman).
+Figura 12 — Público médio, vantagem casa−fora e pontos por temporada (2007–2024).
 
 ## LISTA DE TABELAS
 
@@ -101,6 +102,7 @@ Tabela 6 — Extremos da vantagem casa−fora por equipe (pelo menos cinco tempo
 Tabela 7 — Correlações de Spearman com a vantagem casa−fora por equipe-temporada.
 Tabela 8 — Público e índice de Pollard por bloco, 2007–2024.
 Tabela 9 — Associações do público com desempenho e vantagem de casa.
+Tabela 10 — Público médio e desempenho por quartil de público (times com pelo menos cinco temporadas), 2007–2024.
 
 ## LISTA DE SIGLAS
 
@@ -595,9 +597,28 @@ Fonte: Elaboração própria, a partir da base validada e da base externa. HA = 
 
 No nível equipe-temporada, o público médio é um proxy forte de força do clube: a correlação com pontos é 0,461, e com o HA é 0,068; sem as temporadas pandêmicas, −0,010. Clubes com mais torcida não são os que mais dependem do mando. No nível de partida, a correlação bruta entre público e saldo de gols é 0,079, mas cai para −0,042 quando se compara o mesmo clube na mesma temporada e se controla a diferença de posição pré-jogo. A associação bruta é, portanto, composição de confrontos: jogos de maior público tendem a ser contra adversários mais fortes. Entre as partidas acima e abaixo da mediana de público da própria equipe-temporada, o grupo de maior público tem adversário médio na posição 9,82 contra 11,53, e o mandante chega relativamente mais fraco (rank diff −0,76 contra +0,09); o saldo médio é 0,429 contra 0,591. Isso não refuta a hipótese da torcida; mostra que a variação observada de público não é um experimento limpo. O contraste de 2020 é mais informativo, e nele a vantagem cai, mas não desaparece.
 
+**Tabela 10 — Público médio e desempenho por quartil de público (times com pelo menos cinco temporadas), 2007–2024.**
+
+| Quartil | Times | Público médio | Pontos/temporada | HA | Casa pts/jogo | Fora pts/jogo |
+|---|---:|---:|---:|---:|---:|---:|
+| Q1 (menor) | 7 | 6.461 | 43,1 | 0,657 | 1,463 | 0,806 |
+| Q2 | 7 | 12.960 | 46,5 | 0,815 | 1,632 | 0,817 |
+| Q3 | 7 | 18.074 | 52,7 | 0,762 | 1,769 | 1,007 |
+| Q4 (maior) | 7 | 24.939 | 59,4 | 0,731 | 1,930 | 1,199 |
+
+Fonte: Elaboração própria, a partir da base validada e da base externa. 28 equipes com pelo menos cinco temporadas; HA = pontos/jogo em casa − fora. Spearman público × pontos = 0,786; público × HA = 0,043. O público médio usa os jogos em casa com público.
+
+Os pontos sobem de 43,1 no Q1 para 59,4 no Q4, enquanto o HA fica entre 0,657 e 0,815, sem ordem monotônica: o Q4 tem 0,731, abaixo do Q2 (0,815). O público separa clubes grandes de pequenos, não clubes mais ou menos dependentes do mando. Flamengo (Q4) tem HA 0,59; Santos (Q2), 0,86; Atlético-GO (Q1), 0,36. A correlação entre público e pontos é 0,786; entre público e HA, 0,043.
+
+**Figura 12 — Público médio, vantagem casa−fora e pontos por temporada (2007–2024).**
+(`figuras/fig12_publico_ha.png`)
+Legenda: cada ponto é uma equipe com pelo menos cinco temporadas; eixo x = público médio dos jogos em casa; painel esquerdo = HA (pontos/jogo em casa − fora); painel direito = pontos por temporada. Linhas = ajuste linear; ρ = Spearman. Fonte: Elaboração própria, a partir da base validada e da base externa.
+
+A Figura 12 repete o padrão: a reta do HA é praticamente horizontal, enquanto a de pontos é ascendente.
+
 **Arbitragem.** A base identifica 6.821 partidas com árbitro e 185 árbitros, com mediana de 13 jogos e máximo de 284. A taxa de vitória do mandante é 48,9%. Entre os 48 árbitros com pelo menos 40 jogos, a taxa varia de 40,8% a 67,4%, mas apenas 1 fica fora de ±2 desvios-padrão (esperado sob a hipótese nula: 2,2); a variação é compatível com ruído. Mais importante: a base registra quem apitou, não o que decidiu. Sem cartões, pênaltis e faltas por árbitro, não é possível testar viés arbitral; as faltas da Base dos Dados só existem a partir de 2018 e têm lacunas. A arbitragem permanece, portanto, como canal não medido, e não como variável da matriz.
 
-**Síntese.** A evidência externa estreita o orçamento de explicações. O público não é o principal correlato da vantagem casa−fora no corte transversal; seu poder descritivo está em separar clubes grandes de pequenos. O contraste de 2020 sugere que a torcida contribui, mas não responde por todo o fenômeno, e o retorno do público em 2022–2024 não restaurou o patamar anterior. A arbitragem continua fora do alcance dos dados disponíveis. A conclusão multifatorial da seção 5.4 permanece: há associações modestas e um resíduo grande, que este desenho não atribui.
+**Síntese.** A evidência externa estreita o orçamento de explicações. O público não é o principal correlato da vantagem casa−fora no corte transversal; seu poder descritivo está em separar clubes grandes de pequenos. A Tabela 10 e a Figura 12 mostram que os pontos sobem com o público, mas o HA não. O contraste de 2020 sugere que a torcida contribui, mas não responde por todo o fenômeno, e o retorno do público em 2022–2024 não restaurou o patamar anterior. A arbitragem continua fora do alcance dos dados disponíveis. A conclusão multifatorial da seção 5.4 permanece: há associações modestas e um resíduo grande, que este desenho não atribui.
 
 ## 5.7 Resposta às perguntas de pesquisa
 
@@ -617,7 +638,7 @@ No nível equipe-temporada, o público médio é um proxy forte de força do clu
 
 No período 2006–2024 (7.219 partidas), os mandantes somaram mais pontos que os visitantes em todas as temporadas: índice de Pollard geral de 63,7% (IC 95% 62,6–64,7), variando de 58,2% (2017) a 69,5% (2018). Mandantes venceram 49,0% dos jogos e marcaram 1,49 gol por partida, contra 24,1% e 1,00 dos visitantes. Respondendo diretamente à pergunta de pesquisa: a magnitude da vantagem de jogar em casa na Série A foi de 13,7 pontos percentuais acima da neutralidade no agregado do período. As hipóteses se confirmam no plano descritivo: H1, porque 63,7% supera 50%; a diferença acumulada entre mandantes e visitantes foi de 5.388 pontos (12.554 vs. 7.166), e a margem sobre o limiar de 50% é de 2.694 pontos; H2, porque a série anual oscila de 58,2% a 69,5% sem jamais tocar o neutro. A forma mais forte de H2, porém, é a mudança de nível: 64,9% em 2006–2018 contra 61,0% em 2019–2024 (diferença de 3,9 p.p.; IC 2,1–5,6), com 2022–2024 em 60,6%. Nenhuma temporada inverteu o mando, nem mesmo 2020 sob estádios vazios; mas a vantagem não é uma constante — ela caiu de patamar e não voltou ao nível anterior.
 
-As hipóteses contextuais H3–H5 também se sustentam descritivamente: a viagem não é o principal (clássicos sem deslocamento ainda têm 58,2%; as faixas de distância ficam entre 63,4% e 63,9%), o estádio habitual mostra 4,7 p.p. de diferença bruta (0,13 ponto/jogo na comparação dentro de equipe-temporada) e a mudança de nível pós-2018 é o padrão mais robusto da série. A força na tabela está associada à heterogeneidade entre confrontos (favorito 73,3% vs. zebra 55,6%), mas não ao nível agregado. Não há uma causa única nos dados: há associações modestas e um resíduo grande, que a literatura associa a torcida, arbitragem, clima e gramado. A base externa aproxima a torcida pelo público: o público médio acompanha a força do clube (0,46 com pontos), não o HA (0,07; −0,01 sem 2020–2021), e o contraste de 2020 mostra queda sem desaparecimento; a arbitragem segue conhecida apenas por identidade, não por decisões. A matriz de correlação reforça o quadro: por equipe-temporada, o HA tem correlação quase nula com distância média (−0,01), pontos (0,08) e posição (−0,08), fraca com estádio habitual (0,10) e negativa moderada com a temporada (−0,19); no nível de partida, a maior associação contextual é a diferença de posição (+0,19), e as demais ficam entre −0,05 e +0,03.
+As hipóteses contextuais H3–H5 também se sustentam descritivamente: a viagem não é o principal (clássicos sem deslocamento ainda têm 58,2%; as faixas de distância ficam entre 63,4% e 63,9%), o estádio habitual mostra 4,7 p.p. de diferença bruta (0,13 ponto/jogo na comparação dentro de equipe-temporada) e a mudança de nível pós-2018 é o padrão mais robusto da série. A força na tabela está associada à heterogeneidade entre confrontos (favorito 73,3% vs. zebra 55,6%), mas não ao nível agregado. Não há uma causa única nos dados: há associações modestas e um resíduo grande, que a literatura associa a torcida, arbitragem, clima e gramado. A base externa aproxima a torcida pelo público: o público médio acompanha a força do clube (0,46 com pontos), não o HA (0,07; −0,01 sem 2020–2021); os pontos sobem de 43,1 para 59,4 do menor para o maior quartil de público, enquanto o HA fica entre 0,66 e 0,82, sem tendência. O contraste de 2020 mostra queda sem desaparecimento; a arbitragem segue conhecida apenas por identidade, não por decisões. A matriz de correlação reforça o quadro: por equipe-temporada, o HA tem correlação quase nula com distância média (−0,01), pontos (0,08) e posição (−0,08), fraca com estádio habitual (0,10) e negativa moderada com a temporada (−0,19); no nível de partida, a maior associação contextual é a diferença de posição (+0,19), e as demais ficam entre −0,05 e +0,03.
 
 ## 6.2 Contribuição
 

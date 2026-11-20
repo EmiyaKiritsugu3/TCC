@@ -156,6 +156,25 @@ mostra que a variação observada de público não é um experimento limpo. O
 contraste de 2020 (portões fechados) é mais informativo, e nele a vantagem
 cai, mas permanece.
 
+### 4.4 Por quartil de público (equipe)
+
+| Quartil | Times | Público médio | Pontos/temporada | HA | Casa pts/jogo | Fora pts/jogo |
+|---|---:|---:|---:|---:|---:|---:|
+| Q1 (menor) | 7 | 6.461 | 43,1 | 0,657 | 1,463 | 0,806 |
+| Q2 | 7 | 12.960 | 46,5 | 0,815 | 1,632 | 0,817 |
+| Q3 | 7 | 18.074 | 52,7 | 0,762 | 1,769 | 1,007 |
+| Q4 (maior) | 7 | 24.939 | 59,4 | 0,731 | 1,930 | 1,199 |
+
+Fonte: base validada + base externa; 28 equipes com pelo menos cinco temporadas.
+HA = pontos/jogo em casa − fora. Spearman público × pontos = 0,786; público ×
+HA = 0,043.
+
+Os pontos sobem de 43,1 (Q1) para 59,4 (Q4), enquanto o HA fica entre 0,657
+e 0,815, sem ordem monotônica — o Q4 tem 0,731, abaixo do Q2. O público
+separa clubes grandes de pequenos, não clubes mais dependentes do mando.
+Flamengo (Q4) tem HA 0,59; Santos (Q2), 0,86; Atlético-GO (Q1), 0,36. A
+Figura 12 da monografia mostra o mesmo padrão em dispersão.
+
 ## 5. Arbitragem
 
 | Item | Valor |

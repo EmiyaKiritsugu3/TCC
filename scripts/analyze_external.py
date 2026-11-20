@@ -169,6 +169,50 @@ def _equipe_temporada(base: pd.DataFrame, d: pd.DataFrame) -> dict:
     }
 
 
+def _equipe_publico(d: pd.DataFrame) -> dict:
+    """Quartis de público médio por equipe (mínimo de cinco temporadas)."""
+    ts = team_season_features(d).set_index(["season", "team"])
+    pub = d.groupby(["season", "home_team"])["publico"].mean().rename("publico_medio")
+    pub.index = pub.index.set_names(["season", "team"])
+    ts = ts.join(pub).reset_index()
+    g = ts.dropna(subset=["publico_medio"]).groupby("team").agg(
+        temporadas=("season", "nunique"),
+        publico=("publico_medio", "mean"),
+        ha=("ha", "mean"),
+        pts=("pts", "mean"),
+        home_ppg=("home_ppg", "mean"),
+        away_ppg=("away_ppg", "mean"),
+    ).reset_index()
+    g = g[g["temporadas"] >= 5].copy()
+    g["quartil"] = pd.qcut(
+        g["publico"], 4, labels=["Q1 (menor)", "Q2", "Q3", "Q4 (maior)"]
+    )
+    quartis = []
+    for nome, sub in g.groupby("quartil", observed=True):
+        quartis.append({
+            "quartil": str(nome),
+            "times": int(len(sub)),
+            "publico": float(sub["publico"].mean()),
+            "pts": float(sub["pts"].mean()),
+            "ha": float(sub["ha"].mean()),
+            "home_ppg": float(sub["home_ppg"].mean()),
+            "away_ppg": float(sub["away_ppg"].mean()),
+        })
+    return {
+        "n_times": int(len(g)),
+        "quartis": quartis,
+        "correlacoes": {
+            "publico_ha": spearman(g["publico"], g["ha"]),
+            "publico_pts": spearman(g["publico"], g["pts"]),
+            "publico_home_ppg": spearman(g["publico"], g["home_ppg"]),
+            "publico_away_ppg": spearman(g["publico"], g["away_ppg"]),
+        },
+        "times": g.sort_values("publico", ascending=False)[
+            ["team", "temporadas", "publico", "ha", "pts", "home_ppg", "away_ppg"]
+        ].round(4).to_dict(orient="records"),
+    }
+
+
 def _partida(d: pd.DataFrame) -> dict:
     d = d.copy()
     d["goal_diff"] = d["home_goals"] - d["away_goals"]
@@ -263,6 +307,7 @@ def main(argv: list[str] | None = None) -> int:
         "cobertura": _por_temporada(d),
         "blocos": _resumo_blocos(d),
         "equipe_temporada": _equipe_temporada(base, d),
+        "equipe_publico": _equipe_publico(d),
         "partida": _partida(d),
         "arbitragem": _arbitragem(d),
     }

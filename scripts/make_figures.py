@@ -5,9 +5,11 @@ from pathlib import Path
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
+import numpy as np
 import pandas as pd
 
 from analyze_context import build_outputs
+from associations import team_season_features
 from metrics import by_season, summarize
 
 RAIZ = Path(__file__).resolve().parent.parent
@@ -148,6 +150,56 @@ def fig_correlacoes(mat: pd.DataFrame):
     plt.close(fig)
 
 
+def fig_publico_ha():
+    """Dispersão público × HA e público × pontos (base externa)."""
+    caminho = RAIZ / "data" / "external" / "context_clean.csv"
+    if not caminho.exists():
+        print("fig12: context_clean.csv ausente; figura não regenerada")
+        return
+    ext = pd.read_csv(caminho)
+    ts = team_season_features(ext).set_index(["season", "team"])
+    pub = ext.groupby(["season", "home_team"])["publico"].mean().rename("publico_medio")
+    pub.index = pub.index.set_names(["season", "team"])
+    ts = ts.join(pub).reset_index()
+    g = ts.dropna(subset=["publico_medio"]).groupby("team").agg(
+        temporadas=("season", "nunique"),
+        publico=("publico_medio", "mean"),
+        ha=("ha", "mean"),
+        pts=("pts", "mean"),
+    ).reset_index()
+    g = g[g["temporadas"] >= 5].copy()
+    if g.empty:
+        print("fig12: sem equipes com cinco temporadas; figura não regenerada")
+        return
+
+    fig, axes = plt.subplots(1, 2, figsize=(12, 5.2))
+    paineis = [
+        ("ha", "HA × público", "Vantagem casa−fora (pontos/jogo)"),
+        ("pts", "Pontos × público", "Pontos por temporada"),
+    ]
+    for ax, (coluna, titulo, rotulo_y) in zip(axes, paineis):
+        x = g["publico"] / 1000
+        y = g[coluna]
+        ax.scatter(x, y, color=AZUL, alpha=0.8, s=28)
+        coef = np.polyfit(x, y, 1)
+        xs = np.linspace(float(x.min()), float(x.max()), 50)
+        ax.plot(xs, np.polyval(coef, xs), color=CINZA, linewidth=1.5)
+        rho = float(x.rank().corr(y.rank()))
+        ax.set_title(f"{titulo} (ρ = {rho:.2f})", fontsize=10)
+        ax.set_xlabel("Público médio (mil)")
+        ax.set_ylabel(rotulo_y)
+        for _, row in g.iterrows():
+            if row["team"] in ("Flamengo", "Santos", "Atletico-GO"):
+                nome = "Atlético-GO" if row["team"] == "Atletico-GO" else row["team"]
+                ax.annotate(nome, (row["publico"] / 1000, row[coluna]),
+                            textcoords="offset points", xytext=(4, 4), fontsize=8)
+    fig.suptitle("Público médio, vantagem casa−fora e pontos por temporada (2007–2024)",
+                 fontsize=12)
+    fig.tight_layout()
+    fig.savefig(FIG / "fig12_publico_ha.png", dpi=150)
+    plt.close(fig)
+
+
 def main():
     FIG.mkdir(parents=True, exist_ok=True)
     df = pd.read_csv(RAIZ / "data" / "processed" / "matches_processed.csv")
@@ -162,6 +214,7 @@ def main():
     fig_serie_ic(anual, payload["nivel_2019"])
     fig_contexto(tab5)
     fig_correlacoes(pd.DataFrame(payload["correlacoes"]["equipe"]["matriz"]))
+    fig_publico_ha()
     tab1 = t.merge(anual[["season", "lo", "hi"]].rename(
         columns={"lo": "pollard_lo", "hi": "pollard_hi"}), on="season", how="left")
     tab1.round(2).to_csv(FIG / "tab1_indicadores_temporada.csv", index=False)

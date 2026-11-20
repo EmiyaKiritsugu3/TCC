@@ -491,6 +491,307 @@
       }
     ]
   },
+  "equipe_publico": {
+    "n_times": 28,
+    "quartis": [
+      {
+        "quartil": "Q1 (menor)",
+        "times": 7,
+        "publico": 6461.341005148927,
+        "pts": 43.06819727891156,
+        "ha": 0.6565968492660222,
+        "home_ppg": 1.4625671321160045,
+        "away_ppg": 0.805970282849982
+      },
+      {
+        "quartil": "Q2",
+        "times": 7,
+        "publico": 12960.423883440322,
+        "pts": 46.52554308436662,
+        "ha": 0.8146545576886134,
+        "home_ppg": 1.6316836758013227,
+        "away_ppg": 0.8170291181127095
+      },
+      {
+        "quartil": "Q3",
+        "times": 7,
+        "publico": 18073.715813119506,
+        "pts": 52.72949558611323,
+        "ha": 0.7616413169910885,
+        "home_ppg": 1.7686710250288311,
+        "away_ppg": 1.007029708037743
+      },
+      {
+        "quartil": "Q4 (maior)",
+        "times": 7,
+        "publico": 24939.320625921824,
+        "pts": 59.44444444444444,
+        "ha": 0.7311612364243943,
+        "home_ppg": 1.9299081035923142,
+        "away_ppg": 1.19874686716792
+      }
+    ],
+    "correlacoes": {
+      "publico_ha": 0.042996039106274093,
+      "publico_pts": 0.7859879584017518,
+      "publico_home_ppg": 0.7349117353617356,
+      "publico_away_ppg": 0.7301587301587301
+    },
+    "times": [
+      {
+        "team": "Flamengo",
+        "temporadas": 18,
+        "publico": 33236.1447,
+        "ha": 0.5906,
+        "pts": 62.5556,
+        "home_ppg": 1.9415,
+        "away_ppg": 1.3509
+      },
+      {
+        "team": "Corinthians",
+        "temporadas": 17,
+        "publico": 28018.0898,
+        "ha": 0.7988,
+        "pts": 58.7059,
+        "home_ppg": 1.9443,
+        "away_ppg": 1.1455
+      },
+      {
+        "team": "Sao Paulo",
+        "temporadas": 18,
+        "publico": 25179.1307,
+        "ha": 0.7398,
+        "pts": 60.3889,
+        "home_ppg": 1.9591,
+        "away_ppg": 1.2193
+      },
+      {
+        "team": "Fortaleza",
+        "temporadas": 6,
+        "publico": 23596.1842,
+        "ha": 0.8158,
+        "pts": 54.8333,
+        "home_ppg": 1.8509,
+        "away_ppg": 1.0351
+      },
+      {
+        "team": "Cruzeiro",
+        "temporadas": 15,
+        "publico": 22214.3298,
+        "ha": 0.6035,
+        "pts": 57.3333,
+        "home_ppg": 1.8105,
+        "away_ppg": 1.207
+      },
+      {
+        "team": "Palmeiras",
+        "temporadas": 17,
+        "publico": 21833.2826,
+        "ha": 0.6409,
+        "pts": 62.1765,
+        "home_ppg": 1.9567,
+        "away_ppg": 1.3158
+      },
+      {
+        "team": "Gremio",
+        "temporadas": 17,
+        "publico": 20498.0826,
+        "ha": 0.9288,
+        "pts": 60.1176,
+        "home_ppg": 2.0464,
+        "away_ppg": 1.1176
+      },
+      {
+        "team": "Atletico-MG",
+        "temporadas": 18,
+        "publico": 20349.1335,
+        "ha": 0.7891,
+        "pts": 58.6111,
+        "home_ppg": 1.9386,
+        "away_ppg": 1.1494
+      },
+      {
+        "team": "Bahia",
+        "temporadas": 11,
+        "publico": 20077.4593,
+        "ha": 0.6746,
+        "pts": 46.2727,
+        "home_ppg": 1.555,
+        "away_ppg": 0.8804
+      },
+      {
+        "team": "Internacional",
+        "temporadas": 17,
+        "publico": 18854.1486,
+        "ha": 0.8793,
+        "pts": 58.8235,
+        "home_ppg": 1.9876,
+        "away_ppg": 1.1084
+      },
+      {
+        "team": "Fluminense",
+        "temporadas": 18,
+        "publico": 18771.5529,
+        "ha": 0.6462,
+        "pts": 55.2778,
+        "home_ppg": 1.7778,
+        "away_ppg": 1.1316
+      },
+      {
+        "team": "Ceara",
+        "temporadas": 7,
+        "publico": 18218.6692,
+        "ha": 0.7519,
+        "pts": 44.0,
+        "home_ppg": 1.5338,
+        "away_ppg": 0.782
+      },
+      {
+        "team": "Botafogo-RJ",
+        "temporadas": 16,
+        "publico": 15528.8935,
+        "ha": 0.5625,
+        "pts": 53.0625,
+        "home_ppg": 1.6776,
+        "away_ppg": 1.1151
+      },
+      {
+        "team": "Athletico-PR",
+        "temporadas": 17,
+        "publico": 14716.1536,
+        "ha": 1.0279,
+        "pts": 53.0588,
+        "home_ppg": 1.9102,
+        "away_ppg": 0.8824
+      },
+      {
+        "team": "Sport",
+        "temporadas": 11,
+        "publico": 14612.5865,
+        "ha": 0.9474,
+        "pts": 45.4545,
+        "home_ppg": 1.6699,
+        "away_ppg": 0.7225
+      },
+      {
+        "team": "Vasco",
+        "temporadas": 13,
+        "publico": 14600.7332,
+        "ha": 0.6356,
+        "pts": 49.1538,
+        "home_ppg": 1.6113,
+        "away_ppg": 0.9757
+      },
+      {
+        "team": "Vitoria",
+        "temporadas": 9,
+        "publico": 14458.9298,
+        "ha": 0.6608,
+        "pts": 45.6667,
+        "home_ppg": 1.5322,
+        "away_ppg": 0.8713
+      },
+      {
+        "team": "Coritiba",
+        "temporadas": 12,
+        "publico": 14451.6859,
+        "ha": 0.9474,
+        "pts": 44.5,
+        "home_ppg": 1.6447,
+        "away_ppg": 0.6974
+      },
+      {
+        "team": "Nautico",
+        "temporadas": 5,
+        "publico": 13440.3632,
+        "ha": 0.9474,
+        "pts": 40.0,
+        "home_ppg": 1.5263,
+        "away_ppg": 0.5789
+      },
+      {
+        "team": "Goias",
+        "temporadas": 11,
+        "publico": 9776.1547,
+        "ha": 0.7033,
+        "pts": 45.7273,
+        "home_ppg": 1.555,
+        "away_ppg": 0.8517
+      },
+      {
+        "team": "Santos",
+        "temporadas": 17,
+        "publico": 9382.5139,
+        "ha": 0.8607,
+        "pts": 55.1765,
+        "home_ppg": 1.8824,
+        "away_ppg": 1.0217
+      },
+      {
+        "team": "Figueirense",
+        "temporadas": 7,
+        "publico": 8771.1987,
+        "ha": 0.5865,
+        "pts": 44.5714,
+        "home_ppg": 1.4662,
+        "away_ppg": 0.8797
+      },
+      {
+        "team": "Avai",
+        "temporadas": 7,
+        "publico": 8561.4812,
+        "ha": 0.6241,
+        "pts": 38.7143,
+        "home_ppg": 1.3308,
+        "away_ppg": 0.7068
+      },
+      {
+        "team": "Chapecoense",
+        "temporadas": 7,
+        "publico": 7780.1997,
+        "ha": 0.5764,
+        "pts": 41.0,
+        "home_ppg": 1.3734,
+        "away_ppg": 0.797
+      },
+      {
+        "team": "Ponte Preta",
+        "temporadas": 5,
+        "publico": 6206.4947,
+        "ha": 0.9263,
+        "pts": 45.6,
+        "home_ppg": 1.6632,
+        "away_ppg": 0.7368
+      },
+      {
+        "team": "Atletico-GO",
+        "temporadas": 8,
+        "publico": 5849.9408,
+        "ha": 0.3618,
+        "pts": 40.625,
+        "home_ppg": 1.25,
+        "away_ppg": 0.8882
+      },
+      {
+        "team": "America-MG",
+        "temporadas": 6,
+        "publico": 4468.114,
+        "ha": 0.8158,
+        "pts": 39.1667,
+        "home_ppg": 1.4386,
+        "away_ppg": 0.6228
+      },
+      {
+        "team": "Bragantino",
+        "temporadas": 5,
+        "publico": 3591.9579,
+        "ha": 0.7053,
+        "pts": 51.8,
+        "home_ppg": 1.7158,
+        "away_ppg": 1.0105
+      }
+    ]
+  },
   "partida": {
     "todas": {
       "n_publico": 6618,
