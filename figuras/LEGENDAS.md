@@ -41,7 +41,51 @@ Proporção de vitórias do mandante, empates e vitórias do visitante por
 temporada, 2006–2024 (barras 100% empilhadas).
 Fonte: Elaboração própria.
 
+**Figura 9 — `fig9_serie_ic.png`.**
+Série anual do índice de Pollard com IC 95% (bootstrap de partidas) e médias
+pré/pós-2019: 64,9% em 2006–2018 e 61,0% em 2019–2024; marcador vertical em 2019.
+Fonte: Elaboração própria, a partir da base validada.
+
+**Figura 10 — `fig10_contexto.png`.**
+Pollard por contexto da partida (clássico, distância, mesma UF, estádio,
+descanso, força, era e pandemia), com IC 95% e linha de 50%.
+Fonte: Elaboração própria, a partir da base validada.
+
+**Figura 11 — `fig11_correlacoes_equipe.png`.**
+Matriz de correlação de Spearman por equipe-temporada (HA × desempenho,
+contexto e temporada), 2006–2024.
+Fonte: Elaboração própria, a partir da base validada.
+
+**Figura 12 — `fig12_publico_ha.png`.**
+Dispersão do público médio por equipe (2007–2024) contra a vantagem casa−fora
+(painel esquerdo) e os pontos médios por temporada (painel direito); 28 equipes com
+pelo menos cinco temporadas. ρ = Spearman.
+Fonte: Elaboração própria, a partir da base validada e da base externa
+(Base dos Dados/Transfermarkt e FBref).
+
 **Tabela 1 — `tab1_indicadores_temporada.csv`.**
-Indicadores por temporada (n, proporções, médias de gols, pontos e Pollard).
-2016 com n = 379 (partida cancelada, ver metodologia); 2020 inclui jogos até
-25/02/2021. Importar no editor de texto e formatar pela norma do curso.
+Indicadores por temporada (n, proporções, médias de gols, pontos, Pollard e IC
+95% do Pollard). 2016 com n = 379 (partida cancelada, ver metodologia); 2020
+inclui jogos até 25/02/2021. Importar no editor de texto e formatar pela norma
+do curso.
+
+**Tabela 5 — `tab5_contexto.csv`.**
+Pollard por contexto da partida, com n e IC 95%; inclui clássico, distância,
+mesma UF, estádio habitual, descanso, força na tabela, era e pandemia.
+Fonte: Elaboração própria, a partir da base validada.
+
+**Tabela 6 — `tab6_equipes.csv`.**
+Vantagem casa−fora por equipe (pontos/jogo), com n e IC 95%; a monografia
+mostra os extremos entre equipes com pelo menos cinco temporadas.
+Fonte: Elaboração própria, a partir da base validada.
+
+**Tabela 7 — `tab7_correlacoes_equipe.csv`.**
+Correlações de Spearman com a vantagem casa−fora por equipe-temporada.
+A matriz completa (12×12) está em `matriz_equipe.csv`; a de partida, em
+`matriz_partida.csv`.
+Fonte: Elaboração própria, a partir da base validada.
+
+**Tabela 10 — `data/external/external_summary.json` (seção `equipe_publico`).**
+Quartis de público médio por equipe (mínimo de cinco temporadas), com pontos
+médios por temporada, HA e desempenho em casa/fora.
+Fonte: Elaboração própria, a partir da base validada e da base externa.

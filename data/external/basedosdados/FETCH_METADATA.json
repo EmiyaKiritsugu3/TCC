@@ -1,0 +1,8 @@
+{
+  "fonte": "Base dos Dados / Transfermarkt",
+  "tabela": "basedosdados.mundo_transfermarkt_competicoes.brasileirao_serie_a",
+  "consulta": "SELECT\n  ano_campeonato,\n  data,\n  rodada,\n  estadio,\n  arbitro,\n  publico,\n  publico_max,\n  time_mandante,\n  time_visitante,\n  tecnico_mandante,\n  tecnico_visitante,\n  colocacao_mandante,\n  colocacao_visitante,\n  valor_equipe_titular_mandante,\n  valor_equipe_titular_visitante,\n  idade_media_titular_mandante,\n  idade_media_titular_visitante,\n  gols_mandante,\n  gols_visitante,\n  gols_1_tempo_mandante,\n  gols_1_tempo_visitante,\n  escanteios_mandante,\n  escanteios_visitante,\n  faltas_mandante,\n  faltas_visitante,\n  chutes_bola_parada_mandante,\n  chutes_bola_parada_visitante,\n  defesas_mandante,\n  defesas_visitante,\n  impedimentos_mandante,\n  impedimentos_visitante,\n  chutes_mandante,\n  chutes_visitante,\n  chutes_fora_mandante,\n  chutes_fora_visitante\nFROM `basedosdados.mundo_transfermarkt_competicoes.brasileirao_serie_a`\nWHERE ano_campeonato BETWEEN 2006 AND 2024\nORDER BY ano_campeonato, data, time_mandante",
+  "acesso_utc": "2026-11-20T11:55:29+00:00",
+  "linhas": 7126,
+  "sha256": "e9b1a675166a88877937f2bb53c128a02692ea920d731d04feca50caf0ddc4fb"
+}

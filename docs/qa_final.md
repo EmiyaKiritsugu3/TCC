@@ -4,6 +4,18 @@
 > clone novo, venv Python 3.11.15, instalação com hashes e cadeia completa do CI.
 > As seções 1–5 são o registro histórico do commit `9b9540c`.
 
+## Atualização 19/11/2026 — branch `feat/contexto-vantagem-casa`
+
+- `pytest tests/ -q` → **104 passed** (95 rápidos + 9 de integração).
+- `scripts/analyze_context.py` → `tab5_contexto.csv`, `tab6_equipes.csv`,
+  `tab7_correlacoes_equipe.csv`, `matriz_equipe.csv`, `matriz_partida.csv`,
+  `contexto.json`; Geral 63,66% (IC 62,63–64,70); quebra em 2019.
+- `scripts/make_figures.py` → Figura 9 (série com IC), Figura 10 (contexto) e Figura 11 (matriz de correlação).
+- `scripts/check_monografia.py` → **AUDITORIA NUMÉRICA: tudo confere**
+  (Tabelas 1 e 5–7; ICs; mudança de nível; correlações; figuras 1–11; 9.390 palavras).
+- Dashboard: 5 abas; AppTest cobre a aba Contexto.
+- Monografia v3: §5.4–5.5, Tabelas 5–7, Figuras 9–11, ICs na Tabela 1.
+
 ## 0. Revalidação em clone limpo — `main` @ `5105dd5` (17/11/2026)
 
 - Clone de `main` em `/tmp/opencode/tcc-qa-clean`; venv novo (`venv/bin/python`, Python 3.11.15).
@@ -50,7 +62,7 @@
 
 ## 5. Deck e PDF (`apresentacao/`)
 
-- `apresentacao_tcc.pptx`: 10 slides; continha `63,7%`, link do repositório e `22 testes` (snapshot histórico; no branch atual o deck diz `71 testes`).
+- `apresentacao_tcc.pptx`: 10 slides; continha `63,7%`, link do repositório e `22 testes` (snapshot histórico; o deck foi atualizado para `104 testes` e a suíte atual também tem `104`).
 - `apresentacao_tcc.pdf`: 10 páginas, regenerado via LibreOffice após a correção do slide 9.
 
 ## Artefatos de entrega

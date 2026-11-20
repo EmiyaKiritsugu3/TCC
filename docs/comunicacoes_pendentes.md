@@ -12,10 +12,12 @@
 
 > Prof. Barboza,
 >
-> a análise está fechada e o repositório está na branch de melhorias
-> (`feat/sprints-melhorias`): 7.219 partidas 2006–2024, Pollard 63,7% no período
+> a análise está fechada e o repositório está na branch
+> `feat/contexto-vantagem-casa`: 7.219 partidas 2006–2024, Pollard 63,7% no período
 > (58,2% em 2017 – 69,5% em 2018), validação cruzada 99,96% e 19/19 campeões
-> recalculados, 71 testes passando. Monografia consolidada em
+> recalculados, 104 testes passando. A versão 3 acrescenta a mudança de nível
+> pós-2018 (64,9% → 61,0%) e a análise contextual (viagem, clássico, estádio,
+> descanso, força e era), com ICs. Monografia consolidada em
 > `docs/monografia_v2.md` (+ rascunho formatado `docs/monografia_draft_abnt.docx`,
 > NBR 14724:2024) e resumo do estado em `docs/resumo_orientador.md`.
 >
@@ -25,8 +27,8 @@
 > 2. **Artefato** — dashboard + pesquisa quantitativa valem como artefato de SI?
 > 3. **Fonte e licença** — manter o plano B (bruto não redistribuído, download
 >    pinado + SHA-256)? Autoriza eu pedir autorização escrita ao autor?
-> 4. **Spearman** — incluir a correlação ano × índice (tendência, exploratória)
->    ou manter só o descritivo?
+> 4. **Tendência/contexto** — manter a análise exploratória de mudança de nível
+>    pós-2018 e as associações contextuais (H3–H5) ou só o descritivo básico?
 > 5. **Formato e software** — qual o formato exigido de projeto/TCC e como o
 >    software será avaliado? Qual edição da NBR a banca adota (14724:2024)?
 >

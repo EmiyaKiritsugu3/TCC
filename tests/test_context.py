@@ -6,11 +6,18 @@ import pytest
 
 from context import (
     CLUB_COORDS,
+    CLUB_STATE,
     add_era_flags,
+    build_context_frame,
     haversine_km,
+    region,
+    rest_bucket,
     rest_days,
+    same_state,
+    table_bucket,
     table_snapshot,
     travel_km,
+    usual_stadium,
 )
 
 PROCESSED = Path(__file__).resolve().parent.parent / "data" / "processed" / "matches_processed.csv"
@@ -61,6 +68,18 @@ def test_descanso_em_dias():
     assert r["away_rest"].iloc[2] == 0      # C jogou no mesmo dia
 
 
+def test_descanso_reseta_por_temporada():
+    d = pd.DataFrame({
+        "season": [2019, 2020],
+        "date": pd.to_datetime(["2019-12-08", "2020-08-09"]),
+        "home_team": ["A", "A"],
+        "away_team": ["B", "C"],
+    })
+    r = rest_days(d)
+    assert pd.isna(r.loc[0, "home_rest"])  # estreia de A na temporada 2019
+    assert pd.isna(r.loc[1, "home_rest"])  # estreia de A na temporada 2020
+
+
 def test_posicao_na_tabela_antes_da_partida():
     d = pd.DataFrame({
         "season": [2019, 2019, 2019],
@@ -103,3 +122,91 @@ def test_travel_km_clube_nao_mapeado_falha():
     df = pd.DataFrame([{"home_team": "Flamengo", "away_team": "Clube Inexistente"}])
     with pytest.raises(ValueError, match="Clube Inexistente"):
         travel_km(df)
+
+
+def test_estados_cobrem_todos_os_clubes_com_coordenadas():
+    assert set(CLUB_STATE) == set(CLUB_COORDS)
+
+
+def test_same_state_e_regiao():
+    d = pd.DataFrame({
+        "home_team": ["Flamengo", "Flamengo", "Bahia", "Gremio", "Cuiaba"],
+        "away_team": ["Fluminense", "Corinthians", "Vitoria", "Internacional", "Goias"],
+    })
+    assert same_state(d).tolist() == [True, False, True, True, False]
+    assert region(d, "home").tolist() == ["SE", "SE", "NE", "S", "CO"]
+    assert region(d, "away").tolist() == ["SE", "SE", "NE", "S", "CO"]
+
+
+def test_region_estado_desconhecido_falha():
+    d = pd.DataFrame({"home_team": ["Paysandu"], "away_team": ["Flamengo"]})
+    with pytest.raises(ValueError, match="Paysandu"):
+        region(d, "home")
+
+
+def test_usual_stadium_desempata_por_ordem_alfabetica():
+    d = pd.DataFrame({
+        "season": [2019, 2019, 2019, 2019, 2019],
+        "home_team": ["A", "A", "A", "B", "B"],
+        "stadium": ["X", "X", "Y", "Y", "X"],
+    })
+    assert usual_stadium(d).tolist() == [True, True, False, False, True]
+
+
+def test_usual_stadium_exige_coluna():
+    d = pd.DataFrame({"season": [2019], "home_team": ["A"], "away_team": ["B"]})
+    with pytest.raises(ValueError, match="stadium"):
+        usual_stadium(d)
+
+
+def test_usual_stadium_nao_imputa_ausente():
+    d = pd.DataFrame({
+        "season": [2019, 2019],
+        "home_team": ["A", "A"],
+        "stadium": [None, "X"],
+    })
+    assert usual_stadium(d).tolist() == [False, True]
+
+
+def test_rest_bucket_cobre_as_faixas_e_ignora_ausente():
+    d = pd.DataFrame({
+        "home_rest": [5, 5, 1, 0, 0, 4, 5, None],
+        "away_rest": [2, 2, 0, 1, 2, 5, 1, 2],
+    })
+    got = rest_bucket(d).tolist()
+    assert got == ["casa +3", "casa +3", "casa +1-2", "fora +1-2",
+                   "fora +1-2", "fora +1-2", "casa +3", None]
+
+
+def test_table_bucket_usa_margem_de_tres_posicoes():
+    d = pd.DataFrame({
+        "home_pos_before": [1, 5, 10, 10, 6, 10, None],
+        "away_pos_before": [10, 5, 1, 6, 10, 7, 2],
+    })
+    assert table_bucket(d).tolist() == [
+        "favorito", "equilibrado", "zebra", "zebra", "favorito", "equilibrado", None,
+    ]
+
+
+def test_build_context_frame_monta_variaveis_derivadas():
+    d = pd.DataFrame({
+        "season": [2019, 2019],
+        "date": pd.to_datetime(["2019-04-27", "2019-04-28"]),
+        "round": [1, 1],
+        "match_id": ["1", "2"],
+        "home_team": ["Flamengo", "Corinthians"],
+        "away_team": ["Fluminense", "Sao Paulo"],
+        "home_goals": [2, 1],
+        "away_goals": [0, 0],
+        "home_points": [3, 1],
+        "away_points": [0, 1],
+        "stadium": ["Maracana", "Arena Corinthians"],
+    })
+    c = build_context_frame(d)
+    assert c["derby"].tolist() == [True, True]
+    assert c["same_state"].tolist() == [True, True]
+    assert c["home_region"].tolist() == ["SE", "SE"]
+    assert c["usual_stadium"].tolist() == [True, True]
+    assert c["rest_bucket"].isna().all()
+    assert c["table_bucket"].notna().all()
+    assert c["var_era"].all()

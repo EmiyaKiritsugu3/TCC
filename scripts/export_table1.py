@@ -19,6 +19,7 @@ COLUNAS = {
     "home_points": "Pontos casa",
     "away_points": "Pontos fora",
     "pollard": "Pollard",
+    "ic": "IC 95% Pollard",
 }
 
 
@@ -32,6 +33,9 @@ def main() -> None:
         for c in ("p_home", "p_draw", "p_away", "avg_home_goals", "avg_away_goals",
                   "goal_diff", "home_points", "away_points", "pollard"):
             valores.append(f"{linha[c]:.2f}".replace(".", ","))
+        valores.append(
+            f"{linha['pollard_lo']:.2f}–{linha['pollard_hi']:.2f}".replace(".", ",")
+        )
         print("| " + " | ".join(valores) + " |")
 
 

@@ -1,0 +1,200 @@
+{
+  "fonte": "Base dos Dados/Transfermarkt + FBref 2024",
+  "n": 7219,
+  "publico": 6618,
+  "publico_zero": 641,
+  "publico_zero_real": 598,
+  "arbitro": 6821,
+  "por_temporada": {
+    "2006": {
+      "n": 380,
+      "publico": 0,
+      "publico_zero": 0,
+      "publico_zero_real": 0,
+      "publico_bd": 0,
+      "publico_fbref": 0,
+      "arbitro": 0,
+      "faltas": 0
+    },
+    "2007": {
+      "n": 380,
+      "publico": 380,
+      "publico_zero": 4,
+      "publico_zero_real": 0,
+      "publico_bd": 380,
+      "publico_fbref": 0,
+      "arbitro": 380,
+      "faltas": 0
+    },
+    "2008": {
+      "n": 380,
+      "publico": 163,
+      "publico_zero": 0,
+      "publico_zero_real": 0,
+      "publico_bd": 163,
+      "publico_fbref": 0,
+      "arbitro": 380,
+      "faltas": 0
+    },
+    "2009": {
+      "n": 380,
+      "publico": 380,
+      "publico_zero": 6,
+      "publico_zero_real": 0,
+      "publico_bd": 380,
+      "publico_fbref": 0,
+      "arbitro": 380,
+      "faltas": 0
+    },
+    "2010": {
+      "n": 380,
+      "publico": 380,
+      "publico_zero": 1,
+      "publico_zero_real": 0,
+      "publico_bd": 380,
+      "publico_fbref": 0,
+      "arbitro": 380,
+      "faltas": 0
+    },
+    "2011": {
+      "n": 380,
+      "publico": 380,
+      "publico_zero": 2,
+      "publico_zero_real": 0,
+      "publico_bd": 380,
+      "publico_fbref": 0,
+      "arbitro": 380,
+      "faltas": 0
+    },
+    "2012": {
+      "n": 380,
+      "publico": 380,
+      "publico_zero": 0,
+      "publico_zero_real": 0,
+      "publico_bd": 380,
+      "publico_fbref": 0,
+      "arbitro": 380,
+      "faltas": 0
+    },
+    "2013": {
+      "n": 380,
+      "publico": 380,
+      "publico_zero": 0,
+      "publico_zero_real": 0,
+      "publico_bd": 380,
+      "publico_fbref": 0,
+      "arbitro": 380,
+      "faltas": 0
+    },
+    "2014": {
+      "n": 380,
+      "publico": 380,
+      "publico_zero": 5,
+      "publico_zero_real": 0,
+      "publico_bd": 380,
+      "publico_fbref": 0,
+      "arbitro": 380,
+      "faltas": 0
+    },
+    "2015": {
+      "n": 380,
+      "publico": 380,
+      "publico_zero": 6,
+      "publico_zero_real": 0,
+      "publico_bd": 380,
+      "publico_fbref": 0,
+      "arbitro": 380,
+      "faltas": 0
+    },
+    "2016": {
+      "n": 379,
+      "publico": 379,
+      "publico_zero": 0,
+      "publico_zero_real": 0,
+      "publico_bd": 379,
+      "publico_fbref": 0,
+      "arbitro": 379,
+      "faltas": 0
+    },
+    "2017": {
+      "n": 380,
+      "publico": 380,
+      "publico_zero": 3,
+      "publico_zero_real": 0,
+      "publico_bd": 380,
+      "publico_fbref": 0,
+      "arbitro": 380,
+      "faltas": 0
+    },
+    "2018": {
+      "n": 380,
+      "publico": 380,
+      "publico_zero": 0,
+      "publico_zero_real": 0,
+      "publico_bd": 380,
+      "publico_fbref": 0,
+      "arbitro": 380,
+      "faltas": 211
+    },
+    "2019": {
+      "n": 380,
+      "publico": 380,
+      "publico_zero": 1,
+      "publico_zero_real": 0,
+      "publico_bd": 380,
+      "publico_fbref": 0,
+      "arbitro": 380,
+      "faltas": 168
+    },
+    "2020": {
+      "n": 380,
+      "publico": 380,
+      "publico_zero": 380,
+      "publico_zero_real": 380,
+      "publico_bd": 380,
+      "publico_fbref": 0,
+      "arbitro": 380,
+      "faltas": 374
+    },
+    "2021": {
+      "n": 380,
+      "publico": 380,
+      "publico_zero": 218,
+      "publico_zero_real": 218,
+      "publico_bd": 380,
+      "publico_fbref": 0,
+      "arbitro": 380,
+      "faltas": 375
+    },
+    "2022": {
+      "n": 380,
+      "publico": 380,
+      "publico_zero": 3,
+      "publico_zero_real": 0,
+      "publico_bd": 380,
+      "publico_fbref": 0,
+      "arbitro": 380,
+      "faltas": 373
+    },
+    "2023": {
+      "n": 380,
+      "publico": 380,
+      "publico_zero": 12,
+      "publico_zero_real": 0,
+      "publico_bd": 380,
+      "publico_fbref": 0,
+      "arbitro": 380,
+      "faltas": 378
+    },
+    "2024": {
+      "n": 380,
+      "publico": 376,
+      "publico_zero": 0,
+      "publico_zero_real": 0,
+      "publico_bd": 286,
+      "publico_fbref": 90,
+      "arbitro": 362,
+      "faltas": 211
+    }
+  }
+}

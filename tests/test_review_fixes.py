@@ -67,7 +67,7 @@ def test_ci_mede_cobertura_e_invalida_cache_do_lock():
 
 def test_ci_valida_import_do_pacote_sem_pythonpath():
     ci = (RAIZ / ".github" / "workflows" / "ci.yml").read_text(encoding="utf-8")
-    assert "env -u PYTHONPATH python3 -c \"import metrics, context, openfootball\"" in ci
+    assert "env -u PYTHONPATH python3 -c \"import metrics, context, associations, openfootball\"" in ci
 
 
 def test_auditor_rejeita_caminho_fora_do_projeto(capsys):
@@ -90,7 +90,7 @@ def test_guardas_da_auditoria_sao_integracao():
 def test_auditor_rejeita_contagem_desatualizada_no_apendice(tmp_path):
     from test_check_monografia_guard import _auditar_com_texto
     texto = (RAIZ / "docs" / "monografia_v2.md").read_text(encoding="utf-8")
-    alterado = texto.replace("`tests/test_context.py` (10)", "`tests/test_context.py` (9)")
+    alterado = texto.replace("`tests/test_context.py` (20)", "`tests/test_context.py` (9)")
     resultado = _auditar_com_texto(tmp_path, alterado)
     assert resultado.returncode == 1
     assert "contagem de test_context" in resultado.stdout

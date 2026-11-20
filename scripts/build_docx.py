@@ -68,6 +68,9 @@ def corpo(doc, texto, simples=False, central=False, negrito=False, tamanho=12,
 
 
 def tabela(doc, linhas, fonte=10):
+    # A linha de separação do Markdown (|---|---:|) não é dado.
+    linhas = [l for l in linhas
+              if not all(re.fullmatch(r":?-{3,}:?", c.strip()) for c in l)]
     cab, dados = linhas[0], linhas[1:]
     tab = doc.add_table(rows=1 + len(dados), cols=len(cab))
     tab.style = "Table Grid"
