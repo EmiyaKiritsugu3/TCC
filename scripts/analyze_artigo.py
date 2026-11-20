@@ -33,8 +33,6 @@ plt.rcParams.update({"font.size": 11, "axes.grid": True, "grid.alpha": 0.3,
 def _serie(df: pd.DataFrame) -> dict:
     anual = annual_pollard_ci(df, n=4000)
     corte = change_point(df)
-    pre = df[df["season"].between(2013, 2018)]
-    pos = df[df["season"].between(2019, 2024)]
     diff = cluster_bootstrap_diff(df, df["season"].between(2013, 2018),
                                   df["season"].between(2019, 2024), n=5000)
     fig, ax = plt.subplots(figsize=(10, 5.4))
