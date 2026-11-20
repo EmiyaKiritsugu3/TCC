@@ -116,20 +116,22 @@ def _lado_cartao(cartao: str, casa: set[str], fora: set[str],
     antes = cartao.rsplit("/", 1)[0] if "/" in cartao else cartao
     uf = cartao.rsplit("/", 1)[1].strip() if "/" in cartao else ""
     texto = _limpar_cartao(antes)
-    lados: list[tuple[str, int, bool]] = []
+    lados: list[tuple[str, tuple[int, int], bool]] = []
     for lado, candidatos, uf_time in (("H", casa, uf_casa), ("A", fora, uf_fora)):
-        posicoes = [
-            m.start()
+        ocorrencias = [
+            (m.end(), len(c))
             for c in candidatos
             for m in re.finditer(rf"(?<![a-z0-9]){re.escape(c)}(?![a-z0-9])", texto)
         ]
-        if posicoes:
-            lados.append((lado, max(posicoes), uf_time == uf))
+        if ocorrencias:
+            lados.append((lado, max(ocorrencias), uf_time == uf))
     if not lados:
         return None
-    # A equipe do cartão é a última menção no texto; nomes de jogadores podem
-    # conter o nome de outro clube (ex.: "Ramires Santos ... Palmeiras/SP").
-    ultima = max(p for _, p, _ in lados)
+    # A equipe do cartão é a menção mais ao final do texto; nomes de jogadores
+    # podem conter o nome de outro clube (ex.: "Ramires Santos ... Palmeiras/SP").
+    # Em empate de posição, o nome mais longo é o mais específico
+    # ("America Mineiro" vence "Mineiro").
+    ultima = max(score for _, score, _ in lados)
     melhores = [x for x in lados if x[1] == ultima]
     if len(melhores) == 1:
         return melhores[0][0]

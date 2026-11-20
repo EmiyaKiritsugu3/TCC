@@ -114,3 +114,17 @@ def test_cartao_vermelho_sem_time_entra_como_nao_atribuido():
     assert item["red_home"] == 0
     assert item["red_away"] == 0
     assert item["nao_atribuidos"] == 1
+
+
+def test_nome_mais_longo_desempata_sufixo_comum():
+    jogo = {
+        "Date": "10/06/2024",
+        "Home": "América Mineiro / MG",
+        "Away": "Atlético Mineiro / MG",
+        "Result": "0 X 1",
+        "Yellow cards": ["30:00 1T9Jogador America Mineiro/MG"],
+        "Red cards": [],
+    }
+    item = parse_partida(jogo)
+    assert item["yellow_home"] == 1
+    assert item["yellow_away"] == 0

@@ -53,6 +53,8 @@ def main(argv: list[str] | None = None) -> int:
     qualidade_path = caminho_no_projeto(args.qualidade)
 
     base = pd.read_csv(base_path)
+    if base["match_id"].duplicated().any():
+        raise SystemExit("matches_processed.csv tem match_id duplicado")
     base["date"] = pd.to_datetime(base["date"]).dt.strftime("%Y-%m-%d")
     anos = [a for a in sorted(base["season"].unique().tolist()) if 2013 <= a <= 2024]
     cartoes = _cartoes(anos)
@@ -83,6 +85,12 @@ def main(argv: list[str] | None = None) -> int:
 
     junto = junto.dropna(subset=["match_id"]).copy()
     junto["match_id"] = junto["match_id"].astype(int)
+    repetidos = junto.loc[junto["match_id"].duplicated(), "match_id"].unique()
+    if len(repetidos):
+        raise SystemExit(
+            "junção de cartões duplicou match_id: "
+            + ", ".join(str(x) for x in sorted(repetidos)[:10])
+        )
     # A data canônica é sempre a da base; o fallback por equipes+placar pode
     # casar uma partida remarcada e não deve manter a data antiga da fonte.
     datas_base = base[["match_id", "date"]].rename(columns={"date": "date_base"})
