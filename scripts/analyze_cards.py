@@ -50,6 +50,12 @@ def _registros(df: pd.DataFrame) -> list[dict]:
     return registros
 
 
+def _arredondar(dados: dict, casas: int = 6) -> dict:
+    """Arredonda floats para estabilizar o JSON entre ambientes numéricos."""
+    return {chave: round(valor, casas) if isinstance(valor, float) else valor
+            for chave, valor in dados.items()}
+
+
 def _bootstrap_media(valores: np.ndarray, n: int = 4000, seed: int = 42):
     if len(valores) == 0:
         return None, None, None
@@ -372,8 +378,8 @@ def main(argv: list[str] | None = None) -> int:
         "fonte": "BrazilianFootball/Data (MIT)",
         "periodo": [int(tab.season.min()), int(tab.season.max())],
         "temporadas": _registros(tab),
-        "did_2019_2020": did,
-        "did_2019_2020_equipes_comuns": did_comum,
+        "did_2019_2020": _arredondar(did),
+        "did_2019_2020_equipes_comuns": _arredondar(did_comum),
         "cartoes_por_falta": _registros(por_falta),
     }
     RESUMO.write_text(json.dumps(resumo, ensure_ascii=False, indent=2, allow_nan=False) + "\n",
