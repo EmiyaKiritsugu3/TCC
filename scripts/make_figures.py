@@ -133,7 +133,9 @@ def main():
     fig_gols(t)
     fig_serie_ic(anual, payload["nivel_2019"])
     fig_contexto(tab5)
-    t.round(2).to_csv(FIG / "tab1_indicadores_temporada.csv", index=False)
+    tab1 = t.merge(anual[["season", "lo", "hi"]].rename(
+        columns={"lo": "pollard_lo", "hi": "pollard_hi"}), on="season", how="left")
+    tab1.round(2).to_csv(FIG / "tab1_indicadores_temporada.csv", index=False)
     print("figuras:", sorted(p.name for p in FIG.iterdir()))
 
 

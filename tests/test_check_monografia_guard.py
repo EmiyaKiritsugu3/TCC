@@ -31,7 +31,7 @@ def _auditar_com_texto(tmp_path, texto):
 
 def test_auditor_rejeita_numero_desatualizado(tmp_path):
     texto = (RAIZ / "docs" / "monografia_v2.md").read_text(encoding="utf-8")
-    resultado = _auditar_com_texto(tmp_path, texto.replace("71 testes", "99 testes"))
+    resultado = _auditar_com_texto(tmp_path, texto.replace("93 testes", "99 testes"))
     assert resultado.returncode == 1
     assert "DIVERGÊNCIA" in resultado.stdout
 

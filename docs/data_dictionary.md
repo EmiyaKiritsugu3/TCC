@@ -34,3 +34,11 @@ Base limpa gerada por `scripts/build_processed.py` a partir de
 - **2020:** 380 partidas de 08/08/2020 a 25/02/2021 (COVID-19).
 - **Aliases:** nenhum aplicado. Barueri (só 2009) e Grêmio Prudente (só 2010) são a mesma franquia renomeada entre temporadas — mantidas separadas por temporada.
 - **Nomes sem acento** na fonte (ex.: `Gremio`, `Ceara`, `Sao Paulo`) — preservados como estão.
+
+## Variáveis derivadas (não persistidas)
+
+`src/context.py` deriva, em memória, as variáveis da análise contextual:
+`travel_km`, `derby`, `same_state`, `home_region`, `away_region`,
+`usual_stadium`, `home_rest`, `away_rest`, `rest_bucket`, `home_pos_before`,
+`away_pos_before`, `table_bucket`, `var_era` e `pandemia`. Elas não alteram o
+CSV processado nem o placar; são recalculadas a partir da base limpa.

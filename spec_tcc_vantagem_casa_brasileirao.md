@@ -90,7 +90,7 @@ H1 será avaliada por meio do índice calculado para o período completo. H2 ser
 - Apostas esportivas, odds ou recomendações de apostas.
 - Séries B, C e D.
 - Dados detalhados de jogadores, escalações, posse de bola, cartões e finalizações.
-- Avaliação causal do efeito da torcida, arbitragem, viagem, clima ou qualidade do elenco.
+- Avaliação causal do efeito da torcida, arbitragem, viagem, clima ou qualidade do elenco. A análise contextual descritiva do RF12 não constitui avaliação causal.
 - Atualização automática do campeonato em andamento.
 - Cadastro de usuários, login, perfis, banco de dados remoto ou API própria.
 - Aplicativo móvel nativo.
@@ -299,6 +299,10 @@ Quando os filtros não retornarem partidas, o sistema deve exibir uma mensagem c
 ### RF11 — Exportar resultados filtrados (opcional)
 
 Se houver tempo, permitir baixar como CSV a tabela filtrada e/ou um resumo por temporada. A exportação dos dados brutos deverá respeitar as condições de uso da fonte original.
+
+### RF12 — Analisar o contexto da partida (extensão descritiva)
+
+O sistema deve permitir explorar o índice de Pollard por clássico, faixa de distância, mesma unidade federativa, estádio habitual, diferença de descanso, posição relativa na tabela, era e pandemia, exibindo n e intervalo de confiança. A funcionalidade é **descritiva**: não estima efeito causal de torcida, arbitragem, viagem ou qualidade do elenco.
 
 ## 12. Organização das telas
 
@@ -521,7 +525,7 @@ Esta é uma lista inicial. A redação final deverá consultar os textos complet
 1. Aprovação do recorte 2006–2024 e do título.
 2. Aceitação do dashboard como artefato central de Sistemas de Informação, acompanhado da pesquisa quantitativa.
 3. Confirmação da fonte de dados e das condições de uso.
-4. Decisão sobre a inclusão da análise exploratória de tendência (por exemplo, Spearman) ou manutenção de estatística descritiva.
+4. Decisão sobre a inclusão da análise exploratória de tendência/mudança de nível e das associações contextuais (H3–H5) ou manutenção apenas da estatística descritiva básica.
 5. Formato exigido pelo curso para projeto, TCC e avaliação do software.
 
 **Recomendação de escopo:** concluir primeiro a auditoria dos dados, os indicadores de Pollard e o dashboard mínimo. Só adicionar métodos, filtros ou telas secundárias depois que esse núcleo estiver validado.

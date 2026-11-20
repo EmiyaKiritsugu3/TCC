@@ -5,15 +5,15 @@ Uso: .venv/bin/python scripts/check_monografia.py [--monografia CAMINHO]
 Acumula as divergências com mensagens objetivas e falha (exit 1) ao final.
 """
 import argparse
+import json
 import re
-import sys
 from pathlib import Path
 
 RAIZ = Path(__file__).resolve().parent.parent
 
 import pandas as pd
 from metrics import by_season, summarize, team_season
-from context import add_era_flags, rest_days, table_snapshot, travel_km
+from context import rest_bucket
 
 ERROS = []
 
@@ -24,7 +24,50 @@ def confere(cond, msg):
         print(f"DIVERGÊNCIA: {msg}")
 
 
-def conferir(texto: str, df: pd.DataFrame, tab1: pd.DataFrame) -> list[str]:
+def _num(n: int) -> str:
+    return f"{int(n):,}".replace(",", ".")
+
+
+def _rotulo_grupo(variavel: str, grupo: str) -> str:
+    """Rótulo de apresentação usado na Tabela 5 (o CSV mantém o nome curto)."""
+    mapa = {
+        "casa +1-2": "Casa +1–2 dias",
+        "casa +3": "Casa +3 dias",
+        "fora +1-2": "Fora +1–2 dias",
+        "fora +3": "Fora +3 dias",
+        "igual": "Igual",
+        "favorito": "Favorito",
+        "equilibrado": "Equilibrado",
+        "zebra": "Zebra",
+    }
+    return mapa.get(grupo, grupo)
+
+
+def _linhas_tabela(bloco: str, ncols: int, cabecalho: str) -> list[list[str]]:
+    """Extrai linhas de uma tabela Markdown, ignorando cabeçalho e separador."""
+    linhas = []
+    for linha in bloco.splitlines():
+        if not linha.startswith("|"):
+            continue
+        partes = [p.strip() for p in linha.strip("|").split("|")]
+        if len(partes) != ncols or partes[0] == cabecalho:
+            continue
+        if all(set(p) <= set("-: ") for p in partes):
+            continue
+        linhas.append(partes)
+    return linhas
+
+
+def _ic(texto: str) -> tuple[float, float, float]:
+    """Lê '58,23 (53,99–62,45)' e devolve (ponto, lo, hi)."""
+    m = re.fullmatch(r"([\d,]+) \(([\d,]+)–([\d,]+)\)", texto)
+    if not m:
+        raise ValueError(f"IC em formato inesperado: {texto!r}")
+    return tuple(float(v.replace(",", ".")) for v in m.groups())  # type: ignore[return-value]
+
+
+def conferir(texto: str, df: pd.DataFrame, tab1: pd.DataFrame,
+             tab5: pd.DataFrame, tab6: pd.DataFrame, contexto: dict) -> list[str]:
     """Executa todas as conferências e devolve as mensagens de divergência."""
     ERROS.clear()
     T = texto
@@ -54,10 +97,18 @@ def conferir(texto: str, df: pd.DataFrame, tab1: pd.DataFrame) -> list[str]:
                    "63,7%", "12.554", "7.166", "58,2% (2017)", "69,5% (2018)",
                    "28,9%", "17,9%", "60,2%", "n = 379", "379 jogos",
                    "62,4% em 2019", "61,8% em 2021", "11,3 p.p",
-                   "2.659 de 2.660", "99,96%", "19/19", "71 testes", "71 passed",
-                   "25/02/2021", "Flamengo 2019: 53/37/90/38"]:
+                   "2.659 de 2.660", "99,96%", "19/19", "93 testes", "93 passed",
+                   "25/02/2021", "Flamengo 2019: 53/37/90/38",
+                   "64,9% em 2006–2018", "61,0% em 2019–2024", "3,9 p.p.",
+                   "2,1–5,6", "4,5 p.p.", "3,0–6,0", "53,4–62,6",
+                   "63,4%", "63,8%", "63,9%", "58,2% (IC 53,99–62,45)",
+                   "4,7 p.p.", "0,13 ponto", "55,7%", "73,3%", "17,7 p.p.",
+                   "0,46", "5.388", "12.554 vs. 7.166", "Tabela 6",
+                   "Figura 9", "Figura 10"]:
         confere(pedaco in T, f"trecho ausente: {pedaco!r}")
-    confere("`tests/test_context.py` (10)" in T, "contagem de test_context no Apendice D")
+    confere("12.554 × 7.166" not in T, "comparação de pontos ainda usa ×")
+    confere("`tests/test_context.py` (17)" in T, "contagem de test_context no Apendice D")
+    confere("`tests/test_associations.py` (12)" in T, "contagem de test_associations no Apendice D")
 
     # --- extremos anuais ---
     confere(round(t.loc[2017, "pollard"], 2) == 58.24, "pollard 2017")
@@ -93,6 +144,7 @@ def conferir(texto: str, df: pd.DataFrame, tab1: pd.DataFrame) -> list[str]:
         cols = ["n", "p_home", "p_draw", "p_away", "avg_home_goals",
                 "avg_away_goals", "goal_diff", "home_points", "away_points", "pollard"]
         esp = [str(int(ref[c])) if c == "n" else f"{ref[c]:.2f}".replace(".", ",") for c in cols]
+        esp.append(f"{ref['pollard_lo']:.2f}–{ref['pollard_hi']:.2f}".replace(".", ","))
         if vals != esp:
             ok = False
             print(f"DIVERGÊNCIA Tabela 1/{ano}: md={vals} csv={esp}")
@@ -108,53 +160,102 @@ def conferir(texto: str, df: pd.DataFrame, tab1: pd.DataFrame) -> list[str]:
     confere((tab1["n"] == base["n"]).all(), "coluna n diverge da base")
     confere((tab1["season"] == base["season"]).all(), "temporadas divergem")
 
+    anual = pd.DataFrame(contexto["anual"]).set_index("season")
+    tab1_idx = tab1.set_index("season")
+    confere((tab1_idx["pollard_lo"].round(2) == anual["lo"].round(2)).all(),
+            "pollard_lo do CSV diverge do contexto.json")
+    confere((tab1_idx["pollard_hi"].round(2) == anual["hi"].round(2)).all(),
+            "pollard_hi do CSV diverge do contexto.json")
+
+    # --- mudança de nível e ponto de quebra ---
+    n19 = contexto["nivel_2019"]
+    confere(round(n19["a"], 2) == 64.88, "pré-2019 do contexto")
+    confere(round(n19["b"], 2) == 61.01, "pós-2019 do contexto")
+    confere(round(n19["diff"], 2) == 3.87, "diferença pré/pós-2019")
+    confere(round(n19["lo"], 2) == 2.15 and round(n19["hi"], 2) == 5.58,
+            "IC pré/pós-2019")
+    confere(contexto["quebra"]["cut"] == 2019, "ponto de quebra")
+    confere(round(contexto["quebra"]["pre"], 2) == 64.88 and
+            round(contexto["quebra"]["post"], 2) == 61.01,
+            "médias do ponto de quebra")
+
     # --- citações novas com ano casando com a referência ---
     for cit in ["Gil (2008)", "Nevill, Balmer e Williams (2002)", "Neave e Wolfson (2003)",
                 "Pollard, Silva e Medeiros (2008)"]:
         confere(cit in T, f"citação ausente: {cit}")
 
-    # --- Tabela 5 == bandas calculadas ---
-    d = df.copy()
-    d["travel"] = travel_km(d)
-    bandas = [("Curta", d[d.travel < 500], 63.37),
-              ("Média", d[(d.travel >= 500) & (d.travel < 1500)], 63.80),
-              ("Longa", d[d.travel >= 1500], 63.90)]
-    tot = 0
-    for nome, sub, esp in bandas:
-        x = summarize(sub)
-        confere(round(x["pollard"], 2) == esp, f"Tabela 5 {nome}: {x['pollard']:.2f} != {esp}")
-        tot += x["n"]
-        confere(f"{x['n']:,}".replace(",", ".") in T, f"n Tabela 5 {nome} ausente no texto")
-    confere(tot == 7219, "bandas somam 7219")
+    # --- Tabela 5 == CSV/contexto ---
+    bloco5 = secao("**Tabela 5").split("Fonte:", 1)[0]
+    linhas5 = _linhas_tabela(bloco5, 4, "Dimensão")
+    confere(len(linhas5) == len(tab5),
+            f"Tabela 5 tem {len(linhas5)} linhas, esperado {len(tab5)}")
+    idx5 = {(r.variavel, _rotulo_grupo(r.variavel, r.grupo)): r
+            for _, r in tab5.iterrows()}
+    for dim, grupo, n, ic in linhas5:
+        chave = (dim, grupo)
+        confere(chave in idx5, f"Tabela 5 linha desconhecida: {chave}")
+        if chave not in idx5:
+            continue
+        r = idx5[chave]
+        confere(n == _num(r["n"]), f"Tabela 5 n {chave}: {n} != {_num(r['n'])}")
+        try:
+            ponto, lo, hi = _ic(ic)
+        except ValueError as exc:
+            confere(False, str(exc))
+            continue
+        confere(round(ponto, 2) == round(r["pollard"], 2),
+                f"Tabela 5 Pollard {chave}")
+        confere(round(lo, 2) == round(r["lo"], 2), f"Tabela 5 IC inferior {chave}")
+        confere(round(hi, 2) == round(r["hi"], 2), f"Tabela 5 IC superior {chave}")
+    confere({(d, g) for d, g, _, _ in linhas5} == set(idx5),
+            "Tabela 5 não cobre todas as linhas do CSV")
 
-    # --- contexto: descanso/força/era ---
-    r = rest_days(df)
-    confere(round(summarize(df[r.home_rest.fillna(99) >= r.away_rest.fillna(99)])["pollard"], 2) == 64.25, "descanso casa")
-    confere(round(summarize(df[r.home_rest.fillna(99) < r.away_rest.fillna(99)])["pollard"], 2) == 61.96, "descanso fora")
-    sb = table_snapshot(df)
-    confere(round(summarize(df[sb.home_pos_before < sb.away_pos_before])["pollard"], 2) == 70.55, "favorito")
-    confere(round(summarize(df[sb.home_pos_before > sb.away_pos_before])["pollard"], 2) == 56.84, "zebra")
-    f = add_era_flags(df)
-    confere(round(summarize(f[~f.var_era])["pollard"], 2) == 64.88, "pre-VAR")
-    confere(round(summarize(f[f.var_era])["pollard"], 2) == 61.01, "era VAR")
-    confere(round(summarize(f[f.pandemia])["pollard"], 2) == 61.00, "pandemia")
+    # --- Tabela 6 == JSON (top5 + bottom5 longevas) ---
+    bloco6 = secao("**Tabela 6").split("Fonte:", 1)[0]
+    linhas6 = _linhas_tabela(bloco6, 3, "Equipe")
+    esperadas = {x["team"]: x for x in
+                 contexto["equipes"]["top5_longevas"] + contexto["equipes"]["bottom5_longevas"]}
+    confere(len(linhas6) == len(esperadas),
+            f"Tabela 6 tem {len(linhas6)} linhas, esperado {len(esperadas)}")
+    for time, n, ha_ic in linhas6:
+        confere(time in esperadas, f"Tabela 6 equipe desconhecida: {time}")
+        if time not in esperadas:
+            continue
+        r = esperadas[time]
+        confere(n == _num(r["n"]), f"Tabela 6 n {time}: {n} != {_num(r['n'])}")
+        try:
+            ponto, lo, hi = _ic(ha_ic)
+        except ValueError as exc:
+            confere(False, str(exc))
+            continue
+        confere(round(ponto, 2) == round(r["ha"], 2), f"Tabela 6 HA {time}")
+        confere(round(lo, 2) == round(r["lo"], 2), f"Tabela 6 IC inferior {time}")
+        confere(round(hi, 2) == round(r["hi"], 2), f"Tabela 6 IC superior {time}")
+
+    # --- descanso: ausentes não são imputados ---
+    d = df.copy()
+    d["rest_bucket"] = rest_bucket(d)
+    confere(int(d["rest_bucket"].isna().sum()) == 31,
+            f"descanso ausente: {int(d['rest_bucket'].isna().sum())} != 31")
+    confere(len(d) - int(d["rest_bucket"].isna().sum()) == 7188,
+            "partidas com descanso != 7188")
 
     # --- figuras, tabelas, todos ---
     corpo = secao("# 1 INTRODUÇÃO")
     nums, ordem = [], []
-    for n in re.findall(r"Figura (\d)", corpo):
+    for n in re.findall(r"Figura (\d+)", corpo):
         nums.append(int(n))
         if int(n) not in ordem:
             ordem.append(int(n))
-    confere(ordem == list(range(1, 9)), f"ordem figuras {ordem}")
-    for i in range(1, 6):
+    confere(ordem == list(range(1, 11)), f"ordem figuras {ordem}")
+    for i in range(1, 7):
         confere(f"Tabela {i}" in T, f"Tabela {i} ausente")
 
     # --- citações x referências ---
     refs = secao("# REFERÊNCIAS").split("## APÊNDICE", 1)[0]
-    for sobrenome in ["ALMEIDA", "DUQUE", "FEW", "GIL", "MATOS", "NEAVE", "NEVILL",
-                      "OPENFOOTBALL", "POLLARD", "RIBEIRO", "SHARDA", "SILVA",
-                      "STREAMLIT"]:
+    for sobrenome in ["ALMEIDA", "DUQUE", "EFRON", "FEW", "GIL", "MATOS", "NEAVE",
+                      "NEVILL", "OPENFOOTBALL", "POLLARD", "RIBEIRO", "SHARDA",
+                      "SILVA", "STREAMLIT"]:
         confere(sobrenome in refs, f"referência ausente: {sobrenome}")
         confere(sobrenome in corpo or sobrenome in T.split("## RESUMO")[0], f"citação órfã: {sobrenome}")
     confere(re.search(r"(?m)^NEVILL, A\. M\.; BALMER", refs) is not None,
@@ -198,8 +299,16 @@ def main(argv: list[str] | None = None) -> int:
         p.error(f"arquivo não encontrado: {args.monografia}")
     texto = caminho.read_text(encoding="utf-8")
     df = pd.read_csv(RAIZ / "data" / "processed" / "matches_processed.csv")
-    tab1 = pd.read_csv(RAIZ / "figuras" / "tab1_indicadores_temporada.csv").sort_values("season")
-    erros = conferir(texto, df, tab1)
+    figuras = RAIZ / "figuras"
+    for nome in ("tab1_indicadores_temporada.csv", "tab5_contexto.csv",
+                 "tab6_equipes.csv", "contexto.json"):
+        if not (figuras / nome).exists():
+            p.error(f"artefato ausente: figuras/{nome}; rode scripts/analyze_context.py")
+    tab1 = pd.read_csv(figuras / "tab1_indicadores_temporada.csv").sort_values("season")
+    tab5 = pd.read_csv(figuras / "tab5_contexto.csv")
+    tab6 = pd.read_csv(figuras / "tab6_equipes.csv")
+    contexto = json.loads((figuras / "contexto.json").read_text(encoding="utf-8"))
+    erros = conferir(texto, df, tab1, tab5, tab6, contexto)
     return 1 if erros else 0
 
 

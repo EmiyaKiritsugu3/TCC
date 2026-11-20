@@ -8,6 +8,7 @@ from context import (
     CLUB_COORDS,
     CLUB_STATE,
     add_era_flags,
+    build_context_frame,
     haversine_km,
     region,
     rest_bucket,
@@ -158,3 +159,27 @@ def test_table_bucket_usa_margem_de_tres_posicoes():
     assert table_bucket(d).tolist() == [
         "favorito", "equilibrado", "zebra", "zebra", "favorito", "equilibrado", None,
     ]
+
+
+def test_build_context_frame_monta_variaveis_derivadas():
+    d = pd.DataFrame({
+        "season": [2019, 2019],
+        "date": pd.to_datetime(["2019-04-27", "2019-04-28"]),
+        "round": [1, 1],
+        "match_id": ["1", "2"],
+        "home_team": ["Flamengo", "Corinthians"],
+        "away_team": ["Fluminense", "Sao Paulo"],
+        "home_goals": [2, 1],
+        "away_goals": [0, 0],
+        "home_points": [3, 1],
+        "away_points": [0, 1],
+        "stadium": ["Maracana", "Arena Corinthians"],
+    })
+    c = build_context_frame(d)
+    assert c["derby"].tolist() == [True, True]
+    assert c["same_state"].tolist() == [True, True]
+    assert c["home_region"].tolist() == ["SE", "SE"]
+    assert c["usual_stadium"].tolist() == [True, True]
+    assert c["rest_bucket"].isna().all()
+    assert c["table_bucket"].notna().all()
+    assert c["var_era"].all()

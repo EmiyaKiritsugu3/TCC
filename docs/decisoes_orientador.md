@@ -22,7 +22,7 @@ Ampliação aplicada em 04/11/2026 (proativa): §§1.2, 1.5, 2.1, 2.2, 2.3, 3.1�
 (síntese dos testes) criadas; corpo ≥ 5.500 palavras.
 
 Fase 1 (variáveis contextuais) implementada em 06/11/2026 por decisão do
-aluno, pendente de validação do orientador: `src/context.py` + 9 testes,
+aluno, pendente de validação do orientador: `src/context.py` + 17 testes,
 achado principal de que a distância não move o índice (Tabela 5 da monografia).
 
 ## Edição normativa adotada (05/11/2026)
@@ -100,3 +100,23 @@ assinada, numeração do sumário (passe final no template do curso).
 - [ ] Template oficial + ficha SISBI + folha de avaliação
 - [ ] Autorização escrita do autor do dataset (se necessário manter base processada)
 - [ ] `docs/monografia_final.pdf` gerado no template
+
+## Atualização 2026-11-19 — análise de contexto (caminho B)
+
+Implementado por decisão do autor, sem novas fontes de dados e sem alterar os
+números validados da versão 2:
+
+- `src/context.py`: mesma UF, região, clássico, estádio habitual, faixas de
+  descanso e de posição, além do frame contextual único.
+- `src/associations.py`: bootstrap de Pollard, IC anual, diferença por cluster
+  de temporada, ponto de quebra, grupos, vantagem por equipe e split-half.
+- `scripts/analyze_context.py`: gera `figuras/tab5_contexto.csv`,
+  `figuras/tab6_equipes.csv` e `figuras/contexto.json`.
+- Dashboard: quinta aba **Contexto** (RF12), com filtros, IC e ranking por equipe.
+- Monografia v3: §5.4 nova, Tabelas 5–6, Figuras 9–10, ICs na Tabela 1, resumo,
+  conclusão e limitações atualizados.
+- **93 testes** (84 rápidos + 9 de integração); auditor numérico cobre os novos
+  números.
+
+Pendência: validação do orientador para manter H3–H5 e a mudança de nível como
+análise exploratória no depósito. Nada foi classificado como causal.
