@@ -194,15 +194,15 @@ def team_home_advantage(df: pd.DataFrame, n: int = 2000,
 
 def within_team_season(df: pd.DataFrame, groups: pd.Series,
                        outcome: str = "home_points") -> pd.DataFrame:
-    """Desvio médio do resultado em relação à média da equipe-temporada.
+    """Desvio médio do resultado em relação à média do clube em casa.
 
-    Controla a força da equipe na temporada: cada partida é comparada com a
-    média do próprio clube naquela temporada.
+    Compara cada partida com a média do próprio clube nos jogos em casa da
+    temporada; é um baseline dentro de equipe-temporada, não uma medida causal.
     """
     d = df.copy()
     d["_grupo"] = pd.Series(groups, index=df.index)
-    # A média da equipe-temporada usa TODAS as partidas do clube, inclusive
-    # aquelas sem grupo (ex.: estreia sem descanso anterior).
+    # A média usa os jogos em casa do clube, inclusive aqueles sem grupo
+    # (ex.: estreia sem descanso anterior).
     d["_media"] = d.groupby(["season", "home_team"])[outcome].transform("mean")
     d = d[d["_grupo"].notna()].copy()
     if d.empty:

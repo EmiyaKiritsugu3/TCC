@@ -78,7 +78,7 @@ def _ic(texto: str) -> tuple[float, float, float]:
 
 
 def conferir(texto: str, df: pd.DataFrame, tab1: pd.DataFrame,
-             tab5: pd.DataFrame, tab7: pd.DataFrame,
+             tab5: pd.DataFrame, tab6: pd.DataFrame, tab7: pd.DataFrame,
              mat_eq: pd.DataFrame, mat_part: pd.DataFrame,
              contexto: dict, externo: dict, qualidade: dict) -> list[str]:
     """Executa todas as conferências e devolve as mensagens de divergência."""
@@ -96,12 +96,12 @@ def conferir(texto: str, df: pd.DataFrame, tab1: pd.DataFrame,
 
     # --- agregados do período ---
     confere(s["n"] == 7219, "n total")
-    confere(round(s["p_home"], 1) == 49.0, "p_home")
-    confere(round(s["p_draw"], 1) == 26.8, "p_draw")
-    confere(round(s["p_away"], 1) == 24.1, "p_away")
-    confere(round(s["avg_home_goals"], 2) == 1.49, "gols casa")
-    confere(round(s["avg_away_goals"], 2) == 1.00, "gols fora")
-    confere(round(s["pollard"], 2) == 63.66, "pollard geral")
+    confere(_quase(round(s["p_home"], 1), 49.0), "p_home")
+    confere(_quase(round(s["p_draw"], 1), 26.8), "p_draw")
+    confere(_quase(round(s["p_away"], 1), 24.1), "p_away")
+    confere(_quase(round(s["avg_home_goals"], 2), 1.49), "gols casa")
+    confere(_quase(round(s["avg_away_goals"], 2), 1.00), "gols fora")
+    confere(_quase(round(s["pollard"], 2), 63.66), "pollard geral")
     confere(s["home_points"] == 12554, f"pontos casa {s['home_points']}")
     confere(s["away_points"] == 7166, f"pontos fora {s['away_points']}")
 
@@ -131,17 +131,17 @@ def conferir(texto: str, df: pd.DataFrame, tab1: pd.DataFrame,
     confere("`tests/test_associations.py` (19)" in T, "contagem de test_associations no Apendice D")
 
     # --- extremos anuais ---
-    confere(round(t.loc[2017, "pollard"], 2) == 58.24, "pollard 2017")
-    confere(round(t.loc[2018, "pollard"], 2) == 69.51, "pollard 2018")
-    confere(round(t.loc[2017, "p_away"], 2) == 28.95, "visitantes 2017")
-    confere(round(t.loc[2018, "p_away"], 2) == 17.89, "visitantes 2018")
-    confere(round(t.loc[2019, "pollard"], 2) == 62.38, "pollard 2019")
-    confere(round(t.loc[2020, "pollard"], 2) == 60.17, "pollard 2020")
-    confere(round(t.loc[2021, "pollard"], 2) == 61.83, "pollard 2021")
-    confere(round(t.loc[2019, "p_home"], 2) == 48.42, "mandante 2019")
-    confere(round(t.loc[2020, "p_home"], 2) == 45.00, "mandante 2020")
-    confere(round(t.loc[2021, "p_home"], 2) == 45.79, "mandante 2021")
-    confere(round(t.loc[2018, "pollard"] - t.loc[2017, "pollard"], 1) == 11.3, "amplitude")
+    confere(_quase(round(t.loc[2017, "pollard"], 2), 58.24), "pollard 2017")
+    confere(_quase(round(t.loc[2018, "pollard"], 2), 69.51), "pollard 2018")
+    confere(_quase(round(t.loc[2017, "p_away"], 2), 28.95), "visitantes 2017")
+    confere(_quase(round(t.loc[2018, "p_away"], 2), 17.89), "visitantes 2018")
+    confere(_quase(round(t.loc[2019, "pollard"], 2), 62.38), "pollard 2019")
+    confere(_quase(round(t.loc[2020, "pollard"], 2), 60.17), "pollard 2020")
+    confere(_quase(round(t.loc[2021, "pollard"], 2), 61.83), "pollard 2021")
+    confere(_quase(round(t.loc[2019, "p_home"], 2), 48.42), "mandante 2019")
+    confere(_quase(round(t.loc[2020, "p_home"], 2), 45.00), "mandante 2020")
+    confere(_quase(round(t.loc[2021, "p_home"], 2), 45.79), "mandante 2021")
+    confere(_quase(round(t.loc[2018, "pollard"] - t.loc[2017, "pollard"], 1), 11.3), "amplitude")
     confere(len(t) == 19 and (t["n"].sum()) == 7219, "19 temporadas somam 7219")
 
     # --- Flamengo 2019 ---
@@ -249,10 +249,10 @@ def conferir(texto: str, df: pd.DataFrame, tab1: pd.DataFrame,
         except ValueError as exc:
             confere(False, str(exc))
             continue
-        confere(round(ponto, 2) == round(r["pollard"], 2),
+        confere(_quase(round(ponto, 2), round(r["pollard"], 2)),
                 f"Tabela 5 Pollard {chave}")
-        confere(round(lo, 2) == round(r["lo"], 2), f"Tabela 5 IC inferior {chave}")
-        confere(round(hi, 2) == round(r["hi"], 2), f"Tabela 5 IC superior {chave}")
+        confere(_quase(round(lo, 2), round(r["lo"], 2)), f"Tabela 5 IC inferior {chave}")
+        confere(_quase(round(hi, 2), round(r["hi"], 2)), f"Tabela 5 IC superior {chave}")
     confere({(d, g) for d, g, _, _ in linhas5} == set(idx5),
             "Tabela 5 não cobre todas as linhas do CSV")
 
@@ -261,8 +261,11 @@ def conferir(texto: str, df: pd.DataFrame, tab1: pd.DataFrame,
     linhas6 = _linhas_tabela(bloco6, 3, "Equipe")
     esperadas = {x["team"]: x for x in
                  contexto["equipes"]["top5_longevas"] + contexto["equipes"]["bottom5_longevas"]}
-    confere(len(linhas6) == len(esperadas),
+    idx6 = {r.team: r for _, r in tab6.iterrows()}
+    confere(len(linhas6) == len(esperadas) and
+            {time for time, _, _ in linhas6} == set(esperadas),
             f"Tabela 6 tem {len(linhas6)} linhas, esperado {len(esperadas)}")
+    confere(set(esperadas) <= set(idx6), "Tabela 6 tem equipe ausente do CSV")
     for time, n, ha_ic in linhas6:
         confere(time in esperadas, f"Tabela 6 equipe desconhecida: {time}")
         if time not in esperadas:
@@ -274,9 +277,13 @@ def conferir(texto: str, df: pd.DataFrame, tab1: pd.DataFrame,
         except ValueError as exc:
             confere(False, str(exc))
             continue
-        confere(round(ponto, 2) == round(r["ha"], 2), f"Tabela 6 HA {time}")
-        confere(round(lo, 2) == round(r["lo"], 2), f"Tabela 6 IC inferior {time}")
-        confere(round(hi, 2) == round(r["hi"], 2), f"Tabela 6 IC superior {time}")
+        confere(_quase(round(ponto, 2), round(r["ha"], 2)), f"Tabela 6 HA {time}")
+        confere(_quase(round(lo, 2), round(r["lo"], 2)), f"Tabela 6 IC inferior {time}")
+        confere(_quase(round(hi, 2), round(r["hi"], 2)), f"Tabela 6 IC superior {time}")
+        if time in idx6:
+            confere(n == _num(idx6[time]["n"]), f"Tabela 6 n do CSV {time}")
+            confere(_quase(round(ponto, 2), round(idx6[time]["ha"], 2)),
+                    f"Tabela 6 HA do CSV {time}")
 
     # --- Tabela 7 == correlações com HA ---
     mapa7 = {
@@ -327,9 +334,9 @@ def conferir(texto: str, df: pd.DataFrame, tab1: pd.DataFrame,
         except ValueError as exc:
             confere(False, str(exc))
             continue
-        confere(round(ponto, 2) == round(r["pollard"], 2), f"Tabela 8 Pollard {nome}")
-        confere(round(lo, 2) == round(r["lo"], 2), f"Tabela 8 IC inferior {nome}")
-        confere(round(hi, 2) == round(r["hi"], 2), f"Tabela 8 IC superior {nome}")
+        confere(_quase(round(ponto, 2), round(r["pollard"], 2)), f"Tabela 8 Pollard {nome}")
+        confere(_quase(round(lo, 2), round(r["lo"], 2)), f"Tabela 8 IC inferior {nome}")
+        confere(_quase(round(hi, 2), round(r["hi"], 2)), f"Tabela 8 IC superior {nome}")
     confere(set(blocos) == {linha[0] for linha in linhas8},
             "Tabela 8 não cobre todos os blocos")
 
@@ -344,8 +351,17 @@ def conferir(texto: str, df: pd.DataFrame, tab1: pd.DataFrame,
     }
     bloco9 = secao("**Tabela 9").split(MARCADOR_FONTE, 1)[0]
     linhas9 = _linhas_tabela(bloco9, 4, "Nível")
+    esperadas9 = {
+        ("Equipe-temporada", "HA × público médio"),
+        ("Equipe-temporada", "HA × público médio, sem 2020–2021"),
+        ("Equipe-temporada", "Pontos × público médio"),
+        ("Partida", "Saldo de gols × público (bruto)"),
+        ("Partida", "Saldo × público, controlando equipe-temporada e rank pré-jogo"),
+    }
     confere(len(linhas9) == len(mapa9),
             f"Tabela 9 tem {len(linhas9)} linhas, esperado {len(mapa9)}")
+    confere({(nivel, relacao) for nivel, relacao, _, _ in linhas9} == esperadas9,
+            "Tabela 9 não cobre todos os níveis e relações")
     for nivel, relacao, rho_txt, n_txt in linhas9:
         chave = mapa9.get(relacao)
         confere(chave is not None, f"Tabela 9 relação desconhecida: {relacao}")
@@ -380,6 +396,18 @@ def conferir(texto: str, df: pd.DataFrame, tab1: pd.DataFrame,
             "correlação público × HA por equipe")
     confere(abs(corr_equipe["publico_pts"] - 0.786) < 0.001,
             "correlação público × pontos por equipe")
+
+    # --- arbitragem: números narrados na seção 5.6 ---
+    arb = externo["arbitragem"]
+    confere(arb["n_jogos"] == 6821, "arbitragem: n de jogos")
+    confere(arb["n_arbitros"] == 185, "arbitragem: n de árbitros")
+    confere(arb["arbitros_com_40_jogos"] == 48, "arbitragem: árbitros com 40+ jogos")
+    confere(_quase(round(arb["taxa_vitoria_casa_geral"] * 100, 1), 48.9),
+            "arbitragem: taxa de vitória do mandante")
+    confere(_quase(round(arb["taxa_vitoria_casa_min"] * 100, 1), 40.8),
+            "arbitragem: taxa mínima")
+    confere(_quase(round(arb["taxa_vitoria_casa_max"] * 100, 1), 67.4),
+            "arbitragem: taxa máxima")
 
     confere(mat_eq.shape == (12, 12), f"matriz_equipe {mat_eq.shape} != (12, 12)")
     confere(mat_part.shape == (8, 8), f"matriz_partida {mat_part.shape} != (8, 8)")
@@ -465,6 +493,7 @@ def main(argv: list[str] | None = None) -> int:
             p.error(f"artefato ausente: figuras/{nome}; rode scripts/analyze_context.py")
     tab1 = pd.read_csv(figuras / "tab1_indicadores_temporada.csv").sort_values("season")
     tab5 = pd.read_csv(figuras / "tab5_contexto.csv")
+    tab6 = pd.read_csv(figuras / "tab6_equipes.csv")
     tab7 = pd.read_csv(figuras / "tab7_correlacoes_equipe.csv")
     mat_eq = pd.read_csv(figuras / "matriz_equipe.csv", index_col=0)
     mat_part = pd.read_csv(figuras / "matriz_partida.csv", index_col=0)
@@ -477,7 +506,7 @@ def main(argv: list[str] | None = None) -> int:
         (RAIZ / "data" / "external" / "external_summary.json").read_text(encoding="utf-8"))
     qualidade = json.loads(
         (RAIZ / "data" / "external" / "quality_external.json").read_text(encoding="utf-8"))
-    erros = conferir(texto, df, tab1, tab5, tab7, mat_eq, mat_part,
+    erros = conferir(texto, df, tab1, tab5, tab6, tab7, mat_eq, mat_part,
                      contexto, externo, qualidade)
     return 1 if erros else 0
 

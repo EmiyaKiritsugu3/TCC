@@ -19,8 +19,8 @@ aliases; Barueri/Grêmio Prudente (2010) é tratado como a mesma franquia.
 | Item | Cobertura |
 |---|---:|
 | Partidas na base do TCC | 7.219 |
-| Com público | 6.618 (91,7%) |
-| Com público em 2007–2024 | 6.618 de 6.839 (96,8%) |
+| Com registro | 6.618 (91,7%) |
+| Com registro em 2007–2024 | 6.618 de 6.839 (96,8%) |
 | Com árbitro | 6.821 (94,5%) |
 | Com árbitro em 2007–2024 | 6.821 de 6.839 (99,7%) |
 | Com faltas (2018+) | 2.090 |
@@ -44,7 +44,7 @@ Regras de limpeza:
 
 ## 2. Público por temporada
 
-| Temporada | Jogos | Com público | Média | Mediana | Zeros reais |
+| Temporada | Jogos | Com registro | Média | Mediana | Zeros reais |
 |---|---:|---:|---:|---:|---:|
 | 2006 | 380 | 0 | — | — | 0 |
 | 2007 | 380 | 380 | 17.659 | 13.522 | 0 |
@@ -64,7 +64,7 @@ Regras de limpeza:
 | 2021 | 380 | 380 | 6.524 | 0 | 218 |
 | 2022 | 380 | 380 | 21.482 | 18.288 | 0 |
 | 2023 | 380 | 380 | 27.081 | 26.616 | 0 |
-| 2024 | 380 | 376 | 26.930 | 25.747 | 0 |
+| 2024 | 380 | 376 | 27.331 | 26.582 | 0 |
 
 ¹ Apenas os 163 jogos com público; os 217 zeros de 2008 foram removidos.
 
@@ -233,16 +233,16 @@ limitação**, não como variável da matriz de correlação.
 
 ```bash
 # 1. Base dos Dados (requer gcloud ADC + projeto de billing)
-python3 scripts/fetch_basedosdados.py --project SEU_PROJETO
+PYTHONPATH=src python3 scripts/fetch_basedosdados.py --project SEU_PROJETO
 
 # 2. FBref 2024: extrair o JSON no navegador (ver data/external/fbref/FONTE.md)
-python3 scripts/parse_fbref.py --input .playwright-mcp/fbref_2024.json
+PYTHONPATH=src python3 scripts/parse_fbref.py --input .playwright-mcp/fbref_2024.json
 
 # 3. Base limpa + relatório de qualidade
-python3 scripts/build_external.py
+PYTHONPATH=src python3 scripts/build_external.py
 
 # 4. Análise
-python3 scripts/analyze_external.py
+PYTHONPATH=src python3 scripts/analyze_external.py
 ```
 
 Os CSVs externos ficam em `data/external/` e não são versionados por

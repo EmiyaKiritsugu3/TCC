@@ -52,8 +52,19 @@ def _fbref(caminho: Path) -> pd.DataFrame:
     return fb
 
 
+def _sem_duplicatas(df: pd.DataFrame, chave: list[str], fonte: str) -> None:
+    """Falha se a fonte tiver chaves repetidas antes de qualquer deduplicação."""
+    duplicadas = df[df.duplicated(subset=chave, keep=False)]
+    if not duplicadas.empty:
+        raise SystemExit(f"chaves duplicadas em {fonte}: {len(duplicadas)} linhas")
+
+
 def _juntar(base: pd.DataFrame, bd: pd.DataFrame, fb: pd.DataFrame) -> pd.DataFrame:
     chaves = ["season", "home_team", "away_team", "home_goals", "away_goals"]
+    _sem_duplicatas(
+        bd, ["season", "home_bd", "away_bd", "gols_mandante", "gols_visitante"],
+        "Base dos Dados",
+    )
     bd_unico = bd.drop_duplicates(
         subset=["season", "home_bd", "away_bd", "gols_mandante", "gols_visitante"]
     )
@@ -67,6 +78,9 @@ def _juntar(base: pd.DataFrame, bd: pd.DataFrame, fb: pd.DataFrame) -> pd.DataFr
         right_on=["season", "home_bd", "away_bd", "gols_mandante", "gols_visitante"],
         how="left",
         validate="many_to_one",
+    )
+    _sem_duplicatas(
+        fb, ["season", "home_fb", "away_fb", "home_goals", "away_goals"], "FBref"
     )
     fb_unico = fb.drop_duplicates(subset=["season", "home_fb", "away_fb", "home_goals", "away_goals"])
     junto = junto.merge(
@@ -136,6 +150,7 @@ def _qualidade(d: pd.DataFrame) -> dict:
         "n": int(len(d)),
         "publico": int(d["publico"].notna().sum()),
         "publico_zero": int((d["publico"] == 0).sum()),
+        "publico_zero_real": int(d["publico_zero_real"].sum()),
         "arbitro": int(d["arbitro"].notna().sum()),
         "por_temporada": por_temporada,
     }
@@ -163,6 +178,8 @@ def main(argv: list[str] | None = None) -> int:
         "publico", "publico_max", "publico_zero_real", "publico_fonte",
         "arbitro", "arbitro_fonte", "faltas_mandante", "faltas_visitante",
     ]
+    args.out.parent.mkdir(parents=True, exist_ok=True)
+    args.qualidade.parent.mkdir(parents=True, exist_ok=True)
     d[colunas].to_csv(args.out, index=False)  # NOSONAR: caminho confinado
 
     q = _qualidade(d)
@@ -172,7 +189,7 @@ def main(argv: list[str] | None = None) -> int:
     )
     print(f"ok: {len(d)} partidas -> {args.out}")
     print(f"público: {q['publico']} ({q['publico']/len(d):.1%}); "
-          f"zero real: {q['publico_zero']}; árbitro: {q['arbitro']}")
+          f"zero real: {q['publico_zero_real']}; árbitro: {q['arbitro']}")
     print(pd.DataFrame(q["por_temporada"]).T.to_string())
     return 0
 

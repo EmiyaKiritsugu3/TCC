@@ -169,19 +169,19 @@ Sem cartões e pênaltis, não há como testar o canal arbitral.
 
 ```bash
 # 1. Base dos Dados (requer gcloud ADC + projeto de billing)
-python3 scripts/fetch_basedosdados.py --project SEU_PROJETO
+PYTHONPATH=src python3 scripts/fetch_basedosdados.py --project SEU_PROJETO
 
 # 2. FBref: extrair a tabela no navegador e salvar o JSON; depois:
-python3 scripts/parse_fbref.py --input .playwright-mcp/fbref_2024.json
+PYTHONPATH=src python3 scripts/parse_fbref.py --input .playwright-mcp/fbref_2024.json
 
 # 3. Junção bruta e validação
-python3 scripts/join_external.py
+PYTHONPATH=src python3 scripts/join_external.py
 
 # 4. Base limpa (2008 como ausente; FBref completa 2024)
-python3 scripts/build_external.py
+PYTHONPATH=src python3 scripts/build_external.py
 
 # 5. Análise final
-python3 scripts/analyze_external.py
+PYTHONPATH=src python3 scripts/analyze_external.py
 ```
 
 Os CSVs externos ficam **locais** (`data/external/...`) e não são

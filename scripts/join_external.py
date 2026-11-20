@@ -96,6 +96,11 @@ def carregar_bd(caminho: Path = BD) -> pd.DataFrame:
     bd.loc[em_2010, "home_bd"] = bd.loc[em_2010, "home_bd"].replace({"Barueri": "Gremio Prudente"})
     bd.loc[em_2010, "away_bd"] = bd.loc[em_2010, "away_bd"].replace({"Barueri": "Gremio Prudente"})
     bd["data_bd"] = pd.to_datetime(bd["data"], errors="coerce")
+    faltam = bd[bd["home_bd"].isna() | bd["away_bd"].isna()]
+    if not faltam.empty:
+        nomes = faltam[["time_mandante", "time_visitante"]].drop_duplicates()
+        raise SystemExit("Nomes não mapeados na Base dos Dados:\n"
+                         + nomes.to_string(index=False))
     return bd
 
 

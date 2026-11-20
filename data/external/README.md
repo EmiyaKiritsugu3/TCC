@@ -1,26 +1,27 @@
 # Dados externos (público/arbitragem)
 
 Esta pasta guarda **dados locais** de fontes externas usadas para avaliar a
-incorporação de público e arbitragem ao TCC. Os CSVs não são versionados
-porque a licença das fontes não permite redistribuição automática.
+incorporação de público e arbitragem ao TCC. Os CSVs brutos e a base unida
+não são versionados; metadados e resumos derivados são versionados. Os
+scripts exigem `pip install -e .` ou `PYTHONPATH=src`.
 
 ## Ordem de geração
 
 ```bash
 # Base dos Dados (BigQuery; requer gcloud ADC e projeto de billing)
-python3 scripts/fetch_basedosdados.py --project SEU_PROJETO
+PYTHONPATH=src python3 scripts/fetch_basedosdados.py --project SEU_PROJETO
 
 # FBref: extrair o JSON no navegador (ver fbref/FONTE.md)
-python3 scripts/parse_fbref.py --input .playwright-mcp/fbref_2024.json
+PYTHONPATH=src python3 scripts/parse_fbref.py --input .playwright-mcp/fbref_2024.json
 
 # Junção bruta com data/processed/matches_processed.csv
-python3 scripts/join_external.py
+PYTHONPATH=src python3 scripts/join_external.py
 
 # Base limpa (2008 como ausente; FBref completa 2024)
-python3 scripts/build_external.py
+PYTHONPATH=src python3 scripts/build_external.py
 
 # Análise final
-python3 scripts/analyze_external.py
+PYTHONPATH=src python3 scripts/analyze_external.py
 ```
 
 ## Arquivos

@@ -19,6 +19,7 @@ import argparse
 import hashlib
 import json
 import os
+import re
 import subprocess
 import sys
 from datetime import datetime, timezone
@@ -94,31 +95,62 @@ ORDER BY ano_campeonato, data, time_mandante
 
 
 def _consultar(project: str, token: str, sql: str) -> pd.DataFrame:
-    pagina = None
-    linhas: list[list[str | None]] = []
-    while True:
-        corpo = {
-            "query": sql,
-            "useLegacySql": False,
-            "maxResults": 10000,
-        }
-        if pagina:
-            corpo["pageToken"] = pagina
-        resposta = requests.post(
-            URL.format(project=project),
-            headers={"Authorization": f"Bearer {token}"},
-            json=corpo,
-            timeout=180,
-        )
+    """Executa a consulta e pagina via jobs.getQueryResults.
+
+    `jobs.query` devolve no máximo `maxResults` linhas e um `jobReference`;
+    as páginas seguintes precisam ser buscadas no job, não reenviando a
+    consulta com `pageToken`.
+    """
+    if not re.fullmatch(r"[a-z0-9][a-z0-9:.-]{4,62}", project):
+        raise SystemExit(f"projeto BigQuery inválido: {project}")
+    headers = {"Authorization": f"Bearer {token}"}
+    resposta = requests.post(
+        URL.format(project=project),
+        headers=headers,
+        json={"query": sql, "useLegacySql": False, "maxResults": 10000},
+        timeout=180,
+    )
+    if resposta.status_code != 200:
+        raise SystemExit(f"BigQuery retornou HTTP {resposta.status_code}: "
+                         f"{resposta.text[:800]}")
+    dados = resposta.json()
+    job = dados.get("jobReference", {})
+    job_id = job.get("jobId")
+    if not job_id or not re.fullmatch(r"[A-Za-z0-9_-]+", job_id):
+        raise SystemExit("BigQuery não retornou jobId válido")
+    location = job.get("location")
+    url_resultados = (
+        "https://bigquery.googleapis.com/bigquery/v2/projects/"
+        f"{project}/queries/{job_id}"
+    )
+    parametros = {"timeoutMs": 10000}
+    if location:
+        parametros["location"] = location
+    while not dados.get("jobComplete", True):
+        resposta = requests.get(url_resultados, headers=headers,
+                                params=parametros, timeout=180)
         if resposta.status_code != 200:
             raise SystemExit(f"BigQuery retornou HTTP {resposta.status_code}: "
                              f"{resposta.text[:800]}")
         dados = resposta.json()
+
+    linhas: list[list[str | None]] = []
+    pagina = dados.get("pageToken")
+    while True:
         for linha in dados.get("rows", []):
             linhas.append([campo.get("v") for campo in linha["f"]])
-        pagina = dados.get("pageToken")
         if not pagina:
             break
+        parametros = {"pageToken": pagina, "maxResults": 10000}
+        if location:
+            parametros["location"] = location
+        resposta = requests.get(url_resultados, headers=headers,
+                                params=parametros, timeout=180)
+        if resposta.status_code != 200:
+            raise SystemExit(f"BigQuery retornou HTTP {resposta.status_code}: "
+                             f"{resposta.text[:800]}")
+        dados = resposta.json()
+        pagina = dados.get("pageToken")
     return pd.DataFrame(linhas, columns=COLUNAS)
 
 
@@ -129,6 +161,8 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--end", type=int, default=2024)
     parser.add_argument("--out", type=Path, default=PADRAO)
     args = parser.parse_args(argv)
+    if args.start > args.end:
+        raise SystemExit("--start não pode ser maior que --end")
     args.out = caminho_no_projeto(args.out)
 
     project = _projeto(args.project)

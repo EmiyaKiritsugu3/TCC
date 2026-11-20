@@ -21,7 +21,7 @@ from paths import caminho_no_projeto
 
 RAIZ = Path(__file__).resolve().parent.parent
 PADRAO_IN = RAIZ / ".playwright-mcp" / "fbref_2024.json"
-PADRAO_OUT = RAIZ / "data" / "external" / "fbref" / "2024_serie_a.csv"
+DIR_SAIDA = RAIZ / "data" / "external" / "fbref"
 
 
 def _limpar(df: pd.DataFrame, season: int) -> pd.DataFrame:
@@ -50,9 +50,11 @@ def _limpar(df: pd.DataFrame, season: int) -> pd.DataFrame:
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--input", type=Path, default=PADRAO_IN)
-    parser.add_argument("--out", type=Path, default=PADRAO_OUT)
+    parser.add_argument("--out", type=Path, default=None)
     parser.add_argument("--season", type=int, default=2024)
     args = parser.parse_args(argv)
+    if args.out is None:
+        args.out = DIR_SAIDA / f"{args.season}_serie_a.csv"
     args.input = caminho_no_projeto(args.input)
     args.out = caminho_no_projeto(args.out)
 

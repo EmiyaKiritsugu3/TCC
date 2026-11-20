@@ -328,8 +328,8 @@
         "away_ppg": -0.4626,
         "pts": 0.082,
         "rank": -0.0828,
-        "avg_away_km": NaN,
-        "usual_stadium_share": NaN,
+        "avg_away_km": -0.0124,
+        "usual_stadium_share": 0.1018,
         "season": -0.1886,
         "publico_medio": 0.0689,
         "publico_cv": -0.1372
@@ -340,8 +340,8 @@
         "away_ppg": 0.3937,
         "pts": 0.8437,
         "rank": -0.834,
-        "avg_away_km": NaN,
-        "usual_stadium_share": NaN,
+        "avg_away_km": -0.1795,
+        "usual_stadium_share": -0.0314,
         "season": -0.1021,
         "publico_medio": 0.4137,
         "publico_cv": -0.2682
@@ -352,8 +352,8 @@
         "away_ppg": 1.0,
         "pts": 0.8077,
         "rank": -0.7901,
-        "avg_away_km": NaN,
-        "usual_stadium_share": NaN,
+        "avg_away_km": -0.2023,
+        "usual_stadium_share": -0.1594,
         "season": 0.0974,
         "publico_medio": 0.3771,
         "publico_cv": -0.1253
@@ -364,8 +364,8 @@
         "away_ppg": 0.8077,
         "pts": 1.0,
         "rank": -0.9832,
-        "avg_away_km": NaN,
-        "usual_stadium_share": NaN,
+        "avg_away_km": -0.231,
+        "usual_stadium_share": -0.104,
         "season": -0.0164,
         "publico_medio": 0.4614,
         "publico_cv": -0.2278
@@ -376,35 +376,35 @@
         "away_ppg": -0.7901,
         "pts": -0.9832,
         "rank": 1.0,
-        "avg_away_km": NaN,
-        "usual_stadium_share": NaN,
+        "avg_away_km": 0.2377,
+        "usual_stadium_share": 0.1144,
         "season": 0.0007,
         "publico_medio": -0.4595,
         "publico_cv": 0.207
       },
       "avg_away_km": {
-        "ha": NaN,
-        "home_ppg": NaN,
-        "away_ppg": NaN,
-        "pts": NaN,
-        "rank": NaN,
-        "avg_away_km": NaN,
-        "usual_stadium_share": NaN,
-        "season": NaN,
-        "publico_medio": NaN,
-        "publico_cv": NaN
+        "ha": -0.0124,
+        "home_ppg": -0.1795,
+        "away_ppg": -0.2023,
+        "pts": -0.231,
+        "rank": 0.2377,
+        "avg_away_km": 1.0,
+        "usual_stadium_share": 0.2859,
+        "season": 0.1743,
+        "publico_medio": -0.133,
+        "publico_cv": 0.0211
       },
       "usual_stadium_share": {
-        "ha": NaN,
-        "home_ppg": NaN,
-        "away_ppg": NaN,
-        "pts": NaN,
-        "rank": NaN,
-        "avg_away_km": NaN,
-        "usual_stadium_share": NaN,
-        "season": NaN,
-        "publico_medio": NaN,
-        "publico_cv": NaN
+        "ha": 0.1018,
+        "home_ppg": -0.0314,
+        "away_ppg": -0.1594,
+        "pts": -0.104,
+        "rank": 0.1144,
+        "avg_away_km": 0.2859,
+        "usual_stadium_share": 1.0,
+        "season": -0.0042,
+        "publico_medio": -0.1413,
+        "publico_cv": -0.1925
       },
       "season": {
         "ha": -0.1886,
@@ -412,8 +412,8 @@
         "away_ppg": 0.0974,
         "pts": -0.0164,
         "rank": 0.0007,
-        "avg_away_km": NaN,
-        "usual_stadium_share": NaN,
+        "avg_away_km": 0.1743,
+        "usual_stadium_share": -0.0042,
         "season": 1.0,
         "publico_medio": 0.0362,
         "publico_cv": -0.137
@@ -424,8 +424,8 @@
         "away_ppg": 0.3771,
         "pts": 0.4614,
         "rank": -0.4595,
-        "avg_away_km": NaN,
-        "usual_stadium_share": NaN,
+        "avg_away_km": -0.133,
+        "usual_stadium_share": -0.1413,
         "season": 0.0362,
         "publico_medio": 1.0,
         "publico_cv": -0.4667
@@ -436,8 +436,8 @@
         "away_ppg": -0.1253,
         "pts": -0.2278,
         "rank": 0.207,
-        "avg_away_km": NaN,
-        "usual_stadium_share": NaN,
+        "avg_away_km": 0.0211,
+        "usual_stadium_share": -0.1925,
         "season": -0.137,
         "publico_medio": -0.4667,
         "publico_cv": 1.0
@@ -465,6 +465,11 @@
         "n": 340
       },
       {
+        "variavel": "usual_stadium_share",
+        "rho": 0.1018,
+        "n": 380
+      },
+      {
         "variavel": "rank",
         "rho": -0.0828,
         "n": 380
@@ -481,13 +486,8 @@
       },
       {
         "variavel": "avg_away_km",
-        "rho": NaN,
-        "n": 0
-      },
-      {
-        "variavel": "usual_stadium_share",
-        "rho": NaN,
-        "n": 0
+        "rho": -0.0124,
+        "n": 380
       }
     ]
   },

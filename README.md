@@ -62,9 +62,10 @@ Titularidade e proveniência em `NOTICE.md`.
 A avaliação de público e arbitragem está em `docs/fontes_externas.md` e
 `docs/analise_publico_arbitragem.md`. Os scripts `fetch_basedosdados.py`,
 `parse_fbref.py`, `join_external.py`, `build_external.py` e
-`analyze_external.py` geram dados locais em `data/external/` (não versionados
-por licença). A Base dos Dados exige um projeto de billing no BigQuery; o
-FBref exige extração manual no navegador por causa do Cloudflare.
+`analyze_external.py` geram CSVs locais em `data/external/`; metadados e
+resumos derivados são versionados. Requerem `pip install -e .` ou
+`PYTHONPATH=src`. A Base dos Dados exige um projeto de billing no BigQuery;
+o FBref exige extração manual no navegador por causa do Cloudflare.
 
 ## Estrutura
 

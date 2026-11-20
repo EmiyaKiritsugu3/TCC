@@ -58,7 +58,7 @@ Fonte: Elaboração própria, a partir da base validada.
 
 **Figura 12 — `fig12_publico_ha.png`.**
 Dispersão do público médio por equipe (2007–2024) contra a vantagem casa−fora
-(painel esquerdo) e os pontos por temporada (painel direito); 28 equipes com
+(painel esquerdo) e os pontos médios por temporada (painel direito); 28 equipes com
 pelo menos cinco temporadas. ρ = Spearman.
 Fonte: Elaboração própria, a partir da base validada e da base externa
 (Base dos Dados/Transfermarkt e FBref).
@@ -87,5 +87,5 @@ Fonte: Elaboração própria, a partir da base validada.
 
 **Tabela 10 — `data/external/external_summary.json` (seção `equipe_publico`).**
 Quartis de público médio por equipe (mínimo de cinco temporadas), com pontos
-por temporada, HA e desempenho em casa/fora.
+médios por temporada, HA e desempenho em casa/fora.
 Fonte: Elaboração própria, a partir da base validada e da base externa.

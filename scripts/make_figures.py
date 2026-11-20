@@ -175,7 +175,7 @@ def fig_publico_ha():
     fig, axes = plt.subplots(1, 2, figsize=(12, 5.2))
     paineis = [
         ("ha", "HA × público", "Vantagem casa−fora (pontos/jogo)"),
-        ("pts", "Pontos × público", "Pontos por temporada"),
+        ("pts", "Pontos médios × público", "Pontos médios por temporada"),
     ]
     for ax, (coluna, titulo, rotulo_y) in zip(axes, paineis):
         x = g["publico"] / 1000
@@ -188,12 +188,14 @@ def fig_publico_ha():
         ax.set_title(f"{titulo} (ρ = {rho:.2f})", fontsize=10)
         ax.set_xlabel("Público médio (mil)")
         ax.set_ylabel(rotulo_y)
+        deslocamentos = {"Flamengo": (4, 4), "Santos": (4, 4), "Atletico-GO": (4, -12)}
         for _, row in g.iterrows():
-            if row["team"] in ("Flamengo", "Santos", "Atletico-GO"):
+            if row["team"] in deslocamentos:
                 nome = "Atlético-GO" if row["team"] == "Atletico-GO" else row["team"]
                 ax.annotate(nome, (row["publico"] / 1000, row[coluna]),
-                            textcoords="offset points", xytext=(4, 4), fontsize=8)
-    fig.suptitle("Público médio, vantagem casa−fora e pontos por temporada (2007–2024)",
+                            textcoords="offset points",
+                            xytext=deslocamentos[row["team"]], fontsize=8)
+    fig.suptitle("Público médio, HA e pontos médios por temporada (por equipe, 2007–2024)",
                  fontsize=12)
     fig.tight_layout()
     fig.savefig(FIG / "fig12_publico_ha.png", dpi=150)

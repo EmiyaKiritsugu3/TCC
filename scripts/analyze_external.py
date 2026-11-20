@@ -45,7 +45,8 @@ def spearman(a: pd.Series, b: pd.Series) -> float | None:
     par = pd.DataFrame({"a": a, "b": b}).dropna()
     if len(par) < 3:
         return None
-    return float(par["a"].rank().corr(par["b"].rank()))
+    valor = par["a"].rank().corr(par["b"].rank())
+    return None if pd.isna(valor) else float(valor)
 
 
 def partial_spearman(x: pd.Series, y: pd.Series, z: pd.Series) -> tuple[float | None, int]:
@@ -59,7 +60,8 @@ def partial_spearman(x: pd.Series, y: pd.Series, z: pd.Series) -> tuple[float | 
         return None, len(q)
     bx = float((rx * rz).sum()) / denom
     by = float((ry * rz).sum()) / denom
-    return float(np.corrcoef(rx - bx * rz, ry - by * rz)[0, 1]), len(q)
+    valor = float(np.corrcoef(rx - bx * rz, ry - by * rz)[0, 1])
+    return (None if np.isnan(valor) else valor), len(q)
 
 
 def _bloco(season: int) -> str:
@@ -135,8 +137,8 @@ def _por_temporada(d: pd.DataFrame) -> list[dict]:
     return linhas
 
 
-def _equipe_temporada(base: pd.DataFrame, d: pd.DataFrame) -> dict:
-    ts = team_season_features(base).set_index(["season", "team"])
+def _equipe_temporada(d: pd.DataFrame) -> dict:
+    ts = team_season_features(d).set_index(["season", "team"])
     publico = (d.groupby(["season", "home_team"])["publico"]
                .agg(["mean", "std", "count"]).rename(
                    columns={"mean": "publico_medio", "std": "publico_sd", "count": "publico_n"}))
@@ -310,7 +312,7 @@ def main(argv: list[str] | None = None) -> int:
     resumo = {
         "cobertura": _por_temporada(d),
         "blocos": _resumo_blocos(d),
-        "equipe_temporada": _equipe_temporada(base, d),
+        "equipe_temporada": _equipe_temporada(d),
         "equipe_publico": _equipe_publico(d),
         "partida": _partida(d),
         "arbitragem": _arbitragem(d),
