@@ -30,6 +30,7 @@ py-modules = [
     "metrics",
     "openfootball",
     "paths",
+    "referees",
 ]
 
 [tool.pytest.ini_options]

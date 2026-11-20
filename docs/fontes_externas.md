@@ -128,9 +128,9 @@ O contraste de 2020 é o achado mais forte: o Pollard cai de 64,9%
 trouxe a vantagem de volta ao patamar pré-2019. Isso reforça a leitura
 multifatorial do TCC e a cautela contra atribuir a queda à torcida.
 
-A arbitragem tem 6.821 jogos e 185 árbitros, mas a identidade do árbitro
+A arbitragem tem 6.821 jogos e 177 árbitros, mas a identidade do árbitro
 não mede viés: a faixa de vitória do mandante entre árbitros com 40+ jogos
-(40,8%–67,4%) é compatível com ruído (1 de 48 fora de ±2 DP; esperado 2,2).
+(40,8%–67,4%) é compatível com ruído (1 de 50 fora de ±2 DP; esperado 2,3).
 Sem cartões e pênaltis, não há como testar o canal arbitral.
 
 ## 7. Limitações e cuidados

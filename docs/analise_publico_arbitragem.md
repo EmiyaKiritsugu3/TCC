@@ -41,6 +41,17 @@ Regras de limpeza:
 - **`publico_max`** é capacidade, não público do jogo; não é usado.
 - **2024, árbitro:** a Base dos Dados cobre 286 jogos e o FBref acrescenta
   76 jogos sem árbitro na BD; a união chega a 362 de 380 (95,3%).
+- **2024, preenchimento:** dos 94 jogos ausentes na BD, 90 têm público e 76
+  têm árbitro no FBref; 4 e 18 ficam ausentes. Os 90 jogos preenchidos têm
+  média de 28.606, cerca de 6% acima dos 286 jogos da BD (26.930); a média de
+  2024 (27.331) combina as duas fontes e deve ser lida com cautela.
+- **2006, junção:** 4 partidas ficam sem correspondência por divergência de
+  mando/placar entre as fontes; como 2006 não tem público nem árbitro, isso
+  não afeta a análise externa.
+- **Zeros:** 641 no total; 598 são reais (380 em 2020 + 218 em 2021); os 43
+  restantes são zeros esparsos de 2007–2023, mantidos como registros reais.
+- **Arbitragem:** nomes normalizados entre BD e FBref; 177 árbitros distintos
+  (o número 185 aparecia antes de unificar abreviações e acentos).
 
 ## 2. Público por temporada
 
@@ -180,16 +191,16 @@ Figura 12 da monografia mostra o mesmo padrão em dispersão.
 | Item | Valor |
 |---|---:|
 | Jogos com árbitro | 6.821 |
-| Árbitros distintos | 185 |
-| Jogos por árbitro (mediana) | 13 |
+| Árbitros distintos | 177 |
+| Jogos por árbitro (mediana) | 14 |
 | Jogos por árbitro (máximo) | 284 |
 | Taxa de vitória do mandante | 48,9% |
-| Árbitros com 40+ jogos | 48 |
+| Árbitros com 40+ jogos | 50 |
 | Faixa da taxa de vitória do mandante (40+ jogos) | 40,8%–67,4% |
 
 A variação entre árbitros é grande, mas compatível com ruído: com
-p = 48,9% e 40–284 jogos por árbitro, apenas **1 dos 48** árbitros com 40+
-jogos fica fora de ±2 desvios-padrão (esperado sob a hipótese nula: 2,2).
+p = 48,9% e 40–284 jogos por árbitro, apenas **1 dos 50** árbitros com 40+
+jogos fica fora de ±2 desvios-padrão (esperado sob a hipótese nula: 2,3).
 Não há, portanto, evidência descritiva de heterogeneidade além do acaso na
 taxa de vitória do mandante.
 
@@ -227,6 +238,10 @@ limitação**, não como variável da matriz de correlação.
 - **Público é endógeno**: depende de adversário, fase, preço, clima e
   expectativa. O desenho observacional não isola a torcida.
 - **Arbitragem**: identidade não é decisão; a base não tem cartões/pênaltis.
+- **2024:** a média combina 286 jogos da BD e 90 do FBref; os 90 preenchidos
+  são cerca de 6% maiores, então a média de 2024 é mais incerta.
+- **2008:** a cobertura parcial (163/380) adiciona ruído; excluir 2008 não
+  muda a conclusão (ρ HA = −0,009; pontos = 0,777).
 - **Não causalidade**: todas as leituras são descritivas.
 
 ## 8. Reprodução

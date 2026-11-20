@@ -29,6 +29,7 @@ python3 scripts/analyze_context.py   # gera tab5, tab6 e contexto.json
 python3 scripts/make_figures.py      # gera figuras e tab1
 python3 -m pytest tests/ -q          # 104 testes (95 rápidos + 9 de integração)
 python3 scripts/validate_cross.py    # validação OpenFootball 2018–2024
+python3 scripts/audit_data.py        # auditoria de dados (base + externos)
 python3 -m streamlit run app.py
 ```
 
@@ -51,7 +52,7 @@ Validação cruzada 2018–2024 contra o OpenFootball (CC0, versionado em
 
 ## Monografia
 
-Texto vigente em `docs/monografia_v2.md` (Tabelas 1–7, Figuras 1–11, apêndices A–D).
+Texto vigente em `docs/monografia_v2.md` (Tabelas 1–10, Figuras 1–12, apêndices A–D).
 Antes de alterar qualquer número no texto, rode `python3 scripts/check_monografia.py`
 — ele acumula as divergências entre texto, base e tabelas e falha (exit 1) ao final da auditoria.
 O PDF final de depósito (`docs/monografia_final.pdf`) será adicionado quando existir.
@@ -59,8 +60,8 @@ Titularidade e proveniência em `NOTICE.md`.
 
 ## Dados externos (opcional)
 
-A avaliação de público e arbitragem está em `docs/fontes_externas.md` e
-`docs/analise_publico_arbitragem.md`. Os scripts `fetch_basedosdados.py`,
+A avaliação de público e arbitragem está em `docs/fontes_externas.md`,
+`docs/analise_publico_arbitragem.md` e `docs/auditoria_dados.md`. Os scripts `fetch_basedosdados.py`,
 `parse_fbref.py`, `join_external.py`, `build_external.py` e
 `analyze_external.py` geram CSVs locais em `data/external/`; metadados e
 resumos derivados são versionados. Requerem `pip install -e .` ou
@@ -72,7 +73,7 @@ o FBref exige extração manual no navegador por causa do Cloudflare.
 - `app.py` — dashboard (5 abas, incluindo Contexto)
 - `pyproject.toml` — empacotamento (`pip install -e .`) e configuração do pytest
 - `src/load_data.py`, `src/clean_data.py`, `src/metrics.py`, `src/context.py`, `src/associations.py`, `src/charts.py`
-- `scripts/bootstrap.py`, `scripts/build_processed.py`, `scripts/analyze_context.py`, `scripts/check_monografia.py`
+- `scripts/bootstrap.py`, `scripts/build_processed.py`, `scripts/analyze_context.py`, `scripts/audit_data.py`, `scripts/check_monografia.py`
 - `tests/` — testes rápidos com fixtures em `tests/data/`; testes com o CSV real levam o marker `integration`
 - `.github/workflows/ci.yml` — cadeia de validação (instalação, base, testes, validações, auditoria)
 - `docs/auditoria_fase1.md`, `docs/data_dictionary.md`

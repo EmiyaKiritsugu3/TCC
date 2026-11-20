@@ -34,6 +34,7 @@ from join_external import (
     canonico,
 )
 from paths import caminho_no_projeto
+from referees import canonico as canonico_arbitro, mapa_canonico
 
 RAIZ = Path(__file__).resolve().parent.parent
 FBREF = RAIZ / "data" / "external" / "fbref" / "2024_serie_a.csv"
@@ -120,6 +121,9 @@ def _limpar(junto: pd.DataFrame) -> pd.DataFrame:
     # Árbitro: Base dos Dados primeiro; FBref como complemento.
     d["arbitro_bd"] = d["arbitro"].astype(str).str.strip().replace({"": None, "nan": None})
     d["arbitro_fb"] = d["referee"]
+    mapa_arbitros = mapa_canonico(d["arbitro_bd"])
+    d["arbitro_bd"] = d["arbitro_bd"].map(lambda x: canonico_arbitro(x, mapa_arbitros))
+    d["arbitro_fb"] = d["arbitro_fb"].map(lambda x: canonico_arbitro(x, mapa_arbitros))
     d["arbitro"] = d["arbitro_bd"].where(d["arbitro_bd"].notna(), d["arbitro_fb"])
     d["arbitro_fonte"] = np.where(
         d["arbitro_bd"].notna(), FONTE_BD,

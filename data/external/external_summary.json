@@ -985,11 +985,11 @@
   },
   "arbitragem": {
     "n_jogos": 6821,
-    "n_arbitros": 185,
-    "jogos_por_arbitro_mediana": 13.0,
+    "n_arbitros": 177,
+    "jogos_por_arbitro_mediana": 14.0,
     "jogos_por_arbitro_max": 284,
     "taxa_vitoria_casa_geral": 0.4893710599618824,
-    "arbitros_com_40_jogos": 48,
+    "arbitros_com_40_jogos": 50,
     "taxa_vitoria_casa_min": 0.40789473684210525,
     "taxa_vitoria_casa_max": 0.6739130434782609,
     "top10_jogos": [

@@ -121,7 +121,7 @@ def conferir(texto: str, df: pd.DataFrame, tab1: pd.DataFrame,
                    "Tabela 10", "Figura 9", "Figura 10", "Figura 11",
                    "Figura 12", "6.618", "6.821", "64,94", "60,17", "60,55",
                    "0,068", "0,461", "−0,042", "0,786", "0,043",
-                   "43,1", "59,4", "185 árbitros", "48,9%",
+                   "43,1", "59,4", "177 árbitros", "48,9%",
                    "65,1%", "60,6%", "4,5 p.p.", "3,0–6,0",
                    "−1,1", "0,57", "−0,46", "−0,01", "0,10", "0,19",
                    "380 equipe-temporadas"]:
@@ -400,8 +400,8 @@ def conferir(texto: str, df: pd.DataFrame, tab1: pd.DataFrame,
     # --- arbitragem: números narrados na seção 5.6 ---
     arb = externo["arbitragem"]
     confere(arb["n_jogos"] == 6821, "arbitragem: n de jogos")
-    confere(arb["n_arbitros"] == 185, "arbitragem: n de árbitros")
-    confere(arb["arbitros_com_40_jogos"] == 48, "arbitragem: árbitros com 40+ jogos")
+    confere(arb["n_arbitros"] == 177, "arbitragem: n de árbitros")
+    confere(arb["arbitros_com_40_jogos"] == 50, "arbitragem: árbitros com 40+ jogos")
     confere(_quase(round(arb["taxa_vitoria_casa_geral"] * 100, 1), 48.9),
             "arbitragem: taxa de vitória do mandante")
     confere(_quase(round(arb["taxa_vitoria_casa_min"] * 100, 1), 40.8),
