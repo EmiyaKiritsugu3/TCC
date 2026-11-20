@@ -251,6 +251,7 @@ O dashboard deve exibir a fórmula e uma explicação simples do índice. Não m
 - Índice de Pollard por temporada.
 - Índice de Pollard por equipe e temporada, calculado com os pontos obtidos em casa e fora pela equipe.
 - Correlação de Spearman entre ano e índice anual, como análise exploratória opcional, caso o orientador solicite uma medida de tendência.
+- Associações contextuais descritivas (clássico, distância, estádio habitual, descanso, força e era), com n e IC 95%, sem leitura causal (RF12).
 
 Os indicadores secundários não devem aumentar o escopo antes de a versão mínima estar concluída.
 
@@ -336,6 +337,13 @@ O sistema deve permitir explorar o índice de Pollard por clássico, faixa de di
 - Fórmula de Pollard.
 - Quantidade esperada e observada de partidas por temporada.
 - Resumo das regras de limpeza e limitações conhecidas.
+
+### Tela 5 — Contexto (extensão descritiva, RF12)
+
+- Filtro global de temporada e seletor de dimensão (clássico, distância, mesma UF, estádio, descanso, força, era ou pandemia).
+- Pollard do grupo, n e IC 95%.
+- Ranking exploratório de vantagem casa−fora por equipe, com IC.
+- Nota fixa de que a leitura é descritiva, não causal.
 
 As telas podem ser organizadas em páginas do Streamlit ou abas. A ordem acima é conceitual; não há exigência de interface complexa.
 
