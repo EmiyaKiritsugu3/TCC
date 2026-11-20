@@ -119,6 +119,9 @@ números validados da versão 2:
 - **104 testes** (95 rápidos + 9 de integração); auditor numérico cobre os novos
   números.
 
+Atualização 20/11/2026: **114 testes** (105 rápidos + 9 de integração); a seção
+5.7, a Tabela 11 e a Figura 13 incorporam a extensão de cartões (2013–2024).
+
 Pendência: validação do orientador para manter H3–H5 e a mudança de nível como
 análise exploratória no depósito. Nada foi classificado como causal.
 
@@ -138,3 +141,13 @@ análise exploratória no depósito. Nada foi classificado como causal.
 
 Pendências externas seguem: 5 decisões, autorização escrita do autor do dataset,
 template oficial UFRN/CERES-BSI + ficha SISBI + folha de avaliação e banca.
+
+## Atualização 2026-11-20 — cartões (§5.7)
+
+- **Monografia v3 atualizada:** Tabelas 1–11, Figuras 1–13; a seção 5.7 de
+  cartões (4.559 partidas de 2013–2024, 1 cartão não atribuído) usa DiD 2019→2020
+  com efeitos fixos de equipe e IC conservador (+0,35; IC 95% −0,03 a +0,72).
+- **Deck:** 16 slides, com dois slides de cartões.
+- **Testes:** 113 (105 rápidos + 9 de integração); auditor numérico cobre a
+  Tabela 11 e a Figura 13.
+- **PR #4** com o pipeline de cartões e a versão atualizada do texto/deck.

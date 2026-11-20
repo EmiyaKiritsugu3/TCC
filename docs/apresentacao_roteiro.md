@@ -1,8 +1,8 @@
-# Roteiro de apresentação e demonstração (10 min; deck de 14 slides)
+# Roteiro de apresentação e demonstração (11 min; deck de 16 slides)
 
 ## Slides
 
-**Núcleo (≈ 9 min):**
+**Núcleo (≈ 10 min):**
 
 1. **Capa** — título, autor, orientador.
 2. **Problema** — magnitude da vantagem de jogar em casa na Série A 2006–2024.
@@ -17,27 +17,31 @@
    estádio 64,1% vs. 59,4%, zebra 55,6%.
 9. **Público e arbitragem** — `fig12_publico_ha.png`; 6.618 registros, 177 árbitros,
    ρ público × HA = 0,04 e ρ público × pontos = 0,79; 2020 60,2% × 2022–2024 60,6%.
-10. **Dois anos, duas notas de método** — 2016 (379 jogos) e 2020 (portões fechados).
-11. **Limitações** — observacional; público é proxy; arbitragem só identidade;
-   2008 parcial e 2024 completado pelo FBref; sem causalidade.
-12. **Conclusão** — 63,7% em 19 temporadas; contribuição: série longa + pipeline
-    reproduzível + dashboard.
+10. **Cartões — série** — `fig13_cartoes.png`; 4.559 partidas (2013–2024);
+    −0,18 em 2019, +0,11 em 2020.
+11. **Cartões — limite** — +0,35 com efeitos fixos, IC 95% −0,03 a +0,72;
+    inclui zero; 2020 confunde pandemia, calendário e protocolos.
+12. **Dois anos, duas notas de método** — 2016 (379 jogos) e 2020 (portões fechados).
+13. **Limitações** — observacional; público é proxy; cartões não são decisões;
+    2008 parcial e 2024 completado pelo FBref; sem causalidade.
+14. **Conclusão** — 63,7% em 19 temporadas; contribuição: série longa + pipeline
+    reproduzível + dashboard + extensão de cartões.
 
 **Backup (se a banca pedir):**
 
-13. **Matriz de correlação** — `fig11_correlacoes_equipe.png`; +0,57/−0,46 são
+15. **Matriz de correlação** — `fig11_correlacoes_equipe.png`; +0,57/−0,46 são
     componentes mecânicos; distância −0,01, estádio +0,10, temporada −0,19.
-14. **Anexo — resultados por temporada** — tabela completa no CSV + roteiro da demo.
+16. **Anexo — resultados por temporada** — tabela completa no CSV + roteiro da demo.
 
 ## Tempo sugerido
 
 | Bloco | Slides | Tempo |
 |---|---|---:|
 | Problema + método | 2–3 | 1,5 min |
-| Resultados gerais e evolução | 4–6 | 3,0 min |
-| Contexto e público/arbitragem | 8–9 | 2,0 min |
-| Método, limitações e conclusão | 10–12 | 2,5 min |
-| Perguntas / backup | 13–14 | restante |
+| Resultados gerais, evolução e contexto | 4–8 | 3,0 min |
+| Público e cartões | 9–11 | 2,5 min |
+| Método, limitações e conclusão | 12–14 | 2,5 min |
+| Perguntas / backup | 15–16 | restante |
 
 ## Demonstração ao vivo (3 min, ensaiar nesta ordem)
 
@@ -48,9 +52,9 @@
 5. Aba **Contexto → Matriz**: alternar Equipe-temporada → Partida; destacar distância ~0.
 6. Aba **Metodologia**: fonte, fórmula, relatório de qualidade e validação.
 
-> A seção de público/arbitragem está na monografia (Tabelas 8–10, Figura 12);
-> o dashboard atual não tem aba externa. Se a banca pedir, usar o slide 9 e o
-> `docs/analise_publico_arbitragem.md`.
+> Público/arbitragem estão na monografia (Tabelas 8–10, Figura 12); cartões estão
+> na seção 5.7, Tabela 11 e Figura 13. O dashboard atual não tem aba externa.
+> Se a banca pedir, usar os slides 9–11 e os relatórios em `docs/`.
 
 ## Plano B (se a internet/demo falhar)
 

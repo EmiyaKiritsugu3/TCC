@@ -9,8 +9,9 @@
 - **Arquivo:** `docs/email_orientador_preparado.txt`
 - **Assunto:** TCC vantagem de jogar em casa — 5 decisões + versão atual para leitura
 - **Conteúdo:** status da `main` (PRs #2 e #3 mergeadas), 7.219 partidas,
-  Pollard 63,7%, 104 testes, auditoria de dados (150 verificações), seção 5.6
-  de público/arbitragem, links da monografia/deck/resumo e as 5 decisões.
+  Pollard 63,7%, 114 testes, auditoria de dados (150 verificações), seções 5.6
+  (público/arbitragem) e 5.7 (cartões), links da monografia/deck/resumo e as 5
+  decisões.
 - **Pendências:** recorte/título, artefato de SI, fonte/licença, H3–H5 + seção
   5.6, formato/avaliação do software e template NBR.
 

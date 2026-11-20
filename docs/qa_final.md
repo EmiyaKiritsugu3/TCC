@@ -4,6 +4,15 @@
 > clone novo, venv Python 3.11.15, instalação com hashes e cadeia completa do CI.
 > As seções 1–5 são o registro histórico do commit `9b9540c`.
 
+## Atualização 20/11/2026 — cartões (branch `feat/cartoes`)
+
+- `pytest tests/ -q` → **114 passed** (105 rápidos + 9 de integração); cobertura **91,2%**.
+- `scripts/check_monografia.py` → **AUDITORIA NUMÉRICA: tudo confere**
+  (Tabela 11, Figura 13, DiD 2019→2020 e contagem de testes).
+- `scripts/audit_data.py` → **150 verificações, 0 falhas**.
+- Monografia: §5.7 de cartões, Tabela 11 e Figura 13; 11 tabelas e 13 figuras.
+- Deck: 16 slides, com dois slides de cartões e a ressalva do IC.
+
 ## Atualização 19/11/2026 — branch `feat/contexto-vantagem-casa`
 
 - `pytest tests/ -q` → **104 passed** (95 rápidos + 9 de integração).

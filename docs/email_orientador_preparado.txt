@@ -4,7 +4,7 @@ Prof. Barboza,
 
 A análise está fechada e a versão atual está na main (PRs #2 e #3 mergeadas):
 7.219 partidas 2006–2024, Pollard 63,7% no período (58,2% em 2017 – 69,5% em
-2018), validação cruzada 99,96% e 19/19 campeões recalculados, 104 testes
+2018), validação cruzada 99,96% e 19/19 campeões recalculados, 114 testes
 passando.
 
 A versão 3 acrescenta:
@@ -14,11 +14,15 @@ A versão 3 acrescenta:
   jogos com árbitro (94,5%) e 177 árbitros após normalização; o público não
   explica a vantagem de casa, e o contraste de 2020 mostra queda sem
   desaparecimento;
+- seção 5.7 de cartões: 4.559 partidas (2013–2024), com 1 cartão não atribuído;
+  em 2019 o mandante recebia 0,18 amarelo a menos e, em 2020, +0,11; a mudança
+  com efeitos fixos de equipe é +0,35, mas o IC 95% (−0,03 a +0,72) inclui zero
+  — evidência sugestiva, não conclusiva;
 - auditoria de dados com 150 verificações, 0 falhas.
 
-Monografia em docs/monografia_v2.md (Tabelas 1–10, Figuras 1–12), rascunho ABNT
+Monografia em docs/monografia_v2.md (Tabelas 1–11, Figuras 1–13), rascunho ABNT
 em docs/monografia_draft_abnt.pdf, resumo em docs/resumo_orientador.md,
-auditoria em docs/auditoria_dados.md e deck de 14 slides em
+auditoria em docs/auditoria_dados.md e deck de 16 slides em
 apresentacao/apresentacao_tcc.pdf.
 
 Links:
@@ -36,8 +40,8 @@ Preciso das suas 5 decisões para fechar:
 3. Fonte e licença — manter o plano B (bruto não redistribuído, download pinado
    + SHA-256)? Autoriza eu pedir autorização escrita ao autor?
 4. Tendência/contexto — manter a análise exploratória de mudança de nível
-   pós-2018, as associações contextuais (H3–H5) e a seção 5.6 de
-   público/arbitragem, ou só o descritivo básico?
+   pós-2018, as associações contextuais (H3–H5), a seção 5.6 de
+   público/arbitragem e a seção 5.7 de cartões, ou só o descritivo básico?
 5. Formato e software — qual o formato exigido de projeto/TCC e como o software
    será avaliado? Qual edição da NBR a banca adota (14724:2024)? Poderia me
    enviar o template (.dotx/.ott) se tiver?

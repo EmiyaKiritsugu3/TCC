@@ -249,7 +249,7 @@ def _contexto(prs):
 
 
 def _matriz(prs):
-    s = _slide(prs, "Matriz de correlação (Spearman)", 9)
+    s = _slide(prs, "Matriz de correlação (Spearman)", 15)
     _imagem(s, FIG / "fig11_correlacoes_equipe.png", 0.45, 1.2, 4.5, 3.9)
     _texto(s,
            "HA × casa  +0,57\n"
@@ -267,7 +267,7 @@ def _matriz(prs):
 
 
 def _publico(prs):
-    s = _slide(prs, "Público e arbitragem", 10)
+    s = _slide(prs, "Público e arbitragem", 9)
     _imagem(s, FIG / "fig12_publico_ha.png", 0.55, 1.15, 8.9, 3.35)
     _texto(s,
            "6.618 registros de público (91,7%)  •  177 árbitros em 6.821 jogos  "
@@ -279,8 +279,47 @@ def _publico(prs):
            0.7, 4.92, 8.8, 0.3, size=10, color=MUTED)
 
 
+def _cartoes_serie(prs):
+    s = _slide(prs, "Cartões: um canal de arbitragem", 10)
+    _imagem(s, FIG / "fig13_cartoes.png", 0.55, 1.25, 5.9, 3.15)
+    _stat(s, 6.7, 1.3, 2.6, 1.05, "−0,18", "amarelos casa−fora (2019)")
+    _stat(s, 6.7, 2.55, 2.6, 1.05, "+0,11", "em 2020, sem torcida")
+    _stat(s, 6.7, 3.8, 2.6, 0.95, "4.559", "partidas (2013–2024)")
+    _texto(s, "Fonte: BrazilianFootball/Data (MIT); 1 cartão não atribuído.",
+           0.7, 4.6, 5.6, 0.3, size=10, color=MUTED)
+
+
+def _cartoes_metodo(prs):
+    s = _slide(prs, "Cartões: o que o dado permite dizer", 11)
+    _cartao(s, 0.55, 1.35, 2.9, 2.95)
+    _texto(s, "+0,35", 0.75, 1.5, 2.5, 0.7, font="Georgia", size=34,
+           bold=True, color=DARK)
+    _texto(s, "mudança casa−fora\ncom efeitos fixos de equipe",
+           0.75, 2.2, 2.5, 0.7, size=12, color=TEXT)
+    _texto(s, "IC 95% −0,03 a +0,72", 0.75, 3.0, 2.5, 0.35,
+           size=13, bold=True, color=MUTED)
+    _texto(s, "inclui zero:\nsugestivo, não conclusivo", 0.75, 3.4, 2.5, 0.7,
+           size=11, color=MUTED)
+    _cartao(s, 3.65, 1.35, 2.9, 2.95)
+    _texto(s, "2019 → 2020", 3.85, 1.5, 2.5, 0.45, font="Georgia", size=20,
+           bold=True, color=DARK)
+    _texto(s, "−0,18  →  +0,11", 3.85, 2.05, 2.5, 0.5, font="Georgia", size=22,
+           bold=True, color=TEXT)
+    _texto(s, "mudança bruta +0,29\n16 equipes comuns: +0,34 (IC −0,04 a +0,72)",
+           3.85, 2.65, 2.5, 1.2, size=11, color=MUTED)
+    _cartao(s, 6.75, 1.35, 2.7, 2.95, fill=DARK, line=None)
+    _texto(s, "O limite", 6.95, 1.5, 2.3, 0.4, font="Georgia", size=18,
+           bold=True, color=GOLD)
+    _texto(s,
+           "2020 concentra pandemia, calendário e protocolos; VAR já existia.\n\n"
+           "Cartões refletem arbítrio e comportamento do jogador; faltam pênaltis.",
+           6.95, 2.0, 2.3, 2.1, size=11, color=DARK_TEXT, spacing=1.15)
+    _texto(s, "A arbitragem fica mensurável, mas não identificada causalmente.",
+           0.7, 4.55, 8.8, 0.35, size=12, bold=True, color=DARK)
+
+
 def _dois_anos(prs):
-    s = _slide(prs, "Dois anos, duas notas de método", 11)
+    s = _slide(prs, "Dois anos, duas notas de método", 12)
     _cartao(s, 0.55, 1.4, 4.3, 3.4)
     _texto(s, "2016 — 379 jogos", 0.75, 1.55, 3.9, 0.5, font="Georgia",
            size=20, bold=True, color=DARK)
@@ -300,7 +339,7 @@ def _dois_anos(prs):
 
 
 def _limitacoes(prs):
-    s = _slide(prs, "Limitações declaradas", 12)
+    s = _slide(prs, "Limitações declaradas", 13)
     _texto(s,
            "•  Observacional: placar + mando nominal; nenhuma leitura causal.\n"
            "•  Torcida aproximada pelo público externo; arbitragem só pela identidade "
@@ -318,7 +357,7 @@ def _limitacoes(prs):
 
 
 def _conclusao(prs):
-    s = _slide(prs, "Conclusão", 13, dark=True)
+    s = _slide(prs, "Conclusão", 14, dark=True)
     _texto(s,
            "Jogar em casa foi vantagem em todas as 19 temporadas: "
            "Pollard de 63,7%, oscilando entre 58,2% e 69,5%.",
@@ -328,14 +367,14 @@ def _conclusao(prs):
            "auditado + dashboard reutilizável.",
            0.9, 2.95, 8.4, 0.9, size=16, color=GOLD)
     _texto(s,
-           "7.219 partidas  •  104 testes  •  validação 99,96%  •  10 tabelas / 12 figuras",
+           "7.219 partidas  •  114 testes  •  validação 99,96%  •  11 tabelas / 13 figuras",
            0.9, 3.95, 8.4, 0.35, size=12, color=DARK_TEXT)
     _texto(s, "github.com/EmiyaKiritsugu3/TCC", 0.9, 4.3, 8.4, 0.35,
            size=13, color=DARK_MUTED)
 
 
 def _anexo(prs):
-    s = _slide(prs, "Anexo — resultados por temporada", 14)
+    s = _slide(prs, "Anexo — resultados por temporada", 16)
     _imagem(s, FIG / "fig2_pollard_temporadas.png", 0.55, 1.3, 5.9, 3.05)
     _texto(s, "Tabela completa no CSV.", 6.7, 1.4, 2.6, 0.35,
            size=14, bold=True, color=DARK)
@@ -364,11 +403,13 @@ def build() -> None:
     _nivel(prs)
     _gols(prs)
     _contexto(prs)
-    _matriz(prs)
     _publico(prs)
+    _cartoes_serie(prs)
+    _cartoes_metodo(prs)
     _dois_anos(prs)
     _limitacoes(prs)
     _conclusao(prs)
+    _matriz(prs)
     _anexo(prs)
     SAIDA.parent.mkdir(parents=True, exist_ok=True)
     prs.save(SAIDA)
