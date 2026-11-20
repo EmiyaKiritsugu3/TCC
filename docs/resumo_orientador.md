@@ -16,7 +16,7 @@ e índice de Pollard por temporada e por equipe. Sem previsão, sem IA, sem apos
 - Base primária auditada: **7.219 partidas**, 19 temporadas, zero duplicatas, zero
   placares ausentes, zero divergências vencedor×placar; 2016 com 379 jogos
   (Chapecoense×Atlético-MG cancelada) e 2020 estendida até 25/02/2021.
-- Pipeline reproduzível + **114 testes automatizados** passando (104 rápidos + 10 de integração).
+- Pipeline reproduzível + **117 testes automatizados** passando (106 rápidos + 11 de integração).
 - **Monografia v3 atualizada** (20/11/2026): Tabelas 1–11, Figuras 1–13, §5.6 de
   público/arbitragem e §5.7 de cartões; auditor numérico confere todos os números citados.
 - **Auditoria de dados:** 150 verificações, 0 falhas (`docs/auditoria_dados.md`);

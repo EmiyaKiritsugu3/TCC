@@ -27,7 +27,7 @@ python3 scripts/fetch_raw.py --check # confere o SHA-256 das cópias locais
 python3 scripts/build_processed.py   # gera data/processed/
 python3 scripts/analyze_context.py   # gera tab5, tab6 e contexto.json
 python3 scripts/make_figures.py      # gera figuras e tab1
-python3 -m pytest tests/ -q          # 114 testes (104 rápidos + 10 de integração)
+python3 -m pytest tests/ -q          # 117 testes (106 rápidos + 11 de integração)
 python3 scripts/validate_cross.py    # validação OpenFootball 2018–2024
 python3 scripts/build_deck.py        # gera o deck de defesa (PPTX)
 python3 -m streamlit run app.py
@@ -80,6 +80,22 @@ PYTHONPATH=src python3 scripts/analyze_cards.py
 ```
 
 Relatório: `docs/analise_cartoes.md`; figura: `figuras/fig13_cartoes.png`.
+
+### Recorte 2013–2024 (artigo, base MIT)
+
+A versão do artigo usa a base aberta do `BrazilianFootball/Data` (MIT), com
+resultados, gols, estádios e cartões de 2013–2024:
+
+```bash
+PYTHONPATH=src python3 scripts/build_mit_base.py
+PYTHONPATH=src python3 scripts/analyze_artigo.py
+TCC_PROCESSED=data/processed/matches_processed_2013_2024.csv \
+TCC_QUALITY=data/processed/quality_report_2013_2024.json \
+python3 -m streamlit run app.py
+```
+
+O dashboard continua usando a base 2006–2024 por padrão; as variáveis
+`TCC_PROCESSED` e `TCC_QUALITY` selecionam o recorte sem alterar o código.
 
 Depois do pipeline externo, a auditoria completa dos dados:
 

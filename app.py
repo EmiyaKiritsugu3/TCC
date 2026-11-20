@@ -1,4 +1,5 @@
 """Dashboard — vantagem de jogar em casa, Brasileirão Série A 2006–2024 (RF01–RF11)."""
+import os
 from pathlib import Path
 
 import pandas as pd
@@ -26,8 +27,10 @@ from formatting import num, pct, signed
 from metrics import by_season, summarize, team_season, teams_in_season
 
 BASE = Path(__file__).resolve().parent
-PROCESSED = BASE / "data" / "processed" / "matches_processed.csv"
-QUALITY = BASE / "data" / "processed" / "quality_report.json"
+PROCESSED = Path(os.environ.get(
+    "TCC_PROCESSED", BASE / "data" / "processed" / "matches_processed.csv"))
+QUALITY = Path(os.environ.get(
+    "TCC_QUALITY", BASE / "data" / "processed" / "quality_report.json"))
 
 st.set_page_config(page_title="Vantagem de jogar em casa — Brasileirão", layout="wide")
 
@@ -159,11 +162,26 @@ with t3:  # RF06 + RF07 + RF10
                            file_name="recorte_filtrado.csv", mime="text/csv")
 
 with t4:  # RF09
-    st.markdown(f"""**Fonte:** Brasileirão_Dataset (`adaoduque`), commit `15f027c`, acesso 2026-10-28.
-Sem arquivo LICENSE no repositório — uso acadêmico pendente de autorização; CSV bruto não redistribuído.
+    fontes = sorted(set(df["source"].dropna())) if "source" in df.columns else []
+    fonte = fontes[0] if fontes else "fonte não informada"
+    if "BrazilianFootball" in fonte:
+        nota_fonte = (f"**Fonte:** {fonte}. Licença MIT; base derivada com "
+                      "atribuição. CSV bruto não redistribuído.")
+    else:
+        nota_fonte = (f"**Fonte:** {fonte}. Sem arquivo LICENSE no repositório — "
+                      "uso acadêmico pendente de autorização; CSV bruto não redistribuído.")
+    periodo = f"{int(df['season'].min())}–{int(df['season'].max())}"
+    partidas = f"{len(df):,}".replace(",", ".")
+    temporadas = set(df["season"].unique().tolist())
+    casos = []
+    if 2016 in temporadas:
+        casos.append("2016 com 379 — Chapecoense × Atlético-MG cancelada")
+    if 2020 in temporadas:
+        casos.append("2020 disputada até 25/02/2021 por causa da pandemia")
+    nota_casos = (" " + "; ".join(casos) + ".") if casos else ""
+    st.markdown(f"""{nota_fonte}
 
-**Período:** 2006–2024 · **Partidas válidas no recorte:** 7.219 (2016 com 379 — Chapecoense × Atlético-MG cancelada;
-2020 disputada até 25/02/2021 por causa da pandemia).
+**Período:** {periodo} · **Partidas válidas no recorte:** {partidas}.{nota_casos}
 
 **Fórmulas:** resultado do placar; pontos 3/1/0; proporções sobre o recorte;
 Pollard `VC = Pm/(Pm+Pv)×100` (indefinido se Pm+Pv = 0).
