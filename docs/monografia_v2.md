@@ -222,7 +222,7 @@ A motivação para este trabalho nasce de dois interesses que correram em parale
 
 A temática é adequada a Sistemas de Informação porque envolve aquisição e tratamento de dados, definição de indicadores, visualização interativa e construção de um sistema de apoio à análise — uma aplicação direta do que a análise de negócios descritiva discute, respondendo "o que aconteceu?" (SHARDA; DELEN; TURBAN, 2019). A contribuição não é alegar ineditismo do fenômeno, e sim combinar um recorte histórico longo e homogêneo (19 temporadas), um fluxo de tratamento reproduzível e auditado e um dashboard interativo para exploração dos dados, permanecendo útil como ferramenta de consulta após o término do curso.
 
-Em termos práticos, a contribuição se desdobra em três entregas verificáveis. A primeira é a série anual homogênea de 19 temporadas (2006–2024), com 7.219 partidas válidas, regras de limpeza documentadas e dois casos metodológicos tratados sem imputação (2016 e 2020). A segunda é o fluxo reproduzível e auditado: download pinado por commit com verificação SHA-256, construção determinística da base processada, validação cruzada externa de 99,96% e recálculo dos 19 campeões a partir dos placares. A terceira é o dashboard reutilizável, com cinco abas que cobrem do panorama geral à consulta por equipe e à análise de contexto, coberto por 94 testes automatizados (85 rápidos + 9 de integração) e formatado em português. A análise contextual não muda a pergunta central: ela delimita o que os dados permitem dizer sobre os fatores associados, sem converter associação em causa. Nenhuma das três depende de alegação causal: o valor está na medida repetível e na exploração assistida, não na explicação do fenômeno.
+Em termos práticos, a contribuição se desdobra em três entregas verificáveis. A primeira é a série anual homogênea de 19 temporadas (2006–2024), com 7.219 partidas válidas, regras de limpeza documentadas e dois casos metodológicos tratados sem imputação (2016 e 2020). A segunda é o fluxo reproduzível e auditado: download pinado por commit com verificação SHA-256, construção determinística da base processada, validação cruzada externa de 99,96% e recálculo dos 19 campeões a partir dos placares. A terceira é o dashboard reutilizável, com cinco abas que cobrem do panorama geral à consulta por equipe e à análise de contexto, coberto por 96 testes automatizados (87 rápidos + 9 de integração) e formatado em português. A análise contextual não muda a pergunta central: ela delimita o que os dados permitem dizer sobre os fatores associados, sem converter associação em causa. Nenhuma das três depende de alegação causal: o valor está na medida repetível e na exploração assistida, não na explicação do fenômeno.
 
 ## 1.6 Estrutura do trabalho
 
@@ -360,15 +360,15 @@ Legenda: fonte, período, regras de limpeza e relatório de qualidade. Fonte: El
 
 ## 4.4 Testes
 
-Noventa e quatro testes automatizados (Pytest; 85 rápidos e 9 de integração) cobrem o caso de referência da especificação (três partidas manuais → índice de Pollard exatamente 50%), proporções, tratamento de denominador zero, recorte vazio, pontuação por equipe/temporada (incluindo Flamengo 2019: 53/37/90/38), variáveis contextuais (viagem, clássico, estádio, descanso, tabela, eras), funções de associação (bootstrap, mudança de nível, vantagem por equipe), filtros das abas, formatação pt-BR, integridade SHA-256 e regras de limpeza. Todos passam (`94 passed`). Complemento de verificação externa: a validação cruzada contra o OpenFootball atingiu 99,96% de concordância (seção 3.2).
+Noventa e seis testes automatizados (Pytest; 87 rápidos e 9 de integração) cobrem o caso de referência da especificação (três partidas manuais → índice de Pollard exatamente 50%), proporções, tratamento de denominador zero, recorte vazio, pontuação por equipe/temporada (incluindo Flamengo 2019: 53/37/90/38), variáveis contextuais (viagem, clássico, estádio, descanso, tabela, eras), funções de associação (bootstrap, mudança de nível, vantagem por equipe), filtros das abas, formatação pt-BR, integridade SHA-256 e regras de limpeza. Todos passam (`96 passed`). Complemento de verificação externa: a validação cruzada contra o OpenFootball atingiu 99,96% de concordância (seção 3.2).
 
 **Tabela 4 — Síntese dos testes por grupo.**
 
 | Grupo | O que verifica | Testes |
 |---|---|---:|
 | `test_metrics` | fórmulas, Pollard, agregações, equipe/temporada | 9 passed |
-| `test_context` | viagem, clássico, estádio, descanso, tabela, eras, cobertura dos 43 clubes | 17 passed |
-| `test_associations` | bootstrap, mudança de nível, grupos, equipe e split-half | 13 passed |
+| `test_context` | viagem, clássico, estádio, descanso, tabela, eras, cobertura dos 43 clubes | 18 passed |
+| `test_associations` | bootstrap, mudança de nível, grupos, equipe e split-half | 14 passed |
 | `test_data_validation` | regras de limpeza e exclusões contabilizadas | 8 passed |
 | `test_load_data` | leitura como texto e validação de colunas | 5 passed |
 | `test_openfootball` | parser, virada de ano, time não mapeado | 5 passed |
@@ -383,7 +383,7 @@ Noventa e quatro testes automatizados (Pytest; 85 rápidos e 9 de integração) 
 | `test_validate_cross_excecao` | tolerância da exceção conhecida de data | 2 passed |
 | `test_review_fixes` | regressões das revisões (download, exceção, CI, placares) | 9 passed |
 | `test_bootstrap_checks` | bootstrap/check read-only, pins e instalação editável | 4 passed |
-| **Total** | **85 rápidos + 9 de integração** | **94 passed** |
+| **Total** | **87 rápidos + 9 de integração** | **96 passed** |
 
 Fonte: Elaboração própria; detalhamento em Apêndice D.
 
@@ -462,13 +462,13 @@ A temporada 2020 (60,2%) merece leitura à luz de Ribeiro et al. (2022): disputa
 
 A Tabela 5 reúne o Pollard por contexto da partida, com n e IC 95%. As variáveis são descritivas e calculadas sem tocar em placar ou mando (`src/context.py`): distância entre cidades-sede (haversine; clássicos = 0), clássico, mesma unidade federativa, estádio mais frequente da equipe na temporada, diferença de descanso (apenas Série A) e posição relativa na tabela antes da partida. A Figura 10 resume os mesmos grupos. Nenhuma leitura abaixo é causal.
 
-**Viagem e clássico.** A distância não move o índice: 63,4% nas curtas, 63,8% nas médias e 63,9% nas longas — diferença de 0,5 p.p., muito menor que a amplitude anual. A comparação mais informativa é o clássico: 458 partidas entre clubes da mesma cidade, com deslocamento zero, registram 58,2% (IC 53,99–62,45), contra 64,0% nos não clássicos (IC 62,95–65,05); a diferença é de −5,8 p.p. (IC −11,3 a −0,7, bootstrap por temporada). Mesmo sem viagem, o mandante mantém 8,2 p.p. de vantagem sobre o neutro. A viagem pode contribuir com uma fração, mas não com o grosso. O mesmo estado vs. estado diferente (62,1% vs. 63,8%; diferença −1,8 p.p.; IC −5,6 a 1,8) aponta na mesma direção, com incerteza que inclui zero. O resultado dialoga com Pollard, Silva e Medeiros (2008), que estimaram 0,1 gol de diferença a cada 1.000 km — efeito pequeno em gols, abaixo da resolução da régua de pontos.
+**Viagem e clássico.** A distância não move o índice: 63,4% nas curtas, 63,8% nas médias e 63,9% nas longas — diferença de 0,5 p.p., muito menor que a amplitude anual. A comparação mais informativa é o clássico: 458 partidas entre clubes da mesma cidade, com deslocamento zero, registram 58,2% (IC 53,99–62,45), contra 64,0% nos não clássicos (IC 62,95–65,05); a diferença é de −5,8 p.p. (IC −11,3 a −0,7, bootstrap por temporada). Mesmo sem viagem, o mandante mantém 8,2 p.p. de vantagem sobre o neutro. Uma fração da diferença é compatível com a viagem, mas não o grosso. O mesmo estado vs. estado diferente (62,1% vs. 63,8%; diferença −1,8 p.p.; IC −5,6 a 1,8) aponta na mesma direção, com incerteza que inclui zero. O resultado dialoga com Pollard, Silva e Medeiros (2008), que estimaram 0,1 gol de diferença a cada 1.000 km — efeito pequeno em gols, abaixo da resolução da régua de pontos.
 
-**Estádio habitual.** Jogos no estádio mais frequente da equipe na temporada somam 64,1% (IC 63,04–65,15), contra 59,4% em outro estádio (IC 55,78–62,91); a diferença bruta é de 4,7 p.p. (IC 1,8–8,1). Parte disso é composição de adversários e público, não familiaridade. A comparação dentro de equipe-temporada — cada partida contra a média do próprio clube na temporada — reduz a diferença para 0,13 ponto por jogo (usual +0,012; outro −0,116). É um efeito modesto, compatível com familiaridade e com público, mas insuficiente para explicar os 13,7 p.p. do agregado.
+**Estádio habitual.** Jogos no estádio mais frequente da equipe na temporada somam 64,1% (IC 63,04–65,15), contra 59,4% em outro estádio (IC 55,78–62,91); a diferença bruta é de 4,7 p.p. (IC 1,8–8,1). Parte disso é composição de adversários e público, não familiaridade. A comparação dentro de equipe-temporada — cada partida contra a média do próprio clube na temporada — reduz a diferença para 0,13 ponto por jogo (usual +0,012; outro −0,116). É uma diferença modesta, compatível com familiaridade e com público, mas insuficiente para responder pelos 13,7 p.p. do agregado.
 
 **Descanso.** A relação não é monotônica: descanso igual 65,2%; mandante +1–2 dias 62,7%; mandante +3 dias 59,7%; visitante +1–2 dias 61,2%; visitante +3 dias 66,2%. Dentro de equipe-temporada, os desvios são pequenos e não ordenados (+0,027 no igual; −0,021 em casa +1–2; −0,089 em casa +3; −0,034 fora +1–2; +0,051 fora +3). O indicador cobre apenas partidas da Série A; não mede copa, Libertadores ou estaduais. A leitura defensável é que não há evidência de que mais descanso do mandante aumente o índice; a afirmação anterior de "gradação" não se sustenta.
 
-**Força na tabela.** O favorito (mandante ao menos 4 posições melhor) registra 73,3% (IC 71,66–74,99); o equilibrado, 62,8%; a zebra (mandante ao menos 4 posições pior), 55,7% (IC 53,91–57,47). A diferença favorito−zebra é de 17,7 p.p. (IC 14,9–20,6). Dentro de equipe-temporada, o favorito soma +0,081 ponto/jogo e a zebra −0,047. A força explica a heterogeneidade entre confrontos, mas não o nível agregado: mesmo quando o mandante é pior, o índice fica 5,7 p.p. acima do neutro. Como o calendário é balanceado, a qualidade dos elencos não pode explicar por que os mandantes somam mais pontos no agregado.
+**Força na tabela.** O favorito (mandante ao menos 4 posições melhor) registra 73,3% (IC 71,66–74,99); o equilibrado, 62,8%; a zebra (mandante ao menos 4 posições pior), 55,7% (IC 53,91–57,47). A diferença favorito−zebra é de 17,7 p.p. (IC 14,9–20,6). Dentro de equipe-temporada, o favorito soma +0,081 ponto/jogo e a zebra −0,047. A força está associada à heterogeneidade entre confrontos, mas não ao nível agregado: mesmo quando o mandante é pior, o índice fica 5,7 p.p. acima do neutro. Como o calendário é balanceado, a qualidade dos elencos não pode explicar por que os mandantes somam mais pontos no agregado.
 
 **Era e pandemia.** O pré-2019 tem 64,9% (IC 63,64–66,08); o pós-2019, 61,0% (IC 59,21–62,89). As temporadas pandêmicas (2020–2021) têm 61,0% (IC 57,83–64,25) contra 64,0% das demais (IC 62,85–64,99; diferença −3,0 p.p.; IC −4,7 a −1,2). A queda, porém, não termina com a pandemia: 2022–2024 têm 60,6%. O desenho não separa VAR, pandemia, calendário e mudanças táticas; a conclusão é descritiva: há uma mudança de nível que coincide com um conjunto de choques, não com um deles isoladamente. Na mesma era, o índice acompanha a presença de público: 62,4% em 2019 (torcida cheia), 60,2% em 2020 (portões fechados) e 61,8% em 2021 (retorno parcial) — gradiente sugestivo, sem leitura causal.
 
@@ -532,8 +532,8 @@ Legenda: barras = Pollard do grupo; hastes = IC 95%; linha tracejada = 50% (neut
 2. Sim: mandantes marcaram mais (1,49 vs. 1,00 por jogo, em todas as temporadas).
 3. O índice de Pollard foi de 63,7% no período, com oscilação anual de 58,2% a 69,5% e uma mudança de nível pós-2018: 64,9% em 2006–2018 contra 61,0% em 2019–2024 (diferença de 3,9 p.p.; IC 2,1–5,6).
 4. Sim, há diferenças descritivas relevantes entre temporadas e clubes; os extremos anuais são 2017 e 2018, e a Tabela 6 mostra a heterogeneidade entre equipes. A amplitude de 11,3 p.p. é um retrato de extremos; a mudança de nível é a leitura mais robusta.
-5. O mando cresce com a viagem? Não de forma relevante: 63,4%–63,9% nas três faixas e 58,2% nos clássicos sem viagem. O estádio habitual acrescenta 4,7 p.p. na comparação bruta (0,13 ponto/jogo controlado). O descanso não é monotônico. A força na tabela explica heterogeneidade (favorito 73,3% vs. zebra 55,7%), mas não o nível agregado; mesmo a zebra fica acima de 50%.
-6. Por que a vantagem é grande? Os dados permitem dizer o que **não** é o principal: viagem, descanso e qualidade dos elencos não explicam o agregado. Familiaridade com o estádio contribui modestamente. Torcida e arbitragem são canais plausíveis, mas não medidos; o resíduo é grande e a conclusão é multifatorial.
+5. O mando cresce com a viagem? Não de forma relevante: 63,4%–63,9% nas três faixas e 58,2% nos clássicos sem viagem. O estádio habitual acrescenta 4,7 p.p. na comparação bruta (0,13 ponto/jogo controlado). O descanso não é monotônico. A força na tabela está associada à heterogeneidade (favorito 73,3% vs. zebra 55,7%), mas não ao nível agregado; mesmo a zebra fica acima de 50%.
+6. Por que a vantagem é grande? Os dados permitem dizer o que **não** é o principal: viagem, descanso e qualidade dos elencos não explicam o agregado. Familiaridade com o estádio contribui modestamente. O estádio habitual está associado a uma diferença modesta. Torcida e arbitragem são canais plausíveis, mas não medidos; o resíduo é grande e a conclusão é multifatorial.
 
 ---
 
@@ -543,7 +543,7 @@ Legenda: barras = Pollard do grupo; hastes = IC 95%; linha tracejada = 50% (neut
 
 No período 2006–2024 (7.219 partidas), os mandantes somaram mais pontos que os visitantes em todas as temporadas: índice de Pollard geral de 63,7% (IC 95% 62,6–64,7), variando de 58,2% (2017) a 69,5% (2018). Mandantes venceram 49,0% dos jogos e marcaram 1,49 gol por partida, contra 24,1% e 1,00 dos visitantes. Respondendo diretamente à pergunta de pesquisa: a magnitude da vantagem de jogar em casa na Série A foi de 13,7 pontos percentuais acima da neutralidade no agregado do período. As hipóteses se confirmam no plano descritivo: H1, porque 63,7% supera 50% com folga equivalente a 5.388 pontos de diferença acumulada (12.554 vs. 7.166); H2, porque a série anual oscila de 58,2% a 69,5% sem jamais tocar o neutro. A forma mais forte de H2, porém, é a mudança de nível: 64,9% em 2006–2018 contra 61,0% em 2019–2024 (diferença de 3,9 p.p.; IC 2,1–5,6), com 2022–2024 em 60,6%. Nenhuma temporada inverteu o mando, nem mesmo 2020 sob estádios vazios; mas a vantagem não é uma constante — ela caiu de patamar e não voltou ao nível anterior.
 
-As hipóteses contextuais H3–H5 também se sustentam descritivamente: a viagem não explica o grosso (clássicos sem deslocamento ainda têm 58,2%; as faixas de distância ficam entre 63,4% e 63,9%), o estádio habitual acrescenta 4,7 p.p. na comparação bruta (0,13 ponto/jogo controlado) e a mudança de nível pós-2018 é o padrão mais robusto da série. A força na tabela explica a heterogeneidade entre confrontos (favorito 73,3% vs. zebra 55,7%), mas não o nível agregado. Não há uma causa única nos dados: há associações modestas e um resíduo grande, que a literatura associa a torcida, arbitragem, clima e gramado — canais não medidos aqui.
+As hipóteses contextuais H3–H5 também se sustentam descritivamente: a viagem não é o principal (clássicos sem deslocamento ainda têm 58,2%; as faixas de distância ficam entre 63,4% e 63,9%), o estádio habitual mostra 4,7 p.p. de diferença bruta (0,13 ponto/jogo controlado) e a mudança de nível pós-2018 é o padrão mais robusto da série. A força na tabela está associada à heterogeneidade entre confrontos (favorito 73,3% vs. zebra 55,7%), mas não ao nível agregado. Não há uma causa única nos dados: há associações modestas e um resíduo grande, que a literatura associa a torcida, arbitragem, clima e gramado — canais não medidos aqui.
 
 ## 6.2 Contribuição
 
@@ -643,11 +643,11 @@ Validação dos campeões (`python3 scripts/validate_champions.py`, recálculo p
 
 ## APÊNDICE D — Casos de teste e instruções de execução
 
-Suíte Pytest (`python3 -m pytest tests/ -q`): **94 passed** (85 rápidos + 9 de integração).
+Suíte Pytest (`python3 -m pytest tests/ -q`): **96 passed** (87 rápidos + 9 de integração).
 
 - `tests/test_metrics.py`: caso de referência de três partidas (Pollard exatamente 50%); tudo-mandante acima de 50% e tudo-visitante abaixo; proporções somam 100; Pollard indefinido sem pontos; recorte vazio não quebra; agregação `by_season`; `team_season` separa pontos de casa e fora; Flamengo 2019 (53/37/90/38); `teams_in_season` respeita a temporada.
-- `tests/test_context.py` (17): haversine (São Paulo–Rio ≈ 360 km; zero na mesma cidade); clássicos locais com viagem zero; distância interestadual na faixa esperada; descanso em dias (incluindo estreia sem anterior e jogo no mesmo dia); pontos e posição antes da partida; flags de era; mesma UF, região, estádio habitual, faixas de descanso e de posição; cobertura dos 43 clubes e somas da base real (7.219).
-- `tests/test_associations.py` (13): bootstrap de Pollard, IC anual, diferença por cluster de temporada, ponto de quebra, grupos, vantagem por equipe, desvio dentro de equipe-temporada, split-half e cobertura da base real.
+- `tests/test_context.py` (18): haversine (São Paulo–Rio ≈ 360 km; zero na mesma cidade); clássicos locais com viagem zero; distância interestadual na faixa esperada; descanso em dias (incluindo estreia sem anterior e jogo no mesmo dia); pontos e posição antes da partida; flags de era; mesma UF, região, estádio habitual, faixas de descanso e de posição; cobertura dos 43 clubes e somas da base real (7.219).
+- `tests/test_associations.py` (14): bootstrap de Pollard, IC anual, diferença por cluster de temporada, ponto de quebra, grupos, vantagem por equipe, desvio dentro de equipe-temporada, split-half e cobertura da base real.
 - `tests/test_data_validation.py`: placar ausente não vira zero; gols negativos rejeitados; mandante igual a visitante rejeitado; fora do recorte excluído; `match_id` duplicado mantém o primeiro; resultado recalculado do placar; `_strip` apara dtype `string`; clube ausente rejeitado.
 - `tests/test_app.py`: aba Equipes filtra temporada e confere Flamengo 2019 (53/37/90/38); aba Equipes respeita o filtro global; aba Contexto existe e calcula grupos.
 - `tests/test_charts_composicao.py`: séries, rótulos pt-BR, IC dos grupos e ranking por equipe.
@@ -663,7 +663,7 @@ python3 scripts/fetch_raw.py --check # confere o SHA-256 das cópias locais
 python3 scripts/build_processed.py   # gera data/processed/
 python3 scripts/analyze_context.py   # gera tab5, tab6 e contexto.json
 python3 scripts/make_figures.py      # gera figuras e tab1
-python3 -m pytest tests/ -q          # 94 testes (85 rápidos + 9 de integração)
+python3 -m pytest tests/ -q          # 96 testes (87 rápidos + 9 de integração)
 python3 scripts/validate_cross.py    # validação OpenFootball 2018–2024
 python3 -m streamlit run app.py
 ```

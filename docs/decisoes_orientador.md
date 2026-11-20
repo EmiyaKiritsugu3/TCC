@@ -115,7 +115,7 @@ números validados da versão 2:
 - Dashboard: quinta aba **Contexto** (RF12), com filtros, IC e ranking por equipe.
 - Monografia v3: §5.4 nova, Tabelas 5–6, Figuras 9–10, ICs na Tabela 1, resumo,
   conclusão e limitações atualizados.
-- **94 testes** (85 rápidos + 9 de integração); auditor numérico cobre os novos
+- **96 testes** (87 rápidos + 9 de integração); auditor numérico cobre os novos
   números.
 
 Pendência: validação do orientador para manter H3–H5 e a mudança de nível como

@@ -141,6 +141,12 @@ def test_usual_stadium_desempata_por_ordem_alfabetica():
     assert usual_stadium(d).tolist() == [True, True, False, False, True]
 
 
+def test_usual_stadium_exige_coluna():
+    d = pd.DataFrame({"season": [2019], "home_team": ["A"], "away_team": ["B"]})
+    with pytest.raises(ValueError, match="stadium"):
+        usual_stadium(d)
+
+
 def test_rest_bucket_cobre_as_faixas_e_ignora_ausente():
     d = pd.DataFrame({
         "home_rest": [5, 5, 1, 0, 0, 4, 5, None],

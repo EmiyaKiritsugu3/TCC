@@ -32,6 +32,11 @@ def test_bootstrap_pollard_ci_vazio():
     assert bootstrap_pollard_ci(_df([]), n=10, seed=1) == (None, None)
 
 
+def test_bootstrap_pollard_ci_reprodutivel():
+    d = _df([(2019, "A", "B", 3, 0), (2019, "C", "D", 0, 3), (2019, "E", "F", 1, 1)])
+    assert bootstrap_pollard_ci(d, n=200, seed=7) == bootstrap_pollard_ci(d, n=200, seed=7)
+
+
 def test_annual_pollard_ci_duas_temporadas():
     d = _df([(2006, "A", "B", 3, 0)] * 5 + [(2007, "A", "B", 0, 3)] * 5)
     out = annual_pollard_ci(d, n=100, seed=1).set_index("season")

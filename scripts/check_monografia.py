@@ -97,7 +97,7 @@ def conferir(texto: str, df: pd.DataFrame, tab1: pd.DataFrame,
                    "63,7%", "12.554", "7.166", "58,2% (2017)", "69,5% (2018)",
                    "28,9%", "17,9%", "60,2%", "n = 379", "379 jogos",
                    "62,4% em 2019", "61,8% em 2021", "11,3 p.p",
-                   "2.659 de 2.660", "99,96%", "19/19", "94 testes", "94 passed",
+                   "2.659 de 2.660", "99,96%", "19/19", "96 testes", "96 passed",
                    "25/02/2021", "Flamengo 2019: 53/37/90/38",
                    "64,9% em 2006–2018", "61,0% em 2019–2024", "3,9 p.p.",
                    "2,1–5,6", "4,5 p.p.", "3,0–6,0", "53,4–62,6",
@@ -107,8 +107,8 @@ def conferir(texto: str, df: pd.DataFrame, tab1: pd.DataFrame,
                    "Figura 9", "Figura 10"]:
         confere(pedaco in T, f"trecho ausente: {pedaco!r}")
     confere("12.554 × 7.166" not in T, "comparação de pontos ainda usa ×")
-    confere("`tests/test_context.py` (17)" in T, "contagem de test_context no Apendice D")
-    confere("`tests/test_associations.py` (13)" in T, "contagem de test_associations no Apendice D")
+    confere("`tests/test_context.py` (18)" in T, "contagem de test_context no Apendice D")
+    confere("`tests/test_associations.py` (14)" in T, "contagem de test_associations no Apendice D")
 
     # --- extremos anuais ---
     confere(round(t.loc[2017, "pollard"], 2) == 58.24, "pollard 2017")

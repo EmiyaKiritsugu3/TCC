@@ -6,12 +6,12 @@
 
 ## Atualização 19/11/2026 — branch `feat/contexto-vantagem-casa`
 
-- `pytest tests/ -q` → **94 passed** (85 rápidos + 9 de integração).
+- `pytest tests/ -q` → **96 passed** (87 rápidos + 9 de integração).
 - `scripts/analyze_context.py` → `tab5_contexto.csv`, `tab6_equipes.csv`,
   `contexto.json`; Geral 63,66% (IC 62,63–64,70); quebra em 2019.
 - `scripts/make_figures.py` → Figura 9 (série com IC) e Figura 10 (contexto).
 - `scripts/check_monografia.py` → **AUDITORIA NUMÉRICA: tudo confere**
-  (Tabelas 1, 5 e 6; ICs; mudança de nível; figuras 1–10; 8.469 palavras).
+  (Tabelas 1, 5 e 6; ICs; mudança de nível; figuras 1–10; 8.483 palavras).
 - Dashboard: 5 abas; AppTest cobre a aba Contexto.
 - Monografia v3: §5.4, Tabelas 5–6, Figuras 9–10, ICs na Tabela 1.
 
