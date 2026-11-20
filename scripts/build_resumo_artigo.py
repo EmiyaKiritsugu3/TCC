@@ -27,14 +27,17 @@ VERDE = RGBColor(0x14, 0x53, 0x2D)
 CINZA = RGBColor(0x55, 0x55, 0x55)
 
 
-def _runs(par, texto: str, tamanho: float = 10.5, negrito: bool = False) -> None:
-    """Adiciona texto com **negrito** preservando o restante."""
-    for parte in re.split(r"(\*\*.+?\*\*)", texto):
+def _runs(par, texto: str, tamanho: float = 10.3, negrito: bool = False) -> None:
+    """Adiciona texto com **negrito** e `código` preservando o restante."""
+    for parte in re.split(r"(\*\*.+?\*\*|`.+?`)", texto):
         if not parte:
             continue
         if parte.startswith("**") and parte.endswith("**"):
             run = par.add_run(parte[2:-2])
             run.bold = True
+        elif parte.startswith("`") and parte.endswith("`"):
+            run = par.add_run(parte[1:-1])
+            run.italic = True
         else:
             run = par.add_run(parte)
             run.bold = negrito
@@ -42,8 +45,8 @@ def _runs(par, texto: str, tamanho: float = 10.5, negrito: bool = False) -> None
         run.font.size = Pt(tamanho)
 
 
-def _paragrafo(doc, texto: str, *, tamanho: float = 10.5, negrito: bool = False,
-               espaco: float = 1.08, antes: int = 0, depois: int = 5,
+def _paragrafo(doc, texto: str, *, tamanho: float = 10.3, negrito: bool = False,
+               espaco: float = 1.03, antes: int = 0, depois: int = 4,
                recuo: bool = False, cor: RGBColor | None = None) -> None:
     par = doc.add_paragraph()
     par.alignment = WD_ALIGN_PARAGRAPH.JUSTIFY
@@ -67,7 +70,7 @@ def _tabela(doc, linhas: list[list[str]]) -> None:
         for j, celula in enumerate(linha):
             cel = tab.cell(i, j)
             cel.text = ""
-            _runs(cel.paragraphs[0], celula.strip(), tamanho=8.5,
+            _runs(cel.paragraphs[0], celula.strip(), tamanho=8.0,
                   negrito=(i == 0))
     doc.add_paragraph()
 
@@ -88,8 +91,8 @@ def _rodape(doc) -> None:
 def _configurar(doc) -> None:
     for secao in doc.sections:
         secao.page_width, secao.page_height = Cm(21.0), Cm(29.7)
-        secao.top_margin, secao.bottom_margin = Cm(2.2), Cm(2.0)
-        secao.left_margin, secao.right_margin = Cm(2.5), Cm(2.5)
+        secao.top_margin, secao.bottom_margin = Cm(2.0), Cm(1.8)
+        secao.left_margin, secao.right_margin = Cm(2.3), Cm(2.3)
     normal = doc.styles["Normal"]
     normal.font.name = "Times New Roman"
     normal.font.size = Pt(11)
@@ -111,6 +114,11 @@ def _renderizar(doc, linhas: list[str]) -> None:
                 run.font.color.rgb = VERDE
             i += 1
             continue
+        if s.startswith("### "):
+            _paragrafo(doc, s[4:], tamanho=11.5, negrito=True, antes=6,
+                       depois=2, cor=VERDE)
+            i += 1
+            continue
         if s.startswith("## "):
             _paragrafo(doc, s[3:], tamanho=12, negrito=True, antes=8,
                        depois=3, cor=VERDE)
@@ -129,6 +137,22 @@ def _renderizar(doc, linhas: list[str]) -> None:
                 linhas_tab.append(partes)
             if linhas_tab:
                 _tabela(doc, linhas_tab)
+            continue
+        imagem = re.fullmatch(r"!\[(.*?)\]\((.+?)\)", s)
+        if imagem:
+            legenda, caminho = imagem.groups()
+            arquivo = RAIZ / caminho
+            if arquivo.exists():
+                doc.add_picture(str(arquivo), width=Cm(11.0))
+                doc.paragraphs[-1].alignment = WD_ALIGN_PARAGRAPH.CENTER
+                par = doc.add_paragraph()
+                par.alignment = WD_ALIGN_PARAGRAPH.CENTER
+                par.paragraph_format.space_after = Pt(4)
+                _runs(par, legenda, tamanho=8.5)
+                for run in par.runs:
+                    run.font.color.rgb = CINZA
+                    run.italic = True
+            i += 1
             continue
         if re.match(r"^(\d+\.|-)\s", s):
             if s.startswith("- "):
