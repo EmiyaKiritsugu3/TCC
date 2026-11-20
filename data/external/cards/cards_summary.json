@@ -1,0 +1,266 @@
+{
+  "fonte": "BrazilianFootball/Data (MIT)",
+  "periodo": [
+    2013,
+    2024
+  ],
+  "temporadas": [
+    {
+      "season": 2013,
+      "n": 380,
+      "amarelos_casa": 2.0605,
+      "amarelos_fora": 2.3658,
+      "amarelos_diff": -0.3053,
+      "amarelos_lo": -0.4553,
+      "amarelos_hi": -0.1552,
+      "vermelhos_casa": 0.0395,
+      "vermelhos_fora": 0.0895,
+      "vermelhos_diff": -0.05,
+      "vermelhos_lo": -0.0842,
+      "vermelhos_hi": -0.0184,
+      "cartoes_por_jogo": 4.5553
+    },
+    {
+      "season": 2014,
+      "n": 380,
+      "amarelos_casa": 2.1447,
+      "amarelos_fora": 2.3079,
+      "amarelos_diff": -0.1632,
+      "amarelos_lo": -0.3395,
+      "amarelos_hi": 0.0105,
+      "vermelhos_casa": 0.0921,
+      "vermelhos_fora": 0.1158,
+      "vermelhos_diff": -0.0237,
+      "vermelhos_lo": -0.0658,
+      "vermelhos_hi": 0.0158,
+      "cartoes_por_jogo": 4.6605
+    },
+    {
+      "season": 2015,
+      "n": 380,
+      "amarelos_casa": 2.2211,
+      "amarelos_fora": 2.7184,
+      "amarelos_diff": -0.4974,
+      "amarelos_lo": -0.6789,
+      "amarelos_hi": -0.3237,
+      "vermelhos_casa": 0.0842,
+      "vermelhos_fora": 0.1921,
+      "vermelhos_diff": -0.1079,
+      "vermelhos_lo": -0.1605,
+      "vermelhos_hi": -0.0553,
+      "cartoes_por_jogo": 5.2158
+    },
+    {
+      "season": 2016,
+      "n": 379,
+      "amarelos_casa": 2.0607,
+      "amarelos_fora": 2.4987,
+      "amarelos_diff": -0.438,
+      "amarelos_lo": -0.6121,
+      "amarelos_hi": -0.2691,
+      "vermelhos_casa": 0.0739,
+      "vermelhos_fora": 0.1478,
+      "vermelhos_diff": -0.0739,
+      "vermelhos_lo": -0.1162,
+      "vermelhos_hi": -0.029,
+      "cartoes_por_jogo": 4.781
+    },
+    {
+      "season": 2017,
+      "n": 380,
+      "amarelos_casa": 2.1342,
+      "amarelos_fora": 2.5974,
+      "amarelos_diff": -0.4632,
+      "amarelos_lo": -0.6553,
+      "amarelos_hi": -0.2762,
+      "vermelhos_casa": 0.0842,
+      "vermelhos_fora": 0.1,
+      "vermelhos_diff": -0.0158,
+      "vermelhos_lo": -0.0553,
+      "vermelhos_hi": 0.0237,
+      "cartoes_por_jogo": 4.9158
+    },
+    {
+      "season": 2018,
+      "n": 380,
+      "amarelos_casa": 2.3026,
+      "amarelos_fora": 2.55,
+      "amarelos_diff": -0.2474,
+      "amarelos_lo": -0.4132,
+      "amarelos_hi": -0.0737,
+      "vermelhos_casa": 0.0895,
+      "vermelhos_fora": 0.1553,
+      "vermelhos_diff": -0.0658,
+      "vermelhos_lo": -0.1105,
+      "vermelhos_hi": -0.0211,
+      "cartoes_por_jogo": 5.0974
+    },
+    {
+      "season": 2019,
+      "n": 380,
+      "amarelos_casa": 2.1026,
+      "amarelos_fora": 2.2816,
+      "amarelos_diff": -0.1789,
+      "amarelos_lo": -0.3632,
+      "amarelos_hi": 0.0079,
+      "vermelhos_casa": 0.0921,
+      "vermelhos_fora": 0.1553,
+      "vermelhos_diff": -0.0632,
+      "vermelhos_lo": -0.1105,
+      "vermelhos_hi": -0.0158,
+      "cartoes_por_jogo": 4.6316
+    },
+    {
+      "season": 2020,
+      "n": 380,
+      "amarelos_casa": 2.2421,
+      "amarelos_fora": 2.1289,
+      "amarelos_diff": 0.1132,
+      "amarelos_lo": -0.0579,
+      "amarelos_hi": 0.2868,
+      "vermelhos_casa": 0.1342,
+      "vermelhos_fora": 0.1368,
+      "vermelhos_diff": -0.0026,
+      "vermelhos_lo": -0.05,
+      "vermelhos_hi": 0.0474,
+      "cartoes_por_jogo": 4.6421
+    },
+    {
+      "season": 2021,
+      "n": 380,
+      "amarelos_casa": 2.2105,
+      "amarelos_fora": 2.25,
+      "amarelos_diff": -0.0395,
+      "amarelos_lo": -0.2237,
+      "amarelos_hi": 0.1421,
+      "vermelhos_casa": 0.0974,
+      "vermelhos_fora": 0.1026,
+      "vermelhos_diff": -0.0053,
+      "vermelhos_lo": -0.0474,
+      "vermelhos_hi": 0.0368,
+      "cartoes_por_jogo": 4.6605
+    },
+    {
+      "season": 2022,
+      "n": 380,
+      "amarelos_casa": 2.2184,
+      "amarelos_fora": 2.6237,
+      "amarelos_diff": -0.4053,
+      "amarelos_lo": -0.6,
+      "amarelos_hi": -0.2211,
+      "vermelhos_casa": 0.1105,
+      "vermelhos_fora": 0.1579,
+      "vermelhos_diff": -0.0474,
+      "vermelhos_lo": -0.1,
+      "vermelhos_hi": 0.0053,
+      "cartoes_por_jogo": 5.1105
+    },
+    {
+      "season": 2023,
+      "n": 380,
+      "amarelos_casa": 2.5368,
+      "amarelos_fora": 2.7158,
+      "amarelos_diff": -0.1789,
+      "amarelos_lo": -0.358,
+      "amarelos_hi": 0.0026,
+      "vermelhos_casa": 0.1421,
+      "vermelhos_fora": 0.1237,
+      "vermelhos_diff": 0.0184,
+      "vermelhos_lo": -0.0289,
+      "vermelhos_hi": 0.0684,
+      "cartoes_por_jogo": 5.5184
+    },
+    {
+      "season": 2024,
+      "n": 380,
+      "amarelos_casa": 2.4237,
+      "amarelos_fora": 2.7079,
+      "amarelos_diff": -0.2842,
+      "amarelos_lo": -0.4711,
+      "amarelos_hi": -0.0974,
+      "vermelhos_casa": 0.1605,
+      "vermelhos_fora": 0.1553,
+      "vermelhos_diff": 0.0053,
+      "vermelhos_lo": -0.05,
+      "vermelhos_hi": 0.0579,
+      "cartoes_por_jogo": 5.4474
+    }
+  ],
+  "did_2019_2020": {
+    "n": 760,
+    "coef": 0.34557748538011523,
+    "se": 0.16349075157041965,
+    "lo": 0.025135612302092714,
+    "hi": 0.6660193584581378,
+    "modelo": "yellow_diff ~ post + C(home_team) + C(away_team)"
+  },
+  "did_2019_2020_equipes_comuns": {
+    "n": 480,
+    "coef": 0.3374999999999989,
+    "se": 0.1663594805420698,
+    "lo": 0.011435418137542064,
+    "hi": 0.6635645818624558,
+    "equipes_comuns": [
+      "Athletico-PR",
+      "Atletico-MG",
+      "Bahia",
+      "Botafogo-RJ",
+      "Ceara",
+      "Corinthians",
+      "Flamengo",
+      "Fluminense",
+      "Fortaleza",
+      "Goias",
+      "Gremio",
+      "Internacional",
+      "Palmeiras",
+      "Santos",
+      "Sao Paulo",
+      "Vasco"
+    ]
+  },
+  "cartoes_por_falta": [
+    {
+      "season": 2018,
+      "n": 211,
+      "amarelos_por_falta_casa": 0.1557,
+      "amarelos_por_falta_fora": 0.1665
+    },
+    {
+      "season": 2019,
+      "n": 165,
+      "amarelos_por_falta_casa": 0.0913,
+      "amarelos_por_falta_fora": 0.1165
+    },
+    {
+      "season": 2020,
+      "n": 373,
+      "amarelos_por_falta_casa": 0.1421,
+      "amarelos_por_falta_fora": 0.1379
+    },
+    {
+      "season": 2021,
+      "n": 375,
+      "amarelos_por_falta_casa": 0.1454,
+      "amarelos_por_falta_fora": 0.1537
+    },
+    {
+      "season": 2022,
+      "n": 373,
+      "amarelos_por_falta_casa": 0.1648,
+      "amarelos_por_falta_fora": 0.1961
+    },
+    {
+      "season": 2023,
+      "n": 378,
+      "amarelos_por_falta_casa": 0.1735,
+      "amarelos_por_falta_fora": 0.1928
+    },
+    {
+      "season": 2024,
+      "n": 211,
+      "amarelos_por_falta_casa": 0.2013,
+      "amarelos_por_falta_fora": 0.2289
+    }
+  ]
+}

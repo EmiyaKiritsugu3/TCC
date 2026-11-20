@@ -68,6 +68,16 @@ metadados e resumos derivados são versionados. Requerem `pip install -e .` ou
 `PYTHONPATH=src`. A Base dos Dados exige um projeto de billing no BigQuery;
 o FBref exige extração manual no navegador por causa do Cloudflare.
 
+Cartões por partida (2013–2024), fonte MIT BrazilianFootball/Data:
+
+```bash
+PYTHONPATH=src python3 scripts/fetch_cards.py
+PYTHONPATH=src python3 scripts/build_cards.py
+PYTHONPATH=src python3 scripts/analyze_cards.py
+```
+
+Relatório: `docs/analise_cartoes.md`; figura: `figuras/fig13_cartoes.png`.
+
 Depois do pipeline externo, a auditoria completa dos dados:
 
 ```bash

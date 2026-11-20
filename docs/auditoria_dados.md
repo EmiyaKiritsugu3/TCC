@@ -182,6 +182,16 @@ viés.
 > “Paulo Zanovelli” → “Paulo Cesar Zanovelli”), o número correto é **177**.
 > O mesmo ajuste elevou o grupo com 40+ jogos de 48 para **50**.
 
+### Cartões (2013–2024)
+
+Fonte separada: **BrazilianFootball/Data** (MIT, DOI `10.5281/zenodo.15207727`),
+extraída dos borderôs da CBF. Cobertura: **4.559/4.559** partidas de
+2013–2024; **1 cartão não atribuído** (formato quebrado em 2022); 2006–2012
+não têm cartões nessa fonte. A análise está em `docs/analise_cartoes.md`.
+Em 2019, o mandante recebia 0,18 amarelo a menos que o visitante; em 2020,
++0,11; a mudança com efeitos fixos de equipe é **+0,35** (IC 95% 0,03–0,67).
+O padrão é compatível com o canal da arbitragem, mas não prova causalidade.
+
 ## 7. Validações independentes
 
 | Validação | Resultado |

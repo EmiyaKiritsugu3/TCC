@@ -64,6 +64,15 @@ Leituras:
 - Não há colunas de cartões amarelos/vermelhos; para isso, usar FBref,
   CBF súmulas ou BrazilianFootball/Data.
 
+### Cartões por partida (BrazilianFootball/Data)
+
+O repositório **BrazilianFootball/Data** (MIT, DOI `10.5281/zenodo.15207727`)
+oferece cartões amarelos e vermelhos por partida da Série A de 2013 a 2025,
+extraídos dos borderôs da CBF. A estrutura é JSON, com listas de cartões por
+jogo; a cobertura é de 380 jogos por temporada (2016: 379). Para o TCC,
+usamos 2013–2024 e mantemos os arquivos brutos locais; a análise está em
+`docs/analise_cartoes.md`.
+
 ## 3. FBref 2024
 
 Página: `https://fbref.com/en/comps/24/2024/schedule/2024-Serie-A-Scores-and-Fixtures`
@@ -131,16 +140,18 @@ multifatorial do TCC e a cautela contra atribuir a queda à torcida.
 A arbitragem tem 6.821 jogos e 177 árbitros, mas a identidade do árbitro
 não mede viés: a faixa de vitória do mandante entre árbitros com 40+ jogos
 (40,8%–67,4%) é compatível com ruído (1 de 50 fora de ±2 DP; esperado 2,3).
-Sem cartões e pênaltis, não há como testar o canal arbitral.
+Com cartões a partir de 2013 (BrazilianFootball/Data) e sem pênaltis, o teste
+do canal arbitral é parcial: dá para comparar cartões, mas não decisões
+discricionárias completas.
 
 ## 7. Limitações e cuidados
 
 - **Não usar `publico_max` como público do jogo**: é máximo/capacidade.
 - **2008**: zeros provavelmente são missing; não tratar como portões fechados.
 - **2020–2021**: zeros são reais (portões fechados/parciais), não missing.
-- **2024**: completar com FBref antes de usar.
+- **2024**: completado com o FBref; 4 jogos ficaram sem público e 18 sem árbitro.
 - **Faltas**: só 2018+, e com lacunas; não serve para a série toda.
-- **Cartões**: não estão na tabela; buscar FBref/CBF/BrazilianFootball.
+- **Cartões**: a Base dos Dados não tem; usar BrazilianFootball/Data (2013–2024, MIT) ou as súmulas da CBF. Ver `docs/analise_cartoes.md`.
 - **Arbitragem**: nomes precisam de normalização; um mesmo árbitro pode
   aparecer com grafias diferentes.
 - **Público**: critérios podem variar (pagante vs. total); validar por amostra

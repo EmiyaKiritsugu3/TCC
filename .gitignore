@@ -15,6 +15,11 @@ data/external/basedosdados/*.csv
 data/external/fbref/*.csv
 data/external/joined_*.csv
 data/external/context_clean.csv
+data/external/cards/*.json
+data/external/cards/*.csv
+!data/external/cards/FETCH_METADATA.json
+!data/external/cards/QUALITY.json
+!data/external/cards/cards_summary.json
 
 # Ambiente e artefatos de sessão
 .venv/

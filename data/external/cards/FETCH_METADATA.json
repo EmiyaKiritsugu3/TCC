@@ -1,0 +1,120 @@
+{
+  "fonte": "BrazilianFootball/Data",
+  "repositorio": "https://github.com/BrazilianFootball/Data",
+  "commit": "0dd1bc5f7da20130df460b9876e0bbbfebcbfa03",
+  "doi": "10.5281/zenodo.15207727",
+  "licenca": "MIT",
+  "acesso_utc": "2026-11-20T17:55:38+00:00",
+  "anos": [
+    2013,
+    2014,
+    2015,
+    2016,
+    2017,
+    2018,
+    2019,
+    2020,
+    2021,
+    2022,
+    2023,
+    2024
+  ],
+  "arquivos": [
+    {
+      "ano": 2013,
+      "arquivo": "Serie_A_2013_games.json",
+      "url": "https://raw.githubusercontent.com/BrazilianFootball/Data/0dd1bc5f7da20130df460b9876e0bbbfebcbfa03/results/processed/Serie_A_2013_games.json",
+      "bytes": 1461381,
+      "partidas": 380,
+      "sha256": "9f0bf5bf32dce923bfff2cf5deecd6c5a6f2c4ee8360f30ea53f3c43bfacc9cd"
+    },
+    {
+      "ano": 2014,
+      "arquivo": "Serie_A_2014_games.json",
+      "url": "https://raw.githubusercontent.com/BrazilianFootball/Data/0dd1bc5f7da20130df460b9876e0bbbfebcbfa03/results/processed/Serie_A_2014_games.json",
+      "bytes": 1477491,
+      "partidas": 380,
+      "sha256": "40444a9dd1b3bb614722637370addb7ee1526169963658582fee695d25bee09f"
+    },
+    {
+      "ano": 2015,
+      "arquivo": "Serie_A_2015_games.json",
+      "url": "https://raw.githubusercontent.com/BrazilianFootball/Data/0dd1bc5f7da20130df460b9876e0bbbfebcbfa03/results/processed/Serie_A_2015_games.json",
+      "bytes": 1532040,
+      "partidas": 380,
+      "sha256": "d38c6891503a12536e4282fdc55139af9d9c431bb09c4130365eed6e6de7c847"
+    },
+    {
+      "ano": 2016,
+      "arquivo": "Serie_A_2016_games.json",
+      "url": "https://raw.githubusercontent.com/BrazilianFootball/Data/0dd1bc5f7da20130df460b9876e0bbbfebcbfa03/results/processed/Serie_A_2016_games.json",
+      "bytes": 1544998,
+      "partidas": 379,
+      "sha256": "54e92a7166bddc2755c2135adc05864be0a092fccbbaf2f53cced1a57d01af89"
+    },
+    {
+      "ano": 2017,
+      "arquivo": "Serie_A_2017_games.json",
+      "url": "https://raw.githubusercontent.com/BrazilianFootball/Data/0dd1bc5f7da20130df460b9876e0bbbfebcbfa03/results/processed/Serie_A_2017_games.json",
+      "bytes": 1577692,
+      "partidas": 380,
+      "sha256": "dfbc1c78f00fc0bc6d0cca6f3a875e91e930f608844db86b4b4abdd248e7c483"
+    },
+    {
+      "ano": 2018,
+      "arquivo": "Serie_A_2018_games.json",
+      "url": "https://raw.githubusercontent.com/BrazilianFootball/Data/0dd1bc5f7da20130df460b9876e0bbbfebcbfa03/results/processed/Serie_A_2018_games.json",
+      "bytes": 1585127,
+      "partidas": 380,
+      "sha256": "adb997290c362d9cf5d94ca626daf87c18891ccf000120793341c3235938fef6"
+    },
+    {
+      "ano": 2019,
+      "arquivo": "Serie_A_2019_games.json",
+      "url": "https://raw.githubusercontent.com/BrazilianFootball/Data/0dd1bc5f7da20130df460b9876e0bbbfebcbfa03/results/processed/Serie_A_2019_games.json",
+      "bytes": 1589413,
+      "partidas": 380,
+      "sha256": "c97ef1dd2f64c1b85f4dd825f04cb7516f76ab5a162473ded46d4b97547fa678"
+    },
+    {
+      "ano": 2020,
+      "arquivo": "Serie_A_2020_games.json",
+      "url": "https://raw.githubusercontent.com/BrazilianFootball/Data/0dd1bc5f7da20130df460b9876e0bbbfebcbfa03/results/processed/Serie_A_2020_games.json",
+      "bytes": 1734533,
+      "partidas": 380,
+      "sha256": "139d941d1405b6672c429d8e9962eda0f832329f9f88826de862b94d80038ebe"
+    },
+    {
+      "ano": 2021,
+      "arquivo": "Serie_A_2021_games.json",
+      "url": "https://raw.githubusercontent.com/BrazilianFootball/Data/0dd1bc5f7da20130df460b9876e0bbbfebcbfa03/results/processed/Serie_A_2021_games.json",
+      "bytes": 1742830,
+      "partidas": 380,
+      "sha256": "1e4ab6aa897a86c82c956bc3b13c28a3236aef0a0c8e5759e336d83abd91f343"
+    },
+    {
+      "ano": 2022,
+      "arquivo": "Serie_A_2022_games.json",
+      "url": "https://raw.githubusercontent.com/BrazilianFootball/Data/0dd1bc5f7da20130df460b9876e0bbbfebcbfa03/results/processed/Serie_A_2022_games.json",
+      "bytes": 1785157,
+      "partidas": 380,
+      "sha256": "308074f77f4401e8e7f831666f68b21e75e1a0219130ddbbd7d7b97f414be3dc"
+    },
+    {
+      "ano": 2023,
+      "arquivo": "Serie_A_2023_games.json",
+      "url": "https://raw.githubusercontent.com/BrazilianFootball/Data/0dd1bc5f7da20130df460b9876e0bbbfebcbfa03/results/processed/Serie_A_2023_games.json",
+      "bytes": 1798677,
+      "partidas": 380,
+      "sha256": "a9daa501e07d10b61c032c4d5f3a5a27e3c7c91a9a0b2c8f074211edfa6c7b34"
+    },
+    {
+      "ano": 2024,
+      "arquivo": "Serie_A_2024_games.json",
+      "url": "https://raw.githubusercontent.com/BrazilianFootball/Data/0dd1bc5f7da20130df460b9876e0bbbfebcbfa03/results/processed/Serie_A_2024_games.json",
+      "bytes": 1776650,
+      "partidas": 380,
+      "sha256": "463aeaf3deef533d3e46543556a5ea20f4e345f88e145acc6b8766c7e63f8d37"
+    }
+  ]
+}

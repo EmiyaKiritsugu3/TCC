@@ -1,0 +1,128 @@
+{
+  "fonte": "BrazilianFootball/Data",
+  "partidas_base": 7219,
+  "partidas_elegiveis_2013_2024": 4559,
+  "partidas_com_cartoes": 4559,
+  "cobertura": 0.6315,
+  "cobertura_2013_2024": 1.0,
+  "anos_sem_fonte": [
+    2006,
+    2007,
+    2008,
+    2009,
+    2010,
+    2011,
+    2012
+  ],
+  "nao_atribuidos": 1,
+  "divergencias_placar": [
+    {
+      "match_id": 6880,
+      "season": 2019,
+      "date": "2019-12-08",
+      "home_team": "Internacional",
+      "away_team": "Atletico-MG",
+      "placar_fonte": "0 X 0",
+      "home_goals_base": 2,
+      "away_goals_base": 1
+    }
+  ],
+  "por_temporada": {
+    "2013": {
+      "base": 380,
+      "cartoes": 380,
+      "cobertura": 1.0,
+      "nao_atribuidos": 0,
+      "amarelos": 1682,
+      "vermelhos": 49
+    },
+    "2014": {
+      "base": 380,
+      "cartoes": 380,
+      "cobertura": 1.0,
+      "nao_atribuidos": 0,
+      "amarelos": 1692,
+      "vermelhos": 79
+    },
+    "2015": {
+      "base": 380,
+      "cartoes": 380,
+      "cobertura": 1.0,
+      "nao_atribuidos": 0,
+      "amarelos": 1877,
+      "vermelhos": 105
+    },
+    "2016": {
+      "base": 379,
+      "cartoes": 379,
+      "cobertura": 1.0,
+      "nao_atribuidos": 0,
+      "amarelos": 1728,
+      "vermelhos": 84
+    },
+    "2017": {
+      "base": 380,
+      "cartoes": 380,
+      "cobertura": 1.0,
+      "nao_atribuidos": 0,
+      "amarelos": 1798,
+      "vermelhos": 70
+    },
+    "2018": {
+      "base": 380,
+      "cartoes": 380,
+      "cobertura": 1.0,
+      "nao_atribuidos": 0,
+      "amarelos": 1844,
+      "vermelhos": 93
+    },
+    "2019": {
+      "base": 380,
+      "cartoes": 380,
+      "cobertura": 1.0,
+      "nao_atribuidos": 0,
+      "amarelos": 1666,
+      "vermelhos": 94
+    },
+    "2020": {
+      "base": 380,
+      "cartoes": 380,
+      "cobertura": 1.0,
+      "nao_atribuidos": 0,
+      "amarelos": 1661,
+      "vermelhos": 103
+    },
+    "2021": {
+      "base": 380,
+      "cartoes": 380,
+      "cobertura": 1.0,
+      "nao_atribuidos": 0,
+      "amarelos": 1695,
+      "vermelhos": 76
+    },
+    "2022": {
+      "base": 380,
+      "cartoes": 380,
+      "cobertura": 1.0,
+      "nao_atribuidos": 1,
+      "amarelos": 1840,
+      "vermelhos": 102
+    },
+    "2023": {
+      "base": 380,
+      "cartoes": 380,
+      "cobertura": 1.0,
+      "nao_atribuidos": 0,
+      "amarelos": 1996,
+      "vermelhos": 101
+    },
+    "2024": {
+      "base": 380,
+      "cartoes": 380,
+      "cobertura": 1.0,
+      "nao_atribuidos": 0,
+      "amarelos": 1950,
+      "vermelhos": 120
+    }
+  }
+}

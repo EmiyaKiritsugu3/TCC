@@ -31,6 +31,11 @@ e índice de Pollard por temporada e por equipe. Sem previsão, sem IA, sem apos
   árbitro (94,5%); 177 árbitros após normalização de nomes; 2024 completado pelo
   FBref (376 com público, 362 com árbitro). 2008 tem cobertura parcial; 2020–2021
   têm zeros reais de portões fechados.
+- **Cartões (extensão em avaliação):** 4.559 partidas de 2013–2024
+  (BrazilianFootball/Data, MIT), com 1 cartão não atribuído. Em 2019 o mandante
+  recebia 0,18 amarelo a menos; em 2020, +0,11; a mudança com efeitos fixos de
+  equipe é +0,35 (IC 95% 0,03–0,67). O padrão é compatível com o canal da
+  arbitragem, mas ainda não está incorporado à monografia.
 - **PR #2 mergeada** na `main`; repositório limpo e CI verde.
 
 ## 3. Resultados
