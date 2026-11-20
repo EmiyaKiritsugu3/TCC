@@ -54,13 +54,22 @@ jobs:
           python3 scripts/analyze_context.py
           python3 scripts/make_figures.py
           python3 scripts/export_table1.py > figuras/tab1_indicadores_temporada.md
+          cp docs/monografia_draft_abnt.docx /tmp/monografia_antiga.docx
           python3 scripts/build_docx.py
-          git diff --exit-code -- figuras/*.png \
-            figuras/tab1_indicadores_temporada.csv \
+          test -s figuras/fig12_publico_ha.png
+          python3 - <<'PY'
+          from docx import Document
+          def texto(caminho):
+              return "\n".join(p.text for p in Document(caminho).paragraphs)
+          if texto("/tmp/monografia_antiga.docx") != texto("docs/monografia_draft_abnt.docx"):
+              raise SystemExit("DOCX desatualizado em relação à monografia")
+          PY
+          # PNGs e DOCX são binários e variam com FreeType/fontes entre
+          # ambientes; o texto do DOCX e os artefatos de dados são comparados.
+          git diff --exit-code -- figuras/tab1_indicadores_temporada.csv \
             figuras/tab1_indicadores_temporada.md figuras/tab5_contexto.csv \
             figuras/tab6_equipes.csv figuras/tab7_correlacoes_equipe.csv \
-            figuras/matriz_equipe.csv figuras/matriz_partida.csv \
-            figuras/contexto.json docs/monografia_draft_abnt.docx
+            figuras/matriz_equipe.csv figuras/matriz_partida.csv figuras/contexto.json
 
       - name: Rodar testes com cobertura
         run: python3 -m pytest tests/ -q --cov=src --cov-report=term --cov-fail-under=90
