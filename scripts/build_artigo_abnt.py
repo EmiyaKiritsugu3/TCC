@@ -10,6 +10,7 @@ títulos de seção primária em caixa alta, referências em NBR 6023.
 """
 from __future__ import annotations
 
+import argparse
 import re
 import subprocess
 from pathlib import Path
@@ -94,17 +95,21 @@ def _tabela(doc, linhas: list[list[str]], larguras: list[float],
     doc.add_paragraph()
 
 
-def _pagina(doc) -> None:
+def _pagina(doc, inicio: int = 1) -> None:
     header = doc.sections[0].header.paragraphs[0]
     header.alignment = WD_ALIGN_PARAGRAPH.RIGHT
     fld = OxmlElement("w:fldSimple")
     fld.set(qn("w:instr"), "PAGE")
     run = OxmlElement("w:r")
     txt = OxmlElement("w:t")
-    txt.text = "1"
+    txt.text = str(inicio)
     run.append(txt)
     fld.append(run)
     header._p.append(fld)
+    if inicio != 1:
+        pg = OxmlElement("w:pgNumType")
+        pg.set(qn("w:start"), str(inicio))
+        doc.sections[0]._sectPr.append(pg)
 
 
 def _configurar(doc) -> None:
@@ -225,19 +230,27 @@ def _renderizar(doc, linhas: list[str]) -> None:
         i += 1
 
 
-def main() -> None:
-    linhas = ENTRADA.read_text(encoding="utf-8").splitlines()
+def main(argv: list[str] | None = None) -> None:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--entrada", type=Path, default=ENTRADA)
+    parser.add_argument("--saida", type=Path, default=SAIDA)
+    parser.add_argument("--inicio", type=int, default=1)
+    args = parser.parse_args(argv)
+    entrada = args.entrada if args.entrada.is_absolute() else RAIZ / args.entrada
+    saida = args.saida if args.saida.is_absolute() else RAIZ / args.saida
+    linhas = entrada.read_text(encoding="utf-8").splitlines()
     doc = Document()
     _configurar(doc)
     doc.core_properties.title = "Vantagem de jogar em casa na Série A (2013–2024)"
     doc.core_properties.author = "José Inamar de Medeiros Júnior"
     _renderizar(doc, linhas)
-    _pagina(doc)
-    doc.save(SAIDA)
-    print(f"gravado em: {SAIDA}")
+    _pagina(doc, args.inicio)
+    saida.parent.mkdir(parents=True, exist_ok=True)
+    doc.save(saida)
+    print(f"gravado em: {saida}")
     subprocess.run(
         ["libreoffice", "--headless", "--convert-to", "pdf",
-         "--outdir", str(SAIDA.parent), str(SAIDA)],
+         "--outdir", str(saida.parent), str(saida)],
         check=True,
     )
 
