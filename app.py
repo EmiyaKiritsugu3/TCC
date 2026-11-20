@@ -4,7 +4,16 @@ from pathlib import Path
 import pandas as pd
 import streamlit as st
 
-from charts import goals_by_season, outcome_distribution, outcomes_by_season, pollard_series
+from associations import group_pollard, team_home_advantage
+from charts import (
+    goals_by_season,
+    outcome_distribution,
+    outcomes_by_season,
+    pollard_by_group,
+    pollard_series,
+    team_home_advantage_chart,
+)
+from context import build_context_frame
 from formatting import num, pct, signed
 from metrics import by_season, summarize, team_season, teams_in_season
 
@@ -37,6 +46,41 @@ def carregar():
     return df
 
 
+@st.cache_data
+def carregar_contexto():
+    """Calcula as variáveis contextuais uma vez por processo (aba Contexto)."""
+    return build_context_frame(carregar())
+
+
+DIMENSOES = ["Clássico", "Distância", "Mesmo estado", "Estádio",
+             "Descanso", "Força na tabela", "Era", "Pandemia"]
+
+
+def _grupos_contexto(ctx: pd.DataFrame, dimensao: str) -> pd.Series:
+    if dimensao == "Clássico":
+        return ctx["derby"].map({True: "Clássico (mesma cidade)", False: "Não clássico"})
+    if dimensao == "Distância":
+        return pd.cut(
+            ctx["travel_km"], bins=[-0.001, 500, 1500, float("inf")],
+            labels=["Curta (<500 km)", "Média (500–1.500 km)", "Longa (≥1.500 km)"],
+            right=False,
+        )
+    if dimensao == "Mesmo estado":
+        return ctx["same_state"].map({True: "Mesmo estado", False: "Estado diferente"})
+    if dimensao == "Estádio":
+        return ctx["usual_stadium"].map({True: "Estádio habitual", False: "Outro estádio"})
+    if dimensao == "Descanso":
+        return ctx["rest_bucket"]
+    if dimensao == "Força na tabela":
+        return ctx["table_bucket"]
+    if dimensao == "Era":
+        return ctx["season"].lt(2019).map({True: "Pré-2019", False: "2019+"})
+    if dimensao == "Pandemia":
+        return ctx["pandemia"].map({True: "Pandemia (2020–2021)",
+                                    False: "Demais temporadas"})
+    raise ValueError(f"Dimensão desconhecida: {dimensao!r}")
+
+
 df = carregar()
 temporadas = sorted(df["season"].unique().tolist())
 
@@ -57,7 +101,10 @@ if base.empty:  # RF10
 resumo = summarize(base)
 por_temp = by_season(base)
 
-t1, t2, t3, t4 = st.tabs(["Visão geral", "Evolução histórica", "Equipes e partidas", "Metodologia e dados"])
+t1, t2, t3, t4, t5 = st.tabs([
+    "Visão geral", "Evolução histórica", "Equipes e partidas",
+    "Metodologia e dados", "Contexto",
+])
 
 with t1:  # RF03 + RF08
     c = st.columns(4)
@@ -126,7 +173,9 @@ Sem arquivo LICENSE no repositório — uso acadêmico pendente de autorização
 **Fórmulas:** resultado do placar; pontos 3/1/0; proporções sobre o recorte;
 Pollard `VC = Pm/(Pm+Pv)×100` (indefinido se Pm+Pv = 0).
 
-**Limitações:** só placar e mando; sem torcida, arbitragem, elenco, viagens ou causalidade.
+**Limitações:** a base tem placar e mando; a aba Contexto acrescenta distância,
+clássico, estádio, descanso e força. Torcida, arbitragem, elenco e clima não são
+medidos, e nenhuma associação é causal.
 Detalhes em `docs/data_dictionary.md` e `docs/auditoria_fase1.md`.""")
     try:
         import json
@@ -134,3 +183,41 @@ Detalhes em `docs/data_dictionary.md` e `docs/auditoria_fase1.md`.""")
         st.json({"excluídas": q["excluded"], "abaixo_do_esperado": q["seasons_below_expected"]})
     except FileNotFoundError:
         st.caption("quality_report.json não encontrado.")
+
+with t5:  # RF12: contexto descritivo (viagem, clássico, estádio, descanso, força, era)
+    st.subheader("Contexto da partida")
+    st.caption("Associações descritivas com o recorte selecionado. Não implicam causalidade.")
+    try:
+        ctx = carregar_contexto()
+    except ValueError as exc:
+        st.warning(f"Não foi possível calcular o contexto desta base: {exc}")
+        ctx = None
+    if ctx is not None:
+        ctx = ctx[ctx["season"].isin(sel)].copy()
+        if ctx.empty:
+            st.warning("Nenhuma partida para os filtros aplicados. (RF10)")
+        else:
+            dimensao = st.selectbox("Dimensão do contexto", DIMENSOES,
+                                    key="contexto_dimensao")
+            grupos = _grupos_contexto(ctx, dimensao)
+            efeitos = group_pollard(ctx, grupos, n=1000, seed=42)
+            efeitos = efeitos.dropna(subset=["pollard", "lo", "hi"])
+            resumo_ctx = summarize(ctx)
+            c = st.columns(3)
+            c[0].metric("Partidas no contexto", f"{resumo_ctx['n']:,}".replace(",", "."))
+            c[1].metric("Pollard do recorte", pct(resumo_ctx["pollard"], 2))
+            c[2].metric("Grupos", len(efeitos))
+            st.plotly_chart(pollard_by_group(efeitos), width="stretch")
+            st.dataframe(efeitos.round(2), width="stretch", hide_index=True)
+            st.info(
+                "A distância é entre cidades-sede (haversine), não o deslocamento real. "
+                "Clássicos na mesma cidade têm distância zero. O descanso conta apenas "
+                "partidas da Série A. (RF12)"
+            )
+            with st.expander("Ranking por equipe (casa − fora)"):
+                equipes = team_home_advantage(ctx, n=500, seed=42)
+                st.plotly_chart(team_home_advantage_chart(equipes), width="stretch")
+                st.caption(
+                    "Equipes com poucas partidas têm intervalo de confiança amplo; "
+                    "o ranking é exploratório."
+                )

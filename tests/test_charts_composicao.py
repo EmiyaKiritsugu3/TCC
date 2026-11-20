@@ -7,7 +7,13 @@ from pathlib import Path
 
 import pandas as pd
 
-from charts import goals_by_season, outcomes_by_season, pollard_series
+from charts import (
+    goals_by_season,
+    outcomes_by_season,
+    pollard_by_group,
+    pollard_series,
+    team_home_advantage_chart,
+)
 from metrics import by_season
 
 DATA = Path(__file__).resolve().parent / "data"
@@ -35,3 +41,26 @@ def test_goals_by_season_separa_mandante_e_visitante():
     fig = goals_by_season(_series())
     valores = {t.name: list(t.y) for t in fig.data}
     assert valores == {"Mandante": [1.5, 0.0], "Visitante": [0.5, 2.0]}
+
+
+def test_pollard_by_group_plota_ponto_e_ic():
+    efeitos = pd.DataFrame({
+        "grupo": ["A", "B"], "n": [10, 20],
+        "pollard": [60.0, 55.0], "lo": [58.0, 52.0], "hi": [62.0, 58.0],
+    })
+    fig = pollard_by_group(efeitos)
+    assert list(fig.data[0].y) == ["A", "B"]
+    assert list(fig.data[0].x) == [60.0, 55.0]
+    assert list(fig.data[0].error_x.array) == [2.0, 3.0]
+    assert fig.layout.shapes[0].x0 == 50
+
+
+def test_team_home_advantage_chart_ordena_e_marca_zero():
+    equipes = pd.DataFrame({
+        "team": ["A", "B"], "n": [38, 38],
+        "ha": [1.0, 0.5], "lo": [0.8, 0.3], "hi": [1.2, 0.7],
+    })
+    fig = team_home_advantage_chart(equipes)
+    assert list(fig.data[0].y) == ["A", "B"]
+    assert list(fig.data[0].x) == [1.0, 0.5]
+    assert fig.layout.shapes[0].x0 == 0

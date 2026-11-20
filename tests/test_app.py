@@ -36,3 +36,16 @@ def test_aba_equipes_respeita_filtro_global():
     assert at.selectbox(key="temporada").options == ["2019"]
     assert "America-MG" not in at.selectbox(key="equipe").options
     assert not at.exception
+
+
+def test_aba_contexto_existe_e_calcula_grupos():
+    at = AppTest.from_file(str(RAIZ / "app.py"), default_timeout=60).run()
+    assert not at.exception
+    assert len(at.tabs) == 5
+    assert at.tabs[-1].label == "Contexto"
+    assert at.selectbox(key="contexto_dimensao").value == "Clássico"
+    metricas = {x.label: x.value for x in at.metric}
+    assert metricas["Partidas no contexto"] == "7.219"
+    assert "Pollard do recorte" in metricas
+    at.selectbox(key="contexto_dimensao").select("Estádio").run()
+    assert not at.exception

@@ -52,3 +52,35 @@ def goals_by_season(by_season_df: pd.DataFrame):
                   title="Média de gols por temporada (casa × fora)")
     fig.update_layout(xaxis_title="Temporada", yaxis_title="Gols/partida", separators=",.")
     return fig
+
+
+def pollard_by_group(effects: pd.DataFrame):
+    """Barras horizontais de Pollard por grupo, com IC 95% e linha de 50%."""
+    fig = go.Figure(go.Bar(
+        x=effects["pollard"], y=effects["grupo"], orientation="h",
+        marker_color=COR_HOME,
+        error_x=dict(type="data", array=effects["hi"] - effects["pollard"],
+                     arrayminus=effects["pollard"] - effects["lo"], color="black"),
+    ))
+    fig.add_vline(x=50, line_dash="dash", line_color="gray",
+                  annotation_text="50% (neutro)")
+    fig.update_layout(title="Pollard por contexto da partida",
+                      xaxis_title="Índice de Pollard (%)",
+                      yaxis_title="", separators=",.")
+    return fig
+
+
+def team_home_advantage_chart(team_df: pd.DataFrame):
+    """Ranking de vantagem casa−fora (pontos/jogo), com IC 95%."""
+    fig = go.Figure(go.Bar(
+        x=team_df["ha"], y=team_df["team"], orientation="h",
+        marker_color=COR_HOME,
+        error_x=dict(type="data", array=team_df["hi"] - team_df["ha"],
+                     arrayminus=team_df["ha"] - team_df["lo"], color="black"),
+    ))
+    fig.add_vline(x=0, line_dash="dash", line_color="gray",
+                  annotation_text="0 (sem diferença)")
+    fig.update_layout(title="Vantagem casa−fora por equipe (pontos por jogo)",
+                      xaxis_title="Casa − fora (pontos/jogo)",
+                      yaxis_title="", separators=",.")
+    return fig
