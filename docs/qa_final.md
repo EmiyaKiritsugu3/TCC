@@ -4,6 +4,9 @@
 > clone novo, venv Python 3.11.15, instalação com hashes e cadeia completa do CI.
 > As seções 1–5 são o registro histórico do commit `9b9540c`.
 
+> As seções históricas abaixo mantêm os números do commit da época (104 testes,
+> 14 slides). A versão atual está na seção de 20/11/2026 (114 testes, 16 slides).
+
 ## Atualização 20/11/2026 — cartões (branch `feat/cartoes`)
 
 - `pytest tests/ -q` → **114 passed** (105 rápidos + 9 de integração); cobertura **91,2%**.
