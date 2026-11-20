@@ -11,7 +11,7 @@ junção com os 7.219 jogos já validados.
 |---|---|---|---|---|---|
 | Base dos Dados / Transfermarkt (`brasileirao_serie_a`) | 2003–2024 | `publico`, `publico_max` | `arbitro` | `faltas_*`, chutes, escanteios (faltas só 2018+) | BigQuery público; projeto GCP |
 | FBref | 2014–2024 | `Attendance` | `Referee` | cartões e estatísticas | scraping com restrições |
-| CBF borderôs/súmulas | 2003–2024 | público pagante, renda | árbitro | cartões, ocorrências | PDFs/HTML oficiais |
+| CBF borderôs/súmulas | 2013–2024 (PDF eletrônico); 2003–2012 sem PDF eletrônico | público pagante, renda | árbitro | cartões, ocorrências | PDFs/HTML oficiais |
 | BrazilianFootball/Data (MIT) | 2013–2025 | não | sim (PDFs) | cartões, gols, escalações | GitHub/DOI |
 | football-data.co.uk | 2012–2026 | não | não | odds e resultados | CSV gratuito |
 | Transfermarkt-datasets (DuckDB) | 2025–2026 (BRA1) | `attendance` | `referee` | eventos | repositório/Kaggle |
@@ -22,6 +22,9 @@ junção com os 7.219 jogos já validados.
 A tabela da Base dos Dados é a única que combina **público + árbitro +
 faltas/chutes + classificação** no mesmo registro, cobrindo o recorte
 histórico. É a fonte primária recomendada.
+
+Os borderôs eletrônicos da CBF começam em 2013; 2006–2012 não estão no mesmo
+acervo e exigiriam fontes secundárias (RSSSF, Wikipedia ou arquivos de imprensa).
 
 ## 2. Base dos Dados: cobertura
 
