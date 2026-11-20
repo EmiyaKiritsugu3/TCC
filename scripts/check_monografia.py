@@ -112,7 +112,7 @@ def conferir(texto: str, df: pd.DataFrame, tab1: pd.DataFrame,
                    "28,9%", "17,9%", "60,2%", "n = 379", "379 jogos",
                    "62,4% em 2019", "61,8% em 2021", "11,3 p.p",
                    "2.659 de 2.660", "99,96%", "19/19", "114 testes", "114 passed",
-                   "105 rápidos", "Tabela 11", "Figura 13", "4.559",
+                   "104 rápidos", "Tabela 11", "Figura 13", "4.559",
                    "1 cartão não atribuído", "0,35", "−0,03", "+0,72",
                    "Cameron e Miller (2015)", "BrazilianFootball/Data",
                    "25/02/2021", "Flamengo 2019: 53/37/90/38",
@@ -569,15 +569,15 @@ def main(argv: list[str] | None = None) -> int:
         (RAIZ / "data" / "external" / "quality_external.json").read_text(encoding="utf-8"))
     cartoes_path = figuras / "tab_cartoes.csv"
     resumo_cartoes_path = RAIZ / "data" / "external" / "cards" / "cards_summary.json"
-    if not cartoes_path.exists() or not resumo_cartoes_path.exists():
+    qualidade_cartoes_path = RAIZ / "data" / "external" / "cards" / "QUALITY.json"
+    if not all(p.exists() for p in
+               (cartoes_path, resumo_cartoes_path, qualidade_cartoes_path)):
         p.error("artefatos de cartões ausentes; rode scripts/analyze_cards.py")
     cartoes = pd.read_csv(cartoes_path)
     dados_cartoes = {
         "tabela": cartoes,
         "resumo": json.loads(resumo_cartoes_path.read_text(encoding="utf-8")),
-        "qualidade": json.loads(
-            (RAIZ / "data" / "external" / "cards" / "QUALITY.json").read_text(encoding="utf-8")
-        ),
+        "qualidade": json.loads(qualidade_cartoes_path.read_text(encoding="utf-8")),
     }
     erros = conferir(texto, df, tab1, tab5, tab6, tab7, mat_eq, mat_part,
                      contexto, externo, qualidade, dados_cartoes)

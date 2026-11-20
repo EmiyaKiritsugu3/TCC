@@ -16,7 +16,7 @@ e índice de Pollard por temporada e por equipe. Sem previsão, sem IA, sem apos
 - Base primária auditada: **7.219 partidas**, 19 temporadas, zero duplicatas, zero
   placares ausentes, zero divergências vencedor×placar; 2016 com 379 jogos
   (Chapecoense×Atlético-MG cancelada) e 2020 estendida até 25/02/2021.
-- Pipeline reproduzível + **114 testes automatizados** passando (105 rápidos + 9 de integração).
+- Pipeline reproduzível + **114 testes automatizados** passando (104 rápidos + 10 de integração).
 - **Monografia v3 atualizada** (20/11/2026): Tabelas 1–11, Figuras 1–13, §5.6 de
   público/arbitragem e §5.7 de cartões; auditor numérico confere todos os números citados.
 - **Auditoria de dados:** 150 verificações, 0 falhas (`docs/auditoria_dados.md`);
@@ -60,8 +60,9 @@ e índice de Pollard por temporada e por equipe. Sem previsão, sem IA, sem apos
 - **Arbitragem:** 6.821 jogos, 177 árbitros, mediana de 14 jogos, máximo de 284;
   vitória do mandante 48,9%; entre os 50 árbitros com 40+ jogos, faixa de
   40,8%–67,4%, com apenas 1 fora de ±2 DP (esperado: 2,3). A base identifica
-  **quem apitou**; a §5.7 acrescenta cartões (2013–2024), mas pênaltis e decisões
-  discricionárias seguem fora do alcance.
+  **quem apitou**; a §5.7 acrescenta cartões (2013–2024), que são decisões
+  discricionárias, mas também refletem comportamento do jogador. Pênaltis e
+  outras decisões seguem fora do alcance.
 
 Tudo descritivo, sem leitura causal, pendente de validação do orientador.
 
@@ -80,7 +81,9 @@ Tudo descritivo, sem leitura causal, pendente de validação do orientador.
 
 - Escopo fechado (§7 da spec): fora previsão, IA, apostas e Séries B–D.
 - Análise observacional, sem alegação causal; público é proxy (não medida exata de
-  torcida) e a arbitragem é conhecida pela identidade e, em 2013–2024, pelos cartões.
+  torcida). A arbitragem é conhecida pela identidade do árbitro; os cartões são um
+  proxy parcial de decisões arbitrais, também influenciado pelo comportamento dos
+  jogadores.
 - 2006 tem 4 divergências de mando/placar entre a base primária e a Base dos Dados;
   como 2006 não tem público/árbitro, não afetam a análise externa.
 - 2008 tem cobertura parcial de público (163/380); excluir 2008 não muda a conclusão

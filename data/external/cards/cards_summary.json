@@ -219,48 +219,5 @@
       "Vasco"
     ]
   },
-  "cartoes_por_falta": [
-    {
-      "season": 2018,
-      "n": 211,
-      "amarelos_por_falta_casa": 0.1557,
-      "amarelos_por_falta_fora": 0.1665
-    },
-    {
-      "season": 2019,
-      "n": 168,
-      "amarelos_por_falta_casa": 0.093,
-      "amarelos_por_falta_fora": 0.1191
-    },
-    {
-      "season": 2020,
-      "n": 374,
-      "amarelos_por_falta_casa": 0.1426,
-      "amarelos_por_falta_fora": 0.1384
-    },
-    {
-      "season": 2021,
-      "n": 375,
-      "amarelos_por_falta_casa": 0.1454,
-      "amarelos_por_falta_fora": 0.1537
-    },
-    {
-      "season": 2022,
-      "n": 373,
-      "amarelos_por_falta_casa": 0.1648,
-      "amarelos_por_falta_fora": 0.1961
-    },
-    {
-      "season": 2023,
-      "n": 378,
-      "amarelos_por_falta_casa": 0.1735,
-      "amarelos_por_falta_fora": 0.1928
-    },
-    {
-      "season": 2024,
-      "n": 211,
-      "amarelos_por_falta_casa": 0.2013,
-      "amarelos_por_falta_fora": 0.2289
-    }
-  ]
+  "cartoes_por_falta": []
 }

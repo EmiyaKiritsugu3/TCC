@@ -1,4 +1,4 @@
-# Roteiro de apresentação e demonstração (11 min; deck de 16 slides)
+# Roteiro de apresentação e demonstração (13 min; deck de 16 slides)
 
 ## Slides
 
@@ -22,7 +22,8 @@
 11. **Cartões — limite** — +0,35 com efeitos fixos, IC 95% −0,03 a +0,72;
     inclui zero; 2020 confunde pandemia, calendário e protocolos.
 12. **Dois anos, duas notas de método** — 2016 (379 jogos) e 2020 (portões fechados).
-13. **Limitações** — observacional; público é proxy; cartões não são decisões;
+13. **Limitações** — observacional; público é proxy; cartões são decisões do
+    árbitro, mas também refletem comportamento do jogador; pênaltis não medidos;
     2008 parcial e 2024 completado pelo FBref; sem causalidade.
 14. **Conclusão** — 63,7% em 19 temporadas; contribuição: série longa + pipeline
     reproduzível + dashboard + extensão de cartões.

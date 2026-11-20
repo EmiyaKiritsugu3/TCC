@@ -27,7 +27,7 @@ python3 scripts/fetch_raw.py --check # confere o SHA-256 das cópias locais
 python3 scripts/build_processed.py   # gera data/processed/
 python3 scripts/analyze_context.py   # gera tab5, tab6 e contexto.json
 python3 scripts/make_figures.py      # gera figuras e tab1
-python3 -m pytest tests/ -q          # 114 testes (105 rápidos + 9 de integração)
+python3 -m pytest tests/ -q          # 114 testes (104 rápidos + 10 de integração)
 python3 scripts/validate_cross.py    # validação OpenFootball 2018–2024
 python3 scripts/build_deck.py        # gera o deck de defesa (PPTX)
 python3 -m streamlit run app.py

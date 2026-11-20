@@ -6,7 +6,7 @@ são registrados no controle de qualidade.
 
 ## Cartões por temporada
 
-| Temporada | Jogos | Amarelos casa | Amarelos fora | Diferença (IC 95%) | Vermelhos casa | Vermelhos fora |
+| Temporada | Jogos | Amarelos casa | Amarelos fora | Diferença (IC descritivo 95%) | Vermelhos casa | Vermelhos fora |
 |---|---:|---:|---:|---|---:|---:|
 | 2013 | 380 | 2,06 | 2,37 | -0,31 (-0,46 a -0,16) | 0,04 | 0,09 |
 | 2014 | 380 | 2,14 | 2,31 | -0,16 (-0,34 a +0,01) | 0,09 | 0,12 |
@@ -20,6 +20,9 @@ são registrados no controle de qualidade.
 | 2022 | 380 | 2,22 | 2,62 | -0,41 (-0,60 a -0,22) | 0,11 | 0,16 |
 | 2023 | 380 | 2,54 | 2,72 | -0,18 (-0,36 a +0,00) | 0,14 | 0,12 |
 | 2024 | 380 | 2,42 | 2,71 | -0,28 (-0,47 a -0,10) | 0,16 | 0,16 |
+
+Intervalo descritivo de 95% por bootstrap de partidas (4.000 reamostragens);
+não corrige a dependência entre partidas das mesmas equipes.
 
 ## Diferença-em-diferenças 2019 → 2020
 
@@ -45,28 +48,13 @@ O IC 95% com erros-padrão conservadores inclui zero; a mudança é sugestiva, m
   arbitragem, mas não identifica causalidade: VAR, calendário, protocolos
   e comportamento dos jogadores também mudaram.
 
-## Cartões por falta (2018+)
-
-| Temporada | Jogos com faltas | Amarelos/falta casa | Amarelos/falta fora |
-|---|---:|---:|---:|
-| 2018 | 211 | 0,156 | 0,167 |
-| 2019 | 168 | 0,093 | 0,119 |
-| 2020 | 374 | 0,143 | 0,138 |
-| 2021 | 375 | 0,145 | 0,154 |
-| 2022 | 373 | 0,165 | 0,196 |
-| 2023 | 378 | 0,174 | 0,193 |
-| 2024 | 211 | 0,201 | 0,229 |
-
-A cobertura de faltas é parcial em 2018–2019 e 2024; a comparação
-de cartões por falta serve como robustez, não como teste definitivo.
-
 ## Limitações
 
 - Cartão é decisão do árbitro, mas também reflete comportamento do jogador.
 - 2020 tem pandemia, calendário atípico e protocolos; VAR já existia em 2019.
 - 2006–2012 não têm cartões nesta fonte.
 - A série 2013–2024 tem 1 cartão não atribuído em 2022 (formato quebrado).
-- Não há pênaltis nem cartões por arbítrio separados por tipo; o teste do
+- Não há pênaltis nem cartões separados por tipo de decisão; o teste do
   canal arbitral é indireto.
 
 ## Reprodução
@@ -80,7 +68,7 @@ PYTHONPATH=src python3 scripts/build_cards.py
 PYTHONPATH=src python3 scripts/analyze_cards.py
 ```
 
-Para os cartões por falta, gere `context_clean.csv` com o pipeline
-externo descrito em `docs/fontes_externas.md` antes de rodar
-`analyze_cards.py`. Sem esse arquivo, a análise principal roda e a seção
-de faltas é omitida.
+Para os cartões por falta, rode com
+`--contexto data/external/context_clean.csv`; o arquivo exige o pipeline
+externo descrito em `docs/fontes_externas.md`. Sem a flag, a análise
+principal roda e a seção de faltas é omitida.

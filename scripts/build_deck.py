@@ -342,8 +342,8 @@ def _limitacoes(prs):
     s = _slide(prs, "Limitações declaradas", 13)
     _texto(s,
            "•  Observacional: placar + mando nominal; nenhuma leitura causal.\n"
-           "•  Torcida aproximada pelo público externo; arbitragem só pela identidade "
-           "(sem cartões/pênaltis).\n"
+           "•  Torcida aproximada pelo público externo; arbitragem pela identidade "
+           "e por cartões (2013–2024), mas sem pênaltis.\n"
            "•  Contexto por proxies: distância, estádio, descanso e tabela; clima e "
            "elenco não medidos.\n"
            "•  Público: 2008 parcial (163/380) e 2024 completado pelo FBref; "
@@ -364,7 +364,7 @@ def _conclusao(prs):
            0.9, 1.5, 8.4, 1.35, font="Georgia", size=21, color=DARK_TEXT)
     _texto(s,
            "Contribuição: série anual longa e homogênea + fluxo reproduzível "
-           "auditado + dashboard reutilizável.",
+           "auditado + dashboard reutilizável + extensão de cartões.",
            0.9, 2.95, 8.4, 0.9, size=16, color=GOLD)
     _texto(s,
            "7.219 partidas  •  114 testes  •  validação 99,96%  •  11 tabelas / 13 figuras",

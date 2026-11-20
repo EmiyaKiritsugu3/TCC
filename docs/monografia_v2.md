@@ -90,7 +90,7 @@ Figura 9 — Série anual do índice de Pollard com intervalo de confiança de 9
 Figura 10 — Pollard por contexto da partida: clássico, distância, mesma UF, estádio, descanso, força, era e pandemia.
 Figura 11 — Matriz de correlação por equipe-temporada (Spearman).
 Figura 12 — Público médio, vantagem casa−fora e pontos médios por temporada por equipe (2007–2024).
-Figura 13 — Cartões amarelos casa−fora por temporada, com intervalo de confiança de 95% e destaque para 2020 (2013–2024).
+Figura 13 — Cartões amarelos casa−fora por temporada, com intervalo descritivo de 95% e destaque para 2020 (2013–2024).
 
 ## LISTA DE TABELAS
 
@@ -104,7 +104,7 @@ Tabela 7 — Correlações de Spearman com a vantagem casa−fora por equipe-tem
 Tabela 8 — Público e índice de Pollard por bloco, 2007–2024.
 Tabela 9 — Associações do público com desempenho e vantagem de casa.
 Tabela 10 — Público médio e desempenho por quartil de público (times com pelo menos cinco temporadas), 2007–2024.
-Tabela 11 — Cartões por temporada, diferença casa−fora e IC 95%, 2013–2024.
+Tabela 11 — Cartões por temporada, diferença casa−fora e IC descritivo 95%, 2013–2024.
 
 ## LISTA DE SIGLAS
 
@@ -233,7 +233,7 @@ A motivação para este trabalho nasce de dois interesses que correram em parale
 
 A temática é adequada a Sistemas de Informação porque envolve aquisição e tratamento de dados, definição de indicadores, visualização interativa e construção de um sistema de apoio à análise — uma aplicação direta do que a análise de negócios descritiva discute, respondendo "o que aconteceu?" (SHARDA; DELEN; TURBAN, 2019). A contribuição não é alegar ineditismo do fenômeno, e sim combinar um recorte histórico longo e homogêneo (19 temporadas), um fluxo de tratamento reproduzível e auditado e um dashboard interativo para exploração dos dados, permanecendo útil como ferramenta de consulta após o término do curso.
 
-Em termos práticos, a contribuição se desdobra em três entregas verificáveis. A primeira é a série anual homogênea de 19 temporadas (2006–2024), com 7.219 partidas válidas, regras de limpeza documentadas e dois casos metodológicos tratados sem imputação (2016 e 2020). A segunda é o fluxo reproduzível e auditado: download pinado por commit com verificação SHA-256, construção determinística da base processada, validação cruzada externa de 99,96% e recálculo dos 19 campeões a partir dos placares. A terceira é o dashboard reutilizável, com cinco abas que cobrem do panorama geral à consulta por equipe e à análise de contexto, coberto por 114 testes automatizados (105 rápidos + 9 de integração) e formatado em português. A análise contextual não muda a pergunta central: ela delimita o que os dados permitem dizer sobre os fatores associados, sem converter associação em causa. Nenhuma das três depende de alegação causal: o valor está na medida repetível e na exploração assistida, não na explicação do fenômeno.
+Em termos práticos, a contribuição se desdobra em três entregas verificáveis. A primeira é a série anual homogênea de 19 temporadas (2006–2024), com 7.219 partidas válidas, regras de limpeza documentadas e dois casos metodológicos tratados sem imputação (2016 e 2020). A segunda é o fluxo reproduzível e auditado: download pinado por commit com verificação SHA-256, construção determinística da base processada, validação cruzada externa de 99,96% e recálculo dos 19 campeões a partir dos placares. A terceira é o dashboard reutilizável, com cinco abas que cobrem do panorama geral à consulta por equipe e à análise de contexto, coberto por 114 testes automatizados (104 rápidos + 10 de integração) e formatado em português. A análise contextual não muda a pergunta central: ela delimita o que os dados permitem dizer sobre os fatores associados, sem converter associação em causa. Nenhuma das três depende de alegação causal: o valor está na medida repetível e na exploração assistida, não na explicação do fenômeno.
 
 ## 1.6 Estrutura do trabalho
 
@@ -371,7 +371,7 @@ Legenda: fonte, período, regras de limpeza e relatório de qualidade. Fonte: El
 
 ## 4.4 Testes
 
-Cento e quatorze testes automatizados (Pytest; 105 rápidos e 9 de integração) cobrem o caso de referência da especificação (três partidas manuais → índice de Pollard exatamente 50%), proporções, tratamento de denominador zero, recorte vazio, pontuação por equipe/temporada (incluindo Flamengo 2019: 53/37/90/38), variáveis contextuais (viagem, clássico, estádio, descanso, tabela, eras), funções de associação (bootstrap, mudança de nível, matriz de correlação, vantagem por equipe), parser de cartões, filtros das abas, formatação pt-BR, integridade SHA-256 e regras de limpeza. Todos passam (`114 passed`). Complemento de verificação externa: a validação cruzada contra o OpenFootball atingiu 99,96% de concordância (seção 3.2).
+Cento e quatorze testes automatizados (Pytest; 104 rápidos e 10 de integração) cobrem o caso de referência da especificação (três partidas manuais → índice de Pollard exatamente 50%), proporções, tratamento de denominador zero, recorte vazio, pontuação por equipe/temporada (incluindo Flamengo 2019: 53/37/90/38), variáveis contextuais (viagem, clássico, estádio, descanso, tabela, eras), funções de associação (bootstrap, mudança de nível, matriz de correlação, vantagem por equipe), parser de cartões, filtros das abas, formatação pt-BR, integridade SHA-256 e regras de limpeza. Todos passam (`114 passed`). Complemento de verificação externa: a validação cruzada contra o OpenFootball atingiu 99,96% de concordância (seção 3.2).
 
 **Tabela 4 — Síntese dos testes por grupo.**
 
@@ -395,7 +395,7 @@ Cento e quatorze testes automatizados (Pytest; 105 rápidos e 9 de integração)
 | `test_review_fixes` | regressões das revisões (download, exceção, CI, placares) | 9 passed |
 | `test_bootstrap_checks` | bootstrap/check read-only, pins e instalação editável | 4 passed |
 | `test_cards` | parser de cartões, normalização de times e desempates | 9 passed |
-| **Total** | **105 rápidos + 9 de integração** | **114 passed** |
+| **Total** | **104 rápidos + 10 de integração** | **114 passed** |
 
 Fonte: Elaboração própria; detalhamento em Apêndice D.
 
@@ -628,11 +628,11 @@ A Figura 12 repete o padrão: a reta do HA é praticamente horizontal, enquanto 
 
 A base principal não registra cartões; para aproximar o canal da arbitragem, foi montada uma base externa com os borderôs da CBF compilados pelo projeto BrazilianFootball/Data (licença MIT), cobrindo 2013–2024. A junção usa temporada, data, mandante, visitante e placar, com fallback por equipes e placar para jogos remarcados; a data canônica é sempre a da base do TCC. A cobertura é de 4.559 partidas de 2013–2024 (100% das partidas elegíveis), com um único cartão não atribuído, em 2022, por formato quebrado. As temporadas 2006–2012 não têm cartões nessa fonte, de modo que a extensão não cobre a série inteira.
 
-Para cada partida, contaram-se amarelos e vermelhos de cada lado; a diferença casa−fora é a unidade descritiva. A Tabela 11 reporta a média por temporada e o IC 95% por bootstrap de partidas (4.000 reamostragens). Para o contraste 2019→2020, estimou-se `yellow_diff = post + efeitos fixos de mandante + efeitos fixos de visitante`, em que `post` indica 2020. Como as mesmas equipes se repetem, o erro-padrão usa a maior variância one-way clusterizada por mandante e por visitante — aproximação conservadora de Cameron e Miller (2015) — e o IC usa 1,96 EP. O desenho é quase-experimental e não isola torcida de pandemia, calendário, protocolos e VAR.
+Para cada partida, contaram-se amarelos e vermelhos de cada lado; a diferença casa−fora é a unidade descritiva. A Tabela 11 reporta a média por temporada e um intervalo descritivo de 95% por bootstrap de partidas (4.000 reamostragens), sem correção para a repetição das equipes; ele não tem cobertura nominal estrita. Para o contraste 2019→2020, estimou-se `yellow_diff = post + efeitos fixos de mandante + efeitos fixos de visitante`, em que `post` indica 2020. Como as mesmas equipes se repetem, o erro-padrão usa a maior variância one-way clusterizada por mandante e por visitante — aproximação conservadora de Cameron e Miller (2015) — e o IC usa 1,96 EP. O desenho é quase-experimental e não isola torcida de pandemia, calendário, protocolos e VAR.
 
-**Tabela 11 — Cartões por temporada, diferença casa−fora e IC 95%, 2013–2024.**
+**Tabela 11 — Cartões por temporada, diferença casa−fora e IC descritivo 95%, 2013–2024.**
 
-| Temporada | Jogos | Amarelos casa | Amarelos fora | Diferença (IC 95%) | Vermelhos casa | Vermelhos fora |
+| Temporada | Jogos | Amarelos casa | Amarelos fora | Diferença (IC descritivo 95%) | Vermelhos casa | Vermelhos fora |
 |---|---:|---:|---:|---|---:|---:|
 | 2013 | 380 | 2,06 | 2,37 | −0,31 (−0,46 a −0,16) | 0,04 | 0,09 |
 | 2014 | 380 | 2,14 | 2,31 | −0,16 (−0,34 a +0,01) | 0,09 | 0,12 |
@@ -647,11 +647,11 @@ Para cada partida, contaram-se amarelos e vermelhos de cada lado; a diferença c
 | 2023 | 380 | 2,54 | 2,72 | −0,18 (−0,36 a +0,00) | 0,14 | 0,12 |
 | 2024 | 380 | 2,42 | 2,71 | −0,28 (−0,47 a −0,10) | 0,16 | 0,16 |
 
-Fonte: Elaboração própria, a partir da base validada e de BrazilianFootball/Data (MIT). IC 95% por bootstrap de partidas (4.000 reamostragens); a diferença é casa−fora. A coluna de jogos usa a base do TCC; 2016 tem 379 partidas. Cartões não atribuídos: 1 em 2022.
+Fonte: Elaboração própria, a partir da base validada e de BrazilianFootball/Data (MIT). Intervalo descritivo de 95% por bootstrap de partidas (4.000 reamostragens); não corrige a dependência entre partidas das mesmas equipes. A diferença é casa−fora. A coluna de jogos usa a base do TCC; 2016 tem 379 partidas. Cartões não atribuídos: 1 em 2022.
 
 Em 2019, o mandante recebia 0,18 amarelo a menos que o visitante; em 2020, com portões fechados, a diferença passou a +0,11. A mudança bruta é +0,29. Com efeitos fixos de equipe, a estimativa é +0,35 (EP 0,190; IC 95% −0,03 a +0,72; n = 760). Restrita às 16 equipes presentes nos dois anos, +0,34 (EP 0,194; IC 95% −0,04 a +0,72; n = 480). O sinal é compatível com pressão da torcida sobre a arbitragem, mas o intervalo inclui zero: a evidência é sugestiva, não conclusiva ao nível de 5%.
 
-**Figura 13 — Cartões amarelos casa−fora por temporada, com IC 95% e destaque para 2020 (2013–2024).**
+**Figura 13 — Cartões amarelos casa−fora por temporada, com intervalo descritivo de 95% e destaque para 2020 (2013–2024).**
 (`figuras/fig13_cartoes.png`)
 Legenda: linha azul = diferença média de amarelos casa−fora; faixa = IC 95% bootstrap; área vermelha = 2020, sem torcida. Fonte: Elaboração própria, a partir da base validada e de BrazilianFootball/Data (MIT).
 
@@ -792,7 +792,7 @@ Validação dos cartões (`scripts/build_cards.py` e `scripts/analyze_cards.py`)
 
 ## APÊNDICE D — Casos de teste e instruções de execução
 
-Suíte Pytest (`python3 -m pytest tests/ -q`): **114 passed** (105 rápidos + 9 de integração).
+Suíte Pytest (`python3 -m pytest tests/ -q`): **114 passed** (104 rápidos + 10 de integração).
 
 - `tests/test_metrics.py`: caso de referência de três partidas (Pollard exatamente 50%); tudo-mandante acima de 50% e tudo-visitante abaixo; proporções somam 100; Pollard indefinido sem pontos; recorte vazio não quebra; agregação `by_season`; `team_season` separa pontos de casa e fora; Flamengo 2019 (53/37/90/38); `teams_in_season` respeita a temporada.
 - `tests/test_context.py` (20): haversine (São Paulo–Rio ≈ 360 km; zero na mesma cidade); clássicos locais com viagem zero; distância interestadual na faixa esperada; descanso em dias (incluindo estreia sem anterior e jogo no mesmo dia); pontos e posição antes da partida; flags de era; mesma UF, região, estádio habitual, faixas de descanso e de posição; cobertura dos 43 clubes e somas da base real (7.219).
@@ -816,7 +816,7 @@ python3 scripts/make_figures.py      # gera figuras e tab1
 PYTHONPATH=src python3 scripts/fetch_cards.py    # cartões 2013–2024 (MIT)
 PYTHONPATH=src python3 scripts/build_cards.py    # junta cartões à base
 PYTHONPATH=src python3 scripts/analyze_cards.py  # Tabela 11 e Figura 13
-python3 -m pytest tests/ -q          # 114 testes (105 rápidos + 9 de integração)
+python3 -m pytest tests/ -q          # 114 testes (104 rápidos + 10 de integração)
 python3 scripts/validate_cross.py    # validação OpenFootball 2018–2024
 python3 -m streamlit run app.py
 ```

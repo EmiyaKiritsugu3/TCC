@@ -9,7 +9,8 @@
 
 ## Atualização 20/11/2026 — cartões (branch `feat/cartoes`)
 
-- `pytest tests/ -q` → **114 passed** (105 rápidos + 9 de integração); cobertura **91,2%**.
+- `pytest tests/ -q --cov=src --cov-report=term --cov-fail-under=90` → **114 passed**
+  (104 rápidos + 10 de integração); cobertura **91,2%**.
 - `scripts/check_monografia.py` → **AUDITORIA NUMÉRICA: tudo confere**
   (Tabela 11, Figura 13, DiD 2019→2020 e contagem de testes).
 - `scripts/audit_data.py` → **150 verificações, 0 falhas**.

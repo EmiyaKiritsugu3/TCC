@@ -156,7 +156,7 @@ def _renderizar(doc, linhas: list[str]) -> None:
                 cabecalho_tabela = bloco_tabela[0]
                 fonte = 8 if "Temporada" in cabecalho_tabela else 10
                 larguras = None
-                if "Diferença (IC 95%)" in cabecalho_tabela:
+                if "Diferença (IC" in cabecalho_tabela:
                     fonte = 7
                     larguras = [1.6, 1.1, 2.7, 2.7, 3.9, 2.0, 2.0]
                 tabela(doc, [r.split("|")[1:-1] for r in bloco_tabela],

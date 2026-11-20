@@ -24,7 +24,6 @@ from paths import caminho_no_projeto
 
 RAIZ = Path(__file__).resolve().parent.parent
 CARTOES = RAIZ / "data" / "external" / "cards" / "cards_2013_2024.csv"
-CONTEXTO = RAIZ / "data" / "external" / "context_clean.csv"
 FIG = RAIZ / "figuras"
 RESUMO = RAIZ / "data" / "external" / "cards" / "cards_summary.json"
 TABELA = FIG / "tab_cartoes.csv"
@@ -216,7 +215,7 @@ def _figura(tab: pd.DataFrame) -> None:
     fig, ax = plt.subplots(figsize=(9.5, 5.2))
     ax.axhline(0, color="black", linewidth=1)
     ax.fill_between(tab["season"], tab["amarelos_lo"], tab["amarelos_hi"],
-                    color=AZUL, alpha=0.18, label="IC 95% (bootstrap)")
+                    color=AZUL, alpha=0.18, label="IC descritivo 95% (bootstrap)")
     ax.plot(tab["season"], tab["amarelos_diff"], marker="o", color=AZUL,
             label="Amarelos casa − fora")
     ax.axvspan(2019.5, 2020.5, color=VERMELHO, alpha=0.10)
@@ -251,7 +250,7 @@ def _relatorio(tab: pd.DataFrame, did: dict, did_comum: dict,
         "",
         "## Cartões por temporada",
         "",
-        "| Temporada | Jogos | Amarelos casa | Amarelos fora | Diferença (IC 95%) | Vermelhos casa | Vermelhos fora |",
+        "| Temporada | Jogos | Amarelos casa | Amarelos fora | Diferença (IC descritivo 95%) | Vermelhos casa | Vermelhos fora |",
         "|---|---:|---:|---:|---|---:|---:|",
     ]
     for r in tab.itertuples():
@@ -262,6 +261,9 @@ def _relatorio(tab: pd.DataFrame, did: dict, did_comum: dict,
             f"{_pt(r.vermelhos_fora)} |"
         )
     linhas += [
+        "",
+        "Intervalo descritivo de 95% por bootstrap de partidas (4.000 reamostragens);",
+        "não corrige a dependência entre partidas das mesmas equipes.",
         "",
         "## Diferença-em-diferenças 2019 → 2020",
         "",
@@ -318,7 +320,7 @@ def _relatorio(tab: pd.DataFrame, did: dict, did_comum: dict,
         "- 2020 tem pandemia, calendário atípico e protocolos; VAR já existia em 2019.",
         "- 2006–2012 não têm cartões nesta fonte.",
         "- A série 2013–2024 tem 1 cartão não atribuído em 2022 (formato quebrado).",
-        "- Não há pênaltis nem cartões por arbítrio separados por tipo; o teste do",
+        "- Não há pênaltis nem cartões separados por tipo de decisão; o teste do",
         "  canal arbitral é indireto.",
         "",
         "## Reprodução",
@@ -332,10 +334,10 @@ def _relatorio(tab: pd.DataFrame, did: dict, did_comum: dict,
         "PYTHONPATH=src python3 scripts/analyze_cards.py",
         "```",
         "",
-        "Para os cartões por falta, gere `context_clean.csv` com o pipeline",
-        "externo descrito em `docs/fontes_externas.md` antes de rodar",
-        "`analyze_cards.py`. Sem esse arquivo, a análise principal roda e a seção",
-        "de faltas é omitida.",
+        "Para os cartões por falta, rode com",
+        "`--contexto data/external/context_clean.csv`; o arquivo exige o pipeline",
+        "externo descrito em `docs/fontes_externas.md`. Sem a flag, a análise",
+        "principal roda e a seção de faltas é omitida.",
     ]
     return "\n".join(linhas) + "\n"
 
@@ -343,20 +345,21 @@ def _relatorio(tab: pd.DataFrame, did: dict, did_comum: dict,
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--cartoes", type=Path, default=CARTOES)
-    parser.add_argument("--contexto", type=Path, default=CONTEXTO)
+    parser.add_argument("--contexto", type=Path, default=None,
+                        help="context_clean.csv opcional para cartões por falta")
     args = parser.parse_args(argv)
 
     cartoes = pd.read_csv(caminho_no_projeto(args.cartoes))
-    contexto_path = caminho_no_projeto(args.contexto)
-    if contexto_path.exists():
+    df = cartoes.copy()
+    if args.contexto is not None:
+        contexto_path = caminho_no_projeto(args.contexto)
+        if not contexto_path.exists():
+            raise SystemExit(f"contexto ausente: {contexto_path}")
         contexto = pd.read_csv(contexto_path)
         colunas = [c for c in ["match_id", "faltas_mandante", "faltas_visitante"]
                    if c in contexto.columns]
         df = cartoes.merge(contexto[colunas], on="match_id", how="left",
                            validate="many_to_one")
-    else:
-        print(f"aviso: {contexto_path} ausente; análise de faltas desativada")
-        df = cartoes.copy()
     tab = _tabela_temporadas(df)
     did = _did(df)
     did_comum = _did_comum(df)
