@@ -62,7 +62,7 @@ def _grupos_contexto(ctx: pd.DataFrame, dimensao: str) -> pd.Series:
     if dimensao == "Distância":
         return pd.cut(
             ctx["travel_km"], bins=[-0.001, 500, 1500, float("inf")],
-            labels=["Curta (<500 km)", "Média (500–1.500 km)", "Longa (≥1.500 km)"],
+            labels=["Curta (<500 km)", "Média (500–1.499 km)", "Longa (≥1.500 km)"],
             right=False,
         )
     if dimensao == "Mesmo estado":
@@ -189,7 +189,7 @@ with t5:  # RF12: contexto descritivo (viagem, clássico, estádio, descanso, fo
     st.caption("Associações descritivas com o recorte selecionado. Não implicam causalidade.")
     try:
         ctx = carregar_contexto()
-    except ValueError as exc:
+    except (ValueError, KeyError) as exc:
         st.warning(f"Não foi possível calcular o contexto desta base: {exc}")
         ctx = None
     if ctx is not None:

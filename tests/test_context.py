@@ -68,6 +68,18 @@ def test_descanso_em_dias():
     assert r["away_rest"].iloc[2] == 0      # C jogou no mesmo dia
 
 
+def test_descanso_reseta_por_temporada():
+    d = pd.DataFrame({
+        "season": [2019, 2020],
+        "date": pd.to_datetime(["2019-12-08", "2020-08-09"]),
+        "home_team": ["A", "A"],
+        "away_team": ["B", "C"],
+    })
+    r = rest_days(d)
+    assert pd.isna(r.loc[0, "home_rest"])  # estreia de A na temporada 2019
+    assert pd.isna(r.loc[1, "home_rest"])  # estreia de A na temporada 2020
+
+
 def test_posicao_na_tabela_antes_da_partida():
     d = pd.DataFrame({
         "season": [2019, 2019, 2019],
@@ -145,6 +157,15 @@ def test_usual_stadium_exige_coluna():
     d = pd.DataFrame({"season": [2019], "home_team": ["A"], "away_team": ["B"]})
     with pytest.raises(ValueError, match="stadium"):
         usual_stadium(d)
+
+
+def test_usual_stadium_nao_imputa_ausente():
+    d = pd.DataFrame({
+        "season": [2019, 2019],
+        "home_team": ["A", "A"],
+        "stadium": [None, "X"],
+    })
+    assert usual_stadium(d).tolist() == [False, True]
 
 
 def test_rest_bucket_cobre_as_faixas_e_ignora_ausente():

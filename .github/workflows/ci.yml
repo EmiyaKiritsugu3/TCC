@@ -35,7 +35,7 @@ jobs:
       - name: Validar empacotamento
         run: |
           python3 -m pip install --only-binary=:all: --no-deps -e .
-          env -u PYTHONPATH python3 -c "import metrics, context, openfootball"
+          env -u PYTHONPATH python3 -c "import metrics, context, associations, openfootball"
 
       # A base bruta nao e versionada (.gitignore): em runner limpo ela e baixada
       # do commit pinado e conferida por SHA-256.
@@ -51,9 +51,13 @@ jobs:
       - name: Verificacao de ambiente e smoke tests de artefatos
         run: |
           python3 scripts/bootstrap.py --check
+          python3 scripts/analyze_context.py
           python3 scripts/make_figures.py
-          python3 scripts/export_table1.py > /dev/null
+          python3 scripts/export_table1.py > figuras/tab1_indicadores_temporada.md
           python3 scripts/build_docx.py
+          git diff --exit-code -- figuras/tab1_indicadores_temporada.csv \
+            figuras/tab1_indicadores_temporada.md figuras/tab5_contexto.csv \
+            figuras/tab6_equipes.csv figuras/contexto.json
 
       - name: Rodar testes com cobertura
         run: python3 -m pytest tests/ -q --cov=src --cov-report=term --cov-fail-under=90

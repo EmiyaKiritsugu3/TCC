@@ -141,21 +141,25 @@ def travel_km(df: pd.DataFrame) -> pd.Series:
 
 
 def rest_days(df: pd.DataFrame) -> pd.DataFrame:
-    """Dias desde a partida anterior de cada clube (qualquer mando).
+    """Dias desde a partida anterior de cada clube, dentro da temporada.
 
-    Primeira aparição do clube na base -> NaN. Mesmo dia -> 0.
+    A primeira partida do clube em cada temporada -> NaN (o intervalo de
+    entressafra não é descanso). Mesmo dia -> 0.
     """
     d = df.copy()
+    if "season" not in d.columns:
+        d["season"] = 0
     d["date"] = pd.to_datetime(d["date"])
-    d = d.sort_values("date", kind="mergesort")
-    ultimo: dict[str, pd.Timestamp] = {}
+    d = d.sort_values(["season", "date"], kind="mergesort")
+    ultimo: dict[tuple[int, str], pd.Timestamp] = {}
     hr, ar = [], []
     for _, linha in d.iterrows():
+        temporada = int(linha["season"])
         for clube, lista in ((linha["home_team"], hr), (linha["away_team"], ar)):
-            prev = ultimo.get(clube)
+            prev = ultimo.get((temporada, clube))
             lista.append(float((linha["date"] - prev).days) if prev is not None else math.nan)
-        ultimo[linha["home_team"]] = linha["date"]
-        ultimo[linha["away_team"]] = linha["date"]
+        ultimo[(temporada, linha["home_team"])] = linha["date"]
+        ultimo[(temporada, linha["away_team"])] = linha["date"]
     d["home_rest"] = pd.Series(hr, index=d.index, dtype=float)
     d["away_rest"] = pd.Series(ar, index=d.index, dtype=float)
     return d.loc[df.index, ["home_rest", "away_rest"]]
@@ -167,6 +171,11 @@ def table_snapshot(df: pd.DataFrame) -> pd.DataFrame:
     Ordena por (data, rodada, match_id); desempate de posição por
     pontos, vitórias e saldo, nesta ordem; empates dividem a posição
     (`method="min"`). Estreantes na temporada partem de zero.
+
+    Aproximação declarada: em partidas da mesma rodada no mesmo dia, a
+    ordem por `match_id` é arbitrária e resultados anteriores da mesma
+    rodada podem entrar na posição. Para a leitura descritiva, o efeito
+    é pequeno, mas não é um retrato perfeito do início da rodada.
     """
     d = df.copy()
     d["date"] = pd.to_datetime(d["date"])
@@ -184,13 +193,21 @@ def table_snapshot(df: pd.DataFrame) -> pd.DataFrame:
             tab.setdefault(clube, [0, 0, 0])
         hp.append(tab[lin["home_team"]][0])
         ap.append(tab[lin["away_team"]][0])
-        quadro = pd.DataFrame(
-            [(c, v[0], v[1], v[2]) for c, v in tab.items()],
-            columns=["clube", "p", "v", "sg"],
-        ).sort_values(["p", "v", "sg"], ascending=False, kind="mergesort")
-        quadro["pos"] = quadro[["p", "v", "sg"]].apply(tuple, axis=1).rank(
-            method="min", ascending=False).astype(int)
-        pos = dict(zip(quadro["clube"], quadro["pos"]))
+        # Ordena uma vez e calcula a posição mínima dos empates sem criar
+        # um DataFrame por partida (gargalo da aba Contexto).
+        quadro = sorted(
+            tab.items(),
+            key=lambda kv: (-kv[1][0], -kv[1][1], -kv[1][2], kv[0]),
+        )
+        pos: dict[str, int] = {}
+        chave_anterior = None
+        posicao = 0
+        for indice, (clube, valores) in enumerate(quadro):
+            chave = (valores[0], valores[1], valores[2])
+            if chave != chave_anterior:
+                posicao = indice + 1
+                chave_anterior = chave
+            pos[clube] = posicao
         hpos.append(pos[lin["home_team"]])
         apos.append(pos[lin["away_team"]])
         hg, ag = lin["home_goals"], lin["away_goals"]
@@ -262,7 +279,7 @@ def usual_stadium(df: pd.DataFrame) -> pd.Series:
         if coluna not in df.columns:
             raise ValueError(f"Coluna obrigatória ausente: {coluna}")
     d = df[["season", "home_team", "stadium"]].copy()
-    d["stadium"] = d["stadium"].fillna("")
+    d["stadium"] = d["stadium"].fillna("__sem_estadio__")
 
     def _moda(serie: pd.Series) -> str:
         contagem = serie.value_counts()
@@ -271,7 +288,8 @@ def usual_stadium(df: pd.DataFrame) -> pd.Series:
     moda = (d.groupby(["season", "home_team"], sort=False)["stadium"]
             .agg(_moda).rename("usual"))
     j = d.join(moda, on=["season", "home_team"])
-    return j["stadium"].eq(j["usual"]).set_axis(df.index).rename("usual_stadium")
+    return (j["stadium"].eq(j["usual"]) & j["stadium"].ne("__sem_estadio__")
+            ).set_axis(df.index).rename("usual_stadium")
 
 
 def rest_bucket(df: pd.DataFrame) -> pd.Series:

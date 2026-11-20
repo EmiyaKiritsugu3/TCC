@@ -55,7 +55,9 @@ def _grupo(df: pd.DataFrame, variavel: str, grupos: pd.Series,
            geral: float) -> pd.DataFrame:
     out = group_pollard(df, grupos, n=2000, seed=42)
     out.insert(0, "variavel", variavel)
-    out["delta_geral"] = out["pollard"] - geral
+    out["delta_geral"] = out["pollard"].apply(
+        lambda valor: None if pd.isna(valor) else valor - geral
+    )
     return out[["variavel", "grupo", "n", "pollard", "lo", "hi", "delta_geral"]]
 
 
@@ -63,7 +65,7 @@ def _distancia(df: pd.DataFrame) -> pd.Series:
     return pd.cut(
         df["travel_km"],
         bins=[-0.001, 500, 1500, float("inf")],
-        labels=["Curta (<500 km)", "Média (500–1.500 km)", "Longa (≥1.500 km)"],
+        labels=["Curta (<500 km)", "Média (500–1.499 km)", "Longa (≥1.500 km)"],
         right=False,
     )
 

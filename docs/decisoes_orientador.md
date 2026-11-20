@@ -22,7 +22,7 @@ Ampliação aplicada em 04/11/2026 (proativa): §§1.2, 1.5, 2.1, 2.2, 2.3, 3.1�
 (síntese dos testes) criadas; corpo ≥ 5.500 palavras.
 
 Fase 1 (variáveis contextuais) implementada em 06/11/2026 por decisão do
-aluno, pendente de validação do orientador: `src/context.py` + 18 testes,
+aluno, pendente de validação do orientador: `src/context.py` + 20 testes,
 achado principal de que a distância não move o índice (Tabela 5 da monografia).
 
 ## Edição normativa adotada (05/11/2026)
@@ -115,7 +115,7 @@ números validados da versão 2:
 - Dashboard: quinta aba **Contexto** (RF12), com filtros, IC e ranking por equipe.
 - Monografia v3: §5.4 nova, Tabelas 5–6, Figuras 9–10, ICs na Tabela 1, resumo,
   conclusão e limitações atualizados.
-- **96 testes** (87 rápidos + 9 de integração); auditor numérico cobre os novos
+- **99 testes** (90 rápidos + 9 de integração); auditor numérico cobre os novos
   números.
 
 Pendência: validação do orientador para manter H3–H5 e a mudança de nível como

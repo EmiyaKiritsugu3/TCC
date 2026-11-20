@@ -10,8 +10,8 @@ Proposta completa em `spec_tcc_vantagem_casa_brasileirao.md`.
 - **Pollard geral: 63,66%** → H1 (> 50%) confirmada no período
 - Pollard anual varia de **58,2% (2017)** a **69,5% (2018)**, com **mudança de nível** pós-2018:
   **64,9%** em 2006–2018 vs. **61,0%** em 2019–2024 (diferença 3,9 p.p.; IC 95% 2,1–5,6)
-- Contexto: distância não move o índice (63,4%–63,9%); clássicos sem viagem ficam em **58,2%**;
-  estádio habitual **64,1%** vs. outro **59,4%**; mandante zebra ainda fica em **55,7%**
+- Contexto: não há associação relevante com a distância (63,4%–63,9%); clássicos sem viagem ficam em **58,2%**;
+  estádio habitual **64,1%** vs. outro **59,4%**; mandante zebra ainda fica em **55,6%**
 
 ## Como executar
 
@@ -25,7 +25,7 @@ python3 scripts/fetch_raw.py --check # confere o SHA-256 das cópias locais
 python3 scripts/build_processed.py   # gera data/processed/
 python3 scripts/analyze_context.py   # gera tab5, tab6 e contexto.json
 python3 scripts/make_figures.py      # gera figuras e tab1
-python3 -m pytest tests/ -q          # 96 testes (87 rápidos + 9 de integração)
+python3 -m pytest tests/ -q          # 99 testes (90 rápidos + 9 de integração)
 python3 scripts/validate_cross.py    # validação OpenFootball 2018–2024
 python3 -m streamlit run app.py
 ```

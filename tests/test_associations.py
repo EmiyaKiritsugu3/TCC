@@ -56,6 +56,7 @@ def test_cluster_bootstrap_diff_pre_pos():
     r = cluster_bootstrap_diff(d, d.season < 2009, d.season >= 2010, n=100, seed=1)
     assert (r["a"], r["b"], r["diff"]) == (100.0, 0.0, 100.0)
     assert (r["lo"], r["hi"]) == (100.0, 100.0)
+    assert r["n_clusters"] == [2, 2]
 
 
 def test_change_point_encontra_quebra():
@@ -150,6 +151,14 @@ def test_team_season_home_advantage_usa_pontos():
     assert a["ha"] == 2.0
 
 
+def test_team_season_home_advantage_indefinido_sem_um_lado():
+    d = _df([(2019, "A", "B", 3, 0)])
+    ts = team_season_home_advantage(d)
+    a = ts[ts.team == "A"].iloc[0]
+    assert pd.isna(a["away_ppg"])
+    assert pd.isna(a["ha"])
+
+
 @pytest.mark.integration
 def test_build_outputs_cobre_a_base_real():
     from pathlib import Path
@@ -167,4 +176,4 @@ def test_build_outputs_cobre_a_base_real():
     for variavel in ("Clássico", "Distância", "Mesmo estado", "Estádio",
                      "Força na tabela", "Era", "Pandemia"):
         assert tab5.loc[tab5["variavel"] == variavel, "n"].sum() == 7219
-    assert tab5.loc[tab5["variavel"] == "Descanso", "n"].sum() == 7188
+    assert tab5.loc[tab5["variavel"] == "Descanso", "n"].sum() == 7025

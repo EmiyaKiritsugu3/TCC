@@ -47,8 +47,8 @@ pré/pós-2019: 64,9% em 2006–2018 e 61,0% em 2019–2024; marcador vertical e
 Fonte: Elaboração própria, a partir da base validada.
 
 **Figura 10 — `fig10_contexto.png`.**
-Pollard por contexto da partida (clássico, distância, estádio, descanso, força
-e era), com IC 95% e linha de 50%.
+Pollard por contexto da partida (clássico, distância, mesma UF, estádio,
+descanso, força, era e pandemia), com IC 95% e linha de 50%.
 Fonte: Elaboração própria, a partir da base validada.
 
 **Tabela 1 — `tab1_indicadores_temporada.csv`.**

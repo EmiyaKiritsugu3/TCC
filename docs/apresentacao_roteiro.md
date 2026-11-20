@@ -8,7 +8,7 @@
 3. **Resultado geral** — `fig1_distribuicao_geral.png` (Figura 5) + Pollard 63,7% (H1).
 4. **Evolução** — `fig2_pollard_temporadas.png` (Figura 7) (58,2%–69,5%; H2) + `fig9_serie_ic.png` (Figura 9): mudança de nível pós-2018 (64,9% → 61,0%; IC 2,1–5,6); destaque 2017 × 2018 com cautela sobre ICs.
 5. **Gols** — `fig4_gols_temporadas.png` (Figura 6) (1,49 × 1,00).
-6. **Contexto (slide extra, se houver tempo)** — `fig10_contexto.png` (Figura 10): viagem não é o principal; clássico 58,2%; estádio habitual 64,1% vs. 59,4%; zebra 55,7%.
+6. **Contexto (slide extra, se houver tempo)** — `fig10_contexto.png` (Figura 10): viagem não é o principal; clássico 58,2%; estádio habitual 64,1% vs. 59,4%; zebra 55,6%.
 7. **Casos metodológicos** — 2016 (379 jogos) e 2020 (pandemia/VAR) em 2 bullets; 2020 não é o piso (2017 é menor).
 8. **Limitações** — 3 bullets da spec §19 (sem causalidade; sem torcida/arbitragem/elenco; contexto por proxies).
 9. **Conclusão** — resposta em 1 frase + contribuição (série longa + sistema reproduzível + decomposição descritiva).

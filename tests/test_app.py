@@ -51,3 +51,7 @@ def test_aba_contexto_existe_e_calcula_grupos():
     assert not at.exception
     at.selectbox(key="contexto_dimensao").select("Estádio").run()
     assert not at.exception
+    at.sidebar.multiselect[0].set_value([2019]).run()
+    assert not at.exception
+    metricas = {x.label: x.value for x in at.metric}
+    assert metricas["Partidas no contexto"] == "380"

@@ -101,7 +101,8 @@ def cluster_bootstrap_diff(df: pd.DataFrame, mask_a: pd.Series,
     a_p = pollard(a["home_points"].sum(), a["away_points"].sum())
     b_p = pollard(b["home_points"].sum(), b["away_points"].sum())
     return {"a": a_p, "b": b_p, "diff": a_p - b_p,
-            "lo": float(lo), "hi": float(hi)}
+            "lo": float(lo), "hi": float(hi),
+            "n_clusters": [int(a["season"].nunique()), int(b["season"].nunique())]}
 
 
 def _annual_pollard(df: pd.DataFrame) -> pd.Series:
@@ -157,10 +158,9 @@ def team_season_home_advantage(df: pd.DataFrame) -> pd.DataFrame:
     casa.index = casa.index.set_names(["season", "team"])
     fora.index = fora.index.set_names(["season", "team"])
     out = casa.join(fora, how="outer").reset_index()
-    out["home_ppg"] = out["home_ppg"].fillna(0.0)
-    out["away_ppg"] = out["away_ppg"].fillna(0.0)
     out["home_n"] = out["home_n"].fillna(0).astype(int)
     out["away_n"] = out["away_n"].fillna(0).astype(int)
+    # Sem um dos lados, a diferença casa−fora é indefinida (NaN), não zero.
     out["ha"] = out["home_ppg"] - out["away_ppg"]
     return out[["season", "team", "home_n", "away_n", "home_ppg", "away_ppg", "ha"]]
 

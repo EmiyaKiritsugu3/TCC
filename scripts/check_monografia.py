@@ -60,7 +60,7 @@ def _linhas_tabela(bloco: str, ncols: int, cabecalho: str) -> list[list[str]]:
 
 def _ic(texto: str) -> tuple[float, float, float]:
     """Lê '58,23 (53,99–62,45)' e devolve (ponto, lo, hi)."""
-    m = re.fullmatch(r"([\d,]+) \(([\d,]+)–([\d,]+)\)", texto)
+    m = re.fullmatch(r"(-?[\d,]+) \((-?[\d,]+)–(-?[\d,]+)\)", texto)
     if not m:
         raise ValueError(f"IC em formato inesperado: {texto!r}")
     return tuple(float(v.replace(",", ".")) for v in m.groups())  # type: ignore[return-value]
@@ -97,18 +97,19 @@ def conferir(texto: str, df: pd.DataFrame, tab1: pd.DataFrame,
                    "63,7%", "12.554", "7.166", "58,2% (2017)", "69,5% (2018)",
                    "28,9%", "17,9%", "60,2%", "n = 379", "379 jogos",
                    "62,4% em 2019", "61,8% em 2021", "11,3 p.p",
-                   "2.659 de 2.660", "99,96%", "19/19", "96 testes", "96 passed",
+                   "2.659 de 2.660", "99,96%", "19/19", "99 testes", "99 passed",
                    "25/02/2021", "Flamengo 2019: 53/37/90/38",
                    "64,9% em 2006–2018", "61,0% em 2019–2024", "3,9 p.p.",
                    "2,1–5,6", "4,5 p.p.", "3,0–6,0", "53,4–62,6",
                    "63,4%", "63,8%", "63,9%", "58,2% (IC 53,99–62,45)",
-                   "4,7 p.p.", "0,13 ponto", "55,7%", "73,3%", "17,7 p.p.",
-                   "0,46", "5.388", "12.554 vs. 7.166", "Tabela 6",
-                   "Figura 9", "Figura 10"]:
+                   "4,7 p.p.", "0,13 ponto", "55,6%", "5,6 p.p.", "73,3%",
+                   "17,7 p.p.", "0,46", "5.388", "12.554 vs. 7.166",
+                   "Tabela 6", "Figura 9", "Figura 10", "65,1%", "60,6%",
+                   "4,5 p.p.", "3,0–6,0", "−1,1"]:
         confere(pedaco in T, f"trecho ausente: {pedaco!r}")
     confere("12.554 × 7.166" not in T, "comparação de pontos ainda usa ×")
-    confere("`tests/test_context.py` (18)" in T, "contagem de test_context no Apendice D")
-    confere("`tests/test_associations.py` (14)" in T, "contagem de test_associations no Apendice D")
+    confere("`tests/test_context.py` (20)" in T, "contagem de test_context no Apendice D")
+    confere("`tests/test_associations.py` (15)" in T, "contagem de test_associations no Apendice D")
 
     # --- extremos anuais ---
     confere(round(t.loc[2017, "pollard"], 2) == 58.24, "pollard 2017")
@@ -179,6 +180,32 @@ def conferir(texto: str, df: pd.DataFrame, tab1: pd.DataFrame,
             round(contexto["quebra"]["post"], 2) == 61.01,
             "médias do ponto de quebra")
 
+    n06 = contexto["nivel_2006_2016_vs_2022_2024"]
+    confere(round(n06["a"], 2) == 65.07 and round(n06["b"], 2) == 60.55,
+            "médias 2006–2016 vs. 2022–2024")
+    confere(round(n06["diff"], 2) == 4.51, "diferença 2006–2016 vs. 2022–2024")
+    confere(round(n06["lo"], 2) == 3.02 and round(n06["hi"], 2) == 6.03,
+            "IC 2006–2016 vs. 2022–2024")
+
+    for chave, valor in [
+        ("derby_vs_nao", -5.79), ("estadio_vs_outro", 4.70),
+        ("favorito_vs_zebra", 17.69), ("pandemia_vs_demais", -2.97),
+        ("mesmo_estado_vs_diferente", -1.77),
+    ]:
+        confere(round(contexto["contrastes"][chave]["diff"], 2) == valor,
+                f"contraste {chave}")
+
+    for grupo, valor in {
+        x["grupo"]: x["mean_deviation"]
+        for x in contexto["dentro_equipe_temporada"]["descanso"]
+    }.items():
+        confere(f"{abs(valor):.3f}".replace(".", ",") in T,
+                f"desvio de descanso ausente: {grupo}")
+    est = {x["grupo"]: x["mean_deviation"]
+           for x in contexto["dentro_equipe_temporada"]["estadio"]}
+    confere(abs((est["Estádio habitual"] - est["Outro estádio"]) - 0.128) < 0.001,
+            "diferença dentro de equipe-temporada do estádio")
+
     # --- citações novas com ano casando com a referência ---
     for cit in ["Gil (2008)", "Nevill, Balmer e Williams (2002)", "Neave e Wolfson (2003)",
                 "Pollard, Silva e Medeiros (2008)"]:
@@ -235,10 +262,10 @@ def conferir(texto: str, df: pd.DataFrame, tab1: pd.DataFrame,
     # --- descanso: ausentes não são imputados ---
     d = df.copy()
     d["rest_bucket"] = rest_bucket(d)
-    confere(int(d["rest_bucket"].isna().sum()) == 31,
-            f"descanso ausente: {int(d['rest_bucket'].isna().sum())} != 31")
-    confere(len(d) - int(d["rest_bucket"].isna().sum()) == 7188,
-            "partidas com descanso != 7188")
+    confere(int(d["rest_bucket"].isna().sum()) == 194,
+            f"descanso ausente: {int(d['rest_bucket'].isna().sum())} != 194")
+    confere(len(d) - int(d["rest_bucket"].isna().sum()) == 7025,
+            "partidas com descanso != 7025")
 
     # --- figuras, tabelas, todos ---
     corpo = secao("# 1 INTRODUÇÃO")
