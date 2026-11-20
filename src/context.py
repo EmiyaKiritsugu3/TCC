@@ -370,3 +370,41 @@ def build_context_frame(df: pd.DataFrame) -> pd.DataFrame:
     d["rest_bucket"] = rest_bucket(d)
     d["table_bucket"] = table_bucket(d)
     return add_era_flags(d)
+
+
+DIMENSOES_CONTEXTO = [
+    "Clássico", "Distância", "Mesmo estado", "Estádio",
+    "Descanso", "Força na tabela", "Era", "Pandemia",
+]
+
+
+def grupos_contexto(df: pd.DataFrame, dimensao: str) -> pd.Series:
+    """Rótulos de grupo de uma dimensão contextual.
+
+    Fonte única dos rótulos usados pela Tabela 5 e pela aba Contexto, para
+    que dashboard e análise não divirjam.
+    """
+    if dimensao == "Clássico":
+        return df["derby"].map({True: "Clássico (mesma cidade)", False: "Não clássico"})
+    if dimensao == "Distância":
+        return pd.cut(
+            df["travel_km"], bins=[-0.001, 500, 1500, float("inf")],
+            labels=["Curta (<500 km)", "Média (500–1.499 km)", "Longa (≥1.500 km)"],
+            right=False,
+        )
+    if dimensao == "Mesmo estado":
+        return df["same_state"].map({True: "Mesmo estado", False: "Estado diferente"})
+    if dimensao == "Estádio":
+        return df["usual_stadium"].map(
+            {True: "Estádio habitual", False: "Outro estádio"}
+        ).where(df["stadium"].notna(), "Estádio não informado")
+    if dimensao == "Descanso":
+        return df["rest_bucket"]
+    if dimensao == "Força na tabela":
+        return df["table_bucket"]
+    if dimensao == "Era":
+        return df["season"].lt(2019).map({True: "Pré-2019", False: "2019+"})
+    if dimensao == "Pandemia":
+        return df["pandemia"].map({True: "Pandemia (2020–2021)",
+                                    False: "Demais temporadas"})
+    raise ValueError(f"Dimensão desconhecida: {dimensao!r}")

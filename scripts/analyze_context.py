@@ -29,7 +29,7 @@ from associations import (
     team_season_home_advantage,
     within_team_season,
 )
-from context import build_context_frame
+from context import build_context_frame, grupos_contexto
 from metrics import pollard
 
 RAIZ = Path(__file__).resolve().parent.parent
@@ -66,15 +66,6 @@ def _grupo(df: pd.DataFrame, variavel: str, grupos: pd.Series,
     return out[["variavel", "grupo", "n", "pollard", "lo", "hi", "delta_geral"]]
 
 
-def _distancia(df: pd.DataFrame) -> pd.Series:
-    return pd.cut(
-        df["travel_km"],
-        bins=[-0.001, 500, 1500, float("inf")],
-        labels=["Curta (<500 km)", "Média (500–1.499 km)", "Longa (≥1.500 km)"],
-        right=False,
-    )
-
-
 def build_outputs() -> tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame, dict]:
     """Calcula a base contextual, as tabelas e o payload JSON."""
     bruto = pd.read_csv(BASE)
@@ -92,27 +83,20 @@ def build_outputs() -> tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame, dict]:
     quebra = change_point(df)
 
     grupos = {
-        "derby": _grupo(df, "Clássico", np.where(
-            df["derby"], "Clássico (mesma cidade)", "Não clássico"), geral),
-        "distancia": _grupo(df, "Distância", _distancia(df), geral),
-        "same_state": _grupo(df, "Mesmo estado", np.where(
-            df["same_state"], "Mesmo estado", "Estado diferente"), geral),
-        "estadio": _grupo(df, "Estádio", np.where(
-            df["usual_stadium"], "Estádio habitual", "Outro estádio"), geral),
-        "descanso": _grupo(df, "Descanso", df["rest_bucket"], geral),
-        "forca": _grupo(df, "Força na tabela", df["table_bucket"], geral),
-        "era": _grupo(df, "Era", np.where(
-            df["season"] < 2019, "Pré-2019", "2019+"), geral),
-        "pandemia": _grupo(df, "Pandemia", np.where(
-            df["pandemia"], "Pandemia (2020–2021)", "Demais temporadas"), geral),
+        "derby": _grupo(df, "Clássico", grupos_contexto(df, "Clássico"), geral),
+        "distancia": _grupo(df, "Distância", grupos_contexto(df, "Distância"), geral),
+        "same_state": _grupo(df, "Mesmo estado", grupos_contexto(df, "Mesmo estado"), geral),
+        "estadio": _grupo(df, "Estádio", grupos_contexto(df, "Estádio"), geral),
+        "descanso": _grupo(df, "Descanso", grupos_contexto(df, "Descanso"), geral),
+        "forca": _grupo(df, "Força na tabela", grupos_contexto(df, "Força na tabela"), geral),
+        "era": _grupo(df, "Era", grupos_contexto(df, "Era"), geral),
+        "pandemia": _grupo(df, "Pandemia", grupos_contexto(df, "Pandemia"), geral),
     }
 
     dentro = {
-        "estadio": within_team_season(
-            df, np.where(df["usual_stadium"], "Estádio habitual", "Outro estádio")
-        ),
-        "descanso": within_team_season(df, df["rest_bucket"]),
-        "forca": within_team_season(df, df["table_bucket"]),
+        "estadio": within_team_season(df, grupos_contexto(df, "Estádio")),
+        "descanso": within_team_season(df, grupos_contexto(df, "Descanso")),
+        "forca": within_team_season(df, grupos_contexto(df, "Força na tabela")),
     }
 
     contrastes = {

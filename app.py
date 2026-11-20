@@ -21,7 +21,7 @@ from charts import (
     pollard_series,
     team_home_advantage_chart,
 )
-from context import build_context_frame
+from context import DIMENSOES_CONTEXTO, build_context_frame, grupos_contexto
 from formatting import num, pct, signed
 from metrics import by_season, summarize, team_season, teams_in_season
 
@@ -60,33 +60,20 @@ def carregar_contexto():
     return build_context_frame(carregar())
 
 
-DIMENSOES = ["Clássico", "Distância", "Mesmo estado", "Estádio",
-             "Descanso", "Força na tabela", "Era", "Pandemia"]
+@st.cache_data(show_spinner=False)
+def contexto_efeitos(temporadas: tuple[int, ...], dimensao: str) -> tuple[pd.DataFrame, pd.DataFrame]:
+    """Pollard por grupo, cacheado por temporadas e dimensão."""
+    ctx = carregar_contexto()
+    ctx = ctx[ctx["season"].isin(temporadas)].copy()
+    return ctx, group_pollard(ctx, grupos_contexto(ctx, dimensao), n=1000, seed=42)
 
 
-def _grupos_contexto(ctx: pd.DataFrame, dimensao: str) -> pd.Series:
-    if dimensao == "Clássico":
-        return ctx["derby"].map({True: "Clássico (mesma cidade)", False: "Não clássico"})
-    if dimensao == "Distância":
-        return pd.cut(
-            ctx["travel_km"], bins=[-0.001, 500, 1500, float("inf")],
-            labels=["Curta (<500 km)", "Média (500–1.499 km)", "Longa (≥1.500 km)"],
-            right=False,
-        )
-    if dimensao == "Mesmo estado":
-        return ctx["same_state"].map({True: "Mesmo estado", False: "Estado diferente"})
-    if dimensao == "Estádio":
-        return ctx["usual_stadium"].map({True: "Estádio habitual", False: "Outro estádio"})
-    if dimensao == "Descanso":
-        return ctx["rest_bucket"]
-    if dimensao == "Força na tabela":
-        return ctx["table_bucket"]
-    if dimensao == "Era":
-        return ctx["season"].lt(2019).map({True: "Pré-2019", False: "2019+"})
-    if dimensao == "Pandemia":
-        return ctx["pandemia"].map({True: "Pandemia (2020–2021)",
-                                    False: "Demais temporadas"})
-    raise ValueError(f"Dimensão desconhecida: {dimensao!r}")
+@st.cache_data(show_spinner=False)
+def contexto_equipes(temporadas: tuple[int, ...]) -> pd.DataFrame:
+    """Ranking por equipe, cacheado por temporadas."""
+    ctx = carregar_contexto()
+    ctx = ctx[ctx["season"].isin(temporadas)].copy()
+    return team_home_advantage(ctx, n=500, seed=42)
 
 
 df = carregar()
@@ -205,10 +192,10 @@ with t5:  # RF12: contexto descritivo (viagem, clássico, estádio, descanso, fo
         if ctx.empty:
             st.warning("Nenhuma partida para os filtros aplicados. (RF10)")
         else:
-            dimensao = st.selectbox("Dimensão do contexto", DIMENSOES,
+            dimensao = st.selectbox("Dimensão do contexto", DIMENSOES_CONTEXTO,
                                     key="contexto_dimensao")
-            grupos = _grupos_contexto(ctx, dimensao)
-            efeitos = group_pollard(ctx, grupos, n=1000, seed=42)
+            temporadas_sel = tuple(sorted(sel))
+            ctx, efeitos = contexto_efeitos(temporadas_sel, dimensao)
             efeitos = efeitos.dropna(subset=["pollard", "lo", "hi"])
             resumo_ctx = summarize(ctx)
             c = st.columns(3)
@@ -223,7 +210,7 @@ with t5:  # RF12: contexto descritivo (viagem, clássico, estádio, descanso, fo
                 "partidas da Série A. (RF12)"
             )
             with st.expander("Ranking por equipe (casa − fora)"):
-                equipes = team_home_advantage(ctx, n=500, seed=42)
+                equipes = contexto_equipes(temporadas_sel)
                 st.plotly_chart(team_home_advantage_chart(equipes), width="stretch")
                 st.caption(
                     "Equipes com poucas partidas têm intervalo de confiança amplo; "
@@ -237,28 +224,40 @@ with t5:  # RF12: contexto descritivo (viagem, clássico, estádio, descanso, fo
             )
             if nivel_matriz == "Equipe-temporada":
                 features = team_season_features(ctx)
-                matriz = correlation_matrix(features)
-                st.plotly_chart(
-                    correlation_heatmap(matriz, "Correlações por equipe-temporada (Spearman)"),
-                    width="stretch",
-                )
-                st.dataframe(correlation_with(features, "ha").round(2),
-                             width="stretch", hide_index=True)
-                st.caption(
-                    "HA = pontos/jogo em casa − fora. home_ppg e away_ppg são "
-                    "componentes do HA; a leitura substantiva está nas variáveis "
-                    "de contexto (distância, estádio, temporada)."
-                )
+                if len(features) < 30:
+                    st.warning(
+                        "Com menos de 30 equipe-temporadas, a matriz de correlação "
+                        "não é estimável. Selecione mais temporadas. (RF12)"
+                    )
+                else:
+                    matriz = correlation_matrix(features)
+                    st.plotly_chart(
+                        correlation_heatmap(matriz, "Correlações por equipe-temporada (Spearman)"),
+                        width="stretch",
+                    )
+                    st.dataframe(correlation_with(features, "ha").round(2),
+                                 width="stretch", hide_index=True)
+                    st.caption(
+                        "HA = pontos/jogo em casa − fora. home_ppg e away_ppg são "
+                        "componentes do HA; a leitura substantiva está nas variáveis "
+                        "de contexto (distância, estádio, temporada)."
+                    )
             else:
                 features = match_features(ctx)
-                matriz = correlation_matrix(features)
-                st.plotly_chart(
-                    correlation_heatmap(matriz, "Correlações por partida (Spearman)"),
-                    width="stretch",
-                )
-                st.dataframe(correlation_with(features, "goal_diff").round(2),
-                             width="stretch", hide_index=True)
-                st.caption(
-                    "Partidas não são independentes; a matriz é descritiva e "
-                    "não deve ser lida como efeito causal."
-                )
+                if len(features) < 30:
+                    st.warning(
+                        "Com menos de 30 partidas, a matriz de correlação não é "
+                        "estimável. Selecione mais temporadas. (RF12)"
+                    )
+                else:
+                    matriz = correlation_matrix(features)
+                    st.plotly_chart(
+                        correlation_heatmap(matriz, "Correlações por partida (Spearman)"),
+                        width="stretch",
+                    )
+                    st.dataframe(correlation_with(features, "goal_diff").round(2),
+                                 width="stretch", hide_index=True)
+                    st.caption(
+                        "Partidas não são independentes; a matriz é descritiva e "
+                        "não deve ser lida como efeito causal."
+                    )
