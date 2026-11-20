@@ -17,6 +17,7 @@ from metrics import by_season, summarize, team_season
 from context import rest_bucket
 
 ERROS = []
+MARCADOR_FONTE = "Fonte:"
 
 
 def confere(cond, msg):
@@ -29,7 +30,7 @@ def _num(n: int) -> str:
     return f"{int(n):,}".replace(",", ".")
 
 
-def _rotulo_grupo(variavel: str, grupo: str) -> str:
+def _rotulo_grupo(grupo: str) -> str:
     """Rótulo de apresentação usado na Tabela 5 (o CSV mantém o nome curto)."""
     mapa = {
         "casa +1-2": "Casa +1–2 dias",
@@ -63,6 +64,11 @@ def _num_pt(texto: str) -> float:
     return float(texto.replace("−", "-").replace(",", "."))
 
 
+def _quase(a: float, b: float, tol: float = 1e-9) -> bool:
+    """Comparação de floats com tolerância (evita igualdade exata)."""
+    return abs(float(a) - float(b)) <= tol
+
+
 def _ic(texto: str) -> tuple[float, float, float]:
     """Lê '58,23 (53,99–62,45)' e devolve (ponto, lo, hi)."""
     m = re.fullmatch(r"(-?[\d,]+) \((-?[\d,]+)–(-?[\d,]+)\)", texto)
@@ -72,7 +78,7 @@ def _ic(texto: str) -> tuple[float, float, float]:
 
 
 def conferir(texto: str, df: pd.DataFrame, tab1: pd.DataFrame,
-             tab5: pd.DataFrame, tab6: pd.DataFrame, tab7: pd.DataFrame,
+             tab5: pd.DataFrame, tab7: pd.DataFrame,
              mat_eq: pd.DataFrame, mat_part: pd.DataFrame,
              contexto: dict, externo: dict, qualidade: dict) -> list[str]:
     """Executa todas as conferências e devolve as mensagens de divergência."""
@@ -147,7 +153,7 @@ def conferir(texto: str, df: pd.DataFrame, tab1: pd.DataFrame,
     confere((ts["away_w"], ts["away_d"], ts["away_l"]) == (11, 4, 4), "fla fora VED")
 
     # --- Tabela 1 do md == CSV ---
-    bloco = secao("**Tabela 1").split("Fonte:", 1)[0]
+    bloco = secao("**Tabela 1").split(MARCADOR_FONTE, 1)[0]
     linhas = [l for l in bloco.splitlines() if re.match(r"^\| 20\d\d \|", l)]
     confere(len(linhas) == 19, f"Tabela 1 tem {len(linhas)} linhas, esperado 19")
     ok = True
@@ -183,21 +189,21 @@ def conferir(texto: str, df: pd.DataFrame, tab1: pd.DataFrame,
 
     # --- mudança de nível e ponto de quebra ---
     n19 = contexto["nivel_2019"]
-    confere(round(n19["a"], 2) == 64.88, "pré-2019 do contexto")
-    confere(round(n19["b"], 2) == 61.01, "pós-2019 do contexto")
-    confere(round(n19["diff"], 2) == 3.87, "diferença pré/pós-2019")
-    confere(round(n19["lo"], 2) == 2.15 and round(n19["hi"], 2) == 5.58,
+    confere(_quase(round(n19["a"], 2), 64.88), "pré-2019 do contexto")
+    confere(_quase(round(n19["b"], 2), 61.01), "pós-2019 do contexto")
+    confere(_quase(round(n19["diff"], 2), 3.87), "diferença pré/pós-2019")
+    confere(_quase(round(n19["lo"], 2), 2.15) and _quase(round(n19["hi"], 2), 5.58),
             "IC pré/pós-2019")
     confere(contexto["quebra"]["cut"] == 2019, "ponto de quebra")
-    confere(round(contexto["quebra"]["pre"], 2) == 64.88 and
-            round(contexto["quebra"]["post"], 2) == 61.01,
+    confere(_quase(round(contexto["quebra"]["pre"], 2), 64.88) and
+            _quase(round(contexto["quebra"]["post"], 2), 61.01),
             "médias do ponto de quebra")
 
     n06 = contexto["nivel_2006_2016_vs_2022_2024"]
-    confere(round(n06["a"], 2) == 65.07 and round(n06["b"], 2) == 60.55,
+    confere(_quase(round(n06["a"], 2), 65.07) and _quase(round(n06["b"], 2), 60.55),
             "médias 2006–2016 vs. 2022–2024")
-    confere(round(n06["diff"], 2) == 4.51, "diferença 2006–2016 vs. 2022–2024")
-    confere(round(n06["lo"], 2) == 3.02 and round(n06["hi"], 2) == 6.03,
+    confere(_quase(round(n06["diff"], 2), 4.51), "diferença 2006–2016 vs. 2022–2024")
+    confere(_quase(round(n06["lo"], 2), 3.02) and _quase(round(n06["hi"], 2), 6.03),
             "IC 2006–2016 vs. 2022–2024")
 
     for chave, valor in [
@@ -205,7 +211,7 @@ def conferir(texto: str, df: pd.DataFrame, tab1: pd.DataFrame,
         ("favorito_vs_zebra", 17.69), ("pandemia_vs_demais", -2.97),
         ("mesmo_estado_vs_diferente", -1.77),
     ]:
-        confere(round(contexto["contrastes"][chave]["diff"], 2) == valor,
+        confere(_quase(round(contexto["contrastes"][chave]["diff"], 2), valor),
                 f"contraste {chave}")
 
     for grupo, valor in {
@@ -225,11 +231,11 @@ def conferir(texto: str, df: pd.DataFrame, tab1: pd.DataFrame,
         confere(cit in T, f"citação ausente: {cit}")
 
     # --- Tabela 5 == CSV/contexto ---
-    bloco5 = secao("**Tabela 5").split("Fonte:", 1)[0]
+    bloco5 = secao("**Tabela 5").split(MARCADOR_FONTE, 1)[0]
     linhas5 = _linhas_tabela(bloco5, 4, "Dimensão")
     confere(len(linhas5) == len(tab5),
             f"Tabela 5 tem {len(linhas5)} linhas, esperado {len(tab5)}")
-    idx5 = {(r.variavel, _rotulo_grupo(r.variavel, r.grupo)): r
+    idx5 = {(r.variavel, _rotulo_grupo(r.grupo)): r
             for _, r in tab5.iterrows()}
     for dim, grupo, n, ic in linhas5:
         chave = (dim, grupo)
@@ -251,7 +257,7 @@ def conferir(texto: str, df: pd.DataFrame, tab1: pd.DataFrame,
             "Tabela 5 não cobre todas as linhas do CSV")
 
     # --- Tabela 6 == JSON (top5 + bottom5 longevas) ---
-    bloco6 = secao("**Tabela 6").split("Fonte:", 1)[0]
+    bloco6 = secao("**Tabela 6").split(MARCADOR_FONTE, 1)[0]
     linhas6 = _linhas_tabela(bloco6, 3, "Equipe")
     esperadas = {x["team"]: x for x in
                  contexto["equipes"]["top5_longevas"] + contexto["equipes"]["bottom5_longevas"]}
@@ -280,7 +286,7 @@ def conferir(texto: str, df: pd.DataFrame, tab1: pd.DataFrame,
         "Temporada": "season", "% estádio habitual": "usual_stadium_share",
         "Posição final": "rank", "Pontos": "pts", "Distância média": "avg_away_km",
     }
-    bloco7 = secao("**Tabela 7").split("Fonte:", 1)[0]
+    bloco7 = secao("**Tabela 7").split(MARCADOR_FONTE, 1)[0]
     linhas7 = _linhas_tabela(bloco7, 3, "Variável")
     confere(len(linhas7) == len(tab7),
             f"Tabela 7 tem {len(linhas7)} linhas, esperado {len(tab7)}")
@@ -303,7 +309,7 @@ def conferir(texto: str, df: pd.DataFrame, tab1: pd.DataFrame,
     confere(qualidade["arbitro"] == 6821, "qualidade externa: árbitro")
     blocos = {b["bloco"]: b for b in externo["blocos"]
               if b["bloco"] != "2006 (sem público)"}
-    bloco8 = secao("**Tabela 8").split("Fonte:", 1)[0]
+    bloco8 = secao("**Tabela 8").split(MARCADOR_FONTE, 1)[0]
     linhas8 = _linhas_tabela(bloco8, 5, "Bloco")
     confere(len(linhas8) == len(blocos),
             f"Tabela 8 tem {len(linhas8)} linhas, esperado {len(blocos)}")
@@ -336,7 +342,7 @@ def conferir(texto: str, df: pd.DataFrame, tab1: pd.DataFrame,
         "Saldo × público, controlando equipe-temporada e rank pré-jogo":
             ("partida", "todas", "spearman_parcial_controle_rank", "n_parcial"),
     }
-    bloco9 = secao("**Tabela 9").split("Fonte:", 1)[0]
+    bloco9 = secao("**Tabela 9").split(MARCADOR_FONTE, 1)[0]
     linhas9 = _linhas_tabela(bloco9, 4, "Nível")
     confere(len(linhas9) == len(mapa9),
             f"Tabela 9 tem {len(linhas9)} linhas, esperado {len(mapa9)}")
@@ -352,7 +358,7 @@ def conferir(texto: str, df: pd.DataFrame, tab1: pd.DataFrame,
 
     # --- Tabela 10 == quartis de público por equipe ---
     quartis = {q["quartil"]: q for q in externo["equipe_publico"]["quartis"]}
-    bloco10 = secao("**Tabela 10").split("Fonte:", 1)[0]
+    bloco10 = secao("**Tabela 10").split(MARCADOR_FONTE, 1)[0]
     linhas10 = _linhas_tabela(bloco10, 7, "Quartil")
     confere(len(linhas10) == len(quartis),
             f"Tabela 10 tem {len(linhas10)} linhas, esperado {len(quartis)}")
@@ -459,7 +465,6 @@ def main(argv: list[str] | None = None) -> int:
             p.error(f"artefato ausente: figuras/{nome}; rode scripts/analyze_context.py")
     tab1 = pd.read_csv(figuras / "tab1_indicadores_temporada.csv").sort_values("season")
     tab5 = pd.read_csv(figuras / "tab5_contexto.csv")
-    tab6 = pd.read_csv(figuras / "tab6_equipes.csv")
     tab7 = pd.read_csv(figuras / "tab7_correlacoes_equipe.csv")
     mat_eq = pd.read_csv(figuras / "matriz_equipe.csv", index_col=0)
     mat_part = pd.read_csv(figuras / "matriz_partida.csv", index_col=0)
@@ -472,7 +477,7 @@ def main(argv: list[str] | None = None) -> int:
         (RAIZ / "data" / "external" / "external_summary.json").read_text(encoding="utf-8"))
     qualidade = json.loads(
         (RAIZ / "data" / "external" / "quality_external.json").read_text(encoding="utf-8"))
-    erros = conferir(texto, df, tab1, tab5, tab6, tab7, mat_eq, mat_part,
+    erros = conferir(texto, df, tab1, tab5, tab7, mat_eq, mat_part,
                      contexto, externo, qualidade)
     return 1 if erros else 0
 

@@ -114,6 +114,7 @@ def juntar(base: pd.DataFrame, bd: pd.DataFrame) -> pd.DataFrame:
         right_on=["season", "home_bd", "away_bd", "gols_mandante", "gols_visitante"],
         how="left",
         indicator=True,
+        validate="many_to_one",
     )
     return saida
 
@@ -144,6 +145,7 @@ def validar_fbref(junto: pd.DataFrame, fbref: pd.DataFrame) -> dict:
         right_on=["season", "home_fb", "away_fb", "home_goals", "away_goals"],
         how="inner",
         suffixes=("", "_fb"),
+        validate="many_to_one",
     )
     ambos = pares.dropna(subset=["publico", "attendance"])
     diferenca = (ambos["publico"] - ambos["attendance"]).abs()

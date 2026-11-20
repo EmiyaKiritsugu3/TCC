@@ -33,11 +33,13 @@ from join_external import (
     carregar_bd,
     canonico,
 )
+from paths import caminho_no_projeto
 
 RAIZ = Path(__file__).resolve().parent.parent
 FBREF = RAIZ / "data" / "external" / "fbref" / "2024_serie_a.csv"
 OUT = RAIZ / "data" / "external" / "context_clean.csv"
 QUALIDADE = RAIZ / "data" / "external" / "quality_external.json"
+FONTE_BD = "Base dos Dados"
 
 
 def _fbref(caminho: Path) -> pd.DataFrame:
@@ -64,6 +66,7 @@ def _juntar(base: pd.DataFrame, bd: pd.DataFrame, fb: pd.DataFrame) -> pd.DataFr
         left_on=chaves,
         right_on=["season", "home_bd", "away_bd", "gols_mandante", "gols_visitante"],
         how="left",
+        validate="many_to_one",
     )
     fb_unico = fb.drop_duplicates(subset=["season", "home_fb", "away_fb", "home_goals", "away_goals"])
     junto = junto.merge(
@@ -73,6 +76,7 @@ def _juntar(base: pd.DataFrame, bd: pd.DataFrame, fb: pd.DataFrame) -> pd.DataFr
         right_on=["season", "home_fb", "away_fb", "home_goals", "away_goals"],
         how="left",
         suffixes=("", "_fb"),
+        validate="many_to_one",
     )
     return junto
 
@@ -87,7 +91,7 @@ def _limpar(junto: pd.DataFrame) -> pd.DataFrame:
     usar_fb = d["publico"].isna() & d["publico_fb"].notna()
     d.loc[usar_fb, "publico"] = d.loc[usar_fb, "publico_fb"]
     d["publico_fonte"] = np.where(
-        d["publico_bd"].notna(), "Base dos Dados",
+        d["publico_bd"].notna(), FONTE_BD,
         np.where(usar_fb, "FBref", "ausente"),
     )
 
@@ -104,7 +108,7 @@ def _limpar(junto: pd.DataFrame) -> pd.DataFrame:
     d["arbitro_fb"] = d["referee"]
     d["arbitro"] = d["arbitro_bd"].where(d["arbitro_bd"].notna(), d["arbitro_fb"])
     d["arbitro_fonte"] = np.where(
-        d["arbitro_bd"].notna(), "Base dos Dados",
+        d["arbitro_bd"].notna(), FONTE_BD,
         np.where(d["arbitro_fb"].notna(), "FBref", "ausente"),
     )
 
@@ -122,7 +126,7 @@ def _qualidade(d: pd.DataFrame) -> dict:
             "publico": int(g["publico"].notna().sum()),
             "publico_zero": int((g["publico"] == 0).sum()),
             "publico_zero_real": int(g["publico_zero_real"].sum()),
-            "publico_bd": int((g["publico_fonte"] == "Base dos Dados").sum()),
+            "publico_bd": int((g["publico_fonte"] == FONTE_BD).sum()),
             "publico_fbref": int((g["publico_fonte"] == "FBref").sum()),
             "arbitro": int(g["arbitro"].notna().sum()),
             "faltas": int(g["faltas_mandante"].notna().sum()),
@@ -143,6 +147,10 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--out", type=Path, default=OUT)
     parser.add_argument("--qualidade", type=Path, default=QUALIDADE)
     args = parser.parse_args(argv)
+    if args.base is not None:
+        args.base = caminho_no_projeto(args.base)
+    args.out = caminho_no_projeto(args.out)
+    args.qualidade = caminho_no_projeto(args.qualidade)
 
     base = carregar_base() if args.base is None else carregar_base(args.base)
     bd = carregar_bd()
@@ -155,11 +163,13 @@ def main(argv: list[str] | None = None) -> int:
         "publico", "publico_max", "publico_zero_real", "publico_fonte",
         "arbitro", "arbitro_fonte", "faltas_mandante", "faltas_visitante",
     ]
-    d[colunas].to_csv(args.out, index=False)
+    d[colunas].to_csv(args.out, index=False)  # NOSONAR: caminho confinado
 
     q = _qualidade(d)
-    args.qualidade.write_text(json.dumps(q, ensure_ascii=False, indent=2) + "\n",
-                              encoding="utf-8")
+    args.qualidade.write_text(  # NOSONAR: caminho confinado por caminho_no_projeto()
+        json.dumps(q, ensure_ascii=False, indent=2) + "\n",
+        encoding="utf-8",
+    )
     print(f"ok: {len(d)} partidas -> {args.out}")
     print(f"público: {q['publico']} ({q['publico']/len(d):.1%}); "
           f"zero real: {q['publico_zero']}; árbitro: {q['arbitro']}")

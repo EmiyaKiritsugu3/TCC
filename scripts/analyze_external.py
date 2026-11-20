@@ -33,6 +33,7 @@ from associations import (
 )
 from context import build_context_frame
 from metrics import pollard
+from paths import caminho_no_projeto
 
 RAIZ = Path(__file__).resolve().parent.parent
 BASE = RAIZ / "data" / "processed" / "matches_processed.csv"
@@ -291,6 +292,9 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--limpo", type=Path, default=LIMPO)
     parser.add_argument("--out", type=Path, default=SAIDA)
     args = parser.parse_args(argv)
+    args.base = caminho_no_projeto(args.base)
+    args.limpo = caminho_no_projeto(args.limpo)
+    args.out = caminho_no_projeto(args.out)
 
     base = pd.read_csv(args.base)
     limpo = pd.read_csv(args.limpo)
@@ -312,8 +316,10 @@ def main(argv: list[str] | None = None) -> int:
         "arbitragem": _arbitragem(d),
     }
     args.out.parent.mkdir(parents=True, exist_ok=True)
-    args.out.write_text(json.dumps(resumo, ensure_ascii=False, indent=2, default=str) + "\n",
-                        encoding="utf-8")
+    args.out.write_text(  # NOSONAR: caminho confinado por caminho_no_projeto()
+        json.dumps(resumo, ensure_ascii=False, indent=2, default=str) + "\n",
+        encoding="utf-8",
+    )
 
     print(json.dumps({
         "blocos": resumo["blocos"],

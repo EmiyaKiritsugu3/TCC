@@ -17,6 +17,8 @@ from pathlib import Path
 
 import pandas as pd
 
+from paths import caminho_no_projeto
+
 RAIZ = Path(__file__).resolve().parent.parent
 PADRAO_IN = RAIZ / ".playwright-mcp" / "fbref_2024.json"
 PADRAO_OUT = RAIZ / "data" / "external" / "fbref" / "2024_serie_a.csv"
@@ -51,16 +53,18 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--out", type=Path, default=PADRAO_OUT)
     parser.add_argument("--season", type=int, default=2024)
     args = parser.parse_args(argv)
+    args.input = caminho_no_projeto(args.input)
+    args.out = caminho_no_projeto(args.out)
 
     if not args.input.exists():
         raise SystemExit(f"JSON não encontrado: {args.input}")
-    dados = json.loads(args.input.read_text(encoding="utf-8"))
+    dados = json.loads(args.input.read_text(encoding="utf-8"))  # NOSONAR: caminho confinado
     df = _limpar(pd.DataFrame(dados), args.season)
     args.out.parent.mkdir(parents=True, exist_ok=True)
-    df.to_csv(args.out, index=False)
+    df.to_csv(args.out, index=False)  # NOSONAR: caminho confinado
 
-    conteudo = args.out.read_bytes()
-    (args.out.parent / "FETCH_METADATA.json").write_text(
+    conteudo = args.out.read_bytes()  # NOSONAR: caminho confinado
+    (args.out.parent / "FETCH_METADATA.json").write_text(  # NOSONAR: caminho confinado
         json.dumps({
             "fonte": "FBref / Sports Reference",
             "url": f"https://fbref.com/en/comps/24/{args.season}/schedule/{args.season}-Serie-A-Scores-and-Fixtures",

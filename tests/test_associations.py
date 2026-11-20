@@ -38,7 +38,9 @@ def test_bootstrap_pollard_ci_vazio():
 
 def test_bootstrap_pollard_ci_reprodutivel():
     d = _df([(2019, "A", "B", 3, 0), (2019, "C", "D", 0, 3), (2019, "E", "F", 1, 1)])
-    assert bootstrap_pollard_ci(d, n=200, seed=7) == bootstrap_pollard_ci(d, n=200, seed=7)
+    primeira = bootstrap_pollard_ci(d, n=200, seed=7)
+    segunda = bootstrap_pollard_ci(d, n=200, seed=7)
+    assert primeira == segunda
 
 
 def test_annual_pollard_ci_duas_temporadas():

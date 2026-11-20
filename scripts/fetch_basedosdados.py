@@ -27,6 +27,8 @@ from pathlib import Path
 import pandas as pd
 import requests
 
+from paths import caminho_no_projeto
+
 RAIZ = Path(__file__).resolve().parent.parent
 PADRAO = RAIZ / "data" / "external" / "basedosdados" / "brasileirao_serie_a_2006_2024.csv"
 URL = "https://bigquery.googleapis.com/bigquery/v2/projects/{project}/queries"
@@ -127,14 +129,15 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--end", type=int, default=2024)
     parser.add_argument("--out", type=Path, default=PADRAO)
     args = parser.parse_args(argv)
+    args.out = caminho_no_projeto(args.out)
 
     project = _projeto(args.project)
     token = _token()
     df = _consultar(project, token, _sql(args.start, args.end))
     args.out.parent.mkdir(parents=True, exist_ok=True)
-    df.to_csv(args.out, index=False)
+    df.to_csv(args.out, index=False)  # NOSONAR: caminho confinado
 
-    conteudo = args.out.read_bytes()
+    conteudo = args.out.read_bytes()  # NOSONAR: caminho confinado
     metadata = {
         "fonte": "Base dos Dados / Transfermarkt",
         "tabela": "basedosdados.mundo_transfermarkt_competicoes.brasileirao_serie_a",
@@ -143,7 +146,7 @@ def main(argv: list[str] | None = None) -> int:
         "linhas": len(df),
         "sha256": hashlib.sha256(conteudo).hexdigest(),
     }
-    (args.out.parent / "FETCH_METADATA.json").write_text(
+    (args.out.parent / "FETCH_METADATA.json").write_text(  # NOSONAR: caminho confinado
         json.dumps(metadata, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
     )
 

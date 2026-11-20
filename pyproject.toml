@@ -29,6 +29,7 @@ py-modules = [
     "load_data",
     "metrics",
     "openfootball",
+    "paths",
 ]
 
 [tool.pytest.ini_options]
