@@ -106,8 +106,17 @@ O dashboard continua usando a base 2006–2024 por padrão; as variáveis
 `TCC_PROCESSED` e `TCC_QUALITY` selecionam o recorte sem alterar o código.
 
 O artigo é escrito em inglês (2013–2024); `docs/artigo_2013_2024.md` é a fonte
-editável e `build_artigo.py` gera `.docx` e `.pdf`. O resumo para o orientador
-fica em `docs/resumo_artigo_orientador.pdf`.
+editável e `build_artigo.py` gera `.docx` e `.pdf`. A versão em português usa
+`docs/artigo_2013_2024_pt.md`:
+
+```bash
+PYTHONPATH=src python3 scripts/build_artigo.py \
+  --entrada docs/artigo_2013_2024_pt.md \
+  --saida docs/artigo_2013_2024_pt.docx \
+  --header "Vantagem de jogar em casa na Série A (2013–2024)"
+```
+
+O resumo para o orientador fica em `docs/resumo_artigo_orientador.pdf`.
 
 Depois do pipeline externo, a auditoria completa dos dados:
 

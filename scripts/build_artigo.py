@@ -6,6 +6,7 @@ Saídas: docs/artigo_2013_2024.docx e .pdf
 """
 from __future__ import annotations
 
+import argparse
 import re
 import subprocess
 from pathlib import Path
@@ -23,7 +24,7 @@ VERDE = RGBColor(0x14, 0x53, 0x2D)
 CINZA = RGBColor(0x55, 0x55, 0x55)
 
 
-def _runs(par, texto: str, tamanho: float = 10.8, negrito: bool = False,
+def _runs(par, texto: str, tamanho: float = 10.6, negrito: bool = False,
           italico: bool = False) -> None:
     for parte in re.split(r"(\*\*.+?\*\*|\*.+?\*|`.+?`)", texto):
         if not parte:
@@ -46,7 +47,7 @@ def _runs(par, texto: str, tamanho: float = 10.8, negrito: bool = False,
         run.font.size = Pt(tamanho)
 
 
-def _paragrafo(doc, texto: str, *, tamanho: float = 10.8, negrito: bool = False,
+def _paragrafo(doc, texto: str, *, tamanho: float = 10.6, negrito: bool = False,
                italico: bool = False, central: bool = False,
                espaco: float = 1.12, antes: int = 0, depois: int = 4,
                recuo: bool = False, hanging: bool = False,
@@ -86,11 +87,11 @@ def _tabela(doc, linhas: list[list[str]], larguras: list[float] | None = None,
     doc.add_paragraph()
 
 
-def _rodape(doc) -> None:
+def _rodape(doc, texto: str) -> None:
     secao = doc.sections[0]
     header = secao.header.paragraphs[0]
     header.alignment = WD_ALIGN_PARAGRAPH.RIGHT
-    run = header.add_run("Home advantage in Brazilian Série A (2013–2024)")
+    run = header.add_run(texto)
     run.font.name = "Times New Roman"
     run.font.size = Pt(8)
     run.font.color.rgb = CINZA
@@ -109,11 +110,11 @@ def _rodape(doc) -> None:
 def _configurar(doc) -> None:
     for secao in doc.sections:
         secao.page_width, secao.page_height = Cm(21.0), Cm(29.7)
-        secao.top_margin, secao.bottom_margin = Cm(2.3), Cm(2.0)
+        secao.top_margin, secao.bottom_margin = Cm(2.0), Cm(1.8)
         secao.left_margin, secao.right_margin = Cm(2.5), Cm(2.5)
     normal = doc.styles["Normal"]
     normal.font.name = "Times New Roman"
-    normal.font.size = Pt(10.8)
+    normal.font.size = Pt(10.6)
 
 
 def _renderizar(doc, linhas: list[str]) -> None:
@@ -205,24 +206,33 @@ def _renderizar(doc, linhas: list[str]) -> None:
             i += 1
             continue
         _paragrafo(doc, s, recuo=(not refs and not abstract), hanging=refs,
-                   tamanho=9.2 if refs else (10.2 if abstract else 10.8),
-                   depois=3 if refs else 4)
+                   tamanho=8.8 if refs else (10.0 if abstract else 10.6),
+                   espaco=0.98 if refs else 1.12,
+                   depois=2 if refs else 4)
         i += 1
 
 
-def main() -> None:
-    linhas = ENTRADA.read_text(encoding="utf-8").splitlines()
+def main(argv: list[str] | None = None) -> None:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--entrada", type=Path, default=ENTRADA)
+    parser.add_argument("--saida", type=Path, default=SAIDA)
+    parser.add_argument("--header", default="Home advantage in Brazilian Série A (2013–2024)")
+    args = parser.parse_args(argv)
+    entrada = args.entrada if args.entrada.is_absolute() else RAIZ / args.entrada
+    saida = args.saida if args.saida.is_absolute() else RAIZ / args.saida
+    linhas = entrada.read_text(encoding="utf-8").splitlines()
     doc = Document()
     _configurar(doc)
-    doc.core_properties.title = "Home advantage in Brazilian Série A (2013–2024)"
+    doc.core_properties.title = args.header
     doc.core_properties.author = "José Inamar de Medeiros Júnior"
     _renderizar(doc, linhas)
-    _rodape(doc)
-    doc.save(SAIDA)
-    print(f"gravado em: {SAIDA}")
+    _rodape(doc, args.header)
+    saida.parent.mkdir(parents=True, exist_ok=True)
+    doc.save(saida)
+    print(f"gravado em: {saida}")
     subprocess.run(
         ["libreoffice", "--headless", "--convert-to", "pdf",
-         "--outdir", str(SAIDA.parent), str(SAIDA)],
+         "--outdir", str(saida.parent), str(saida)],
         check=True,
     )
 
