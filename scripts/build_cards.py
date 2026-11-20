@@ -64,13 +64,14 @@ def main(argv: list[str] | None = None) -> int:
     chave_dia = ["season", "date", "home_team", "away_team"]
     chave_time = ["season", "home_team", "away_team", "home_goals", "away_goals"]
     base_data = base[chave_data + ["match_id"]].copy()
-    junto = cartoes.merge(base_data, on=chave_data, how="left", indicator=True)
+    junto = cartoes.merge(base_data, on=chave_data, how="left",
+                          indicator=True, validate="many_to_one")
     # Fallback 1: mesmo dia e equipes, mas placar divergente entre as fontes.
     sem = junto[junto["_merge"] == "left_only"].drop(columns=["match_id", "_merge"])
     if not sem.empty:
         alt = sem.merge(
             base[chave_dia + ["match_id"]].drop_duplicates(chave_dia),
-            on=chave_dia, how="left",
+            on=chave_dia, how="left", validate="many_to_one",
         )
         junto = pd.concat([junto[junto["_merge"] == "both"].drop(columns=["_merge"]), alt],
                           ignore_index=True)
@@ -79,7 +80,7 @@ def main(argv: list[str] | None = None) -> int:
     if not sem.empty:
         alt = sem.merge(
             base[chave_time + ["match_id"]].drop_duplicates(chave_time),
-            on=chave_time, how="left",
+            on=chave_time, how="left", validate="many_to_one",
         )
         junto = pd.concat([junto[junto["match_id"].notna()], alt], ignore_index=True)
 
@@ -94,14 +95,14 @@ def main(argv: list[str] | None = None) -> int:
     # A data canônica é sempre a da base; o fallback por equipes+placar pode
     # casar uma partida remarcada e não deve manter a data antiga da fonte.
     datas_base = base[["match_id", "date"]].rename(columns={"date": "date_base"})
-    junto = junto.merge(datas_base, on="match_id", how="left")
+    junto = junto.merge(datas_base, on="match_id", how="left", validate="many_to_one")
     junto["date"] = junto["date_base"]
     junto = junto.drop(columns=["date_base"])
     junto["placar_fonte"] = (junto["home_goals"].astype(int).astype(str)
                              + " X " + junto["away_goals"].astype(int).astype(str))
     base_placar = base[["match_id", "home_goals", "away_goals"]].rename(
         columns={"home_goals": "home_goals_base", "away_goals": "away_goals_base"})
-    junto = junto.merge(base_placar, on="match_id", how="left")
+    junto = junto.merge(base_placar, on="match_id", how="left", validate="many_to_one")
     divergencias = junto[
         (junto["home_goals"] != junto["home_goals_base"])
         | (junto["away_goals"] != junto["away_goals_base"])

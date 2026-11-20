@@ -352,7 +352,8 @@ def main(argv: list[str] | None = None) -> int:
         contexto = pd.read_csv(contexto_path)
         colunas = [c for c in ["match_id", "faltas_mandante", "faltas_visitante"]
                    if c in contexto.columns]
-        df = cartoes.merge(contexto[colunas], on="match_id", how="left")
+        df = cartoes.merge(contexto[colunas], on="match_id", how="left",
+                           validate="many_to_one")
     else:
         print(f"aviso: {contexto_path} ausente; análise de faltas desativada")
         df = cartoes.copy()

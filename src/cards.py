@@ -141,7 +141,7 @@ def _lado_cartao(cartao: str, casa: set[str], fora: set[str],
 
 def parse_resultado(resultado: str) -> tuple[int, int]:
     """Converte '2 X 1' em (2, 1)."""
-    partes = re.split(r"\s*[xX]\s*", str(resultado).strip(), maxsplit=1)
+    partes = [p.strip() for p in str(resultado).strip().upper().split("X", 1)]
     if len(partes) != 2:
         raise ValueError(f"placar inesperado: {resultado!r}")
     return int(partes[0]), int(partes[1])

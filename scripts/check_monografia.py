@@ -81,8 +81,7 @@ def conferir(texto: str, df: pd.DataFrame, tab1: pd.DataFrame,
              tab5: pd.DataFrame, tab6: pd.DataFrame, tab7: pd.DataFrame,
              mat_eq: pd.DataFrame, mat_part: pd.DataFrame,
              contexto: dict, externo: dict, qualidade: dict,
-             cartoes: pd.DataFrame, cartoes_resumo: dict,
-             qualidade_cartoes: dict) -> list[str]:
+             dados_cartoes: dict) -> list[str]:
     """Executa todas as conferências e devolve as mensagens de divergência."""
     ERROS.clear()
     T = texto
@@ -404,12 +403,15 @@ def conferir(texto: str, df: pd.DataFrame, tab1: pd.DataFrame,
             "correlação público × pontos por equipe")
 
     # --- Tabela 11 == cartões por temporada ---
+    cartoes = dados_cartoes["tabela"]
+    cartoes_resumo = dados_cartoes["resumo"]
+    qualidade_cartoes = dados_cartoes["qualidade"]
     confere(len(cartoes) == 12, f"cartões: {len(cartoes)} temporadas != 12")
     confere(int(cartoes["n"].sum()) == 4559,
             f"cartões: {int(cartoes['n'].sum())} partidas != 4559")
     confere(cartoes_resumo["periodo"] == [2013, 2024], "cartões: período")
     confere(qualidade_cartoes["nao_atribuidos"] == 1, "cartões: não atribuídos")
-    confere(qualidade_cartoes["cobertura_2013_2024"] == 1.0,
+    confere(_quase(qualidade_cartoes["cobertura_2013_2024"], 1.0),
             "cartões: cobertura 2013–2024")
     bloco11 = secao("**Tabela 11").split(MARCADOR_FONTE, 1)[0]
     linhas11 = _linhas_tabela(bloco11, 7, "Temporada")
@@ -570,12 +572,15 @@ def main(argv: list[str] | None = None) -> int:
     if not cartoes_path.exists() or not resumo_cartoes_path.exists():
         p.error("artefatos de cartões ausentes; rode scripts/analyze_cards.py")
     cartoes = pd.read_csv(cartoes_path)
-    cartoes_resumo = json.loads(resumo_cartoes_path.read_text(encoding="utf-8"))
-    qualidade_cartoes = json.loads(
-        (RAIZ / "data" / "external" / "cards" / "QUALITY.json").read_text(encoding="utf-8"))
+    dados_cartoes = {
+        "tabela": cartoes,
+        "resumo": json.loads(resumo_cartoes_path.read_text(encoding="utf-8")),
+        "qualidade": json.loads(
+            (RAIZ / "data" / "external" / "cards" / "QUALITY.json").read_text(encoding="utf-8")
+        ),
+    }
     erros = conferir(texto, df, tab1, tab5, tab6, tab7, mat_eq, mat_part,
-                     contexto, externo, qualidade, cartoes, cartoes_resumo,
-                     qualidade_cartoes)
+                     contexto, externo, qualidade, dados_cartoes)
     return 1 if erros else 0
 
 
