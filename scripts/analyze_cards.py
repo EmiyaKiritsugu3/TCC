@@ -41,6 +41,16 @@ def _pt(x: float, n: int = 2, sinal: bool = False) -> str:
     return fmt.format(x).replace(".", ",")
 
 
+def _registros(df: pd.DataFrame) -> list[dict]:
+    """Registros com NaN convertido em null para JSON estrito."""
+    registros = df.round(4).to_dict(orient="records")
+    for registro in registros:
+        for chave, valor in registro.items():
+            if isinstance(valor, float) and not math.isfinite(valor):
+                registro[chave] = None
+    return registros
+
+
 def _bootstrap_media(valores: np.ndarray, n: int = 4000, seed: int = 42):
     if len(valores) == 0:
         return None, None, None
@@ -63,31 +73,34 @@ def _meat_cluster(X: np.ndarray, resid: np.ndarray, grupos: np.ndarray) -> np.nd
 
 def _ols_cluster(y: np.ndarray, X: np.ndarray, nomes: list[str],
                  casa: np.ndarray, fora: np.ndarray):
-    """OLS com erros-padrão two-way clusterizados por mandante e visitante.
+    """OLS com erros-padrão conservadores por cluster de equipe.
 
     Cada partida repete equipes ao longo da temporada; HC1 trata essas
     observações como independentes e subestima a incerteza dos coeficientes
-    com efeitos fixos de equipe. A variância two-way segue Cameron–Gelbach–
-    Miller: V_casa + V_fora − V_par(comum), com correção de amostra finita.
+    com efeitos fixos de equipe. Calculamos a variância one-way clusterizada
+    por mandante e por visitante e usamos o maior erro-padrão entre as duas
+    dimensões. É a aproximação conservadora recomendada quando a covariância
+    two-way de Cameron–Gelbach–Miller pode produzir variâncias negativas por
+    inclusão-exclusão em amostras pequenas.
     """
     beta, *_ = np.linalg.lstsq(X, y, rcond=None)
     resid = y - X @ beta
     n, k = X.shape
     xtx_inv = np.linalg.pinv(X.T @ X)
-    pares = np.array([f"{a}\x00{b}" for a, b in zip(casa, fora)])
 
-    def fator(grupos: np.ndarray) -> float:
+    def erro_padrao(grupos: np.ndarray) -> np.ndarray:
         g = len(pd.unique(grupos))
-        return g / max(g - 1, 1)
+        meat = _meat_cluster(X, resid, grupos) * (g / max(g - 1, 1))
+        cov = xtx_inv @ meat @ xtx_inv * (n / max(n - k, 1))
+        variancias = np.diag(cov)
+        if (variancias < -1e-10).any():
+            raise ValueError(
+                "covariância clusterizada com variância negativa; "
+                "o modelo não é positivo-semidefinido"
+            )
+        return np.sqrt(np.maximum(variancias, 0.0))
 
-    meat = (
-        _meat_cluster(X, resid, casa) * fator(casa)
-        + _meat_cluster(X, resid, fora) * fator(fora)
-        - _meat_cluster(X, resid, pares) * fator(pares)
-    )
-    cov = xtx_inv @ meat @ xtx_inv
-    cov *= n / max(n - k, 1)
-    se = np.sqrt(np.clip(np.diag(cov), 0, None))
+    se = np.maximum(erro_padrao(casa), erro_padrao(fora))
     return beta, se, nomes
 
 
@@ -121,7 +134,7 @@ def _did(df: pd.DataFrame) -> dict:
         "lo": float(beta[i] - 1.96 * se[i]),
         "hi": float(beta[i] + 1.96 * se[i]),
         "modelo": ("yellow_diff ~ post + C(home_team) + C(away_team); "
-                   "EP two-way cluster (mandante, visitante)"),
+                   "EP conservador: máximo entre clusters de mandante e visitante"),
     }
 
 
@@ -225,8 +238,8 @@ def _relatorio(tab: pd.DataFrame, did: dict, did_comum: dict,
     d20 = float(tab.loc[tab["season"] == 2020, "amarelos_diff"].iloc[0])
     bruta = d20 - d19
     nota_ic = (
-        "O IC 95% clusterizado inclui zero; a mudança é sugestiva, mas não "
-        "estatisticamente conclusiva ao nível de 5%."
+        "O IC 95% com erros-padrão conservadores inclui zero; a mudança é "
+        "sugestiva, mas não estatisticamente conclusiva ao nível de 5%."
         if did["lo"] < 0 < did["hi"] else ""
     )
     linhas = [
@@ -312,14 +325,17 @@ def _relatorio(tab: pd.DataFrame, did: dict, did_comum: dict,
         "",
         "```bash",
         "# Base primária (matches_processed.csv não é versionado)",
-        "python3 scripts/fetch_raw.py",
-        "python3 scripts/build_processed.py",
+        "PYTHONPATH=src python3 scripts/fetch_raw.py",
+        "PYTHONPATH=src python3 scripts/build_processed.py",
         "PYTHONPATH=src python3 scripts/fetch_cards.py",
         "PYTHONPATH=src python3 scripts/build_cards.py",
-        "# Opcional: cartões por falta (context_clean.csv exige o pipeline externo)",
-        "PYTHONPATH=src python3 scripts/build_external.py",
         "PYTHONPATH=src python3 scripts/analyze_cards.py",
         "```",
+        "",
+        "Para os cartões por falta, gere `context_clean.csv` com o pipeline",
+        "externo descrito em `docs/fontes_externas.md` antes de rodar",
+        "`analyze_cards.py`. Sem esse arquivo, a análise principal roda e a seção",
+        "de faltas é omitida.",
     ]
     return "\n".join(linhas) + "\n"
 
@@ -351,12 +367,12 @@ def main(argv: list[str] | None = None) -> int:
     resumo = {
         "fonte": "BrazilianFootball/Data (MIT)",
         "periodo": [int(tab.season.min()), int(tab.season.max())],
-        "temporadas": tab.round(4).to_dict(orient="records"),
+        "temporadas": _registros(tab),
         "did_2019_2020": did,
         "did_2019_2020_equipes_comuns": did_comum,
-        "cartoes_por_falta": por_falta.round(4).to_dict(orient="records"),
+        "cartoes_por_falta": _registros(por_falta),
     }
-    RESUMO.write_text(json.dumps(resumo, ensure_ascii=False, indent=2) + "\n",
+    RESUMO.write_text(json.dumps(resumo, ensure_ascii=False, indent=2, allow_nan=False) + "\n",
                       encoding="utf-8")
     RELATORIO.write_text(_relatorio(tab, did, did_comum, por_falta), encoding="utf-8")
     print(tab.round(3).to_string(index=False))

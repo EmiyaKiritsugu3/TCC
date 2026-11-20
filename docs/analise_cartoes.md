@@ -23,15 +23,15 @@ são registrados no controle de qualidade.
 
 ## Diferença-em-diferenças 2019 → 2020
 
-- Amostra completa: **+0,346** cartões por jogo (EP 0,179; IC 95% -0,005 a +0,697; n=760).
-- Equipes presentes nos dois anos: **+0,337** (EP 0,181; IC 95% -0,018 a +0,693; n=480).
+- Amostra completa: **+0,346** cartões por jogo (EP 0,190; IC 95% -0,028 a +0,719; n=760).
+- Equipes presentes nos dois anos: **+0,337** (EP 0,194; IC 95% -0,042 a +0,717; n=480).
 
 Coeficiente positivo = a diferença casa−fora **aumentou** em 2020: o
 mandante deixou de receber relativamente menos cartões. Em 2019 a
 diferença era -0,18; em 2020, +0,11; a mudança bruta é +0,29 e a
 estimativa com efeitos fixos de equipe é +0,35.
 
-O IC 95% clusterizado inclui zero; a mudança é sugestiva, mas não estatisticamente conclusiva ao nível de 5%.
+O IC 95% com erros-padrão conservadores inclui zero; a mudança é sugestiva, mas não estatisticamente conclusiva ao nível de 5%.
 
 ## Leitura
 
@@ -73,11 +73,14 @@ de cartões por falta serve como robustez, não como teste definitivo.
 
 ```bash
 # Base primária (matches_processed.csv não é versionado)
-python3 scripts/fetch_raw.py
-python3 scripts/build_processed.py
+PYTHONPATH=src python3 scripts/fetch_raw.py
+PYTHONPATH=src python3 scripts/build_processed.py
 PYTHONPATH=src python3 scripts/fetch_cards.py
 PYTHONPATH=src python3 scripts/build_cards.py
-# Opcional: cartões por falta (context_clean.csv exige o pipeline externo)
-PYTHONPATH=src python3 scripts/build_external.py
 PYTHONPATH=src python3 scripts/analyze_cards.py
 ```
+
+Para os cartões por falta, gere `context_clean.csv` com o pipeline
+externo descrito em `docs/fontes_externas.md` antes de rodar
+`analyze_cards.py`. Sem esse arquivo, a análise principal roda e a seção
+de faltas é omitida.

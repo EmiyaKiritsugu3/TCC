@@ -189,9 +189,10 @@ extraída dos borderôs da CBF. Cobertura: **4.559/4.559** partidas de
 2013–2024; **1 cartão não atribuído** (formato quebrado em 2022); 2006–2012
 não têm cartões nessa fonte. A análise está em `docs/analise_cartoes.md`.
 Em 2019, o mandante recebia 0,18 amarelo a menos que o visitante; em 2020,
-+0,11; a mudança com efeitos fixos de equipe é **+0,35** (IC 95% −0,01 a +0,70,
-com erros-padrão clusterizados por equipe; o intervalo inclui zero). O padrão é
-compatível com o canal da arbitragem, mas não prova causalidade.
++0,11; a mudança com efeitos fixos de equipe é **+0,35** (IC 95% −0,03 a +0,72,
+com erros-padrão conservadores (máximo entre clusters de mandante e visitante);
+o intervalo inclui zero). O padrão é compatível com o canal da arbitragem, mas
+não prova causalidade.
 
 ## 7. Validações independentes
 

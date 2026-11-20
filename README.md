@@ -72,8 +72,8 @@ Cartões por partida (2013–2024), fonte MIT BrazilianFootball/Data. Requer a
 base processada; a análise de faltas é opcional e depende do pipeline externo:
 
 ```bash
-python3 scripts/fetch_raw.py
-python3 scripts/build_processed.py
+PYTHONPATH=src python3 scripts/fetch_raw.py
+PYTHONPATH=src python3 scripts/build_processed.py
 PYTHONPATH=src python3 scripts/fetch_cards.py
 PYTHONPATH=src python3 scripts/build_cards.py
 PYTHONPATH=src python3 scripts/analyze_cards.py

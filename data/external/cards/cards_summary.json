@@ -189,17 +189,17 @@
   "did_2019_2020": {
     "n": 760,
     "coef": 0.34557748538011523,
-    "se": 0.17909435244922098,
-    "lo": -0.005447445420357855,
-    "hi": 0.6966024161805884,
-    "modelo": "yellow_diff ~ post + C(home_team) + C(away_team); EP two-way cluster (mandante, visitante)"
+    "se": 0.19037707223389652,
+    "lo": -0.027561576198321946,
+    "hi": 0.7187165469585524,
+    "modelo": "yellow_diff ~ post + C(home_team) + C(away_team); EP conservador: máximo entre clusters de mandante e visitante"
   },
   "did_2019_2020_equipes_comuns": {
     "n": 480,
     "coef": 0.3374999999999989,
-    "se": 0.18143753051828557,
-    "lo": -0.01811755981584079,
-    "hi": 0.6931175598158386,
+    "se": 0.19379959682661552,
+    "lo": -0.04234720978016748,
+    "hi": 0.7173472097801653,
     "equipes_comuns": [
       "Athletico-PR",
       "Atletico-MG",
