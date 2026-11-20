@@ -61,7 +61,7 @@
 
 ## 5. Deck e PDF (`apresentacao/`)
 
-- `apresentacao_tcc.pptx`: 10 slides; continha `63,7%`, link do repositório e `22 testes` (snapshot histórico; o deck diz `71 testes`; a suíte atual tem `94 testes`).
+- `apresentacao_tcc.pptx`: 10 slides; continha `63,7%`, link do repositório e `22 testes` (snapshot histórico; o deck foi atualizado para `96 testes` e a suíte atual também tem `96`).
 - `apresentacao_tcc.pdf`: 10 páginas, regenerado via LibreOffice após a correção do slide 9.
 
 ## Artefatos de entrega
