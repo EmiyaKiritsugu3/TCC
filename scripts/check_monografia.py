@@ -74,7 +74,7 @@ def _ic(texto: str) -> tuple[float, float, float]:
 def conferir(texto: str, df: pd.DataFrame, tab1: pd.DataFrame,
              tab5: pd.DataFrame, tab6: pd.DataFrame, tab7: pd.DataFrame,
              mat_eq: pd.DataFrame, mat_part: pd.DataFrame,
-             contexto: dict) -> list[str]:
+             contexto: dict, externo: dict, qualidade: dict) -> list[str]:
     """Executa todas as conferências e devolve as mensagens de divergência."""
     ERROS.clear()
     T = texto
@@ -111,8 +111,11 @@ def conferir(texto: str, df: pd.DataFrame, tab1: pd.DataFrame,
                    "63,4%", "63,8%", "63,9%", "58,2% (IC 53,99–62,45)",
                    "4,7 p.p.", "0,13 ponto", "55,6%", "5,6 p.p.", "73,3%",
                    "17,7 p.p.", "0,46", "5.388", "12.554 vs. 7.166",
-                   "Tabela 6", "Tabela 7", "Figura 9", "Figura 10",
-                   "Figura 11", "65,1%", "60,6%", "4,5 p.p.", "3,0–6,0",
+                   "Tabela 6", "Tabela 7", "Tabela 8", "Tabela 9",
+                   "Figura 9", "Figura 10", "Figura 11",
+                   "6.618", "6.821", "64,94", "60,17", "60,55",
+                   "0,068", "0,461", "−0,042", "185 árbitros", "48,9%",
+                   "65,1%", "60,6%", "4,5 p.p.", "3,0–6,0",
                    "−1,1", "0,57", "−0,46", "−0,01", "0,10", "0,19",
                    "380 equipe-temporadas"]:
         confere(pedaco in T, f"trecho ausente: {pedaco!r}")
@@ -293,6 +296,59 @@ def conferir(texto: str, df: pd.DataFrame, tab1: pd.DataFrame,
         confere(abs(mat_eq.loc["ha", variavel] - r["rho"]) < 1e-4,
                 f"matriz_equipe HA x {variavel}")
 
+    # --- Tabela 8 == base externa (público e Pollard por bloco) ---
+    confere(qualidade["n"] == 7219, "qualidade externa: n total")
+    confere(qualidade["publico"] == 6618, "qualidade externa: público")
+    confere(qualidade["arbitro"] == 6821, "qualidade externa: árbitro")
+    blocos = {b["bloco"]: b for b in externo["blocos"]
+              if b["bloco"] != "2006 (sem público)"}
+    bloco8 = secao("**Tabela 8").split("Fonte:", 1)[0]
+    linhas8 = _linhas_tabela(bloco8, 5, "Bloco")
+    confere(len(linhas8) == len(blocos),
+            f"Tabela 8 tem {len(linhas8)} linhas, esperado {len(blocos)}")
+    for nome, jogos, com_publico, publico_medio, ic in linhas8:
+        confere(nome in blocos, f"Tabela 8 bloco desconhecido: {nome}")
+        if nome not in blocos:
+            continue
+        r = blocos[nome]
+        confere(jogos == _num(r["n"]), f"Tabela 8 n {nome}")
+        confere(com_publico == _num(r["publico_n"]), f"Tabela 8 público n {nome}")
+        confere(publico_medio == _num(round(r["publico_medio"])),
+                f"Tabela 8 público médio {nome}")
+        try:
+            ponto, lo, hi = _ic(ic)
+        except ValueError as exc:
+            confere(False, str(exc))
+            continue
+        confere(round(ponto, 2) == round(r["pollard"], 2), f"Tabela 8 Pollard {nome}")
+        confere(round(lo, 2) == round(r["lo"], 2), f"Tabela 8 IC inferior {nome}")
+        confere(round(hi, 2) == round(r["hi"], 2), f"Tabela 8 IC superior {nome}")
+    confere(set(blocos) == {linha[0] for linha in linhas8},
+            "Tabela 8 não cobre todos os blocos")
+
+    # --- Tabela 9 == correlações externas ---
+    mapa9 = {
+        "HA × público médio": ("equipe_temporada", "todas", "spearman_ha_publico", "n"),
+        "HA × público médio, sem 2020–2021": ("equipe_temporada", "sem_2020_2021", "spearman_ha_publico", "n"),
+        "Pontos × público médio": ("equipe_temporada", "todas", "spearman_pts_publico", "n"),
+        "Saldo de gols × público (bruto)": ("partida", "todas", "spearman_gd_publico", "n_publico"),
+        "Saldo × público, controlando equipe-temporada e rank pré-jogo":
+            ("partida", "todas", "spearman_parcial_controle_rank", "n_parcial"),
+    }
+    bloco9 = secao("**Tabela 9").split("Fonte:", 1)[0]
+    linhas9 = _linhas_tabela(bloco9, 4, "Nível")
+    confere(len(linhas9) == len(mapa9),
+            f"Tabela 9 tem {len(linhas9)} linhas, esperado {len(mapa9)}")
+    for nivel, relacao, rho_txt, n_txt in linhas9:
+        chave = mapa9.get(relacao)
+        confere(chave is not None, f"Tabela 9 relação desconhecida: {relacao}")
+        if chave is None:
+            continue
+        grupo, recorte, campo, campo_n = chave
+        r = externo[grupo][recorte]
+        confere(n_txt == _num(r[campo_n]), f"Tabela 9 n {relacao}")
+        confere(abs(_num_pt(rho_txt) - r[campo]) < 0.006, f"Tabela 9 rho {relacao}")
+
     confere(mat_eq.shape == (12, 12), f"matriz_equipe {mat_eq.shape} != (12, 12)")
     confere(mat_part.shape == (8, 8), f"matriz_partida {mat_part.shape} != (8, 8)")
     for nome, matriz in (("equipe", mat_eq), ("partida", mat_part)):
@@ -316,7 +372,7 @@ def conferir(texto: str, df: pd.DataFrame, tab1: pd.DataFrame,
         if int(n) not in ordem:
             ordem.append(int(n))
     confere(ordem == list(range(1, 12)), f"ordem figuras {ordem}")
-    for i in range(1, 8):
+    for i in range(1, 10):
         confere(f"Tabela {i}" in T, f"Tabela {i} ausente")
 
     # --- citações x referências ---
@@ -380,7 +436,16 @@ def main(argv: list[str] | None = None) -> int:
     mat_eq = pd.read_csv(figuras / "matriz_equipe.csv", index_col=0)
     mat_part = pd.read_csv(figuras / "matriz_partida.csv", index_col=0)
     contexto = json.loads((figuras / "contexto.json").read_text(encoding="utf-8"))
-    erros = conferir(texto, df, tab1, tab5, tab6, tab7, mat_eq, mat_part, contexto)
+    for nome in ("external_summary.json", "quality_external.json"):
+        if not (RAIZ / "data" / "external" / nome).exists():
+            p.error(f"artefato externo ausente: data/external/{nome}; "
+                    "rode scripts/build_external.py e scripts/analyze_external.py")
+    externo = json.loads(
+        (RAIZ / "data" / "external" / "external_summary.json").read_text(encoding="utf-8"))
+    qualidade = json.loads(
+        (RAIZ / "data" / "external" / "quality_external.json").read_text(encoding="utf-8"))
+    erros = conferir(texto, df, tab1, tab5, tab6, tab7, mat_eq, mat_part,
+                     contexto, externo, qualidade)
     return 1 if erros else 0
 
 

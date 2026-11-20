@@ -91,6 +91,7 @@ def _resumo_blocos(d: pd.DataFrame) -> list[dict]:
         linhas.append({
             "bloco": nome,
             "n": int(len(g)),
+            "publico_n": int(g["publico"].notna().sum()),
             "pollard": pollard(g["home_points"].sum(), g["away_points"].sum()),
             "lo": lo,
             "hi": hi,
@@ -99,6 +100,20 @@ def _resumo_blocos(d: pd.DataFrame) -> list[dict]:
             "vitoria_casa": float((g["home_goals"] > g["away_goals"]).mean()),
             "publico_medio": float(g["publico"].mean()) if g["publico"].notna().any() else None,
         })
+    total = d[d["season"].between(2007, 2024)]
+    lo, hi = bootstrap_pollard_ci(total, n=3000, seed=42)
+    linhas.append({
+        "bloco": "Total 2007–2024",
+        "n": int(len(total)),
+        "publico_n": int(total["publico"].notna().sum()),
+        "pollard": pollard(total["home_points"].sum(), total["away_points"].sum()),
+        "lo": lo,
+        "hi": hi,
+        "saldo_medio": float((total["home_goals"] - total["away_goals"]).mean()),
+        "pts_casa": float(total["home_points"].mean()),
+        "vitoria_casa": float((total["home_goals"] > total["away_goals"]).mean()),
+        "publico_medio": float(total["publico"].mean()) if total["publico"].notna().any() else None,
+    })
     return linhas
 
 
