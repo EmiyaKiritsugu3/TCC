@@ -48,6 +48,14 @@ jobs:
       - name: Construir base processada
         run: python3 scripts/build_processed.py
 
+      - name: Baixar cartões (commit pinado)
+        run: PYTHONPATH=src python3 scripts/fetch_cards.py
+
+      - name: Construir e analisar cartões
+        run: |
+          PYTHONPATH=src python3 scripts/build_cards.py
+          PYTHONPATH=src python3 scripts/analyze_cards.py
+
       - name: Verificacao de ambiente e smoke tests de artefatos
         run: |
           python3 scripts/bootstrap.py --check
@@ -69,7 +77,9 @@ jobs:
           git diff --exit-code -- figuras/tab1_indicadores_temporada.csv \
             figuras/tab1_indicadores_temporada.md figuras/tab5_contexto.csv \
             figuras/tab6_equipes.csv figuras/tab7_correlacoes_equipe.csv \
-            figuras/matriz_equipe.csv figuras/matriz_partida.csv figuras/contexto.json
+            figuras/matriz_equipe.csv figuras/matriz_partida.csv figuras/contexto.json \
+            figuras/tab_cartoes.csv data/external/cards/QUALITY.json \
+            data/external/cards/cards_summary.json docs/analise_cartoes.md
 
       - name: Rodar testes com cobertura
         run: python3 -m pytest tests/ -q --cov=src --cov-report=term --cov-fail-under=90

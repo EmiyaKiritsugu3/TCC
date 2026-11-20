@@ -67,14 +67,14 @@ def corpo(doc, texto, simples=False, central=False, negrito=False, tamanho=12,
     return par
 
 
-def tabela(doc, linhas, fonte=10):
+def tabela(doc, linhas, fonte=10, larguras=None):
     # A linha de separação do Markdown (|---|---:|) não é dado.
     linhas = [l for l in linhas
               if not all(re.fullmatch(r":?-{3,}:?", c.strip()) for c in l)]
     cab, dados = linhas[0], linhas[1:]
     tab = doc.add_table(rows=1 + len(dados), cols=len(cab))
     tab.style = "Table Grid"
-    tab.autofit = True
+    tab.autofit = larguras is None
     for j, celula in enumerate(cab):
         cel = tab.cell(0, j)
         cel.text = ""
@@ -85,6 +85,10 @@ def tabela(doc, linhas, fonte=10):
             cel.text = ""
             if j < len(cab):
                 add_runs(cel.paragraphs[0], celula.strip(), tamanho=fonte)
+    if larguras:
+        for j, largura in enumerate(larguras):
+            for celula in tab.columns[j].cells:
+                celula.width = Cm(largura)
     doc.add_paragraph()
 
 
@@ -149,8 +153,14 @@ def _renderizar(doc, linhas: list[str]) -> None:
             continue
         if not s or s == "---":
             if bloco_tabela:
-                fonte = 8 if any("Temporada" in c for c in bloco_tabela[0].split("|")) else 10
-                tabela(doc, [r.split("|")[1:-1] for r in bloco_tabela], fonte=fonte)
+                cabecalho_tabela = bloco_tabela[0]
+                fonte = 8 if "Temporada" in cabecalho_tabela else 10
+                larguras = None
+                if "Diferença (IC" in cabecalho_tabela:
+                    fonte = 7
+                    larguras = [1.6, 1.1, 2.7, 2.7, 3.9, 2.0, 2.0]
+                tabela(doc, [r.split("|")[1:-1] for r in bloco_tabela],
+                       fonte=fonte, larguras=larguras)
                 bloco_tabela = []
             i += 1
             continue

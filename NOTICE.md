@@ -10,7 +10,9 @@ OpenFootball (CC0-1.0) é usado apenas para validação cruzada.
 
 Dados externos de público e arbitragem: Base dos Dados/Transfermarkt
 (`basedosdados.mundo_transfermarkt_competicoes.brasileirao_serie_a`) e
-FBref/Sports Reference. Os CSVs brutos e a base unida não são redistribuídos;
-apenas metadados, relatórios de qualidade e resumos derivados acompanham o
-repositório. Ver `docs/fontes_externas.md`, `docs/analise_publico_arbitragem.md`
-e os arquivos `FONTE.md` em `data/external/`.
+FBref/Sports Reference. Cartões por partida: BrazilianFootball/Data (MIT,
+DOI `10.5281/zenodo.15207727`), extraídos dos borderôs da CBF. Os CSVs brutos e
+a base unida não são redistribuídos; apenas metadados, relatórios de qualidade
+e resumos derivados acompanham o repositório. Ver `docs/fontes_externas.md`,
+`docs/analise_publico_arbitragem.md`, `docs/analise_cartoes.md` e os arquivos
+`FONTE.md` em `data/external/`.

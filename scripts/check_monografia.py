@@ -80,7 +80,8 @@ def _ic(texto: str) -> tuple[float, float, float]:
 def conferir(texto: str, df: pd.DataFrame, tab1: pd.DataFrame,
              tab5: pd.DataFrame, tab6: pd.DataFrame, tab7: pd.DataFrame,
              mat_eq: pd.DataFrame, mat_part: pd.DataFrame,
-             contexto: dict, externo: dict, qualidade: dict) -> list[str]:
+             contexto: dict, externo: dict, qualidade: dict,
+             dados_cartoes: dict) -> list[str]:
     """Executa todas as conferências e devolve as mensagens de divergência."""
     ERROS.clear()
     T = texto
@@ -110,7 +111,10 @@ def conferir(texto: str, df: pd.DataFrame, tab1: pd.DataFrame,
                    "63,7%", "12.554", "7.166", "58,2% (2017)", "69,5% (2018)",
                    "28,9%", "17,9%", "60,2%", "n = 379", "379 jogos",
                    "62,4% em 2019", "61,8% em 2021", "11,3 p.p",
-                   "2.659 de 2.660", "99,96%", "19/19", "104 testes", "104 passed",
+                   "2.659 de 2.660", "99,96%", "19/19", "114 testes", "114 passed",
+                   "104 rápidos", "Tabela 11", "Figura 13", "4.559",
+                   "1 cartão não atribuído", "0,35", "−0,03", "+0,72",
+                   "Cameron e Miller (2015)", "BrazilianFootball/Data",
                    "25/02/2021", "Flamengo 2019: 53/37/90/38",
                    "64,9% em 2006–2018", "61,0% em 2019–2024", "3,9 p.p.",
                    "2,1–5,6", "4,5 p.p.", "3,0–6,0", "53,4–62,6",
@@ -129,6 +133,7 @@ def conferir(texto: str, df: pd.DataFrame, tab1: pd.DataFrame,
     confere("12.554 × 7.166" not in T, "comparação de pontos ainda usa ×")
     confere("`tests/test_context.py` (20)" in T, "contagem de test_context no Apendice D")
     confere("`tests/test_associations.py` (19)" in T, "contagem de test_associations no Apendice D")
+    confere("`tests/test_cards.py` (9)" in T, "contagem de test_cards no Apendice D")
 
     # --- extremos anuais ---
     confere(_quase(round(t.loc[2017, "pollard"], 2), 58.24), "pollard 2017")
@@ -397,6 +402,60 @@ def conferir(texto: str, df: pd.DataFrame, tab1: pd.DataFrame,
     confere(abs(corr_equipe["publico_pts"] - 0.786) < 0.001,
             "correlação público × pontos por equipe")
 
+    # --- Tabela 11 == cartões por temporada ---
+    cartoes = dados_cartoes["tabela"]
+    cartoes_resumo = dados_cartoes["resumo"]
+    qualidade_cartoes = dados_cartoes["qualidade"]
+    confere(len(cartoes) == 12, f"cartões: {len(cartoes)} temporadas != 12")
+    confere(int(cartoes["n"].sum()) == 4559,
+            f"cartões: {int(cartoes['n'].sum())} partidas != 4559")
+    confere(cartoes_resumo["periodo"] == [2013, 2024], "cartões: período")
+    confere(qualidade_cartoes["nao_atribuidos"] == 1, "cartões: não atribuídos")
+    confere(_quase(qualidade_cartoes["cobertura_2013_2024"], 1.0),
+            "cartões: cobertura 2013–2024")
+    bloco11 = secao("**Tabela 11").split(MARCADOR_FONTE, 1)[0]
+    linhas11 = _linhas_tabela(bloco11, 7, "Temporada")
+    confere(len(linhas11) == len(cartoes),
+            f"Tabela 11 tem {len(linhas11)} linhas, esperado {len(cartoes)}")
+    idx11 = cartoes.set_index("season")
+    for season, jogos, casa, fora, diff, red_casa, red_fora in linhas11:
+        ano = int(season)
+        confere(ano in idx11.index, f"Tabela 11 temporada desconhecida: {ano}")
+        if ano not in idx11.index:
+            continue
+        r = idx11.loc[ano]
+        confere(jogos == _num(r["n"]), f"Tabela 11 jogos {ano}")
+        confere(abs(_num_pt(casa) - r["amarelos_casa"]) < 0.006,
+                f"Tabela 11 amarelos casa {ano}")
+        confere(abs(_num_pt(fora) - r["amarelos_fora"]) < 0.006,
+                f"Tabela 11 amarelos fora {ano}")
+        m = re.fullmatch(r"([+−-]?[\d,]+) \(([+−-]?[\d,]+) a ([+−-]?[\d,]+)\)", diff)
+        confere(m is not None, f"Tabela 11 IC em formato inesperado: {diff!r}")
+        if m:
+            ponto, lo, hi = (_num_pt(v) for v in m.groups())
+            confere(_quase(round(ponto, 2), round(r["amarelos_diff"], 2)),
+                    f"Tabela 11 diferença {ano}")
+            confere(_quase(round(lo, 2), round(r["amarelos_lo"], 2)),
+                    f"Tabela 11 IC inferior {ano}")
+            confere(_quase(round(hi, 2), round(r["amarelos_hi"], 2)),
+                    f"Tabela 11 IC superior {ano}")
+        confere(abs(_num_pt(red_casa) - r["vermelhos_casa"]) < 0.006,
+                f"Tabela 11 vermelhos casa {ano}")
+        confere(abs(_num_pt(red_fora) - r["vermelhos_fora"]) < 0.006,
+                f"Tabela 11 vermelhos fora {ano}")
+    confere(set(cartoes["season"]) == {int(l[0]) for l in linhas11},
+            "Tabela 11 não cobre todas as temporadas")
+    did = cartoes_resumo["did_2019_2020"]
+    did_comum = cartoes_resumo["did_2019_2020_equipes_comuns"]
+    confere(did["n"] == 760, "cartões: n do DiD")
+    confere(_quase(round(did["coef"], 2), 0.35), "cartões: coef do DiD")
+    confere(_quase(round(did["lo"], 2), -0.03), "cartões: IC inferior do DiD")
+    confere(_quase(round(did["hi"], 2), 0.72), "cartões: IC superior do DiD")
+    confere(did_comum["n"] == 480, "cartões: n do DiD de equipes comuns")
+    confere(_quase(round(did_comum["coef"], 2), 0.34), "cartões: coef comum")
+    confere(_quase(round(did_comum["lo"], 2), -0.04), "cartões: IC comum inferior")
+    confere(_quase(round(did_comum["hi"], 2), 0.72), "cartões: IC comum superior")
+
     # --- arbitragem: números narrados na seção 5.6 ---
     arb = externo["arbitragem"]
     confere(arb["n_jogos"] == 6821, "arbitragem: n de jogos")
@@ -431,17 +490,19 @@ def conferir(texto: str, df: pd.DataFrame, tab1: pd.DataFrame,
         nums.append(int(n))
         if int(n) not in ordem:
             ordem.append(int(n))
-    confere(ordem == list(range(1, 13)), f"ordem figuras {ordem}")
+    confere(ordem == list(range(1, 14)), f"ordem figuras {ordem}")
     confere((RAIZ / "figuras" / "fig12_publico_ha.png").exists(),
             "figura 12 ausente")
-    for i in range(1, 11):
+    confere((RAIZ / "figuras" / "fig13_cartoes.png").exists(),
+            "figura 13 ausente")
+    for i in range(1, 12):
         confere(f"Tabela {i}" in T, f"Tabela {i} ausente")
 
     # --- citações x referências ---
     refs = secao("# REFERÊNCIAS").split("## APÊNDICE", 1)[0]
-    for sobrenome in ["ALMEIDA", "DUQUE", "EFRON", "FEW", "GIL", "MATOS", "NEAVE",
-                      "NEVILL", "OPENFOOTBALL", "POLLARD", "RIBEIRO", "SHARDA",
-                      "SILVA", "STREAMLIT"]:
+    for sobrenome in ["ALMEIDA", "BRAZILIANFOOTBALL", "CAMERON", "DUQUE", "EFRON",
+                      "FEW", "GIL", "MATOS", "NEAVE", "NEVILL", "OPENFOOTBALL",
+                      "POLLARD", "RIBEIRO", "SHARDA", "SILVA", "STREAMLIT"]:
         confere(sobrenome in refs, f"referência ausente: {sobrenome}")
         confere(sobrenome in corpo or sobrenome in T.split("## RESUMO")[0], f"citação órfã: {sobrenome}")
     confere(re.search(r"(?m)^NEVILL, A\. M\.; BALMER", refs) is not None,
@@ -506,8 +567,20 @@ def main(argv: list[str] | None = None) -> int:
         (RAIZ / "data" / "external" / "external_summary.json").read_text(encoding="utf-8"))
     qualidade = json.loads(
         (RAIZ / "data" / "external" / "quality_external.json").read_text(encoding="utf-8"))
+    cartoes_path = figuras / "tab_cartoes.csv"
+    resumo_cartoes_path = RAIZ / "data" / "external" / "cards" / "cards_summary.json"
+    qualidade_cartoes_path = RAIZ / "data" / "external" / "cards" / "QUALITY.json"
+    if not all(p.exists() for p in
+               (cartoes_path, resumo_cartoes_path, qualidade_cartoes_path)):
+        p.error("artefatos de cartões ausentes; rode scripts/analyze_cards.py")
+    cartoes = pd.read_csv(cartoes_path)
+    dados_cartoes = {
+        "tabela": cartoes,
+        "resumo": json.loads(resumo_cartoes_path.read_text(encoding="utf-8")),
+        "qualidade": json.loads(qualidade_cartoes_path.read_text(encoding="utf-8")),
+    }
     erros = conferir(texto, df, tab1, tab5, tab6, tab7, mat_eq, mat_part,
-                     contexto, externo, qualidade)
+                     contexto, externo, qualidade, dados_cartoes)
     return 1 if erros else 0
 
 

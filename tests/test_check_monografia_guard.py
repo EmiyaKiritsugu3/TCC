@@ -31,9 +31,17 @@ def _auditar_com_texto(tmp_path, texto):
 
 def test_auditor_rejeita_numero_desatualizado(tmp_path):
     texto = (RAIZ / "docs" / "monografia_v2.md").read_text(encoding="utf-8")
-    resultado = _auditar_com_texto(tmp_path, texto.replace("104 testes", "98 testes"))
+    resultado = _auditar_com_texto(tmp_path, texto.replace("114 testes", "98 testes"))
     assert resultado.returncode == 1
     assert "DIVERGÊNCIA" in resultado.stdout
+
+
+def test_auditor_rejeita_tabela_de_cartoes_divergente(tmp_path):
+    texto = (RAIZ / "docs" / "monografia_v2.md").read_text(encoding="utf-8")
+    alterado = texto.replace("+0,11 (−0,06 a +0,29)", "+0,99 (−0,06 a +0,29)")
+    resultado = _auditar_com_texto(tmp_path, alterado)
+    assert resultado.returncode == 1
+    assert "Tabela 11" in resultado.stdout
 
 
 def test_auditor_rejeita_cabecalho_ausente(tmp_path):

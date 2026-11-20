@@ -22,6 +22,7 @@ build-backend = "setuptools.build_meta"
 package-dir = {"" = "src"}
 py-modules = [
     "associations",
+    "cards",
     "charts",
     "clean_data",
     "context",
