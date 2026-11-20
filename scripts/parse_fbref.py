@@ -64,7 +64,7 @@ def main(argv: list[str] | None = None) -> int:
     df.to_csv(args.out, index=False)  # NOSONAR: caminho confinado
 
     conteudo = args.out.read_bytes()  # NOSONAR: caminho confinado
-    (args.out.parent / "FETCH_METADATA.json").write_text(  # NOSONAR: caminho confinado
+    (args.out.parent / "FETCH_METADATA.json").write_text(  # NOSONAR
         json.dumps({
             "fonte": "FBref / Sports Reference",
             "url": f"https://fbref.com/en/comps/24/{args.season}/schedule/{args.season}-Serie-A-Scores-and-Fixtures",
@@ -74,7 +74,7 @@ def main(argv: list[str] | None = None) -> int:
             "sha256": hashlib.sha256(conteudo).hexdigest(),
         }, ensure_ascii=False, indent=2) + "\n",
         encoding="utf-8",
-    )
+    )  # NOSONAR
     print(f"ok: {len(df)} partidas -> {args.out}")
     print(f"público: {df['attendance'].notna().sum()}; árbitro: {df['referee'].notna().sum()}")
     return 0

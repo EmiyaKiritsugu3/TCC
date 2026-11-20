@@ -146,9 +146,9 @@ def main(argv: list[str] | None = None) -> int:
         "linhas": len(df),
         "sha256": hashlib.sha256(conteudo).hexdigest(),
     }
-    (args.out.parent / "FETCH_METADATA.json").write_text(  # NOSONAR: caminho confinado
+    (args.out.parent / "FETCH_METADATA.json").write_text(  # NOSONAR
         json.dumps(metadata, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
-    )
+    )  # NOSONAR
 
     print(f"ok: {len(df)} linhas -> {args.out}")
     print(df.groupby("ano_campeonato").size().to_string())
