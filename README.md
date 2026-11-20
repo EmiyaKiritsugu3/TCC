@@ -118,6 +118,15 @@ PYTHONPATH=src python3 scripts/build_artigo.py \
 
 O resumo para o orientador fica em `docs/resumo_artigo_orientador.pdf`.
 
+Versão ABNT (NBR 6022), com referências NBR 6023:
+
+```bash
+PYTHONPATH=src python3 scripts/build_artigo_abnt.py
+```
+
+Saídas: `docs/artigo_2013_2024_abnt.docx` e `.pdf`; a fonte editável é
+`docs/artigo_2013_2024_abnt.md`.
+
 Depois do pipeline externo, a auditoria completa dos dados:
 
 ```bash
