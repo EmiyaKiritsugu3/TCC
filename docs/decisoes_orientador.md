@@ -22,7 +22,7 @@ Ampliação aplicada em 04/11/2026 (proativa): §§1.2, 1.5, 2.1, 2.2, 2.3, 3.1�
 (síntese dos testes) criadas; corpo ≥ 5.500 palavras.
 
 Fase 1 (variáveis contextuais) implementada em 06/11/2026 por decisão do
-aluno, pendente de validação do orientador: `src/context.py` + 17 testes,
+aluno, pendente de validação do orientador: `src/context.py` + 18 testes,
 achado principal de que a distância não move o índice (Tabela 5 da monografia).
 
 ## Edição normativa adotada (05/11/2026)
