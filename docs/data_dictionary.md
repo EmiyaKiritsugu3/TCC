@@ -40,8 +40,10 @@ Base limpa gerada por `scripts/build_processed.py` a partir de
 A versão do artigo usa `data/processed/matches_processed_2013_2024.csv`, gerada
 por `scripts/build_mit_base.py` a partir do `BrazilianFootball/Data` (MIT). O
 esquema é o mesmo; `round` fica 0 porque o JSON não traz a rodada, e a ordem
-usa data + `match_id`. São 4.559 partidas (2016 com 379) e o relatório de
-qualidade fica em `data/processed/quality_report_2013_2024.json`.
+usa data + `match_id`. O `match_id` desse recorte é sintético
+(`season*1000 + número do jogo na fonte`), não o ID textual da base 2006–2024.
+São 4.559 partidas (2016 com 379) e o relatório de qualidade fica em
+`data/processed/quality_report_2013_2024.json`.
 
 ## Variáveis derivadas (não persistidas)
 

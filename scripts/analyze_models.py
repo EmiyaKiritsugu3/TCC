@@ -132,15 +132,20 @@ def decomposicao_variancia(df: pd.DataFrame) -> dict:
     grande = float(ts["ha"].mean())
     grupos = ts.groupby("team")["ha"]
     k, n = grupos.ngroups, len(ts)
-    entre = float(sum(len(g) * (g.mean() - grande) ** 2 for _, g in grupos)
-                  / max(k - 1, 1))
-    dentro = float(sum(((g - g.mean()) ** 2).sum() for _, g in grupos)
-                   / max(n - k, 1))
-    total = entre + dentro
+    ss_entre = float(sum(len(g) * (g.mean() - grande) ** 2 for _, g in grupos))
+    ss_dentro = float(sum(((g - g.mean()) ** 2).sum() for _, g in grupos))
+    ms_entre = ss_entre / max(k - 1, 1)
+    ms_dentro = ss_dentro / max(n - k, 1)
+    n0 = (n - sum(len(g) ** 2 for _, g in grupos) / n) / max(k - 1, 1)
+    var_entre = max(0.0, (ms_entre - ms_dentro) / n0) if n0 else 0.0
+    var_dentro = ms_dentro
+    total = var_entre + var_dentro
     return {"n": int(n), "times": int(k), "media": grande,
-            "var_entre": entre, "var_dentro": dentro,
-            "icc": entre / total if total else None,
-            "share_entre": entre / total if total else None}
+            "ss_entre": ss_entre, "ss_dentro": ss_dentro,
+            "ms_entre": ms_entre, "ms_dentro": ms_dentro,
+            "n0": n0, "var_entre": var_entre, "var_dentro": var_dentro,
+            "icc": var_entre / total if total else None,
+            "share_entre": var_entre / total if total else None}
 
 
 def main() -> None:

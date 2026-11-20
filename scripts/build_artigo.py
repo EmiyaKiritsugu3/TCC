@@ -179,11 +179,12 @@ def _renderizar(doc, linhas: list[str]) -> None:
         if imagem:
             legenda, caminho = imagem.groups()
             arquivo = RAIZ / caminho
-            if arquivo.exists():
-                doc.add_picture(str(arquivo), width=Cm(13.5))
-                doc.paragraphs[-1].alignment = WD_ALIGN_PARAGRAPH.CENTER
-                _paragrafo(doc, legenda, tamanho=8.5, italico=True,
-                           central=True, antes=2, depois=8, cor=CINZA)
+            if not arquivo.exists():
+                raise FileNotFoundError(f"figura ausente: {arquivo}")
+            doc.add_picture(str(arquivo), width=Cm(13.5))
+            doc.paragraphs[-1].alignment = WD_ALIGN_PARAGRAPH.CENTER
+            _paragrafo(doc, legenda, tamanho=8.5, italico=True,
+                       central=True, antes=2, depois=8, cor=CINZA)
             i += 1
             continue
         if s.startswith("**Table 1."):
@@ -222,7 +223,7 @@ def main() -> None:
     subprocess.run(
         ["libreoffice", "--headless", "--convert-to", "pdf",
          "--outdir", str(SAIDA.parent), str(SAIDA)],
-        check=False,
+        check=True,
     )
 
 

@@ -37,7 +37,8 @@ def test_parse_jogo_rejeita_time_nao_mapeado():
 
 @pytest.mark.integration
 @pytest.mark.skipif(
-    not (PASTA / "Serie_A_2024_games.json").exists(),
+    any(not (PASTA / f"Serie_A_{ano}_games.json").exists()
+        for ano in range(2013, 2025)),
     reason="rode scripts/fetch_cards.py",
 )
 def test_build_base_2013_2024():

@@ -56,14 +56,19 @@ def _serie(df: pd.DataFrame) -> dict:
     return {"anual": anual, "corte": corte, "nivel": diff}
 
 
-def _publico() -> None:
+def _publico(df: pd.DataFrame) -> None:
     if not CONTEXTO.exists():
-        print("context_clean.csv ausente; figura pública não gerada")
-        return
+        raise FileNotFoundError(
+            "context_clean.csv ausente; rode o pipeline externo para gerar a Figura 2"
+        )
     ext = pd.read_csv(CONTEXTO)
     ext = ext[ext["season"].between(2013, 2024)].copy()
-    ts = team_season_features(ext)
-    pub = ext.groupby(["season", "home_team"])["publico"].mean().rename("publico_medio")
+    chaves = ["season", "date", "home_team", "away_team"]
+    base = df.merge(ext[chaves + ["publico"]], on=chaves, how="left",
+                    validate="one_to_one")
+    cobertura = float(base["publico"].notna().mean())
+    ts = team_season_features(base)
+    pub = base.groupby(["season", "home_team"])["publico"].mean().rename("publico_medio")
     pub.index = pub.index.set_names(["season", "team"])
     ts = ts.join(pub, on=["season", "team"]).reset_index()
     d = ts.dropna(subset=["publico_medio"]).copy()
@@ -73,7 +78,7 @@ def _publico() -> None:
     fig, axes = plt.subplots(1, 2, figsize=(12, 5.2))
     paineis = [
         ("ha", "HA × público", "Vantagem casa−fora (pontos/jogo)"),
-        ("pts", "Pontos médios × público", "Pontos médios por temporada"),
+        ("pts", "Pontos totais × público", "Pontos totais na temporada"),
     ]
     for ax, (coluna, titulo, rotulo_y) in zip(axes, paineis):
         x = d["publico_medio"] / 1000
@@ -91,6 +96,7 @@ def _publico() -> None:
     fig.tight_layout()
     fig.savefig(FIG / "artigo_publico_ha.png", dpi=150)
     plt.close(fig)
+    print(f"público: cobertura de junção {cobertura:.1%}")
 
 
 def _contexto(df: pd.DataFrame) -> None:
@@ -114,7 +120,8 @@ def main() -> None:
     dados = _serie(df)
     t = t.merge(dados["anual"][["season", "lo", "hi"]], on="season")
     t.to_csv(FIG / "tab_artigo_temporadas.csv", index=False)
-    _publico()
+    t.to_csv(FIG / "artigo_indicadores.csv", index=False)
+    _publico(df)
     _contexto(df)
     print(f"n={len(df)}; pollard={s['pollard']:.2f}%")
     print("mudança de nível:", {k: (round(v, 3) if isinstance(v, float) else v)

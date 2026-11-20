@@ -46,9 +46,9 @@ def parse_jogo(jogo: dict, season: int, jogo_id: str | int) -> dict:
         resultado, ph, pa = "D", 1, 1
     try:
         numero = int(jogo_id)
-    except (TypeError, ValueError):
-        numero = abs(hash(str(jogo_id))) % 1000
-    estadio = str(jogo.get("Stadium") or "").strip() or "Não informado"
+    except (TypeError, ValueError) as exc:
+        raise ValueError(f"jogo_id não numérico: {jogo_id!r}") from exc
+    estadio = str(jogo.get("Stadium") or "").strip() or None
     return {
         "match_id": season * 1000 + numero,
         "season": int(season),
@@ -114,8 +114,9 @@ def quality_report(df: pd.DataFrame) -> dict:
     cobertura = {str(int(ano)): int(n) for ano, n in
                  df.groupby("season").size().items()}
     esperado = {ano: 379 if ano == 2016 else 380 for ano in range(2013, 2025)}
-    abaixo = {str(ano): esperado[ano] - n for ano, n in
-              ((int(a), n) for a, n in cobertura.items()) if n < esperado[ano]}
+    abaixo = {str(ano): esperado[ano] - cobertura.get(str(ano), 0)
+              for ano in esperado
+              if cobertura.get(str(ano), 0) < esperado[ano]}
     return {
         "fonte": f"{REPO} ({LICENCA})",
         "commit": COMMIT,
@@ -126,7 +127,7 @@ def quality_report(df: pd.DataFrame) -> dict:
         "coverage_per_season": cobertura,
         "seasons_below_expected": abaixo,
         "times": int(len(set(df["home_team"]) | set(df["away_team"]))),
-        "estadios_ausentes": int((df["stadium"] == "Não informado").sum()),
+        "estadios_ausentes": int(df["stadium"].isna().sum()),
         "notes": [
             "Borderô eletrônico da CBF disponível a partir de 2013.",
             "2016 tem 379 partidas: Chapecoense x Atletico-MG (rodada 38) cancelada.",

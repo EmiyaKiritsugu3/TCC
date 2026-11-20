@@ -17,24 +17,25 @@ from mit_data import build_base, quality_report, validar_base
 from paths import caminho_no_projeto
 
 RAIZ = Path(__file__).resolve().parent.parent
-SAIDA = RAIZ / "data" / "processed" / "matches_processed_2013_2024.csv"
-QUALIDADE = RAIZ / "data" / "processed" / "quality_report_2013_2024.json"
 
 
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--inicio", type=int, default=2013)
     parser.add_argument("--fim", type=int, default=2024)
-    parser.add_argument("--out", type=Path, default=SAIDA)
-    parser.add_argument("--qualidade", type=Path, default=QUALIDADE)
+    parser.add_argument("--out", type=Path, default=None)
+    parser.add_argument("--qualidade", type=Path, default=None)
     args = parser.parse_args(argv)
 
     anos = list(range(args.inicio, args.fim + 1))
+    sufixo = f"{args.inicio}_{args.fim}"
+    out = caminho_no_projeto(args.out) if args.out else (
+        RAIZ / "data" / "processed" / f"matches_processed_{sufixo}.csv")
+    qualidade_path = caminho_no_projeto(args.qualidade) if args.qualidade else (
+        RAIZ / "data" / "processed" / f"quality_report_{sufixo}.json")
     df = build_base(anos)
     validar_base(df)
 
-    out = caminho_no_projeto(args.out)
-    qualidade_path = caminho_no_projeto(args.qualidade)
     out.parent.mkdir(parents=True, exist_ok=True)
     qualidade_path.parent.mkdir(parents=True, exist_ok=True)
     df.to_csv(out, index=False)

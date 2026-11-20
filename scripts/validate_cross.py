@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
-"""Validação cruzada 2018–2024: base primária x OpenFootball (CC0)."""
+"""Validação cruzada 2018–2024: base analisada x OpenFootball (CC0)."""
+import argparse
 from pathlib import Path
 
 import pandas as pd
@@ -15,8 +16,13 @@ ANOS = list(range(2018, 2025))
 # e testada em `validacao_excecoes.py`.
 
 
-def main() -> int:
-    base = pd.read_csv(RAIZ / "data" / "processed" / "matches_processed.csv")
+def main(argv: list[str] | None = None) -> int:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--base", type=Path,
+                        default=RAIZ / "data" / "processed" / "matches_processed.csv")
+    args = parser.parse_args(argv)
+    base = pd.read_csv(args.base)
+    print(f"base: {args.base}")
     print(f"{'ano':>4} | {'base':>4} {'OF':>4} {'ambas':>5} {'placar_ok':>9} {'div':>3} {'só_base':>7} {'só_OF':>5}")
     ok = True
     for ano in ANOS:

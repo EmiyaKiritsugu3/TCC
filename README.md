@@ -84,11 +84,19 @@ Relatório: `docs/analise_cartoes.md`; figura: `figuras/fig13_cartoes.png`.
 ### Recorte 2013–2024 (artigo, base MIT)
 
 A versão do artigo usa a base aberta do `BrazilianFootball/Data` (MIT), com
-resultados, gols, estádios e cartões de 2013–2024:
+resultados, gols, estádios e cartões de 2013–2024. Requer
+`pip install -r requirements-dev.txt` (inclui `python-docx`) e LibreOffice para
+o PDF. A Figura 2 usa `data/external/context_clean.csv`, gerado pelo pipeline
+externo descrito em `docs/fontes_externas.md`.
 
 ```bash
+PYTHONPATH=src python3 scripts/fetch_cards.py
+PYTHONPATH=src python3 scripts/build_cards.py
+PYTHONPATH=src python3 scripts/analyze_cards.py
 PYTHONPATH=src python3 scripts/build_mit_base.py
 PYTHONPATH=src python3 scripts/analyze_artigo.py
+PYTHONPATH=src python3 scripts/analyze_models.py
+PYTHONPATH=src python3 scripts/build_artigo.py
 TCC_PROCESSED=data/processed/matches_processed_2013_2024.csv \
 TCC_QUALITY=data/processed/quality_report_2013_2024.json \
 python3 -m streamlit run app.py
@@ -97,15 +105,9 @@ python3 -m streamlit run app.py
 O dashboard continua usando a base 2006–2024 por padrão; as variáveis
 `TCC_PROCESSED` e `TCC_QUALITY` selecionam o recorte sem alterar o código.
 
-Artigo em inglês (2013–2024), com modelos e figuras:
-
-```bash
-PYTHONPATH=src python3 scripts/analyze_models.py
-PYTHONPATH=src python3 scripts/build_artigo.py
-```
-
-Saídas: `docs/artigo_2013_2024.md`, `.docx` e `.pdf`; o resumo para o
-orientador fica em `docs/resumo_artigo_orientador.pdf`.
+O artigo é escrito em inglês (2013–2024); `docs/artigo_2013_2024.md` é a fonte
+editável e `build_artigo.py` gera `.docx` e `.pdf`. O resumo para o orientador
+fica em `docs/resumo_artigo_orientador.pdf`.
 
 Depois do pipeline externo, a auditoria completa dos dados:
 

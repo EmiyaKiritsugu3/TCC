@@ -1,4 +1,4 @@
-"""Dashboard — vantagem de jogar em casa, Brasileirão Série A 2006–2024 (RF01–RF11)."""
+"""Dashboard — vantagem de jogar em casa, Brasileirão Série A."""
 import os
 from pathlib import Path
 
@@ -41,8 +41,9 @@ def carregar():
         df = pd.read_csv(PROCESSED)
     except FileNotFoundError:
         st.error(
-            "Base processada não encontrada (`data/processed/matches_processed.csv`). "
-            "Execute `python3 scripts/build_processed.py` primeiro. (RF01)"
+            f"Base processada não encontrada em `{PROCESSED}`. "
+            "Rode `scripts/build_mit_base.py` (2013–2024) ou "
+            "`scripts/build_processed.py` (2006–2024). (RF01)"
         )
         st.stop()
     if df.empty:
@@ -82,7 +83,8 @@ def contexto_equipes(temporadas: tuple[int, ...]) -> pd.DataFrame:
 df = carregar()
 temporadas = sorted(df["season"].unique().tolist())
 
-st.title("Vantagem de jogar em casa — Brasileirão Série A (2006–2024)")
+st.title(f"Vantagem de jogar em casa — Brasileirão Série A "
+         f"({int(df['season'].min())}–{int(df['season'].max())})")
 st.caption("Análise descritiva de resultados históricos. Não prevê jogos nem afirma causalidade.")
 
 # ---- filtros globais (RF02, RNF03: um único recorte alimenta tudo) ----
