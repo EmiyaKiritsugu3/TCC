@@ -23,13 +23,15 @@ são registrados no controle de qualidade.
 
 ## Diferença-em-diferenças 2019 → 2020
 
-- Amostra completa: **+0,346** cartões por jogo (EP 0,163; IC 95% +0,025 a +0,666; n=760).
-- Equipes presentes nos dois anos: **+0,337** (EP 0,166; IC 95% +0,011 a +0,664; n=480).
+- Amostra completa: **+0,346** cartões por jogo (EP 0,179; IC 95% -0,005 a +0,697; n=760).
+- Equipes presentes nos dois anos: **+0,337** (EP 0,181; IC 95% -0,018 a +0,693; n=480).
 
 Coeficiente positivo = a diferença casa−fora **aumentou** em 2020: o
 mandante deixou de receber relativamente menos cartões. Em 2019 a
-diferença era −0,19; em 2020, +0,11; a mudança bruta é +0,30 e a
+diferença era -0,18; em 2020, +0,11; a mudança bruta é +0,29 e a
 estimativa com efeitos fixos de equipe é +0,35.
+
+O IC 95% clusterizado inclui zero; a mudança é sugestiva, mas não estatisticamente conclusiva ao nível de 5%.
 
 ## Leitura
 
@@ -48,15 +50,15 @@ estimativa com efeitos fixos de equipe é +0,35.
 | Temporada | Jogos com faltas | Amarelos/falta casa | Amarelos/falta fora |
 |---|---:|---:|---:|
 | 2018 | 211 | 0,156 | 0,167 |
-| 2019 | 165 | 0,091 | 0,116 |
-| 2020 | 373 | 0,142 | 0,138 |
+| 2019 | 168 | 0,093 | 0,119 |
+| 2020 | 374 | 0,143 | 0,138 |
 | 2021 | 375 | 0,145 | 0,154 |
 | 2022 | 373 | 0,165 | 0,196 |
 | 2023 | 378 | 0,174 | 0,193 |
 | 2024 | 211 | 0,201 | 0,229 |
 
 A cobertura de faltas é parcial em 2018–2019 e 2024; a comparação
-cartes-per-foul serve como robustez, não como teste definitivo.
+de cartões por falta serve como robustez, não como teste definitivo.
 
 ## Limitações
 
@@ -70,7 +72,12 @@ cartes-per-foul serve como robustez, não como teste definitivo.
 ## Reprodução
 
 ```bash
+# Base primária (matches_processed.csv não é versionado)
+python3 scripts/fetch_raw.py
+python3 scripts/build_processed.py
 PYTHONPATH=src python3 scripts/fetch_cards.py
 PYTHONPATH=src python3 scripts/build_cards.py
+# Opcional: cartões por falta (context_clean.csv exige o pipeline externo)
+PYTHONPATH=src python3 scripts/build_external.py
 PYTHONPATH=src python3 scripts/analyze_cards.py
 ```

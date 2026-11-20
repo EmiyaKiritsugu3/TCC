@@ -11,6 +11,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import math
 from pathlib import Path
 
 import matplotlib
@@ -23,7 +24,6 @@ from paths import caminho_no_projeto
 
 RAIZ = Path(__file__).resolve().parent.parent
 CARTOES = RAIZ / "data" / "external" / "cards" / "cards_2013_2024.csv"
-BASE = RAIZ / "data" / "processed" / "matches_processed.csv"
 CONTEXTO = RAIZ / "data" / "external" / "context_clean.csv"
 FIG = RAIZ / "figuras"
 RESUMO = RAIZ / "data" / "external" / "cards" / "cards_summary.json"
@@ -35,6 +35,8 @@ AZUL, CINZA, VERMELHO = "#1f77b4", "#7f7f7f", "#d62728"
 
 
 def _pt(x: float, n: int = 2, sinal: bool = False) -> str:
+    if x is None or (isinstance(x, float) and not math.isfinite(x)):
+        return "—"
     fmt = f"{{:+.{n}f}}" if sinal else f"{{:.{n}f}}"
     return fmt.format(x).replace(".", ",")
 
@@ -49,14 +51,43 @@ def _bootstrap_media(valores: np.ndarray, n: int = 4000, seed: int = 42):
     return float(valores.mean()), float(np.percentile(medias, 2.5)), float(np.percentile(medias, 97.5))
 
 
-def _ols_hc1(y: np.ndarray, X: np.ndarray, nomes: list[str]):
+def _meat_cluster(X: np.ndarray, resid: np.ndarray, grupos: np.ndarray) -> np.ndarray:
+    """Soma dos produtos externos dos escores dentro de cada cluster."""
+    meat = np.zeros((X.shape[1], X.shape[1]))
+    for grupo in pd.unique(grupos):
+        idx = grupos == grupo
+        soma = X[idx].T @ resid[idx]
+        meat += np.outer(soma, soma)
+    return meat
+
+
+def _ols_cluster(y: np.ndarray, X: np.ndarray, nomes: list[str],
+                 casa: np.ndarray, fora: np.ndarray):
+    """OLS com erros-padrão two-way clusterizados por mandante e visitante.
+
+    Cada partida repete equipes ao longo da temporada; HC1 trata essas
+    observações como independentes e subestima a incerteza dos coeficientes
+    com efeitos fixos de equipe. A variância two-way segue Cameron–Gelbach–
+    Miller: V_casa + V_fora − V_par(comum), com correção de amostra finita.
+    """
     beta, *_ = np.linalg.lstsq(X, y, rcond=None)
     resid = y - X @ beta
     n, k = X.shape
     xtx_inv = np.linalg.pinv(X.T @ X)
-    cov = xtx_inv @ (X.T @ (X * (resid ** 2)[:, None])) @ xtx_inv
+    pares = np.array([f"{a}\x00{b}" for a, b in zip(casa, fora)])
+
+    def fator(grupos: np.ndarray) -> float:
+        g = len(pd.unique(grupos))
+        return g / max(g - 1, 1)
+
+    meat = (
+        _meat_cluster(X, resid, casa) * fator(casa)
+        + _meat_cluster(X, resid, fora) * fator(fora)
+        - _meat_cluster(X, resid, pares) * fator(pares)
+    )
+    cov = xtx_inv @ meat @ xtx_inv
     cov *= n / max(n - k, 1)
-    se = np.sqrt(np.diag(cov))
+    se = np.sqrt(np.clip(np.diag(cov), 0, None))
     return beta, se, nomes
 
 
@@ -78,7 +109,10 @@ def _did(df: pd.DataFrame) -> dict:
         return X.to_numpy(dtype=float), list(X.columns)
 
     X, nomes = matriz(d)
-    beta, se, nomes = _ols_hc1(y, X, nomes)
+    beta, se, nomes = _ols_cluster(
+        y, X, nomes,
+        d["home_team"].to_numpy(), d["away_team"].to_numpy(),
+    )
     i = nomes.index("post")
     return {
         "n": int(len(d)),
@@ -86,7 +120,8 @@ def _did(df: pd.DataFrame) -> dict:
         "se": float(se[i]),
         "lo": float(beta[i] - 1.96 * se[i]),
         "hi": float(beta[i] + 1.96 * se[i]),
-        "modelo": "yellow_diff ~ post + C(home_team) + C(away_team)",
+        "modelo": ("yellow_diff ~ post + C(home_team) + C(away_team); "
+                   "EP two-way cluster (mandante, visitante)"),
     }
 
 
@@ -105,7 +140,10 @@ def _did_comum(df: pd.DataFrame) -> dict:
     casa = pd.get_dummies(d["home_team"], prefix="casa", drop_first=True, dtype=float)
     fora = pd.get_dummies(d["away_team"], prefix="fora", drop_first=True, dtype=float)
     X = pd.concat([base, casa, fora], axis=1).to_numpy(dtype=float)
-    beta, se, _ = _ols_hc1(y, X, ["intercepto", "post"] + list(casa.columns) + list(fora.columns))
+    beta, se, _ = _ols_cluster(
+        y, X, ["intercepto", "post"] + list(casa.columns) + list(fora.columns),
+        d["home_team"].to_numpy(), d["away_team"].to_numpy(),
+    )
     return {
         "n": int(len(d)),
         "coef": float(beta[1]),
@@ -134,8 +172,7 @@ def _tabela_temporadas(df: pd.DataFrame) -> pd.DataFrame:
             "vermelhos_diff": mr,
             "vermelhos_lo": lor,
             "vermelhos_hi": hir,
-            "cartoes_por_jogo": float((g["yellow_home"] + g["yellow_away"]
-                                       + g["red_home"] + g["red_away"]).mean()),
+            "cartoes_por_jogo": float(g["cartoes_total"].mean()),
         })
     return pd.DataFrame(linhas)
 
@@ -144,14 +181,20 @@ def _cartoes_por_falta(df: pd.DataFrame) -> pd.DataFrame:
     if not {"faltas_mandante", "faltas_visitante"}.issubset(df.columns):
         return pd.DataFrame()
     d = df.dropna(subset=["faltas_mandante", "faltas_visitante"]).copy()
-    d = d[(d["faltas_mandante"] > 0) & (d["faltas_visitante"] > 0)]
+    d = d[(d["faltas_mandante"] >= 0) & (d["faltas_visitante"] >= 0)]
     linhas = []
     for season, g in d.groupby("season"):
+        faltas_casa = float(g["faltas_mandante"].sum())
+        faltas_fora = float(g["faltas_visitante"].sum())
         linhas.append({
             "season": int(season),
             "n": int(len(g)),
-            "amarelos_por_falta_casa": float(g["yellow_home"].sum() / g["faltas_mandante"].sum()),
-            "amarelos_por_falta_fora": float(g["yellow_away"].sum() / g["faltas_visitante"].sum()),
+            "amarelos_por_falta_casa": (
+                float(g["yellow_home"].sum() / faltas_casa) if faltas_casa else float("nan")
+            ),
+            "amarelos_por_falta_fora": (
+                float(g["yellow_away"].sum() / faltas_fora) if faltas_fora else float("nan")
+            ),
         })
     return pd.DataFrame(linhas)
 
@@ -178,6 +221,14 @@ def _figura(tab: pd.DataFrame) -> None:
 
 def _relatorio(tab: pd.DataFrame, did: dict, did_comum: dict,
                por_falta: pd.DataFrame) -> str:
+    d19 = float(tab.loc[tab["season"] == 2019, "amarelos_diff"].iloc[0])
+    d20 = float(tab.loc[tab["season"] == 2020, "amarelos_diff"].iloc[0])
+    bruta = d20 - d19
+    nota_ic = (
+        "O IC 95% clusterizado inclui zero; a mudança é sugestiva, mas não "
+        "estatisticamente conclusiva ao nível de 5%."
+        if did["lo"] < 0 < did["hi"] else ""
+    )
     linhas = [
         "# Cartões e arbitragem — análise descritiva (2013–2024)",
         "",
@@ -210,8 +261,11 @@ def _relatorio(tab: pd.DataFrame, did: dict, did_comum: dict,
         "",
         "Coeficiente positivo = a diferença casa−fora **aumentou** em 2020: o",
         "mandante deixou de receber relativamente menos cartões. Em 2019 a",
-        "diferença era −0,19; em 2020, +0,11; a mudança bruta é +0,30 e a",
+        f"diferença era {_pt(d19, 2, True)}; em 2020, {_pt(d20, 2, True)}; "
+        f"a mudança bruta é {_pt(bruta, 2, True)} e a",
         f"estimativa com efeitos fixos de equipe é {_pt(did['coef'], 2, True)}.",
+        "",
+        *( [nota_ic] if nota_ic else [] ),
         "",
         "## Leitura",
         "",
@@ -241,7 +295,7 @@ def _relatorio(tab: pd.DataFrame, did: dict, did_comum: dict,
         linhas += [
             "",
             "A cobertura de faltas é parcial em 2018–2019 e 2024; a comparação",
-            "cartes-per-foul serve como robustez, não como teste definitivo.",
+            "de cartões por falta serve como robustez, não como teste definitivo.",
             "",
         ]
     linhas += [
@@ -257,8 +311,13 @@ def _relatorio(tab: pd.DataFrame, did: dict, did_comum: dict,
         "## Reprodução",
         "",
         "```bash",
+        "# Base primária (matches_processed.csv não é versionado)",
+        "python3 scripts/fetch_raw.py",
+        "python3 scripts/build_processed.py",
         "PYTHONPATH=src python3 scripts/fetch_cards.py",
         "PYTHONPATH=src python3 scripts/build_cards.py",
+        "# Opcional: cartões por falta (context_clean.csv exige o pipeline externo)",
+        "PYTHONPATH=src python3 scripts/build_external.py",
         "PYTHONPATH=src python3 scripts/analyze_cards.py",
         "```",
     ]
@@ -268,17 +327,19 @@ def _relatorio(tab: pd.DataFrame, did: dict, did_comum: dict,
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--cartoes", type=Path, default=CARTOES)
-    parser.add_argument("--base", type=Path, default=BASE)
     parser.add_argument("--contexto", type=Path, default=CONTEXTO)
     args = parser.parse_args(argv)
 
     cartoes = pd.read_csv(caminho_no_projeto(args.cartoes))
-    base = pd.read_csv(caminho_no_projeto(args.base))
-    contexto = pd.read_csv(caminho_no_projeto(args.contexto))
-    df = cartoes.merge(
-        contexto[["match_id", "arbitro", "publico", "faltas_mandante", "faltas_visitante"]],
-        on="match_id", how="left",
-    )
+    contexto_path = caminho_no_projeto(args.contexto)
+    if contexto_path.exists():
+        contexto = pd.read_csv(contexto_path)
+        colunas = [c for c in ["match_id", "faltas_mandante", "faltas_visitante"]
+                   if c in contexto.columns]
+        df = cartoes.merge(contexto[colunas], on="match_id", how="left")
+    else:
+        print(f"aviso: {contexto_path} ausente; análise de faltas desativada")
+        df = cartoes.copy()
     tab = _tabela_temporadas(df)
     did = _did(df)
     did_comum = _did_comum(df)

@@ -38,8 +38,15 @@ def _baixar(ano: int, destino: Path) -> dict:
     resposta = requests.get(url, timeout=120)
     if resposta.status_code != 200:
         raise SystemExit(f"{ano}: HTTP {resposta.status_code} em {url}")
-    destino.write_bytes(resposta.content)
-    dados = json.loads(resposta.content)
+    # Grava em temporário e só substitui o arquivo bom depois de validar o JSON.
+    temporario = destino.with_name(destino.name + ".tmp")
+    try:
+        temporario.write_bytes(resposta.content)
+        dados = json.loads(temporario.read_bytes())
+        temporario.replace(destino)
+    except BaseException:
+        temporario.unlink(missing_ok=True)
+        raise
     return {
         "ano": ano,
         "arquivo": destino.name,

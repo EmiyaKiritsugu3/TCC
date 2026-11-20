@@ -83,6 +83,12 @@ def main(argv: list[str] | None = None) -> int:
 
     junto = junto.dropna(subset=["match_id"]).copy()
     junto["match_id"] = junto["match_id"].astype(int)
+    # A data canônica é sempre a da base; o fallback por equipes+placar pode
+    # casar uma partida remarcada e não deve manter a data antiga da fonte.
+    datas_base = base[["match_id", "date"]].rename(columns={"date": "date_base"})
+    junto = junto.merge(datas_base, on="match_id", how="left")
+    junto["date"] = junto["date_base"]
+    junto = junto.drop(columns=["date_base"])
     junto["placar_fonte"] = (junto["home_goals"].astype(int).astype(str)
                              + " X " + junto["away_goals"].astype(int).astype(str))
     base_placar = base[["match_id", "home_goals", "away_goals"]].rename(
@@ -103,7 +109,6 @@ def main(argv: list[str] | None = None) -> int:
     junto = junto[colunas]
     out.parent.mkdir(parents=True, exist_ok=True)
     junto.to_csv(out, index=False)
-
     cobertura = {}
     for season, grupo in junto.groupby("season"):
         base_n = int((base["season"] == season).sum())
@@ -128,6 +133,7 @@ def main(argv: list[str] | None = None) -> int:
         "divergencias_placar": divergencias.to_dict(orient="records"),
         "por_temporada": cobertura,
     }
+    qualidade_path.parent.mkdir(parents=True, exist_ok=True)
     qualidade_path.write_text(json.dumps(qualidade, ensure_ascii=False, indent=2) + "\n",
                               encoding="utf-8")
     print(f"ok: {len(junto)} partidas com cartões -> {out}")
