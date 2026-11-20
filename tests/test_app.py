@@ -47,5 +47,7 @@ def test_aba_contexto_existe_e_calcula_grupos():
     metricas = {x.label: x.value for x in at.metric}
     assert metricas["Partidas no contexto"] == "7.219"
     assert "Pollard do recorte" in metricas
+    at.selectbox(key="contexto_dimensao").select("Distância").run()
+    assert not at.exception
     at.selectbox(key="contexto_dimensao").select("Estádio").run()
     assert not at.exception
