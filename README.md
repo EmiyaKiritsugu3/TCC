@@ -97,6 +97,16 @@ python3 -m streamlit run app.py
 O dashboard continua usando a base 2006–2024 por padrão; as variáveis
 `TCC_PROCESSED` e `TCC_QUALITY` selecionam o recorte sem alterar o código.
 
+Artigo em inglês (2013–2024), com modelos e figuras:
+
+```bash
+PYTHONPATH=src python3 scripts/analyze_models.py
+PYTHONPATH=src python3 scripts/build_artigo.py
+```
+
+Saídas: `docs/artigo_2013_2024.md`, `.docx` e `.pdf`; o resumo para o
+orientador fica em `docs/resumo_artigo_orientador.pdf`.
+
 Depois do pipeline externo, a auditoria completa dos dados:
 
 ```bash

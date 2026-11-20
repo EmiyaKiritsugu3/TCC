@@ -93,13 +93,29 @@ def _publico() -> None:
     plt.close(fig)
 
 
+def _contexto(df: pd.DataFrame) -> None:
+    from context import build_context_frame, grupos_contexto
+    from associations import group_pollard
+    ctx = build_context_frame(df)
+    linhas = []
+    for dim in ["Distância", "Clássico", "Estádio", "Força na tabela"]:
+        g = group_pollard(ctx, grupos_contexto(ctx, dim), n=2000, seed=42)
+        for r in g.itertuples():
+            linhas.append({"dimensao": dim, "grupo": str(r.grupo), "n": int(r.n),
+                           "pollard": float(r.pollard), "lo": float(r.lo),
+                           "hi": float(r.hi)})
+    pd.DataFrame(linhas).round(4).to_csv(FIG / "tab_artigo_contexto.csv", index=False)
+
+
 def main() -> None:
     df = pd.read_csv(BASE)
     s = summarize(df)
     t = by_season(df).sort_values("season")
-    t.to_csv(FIG / "artigo_indicadores.csv", index=False)
     dados = _serie(df)
+    t = t.merge(dados["anual"][["season", "lo", "hi"]], on="season")
+    t.to_csv(FIG / "tab_artigo_temporadas.csv", index=False)
     _publico()
+    _contexto(df)
     print(f"n={len(df)}; pollard={s['pollard']:.2f}%")
     print("mudança de nível:", {k: (round(v, 3) if isinstance(v, float) else v)
                                 for k, v in dados["nivel"].items()})
