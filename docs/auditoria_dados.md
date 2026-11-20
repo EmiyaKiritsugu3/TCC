@@ -200,7 +200,7 @@ não prova causalidade.
 |---|---|
 | OpenFootball 2018–2024 | **2.659/2.660** placares idênticos; 1 exceção de data conhecida (jogo de dois dias em 2023) |
 | Campeões recalculados | **19/19** |
-| Testes automatizados | **104 passed** |
+| Testes automatizados | **113 passed** |
 | Auditor da monografia | **tudo confere** |
 
 ## 8. Achados
