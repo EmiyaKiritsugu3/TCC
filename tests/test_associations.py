@@ -8,9 +8,13 @@ from associations import (
     bootstrap_pollard_ci,
     change_point,
     cluster_bootstrap_diff,
+    correlation_matrix,
+    correlation_with,
     group_pollard,
+    match_features,
     split_half_reliability,
     team_home_advantage,
+    team_season_features,
     team_season_home_advantage,
     within_team_season,
 )
@@ -159,6 +163,81 @@ def test_team_season_home_advantage_indefinido_sem_um_lado():
     assert pd.isna(a["ha"])
 
 
+def test_team_season_features_calcula_ha_e_rank():
+    d = pd.DataFrame({
+        "season": [2019, 2019, 2019, 2019],
+        "home_team": ["A", "B", "A", "B"],
+        "away_team": ["B", "A", "B", "A"],
+        "home_goals": [3, 1, 2, 0],
+        "away_goals": [0, 1, 0, 2],
+        "result": ["H", "D", "H", "A"],
+        "home_points": [3, 1, 3, 0],
+        "away_points": [0, 1, 0, 3],
+        "travel_km": [100.0, 100.0, 200.0, 200.0],
+        "usual_stadium": [True, True, False, True],
+    })
+    ts = team_season_features(d).set_index("team")
+    a, b = ts.loc["A"], ts.loc["B"]
+    assert a["home_ppg"] == 3.0 and a["away_ppg"] == 2.0
+    assert a["ha"] == 1.0 and b["ha"] == 0.5
+    assert a["pts"] == 10 and b["pts"] == 1
+    assert a["rank"] == 1 and b["rank"] == 2
+    assert a["home_win_pct"] == 100.0 and a["away_win_pct"] == 50.0
+    assert a["home_goals_pg"] == 2.5 and a["away_goals_pg"] == 1.5
+    assert a["avg_away_km"] == 150.0 and b["avg_away_km"] == 150.0
+    assert a["usual_stadium_share"] == 0.5 and b["usual_stadium_share"] == 1.0
+
+
+def test_match_features_deriva_colunas():
+    d = pd.DataFrame({
+        "home_goals": [2, 0],
+        "away_goals": [0, 1],
+        "travel_km": [100.0, 200.0],
+        "home_rest": [5.0, 3.0],
+        "away_rest": [3.0, 5.0],
+        "away_pos_before": [5, 2],
+        "home_pos_before": [2, 5],
+        "derby": [False, True],
+        "usual_stadium": [True, False],
+        "var_era": [True, True],
+        "pandemia": [False, True],
+    })
+    mf = match_features(d)
+    assert mf["goal_diff"].tolist() == [2, -1]
+    assert mf["rest_diff"].tolist() == [2.0, -2.0]
+    assert mf["rank_diff"].tolist() == [3, -3]
+    assert mf["derby"].tolist() == [0, 1]
+    assert mf["usual_stadium"].tolist() == [1, 0]
+    assert mf["pandemia"].tolist() == [0, 1]
+
+
+def test_correlation_matrix_simetrica_e_diagonal():
+    d = pd.DataFrame({
+        "a": [1, 2, 3, 4],
+        "b": [2, 4, 6, 8],
+        "c": [4, 3, 2, 1],
+        "d": [1, 1, 1, 1],
+    })
+    m = correlation_matrix(d, min_periods=2)
+    assert m.loc["a", "b"] == pytest.approx(1.0)
+    assert m.loc["a", "c"] == pytest.approx(-1.0)
+    assert np.isnan(m.loc["a", "d"])
+    assert m.loc["a", "a"] == pytest.approx(1.0)
+    assert m.loc["b", "a"] == m.loc["a", "b"]
+
+
+def test_correlation_with_ha_retorna_rho_e_n():
+    d = pd.DataFrame({
+        "ha": [1, 2, 3, 4],
+        "forca": [1, 2, 3, 4],
+        "viagem": [4, 3, 2, 1],
+    })
+    out = correlation_with(d, "ha", min_periods=2).set_index("variavel")
+    assert out.loc["forca", "rho"] == pytest.approx(1.0)
+    assert out.loc["viagem", "rho"] == pytest.approx(-1.0)
+    assert out.loc["forca", "n"] == 4
+
+
 @pytest.mark.integration
 def test_build_outputs_cobre_a_base_real():
     from pathlib import Path
@@ -173,6 +252,11 @@ def test_build_outputs_cobre_a_base_real():
     assert payload["geral"]["n"] == 7219
     assert payload["quebra"]["cut"] == 2019
     assert len(tab6) == 43
+    ts = team_season_features(df)
+    mf = match_features(df)
+    assert len(ts) == 380 and len(mf) == 7219
+    assert correlation_matrix(ts).shape == (12, 12)
+    assert correlation_matrix(mf).shape == (8, 8)
     for variavel in ("Clássico", "Distância", "Mesmo estado", "Estádio",
                      "Força na tabela", "Era", "Pandemia"):
         assert tab5.loc[tab5["variavel"] == variavel, "n"].sum() == 7219

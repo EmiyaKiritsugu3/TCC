@@ -4,8 +4,16 @@ from pathlib import Path
 import pandas as pd
 import streamlit as st
 
-from associations import group_pollard, team_home_advantage
+from associations import (
+    correlation_matrix,
+    correlation_with,
+    group_pollard,
+    match_features,
+    team_home_advantage,
+    team_season_features,
+)
 from charts import (
+    correlation_heatmap,
     goals_by_season,
     outcome_distribution,
     outcomes_by_season,
@@ -220,4 +228,37 @@ with t5:  # RF12: contexto descritivo (viagem, clássico, estádio, descanso, fo
                 st.caption(
                     "Equipes com poucas partidas têm intervalo de confiança amplo; "
                     "o ranking é exploratório."
+                )
+            st.divider()
+            st.subheader("Matriz de correlação")
+            nivel_matriz = st.radio(
+                "Nível", ["Equipe-temporada", "Partida"], horizontal=True,
+                key="matriz_nivel",
+            )
+            if nivel_matriz == "Equipe-temporada":
+                features = team_season_features(ctx)
+                matriz = correlation_matrix(features)
+                st.plotly_chart(
+                    correlation_heatmap(matriz, "Correlações por equipe-temporada (Spearman)"),
+                    width="stretch",
+                )
+                st.dataframe(correlation_with(features, "ha").round(2),
+                             width="stretch", hide_index=True)
+                st.caption(
+                    "HA = pontos/jogo em casa − fora. home_ppg e away_ppg são "
+                    "componentes do HA; a leitura substantiva está nas variáveis "
+                    "de contexto (distância, estádio, temporada)."
+                )
+            else:
+                features = match_features(ctx)
+                matriz = correlation_matrix(features)
+                st.plotly_chart(
+                    correlation_heatmap(matriz, "Correlações por partida (Spearman)"),
+                    width="stretch",
+                )
+                st.dataframe(correlation_with(features, "goal_diff").round(2),
+                             width="stretch", hide_index=True)
+                st.caption(
+                    "Partidas não são independentes; a matriz é descritiva e "
+                    "não deve ser lida como efeito causal."
                 )

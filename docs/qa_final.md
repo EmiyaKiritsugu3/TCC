@@ -6,14 +6,15 @@
 
 ## Atualização 19/11/2026 — branch `feat/contexto-vantagem-casa`
 
-- `pytest tests/ -q` → **99 passed** (90 rápidos + 9 de integração).
+- `pytest tests/ -q` → **104 passed** (95 rápidos + 9 de integração).
 - `scripts/analyze_context.py` → `tab5_contexto.csv`, `tab6_equipes.csv`,
+  `tab7_correlacoes_equipe.csv`, `matriz_equipe.csv`, `matriz_partida.csv`,
   `contexto.json`; Geral 63,66% (IC 62,63–64,70); quebra em 2019.
-- `scripts/make_figures.py` → Figura 9 (série com IC) e Figura 10 (contexto).
+- `scripts/make_figures.py` → Figura 9 (série com IC), Figura 10 (contexto) e Figura 11 (matriz de correlação).
 - `scripts/check_monografia.py` → **AUDITORIA NUMÉRICA: tudo confere**
-  (Tabelas 1, 5 e 6; ICs; mudança de nível; figuras 1–10; 8.618 palavras).
+  (Tabelas 1 e 5–7; ICs; mudança de nível; correlações; figuras 1–11; 9.390 palavras).
 - Dashboard: 5 abas; AppTest cobre a aba Contexto.
-- Monografia v3: §5.4, Tabelas 5–6, Figuras 9–10, ICs na Tabela 1.
+- Monografia v3: §5.4–5.5, Tabelas 5–7, Figuras 9–11, ICs na Tabela 1.
 
 ## 0. Revalidação em clone limpo — `main` @ `5105dd5` (17/11/2026)
 
@@ -61,7 +62,7 @@
 
 ## 5. Deck e PDF (`apresentacao/`)
 
-- `apresentacao_tcc.pptx`: 10 slides; continha `63,7%`, link do repositório e `22 testes` (snapshot histórico; o deck foi atualizado para `99 testes` e a suíte atual também tem `99`).
+- `apresentacao_tcc.pptx`: 10 slides; continha `63,7%`, link do repositório e `22 testes` (snapshot histórico; o deck foi atualizado para `104 testes` e a suíte atual também tem `104`).
 - `apresentacao_tcc.pdf`: 10 páginas, regenerado via LibreOffice após a correção do slide 9.
 
 ## Artefatos de entrega

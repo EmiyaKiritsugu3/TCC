@@ -55,3 +55,6 @@ def test_aba_contexto_existe_e_calcula_grupos():
     assert not at.exception
     metricas = {x.label: x.value for x in at.metric}
     assert metricas["Partidas no contexto"] == "380"
+    assert at.radio(key="matriz_nivel").value == "Equipe-temporada"
+    at.radio(key="matriz_nivel").set_value("Partida").run()
+    assert not at.exception

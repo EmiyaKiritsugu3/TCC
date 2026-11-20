@@ -112,10 +112,11 @@ números validados da versão 2:
   de temporada, ponto de quebra, grupos, vantagem por equipe e split-half.
 - `scripts/analyze_context.py`: gera `figuras/tab5_contexto.csv`,
   `figuras/tab6_equipes.csv` e `figuras/contexto.json`.
-- Dashboard: quinta aba **Contexto** (RF12), com filtros, IC e ranking por equipe.
-- Monografia v3: §5.4 nova, Tabelas 5–6, Figuras 9–10, ICs na Tabela 1, resumo,
+- Dashboard: quinta aba **Contexto** (RF12), com filtros, IC, ranking por equipe
+  e matriz de correlação (equipe-temporada/partida).
+- Monografia v3: §5.4–5.5, Tabelas 5–7, Figuras 9–11, ICs na Tabela 1, resumo,
   conclusão e limitações atualizados.
-- **99 testes** (90 rápidos + 9 de integração); auditor numérico cobre os novos
+- **104 testes** (95 rápidos + 9 de integração); auditor numérico cobre os novos
   números.
 
 Pendência: validação do orientador para manter H3–H5 e a mudança de nível como

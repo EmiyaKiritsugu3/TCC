@@ -8,6 +8,7 @@ from pathlib import Path
 import pandas as pd
 
 from charts import (
+    correlation_heatmap,
     goals_by_season,
     outcomes_by_season,
     pollard_by_group,
@@ -53,6 +54,16 @@ def test_pollard_by_group_plota_ponto_e_ic():
     assert list(fig.data[0].x) == [60.0, 55.0]
     assert list(fig.data[0].error_x.array) == [2.0, 3.0]
     assert fig.layout.shapes[0].x0 == 50
+
+
+def test_correlation_heatmap_fixa_escala_e_rotulos():
+    m = pd.DataFrame([[1.0, -0.5], [-0.5, 1.0]], index=["a", "b"], columns=["a", "b"])
+    fig = correlation_heatmap(m)
+    assert fig.data[0].zmin == -1
+    assert fig.data[0].zmax == 1
+    assert fig.data[0].zmid == 0
+    assert list(fig.data[0].x) == ["a", "b"]
+    assert list(fig.data[0].y) == ["a", "b"]
 
 
 def test_team_home_advantage_chart_ordena_e_marca_zero():

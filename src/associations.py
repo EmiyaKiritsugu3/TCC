@@ -214,6 +214,127 @@ def within_team_season(df: pd.DataFrame, groups: pd.Series,
     return out.sort_values("grupo").reset_index(drop=True)
 
 
+COLUNAS_EQUIPE = [
+    "ha", "home_ppg", "away_ppg", "pts", "rank", "home_win_pct",
+    "away_win_pct", "home_goals_pg", "away_goals_pg", "avg_away_km",
+    "usual_stadium_share", "season",
+]
+
+COLUNAS_PARTIDA = [
+    "goal_diff", "travel_km", "rest_diff", "rank_diff", "derby",
+    "usual_stadium", "var_era", "pandemia",
+]
+
+
+def team_season_features(df: pd.DataFrame) -> pd.DataFrame:
+    """Uma linha por equipe-temporada com desempenho e contexto.
+
+    A vantagem casa−fora (`ha`) é a diferença entre pontos por jogo em casa
+    e fora; `rank` usa pontos, vitórias e saldo, na mesma ordem da tabela.
+    """
+    obrigatorias = {"season", "home_team", "away_team", "home_goals",
+                    "away_goals", "result", "home_points", "away_points"}
+    faltam = sorted(obrigatorias - set(df.columns))
+    if faltam:
+        raise ValueError(f"Colunas obrigatórias ausentes: {faltam}")
+    tem_travel = "travel_km" in df.columns
+    tem_estadio = "usual_stadium" in df.columns
+    linhas = []
+    for (season, team), casa in df.groupby(["season", "home_team"]):
+        fora = df[(df["season"] == season) & (df["away_team"] == team)]
+        home_ppg = float(casa["home_points"].mean())
+        away_ppg = float(fora["away_points"].mean())
+        sg = float(
+            (casa["home_goals"].sum() - casa["away_goals"].sum())
+            + (fora["away_goals"].sum() - fora["home_goals"].sum())
+        )
+        linhas.append({
+            "season": int(season),
+            "team": team,
+            "ha": home_ppg - away_ppg,
+            "home_ppg": home_ppg,
+            "away_ppg": away_ppg,
+            "pts": int(casa["home_points"].sum() + fora["away_points"].sum()),
+            "home_win_pct": float((casa["result"] == "H").mean() * 100),
+            "away_win_pct": float((fora["result"] == "A").mean() * 100),
+            "home_goals_pg": float(casa["home_goals"].mean()),
+            "away_goals_pg": float(fora["away_goals"].mean()),
+            "avg_away_km": float(fora["travel_km"].mean()) if tem_travel else np.nan,
+            "usual_stadium_share": float(casa["usual_stadium"].mean()) if tem_estadio else np.nan,
+            "wins": int((casa["result"] == "H").sum() + (fora["result"] == "A").sum()),
+            "sg": sg,
+        })
+    out = pd.DataFrame(linhas)
+    if out.empty:
+        return pd.DataFrame(columns=["season", "team", *COLUNAS_EQUIPE])
+    out["rank"] = 0
+    for _, indices in out.groupby("season").groups.items():
+        g = out.loc[indices]
+        out.loc[indices, "rank"] = (
+            g[["pts", "wins", "sg"]].apply(tuple, axis=1)
+            .rank(method="min", ascending=False).astype(int)
+        )
+    colunas = ["season", "team", *[c for c in COLUNAS_EQUIPE if c != "season"]]
+    return out[colunas].sort_values(["season", "rank"]).reset_index(drop=True)
+
+
+def match_features(df: pd.DataFrame) -> pd.DataFrame:
+    """Uma linha por partida com desfecho e variáveis contextuais numéricas."""
+    obrigatorias = {"home_goals", "away_goals", "travel_km", "home_rest",
+                    "away_rest", "away_pos_before", "home_pos_before",
+                    "derby", "usual_stadium", "var_era", "pandemia"}
+    faltam = sorted(obrigatorias - set(df.columns))
+    if faltam:
+        raise ValueError(f"Colunas obrigatórias ausentes: {faltam}")
+    return pd.DataFrame({
+        "goal_diff": df["home_goals"] - df["away_goals"],
+        "travel_km": df["travel_km"],
+        "rest_diff": df["home_rest"] - df["away_rest"],
+        "rank_diff": df["away_pos_before"] - df["home_pos_before"],
+        "derby": df["derby"].astype(int),
+        "usual_stadium": df["usual_stadium"].astype(int),
+        "var_era": df["var_era"].astype(int),
+        "pandemia": df["pandemia"].astype(int),
+    })[COLUNAS_PARTIDA]
+
+
+def correlation_matrix(df: pd.DataFrame, method: str = "spearman",
+                       min_periods: int = 30) -> pd.DataFrame:
+    """Matriz de correlação pairwise (Spearman por padrão)."""
+    numericas = df.select_dtypes(include="number")
+    if numericas.shape[1] < 2:
+        raise ValueError("A matriz de correlação precisa de ao menos duas variáveis numéricas")
+    if method == "spearman":
+        # Spearman = Pearson sobre os ranks; evita depender de scipy.
+        numericas = numericas.rank()
+        method = "pearson"
+    return numericas.corr(method=method, min_periods=min_periods)
+
+
+def correlation_with(df: pd.DataFrame, target: str, method: str = "spearman",
+                     min_periods: int = 30) -> pd.DataFrame:
+    """Correlação de cada variável com um alvo, com n pairwise."""
+    numericas = df.select_dtypes(include="number")
+    if target not in numericas.columns:
+        raise ValueError(f"Alvo ausente ou não numérico: {target!r}")
+    linhas = []
+    for coluna in numericas.columns:
+        if coluna == target:
+            continue
+        par = numericas[[target, coluna]].dropna()
+        n = int(len(par))
+        if n >= min_periods and method == "spearman":
+            par = par.rank()
+        rho = (float(par[target].corr(par[coluna]))
+               if n >= min_periods else None)
+        linhas.append({"variavel": coluna, "rho": rho, "n": n})
+    out = pd.DataFrame(linhas, columns=["variavel", "rho", "n"])
+    out["rho"] = pd.to_numeric(out["rho"], errors="coerce")
+    out["_abs"] = out["rho"].abs()
+    return (out.sort_values("_abs", ascending=False, na_position="last")
+            .drop(columns="_abs").reset_index(drop=True))
+
+
 def split_half_reliability(team_season_df: pd.DataFrame) -> float | None:
     """Correlação ítem-par entre temporadas ímpares e pares (HA por equipe).
 

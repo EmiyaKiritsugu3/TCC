@@ -3,7 +3,8 @@
 
 Uso: .venv/bin/python scripts/analyze_context.py
 Saídas: figuras/tab5_contexto.csv, figuras/tab6_equipes.csv,
-figuras/contexto.json.
+figuras/tab7_correlacoes_equipe.csv, figuras/matriz_equipe.csv,
+figuras/matriz_partida.csv e figuras/contexto.json.
 """
 from __future__ import annotations
 
@@ -18,9 +19,13 @@ from associations import (
     bootstrap_pollard_ci,
     change_point,
     cluster_bootstrap_diff,
+    correlation_matrix,
+    correlation_with,
     group_pollard,
+    match_features,
     split_half_reliability,
     team_home_advantage,
+    team_season_features,
     team_season_home_advantage,
     within_team_season,
 )
@@ -129,6 +134,13 @@ def build_outputs() -> tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame, dict]:
     longevas = equipes[equipes["n"] >= 190]
     confiabilidade = split_half_reliability(equipe_temporada)
 
+    ts = team_season_features(df)
+    mf = match_features(df)
+    matriz_equipe = correlation_matrix(ts)
+    matriz_partida = correlation_matrix(mf)
+    com_ha = correlation_with(ts, "ha")
+    com_gol_diff = correlation_with(mf, "goal_diff")
+
     tabela5 = pd.concat(
         [pd.DataFrame([{
             "variavel": "Geral", "grupo": "Período 2006–2024", "n": len(df),
@@ -155,6 +167,19 @@ def build_outputs() -> tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame, dict]:
             "bottom5_longevas": longevas.tail(5).to_dict(orient="records"),
             "n_equipes": int(len(equipes)),
         },
+        "correlacoes": {
+            "metodo": "spearman",
+            "equipe": {
+                "n": int(len(ts)),
+                "matriz": matriz_equipe.round(4).to_dict(),
+                "com_ha": com_ha.round(4).to_dict(orient="records"),
+            },
+            "partida": {
+                "n": int(len(mf)),
+                "matriz": matriz_partida.round(4).to_dict(),
+                "com_goal_diff": com_gol_diff.round(4).to_dict(orient="records"),
+            },
+        },
         "contagens": {
             "classicos": int(df["derby"].sum()),
             "estadio_habitual": int(df["usual_stadium"].sum()),
@@ -171,6 +196,12 @@ def main() -> None:
     df, tabela5, tabela6, payload = build_outputs()
     tabela5.to_csv(FIG / "tab5_contexto.csv", index=False)
     tabela6.to_csv(FIG / "tab6_equipes.csv", index=False)
+    pd.DataFrame(payload["correlacoes"]["equipe"]["com_ha"]).to_csv(
+        FIG / "tab7_correlacoes_equipe.csv", index=False)
+    pd.DataFrame(payload["correlacoes"]["equipe"]["matriz"]).to_csv(
+        FIG / "matriz_equipe.csv")
+    pd.DataFrame(payload["correlacoes"]["partida"]["matriz"]).to_csv(
+        FIG / "matriz_partida.csv")
     (FIG / "contexto.json").write_text(
         json.dumps(_jsonable(payload), ensure_ascii=False, indent=2) + "\n",
         encoding="utf-8",
@@ -188,7 +219,9 @@ def main() -> None:
           f"IC {nivel_2019['lo']:.2f}–{nivel_2019['hi']:.2f})")
     print(f"equipes: {payload['equipes']['n_equipes']}; "
           f"confiabilidade split-half: {payload['equipes']['confiabilidade_split_half']:.3f}")
-    print("arquivos: tab5_contexto.csv, tab6_equipes.csv, contexto.json")
+    print(f"correlações: {payload['correlacoes']['equipe']['n']} equipe-temporada; "
+          f"{payload['correlacoes']['partida']['n']} partidas")
+    print("arquivos: tab5, tab6, tab7, matrizes e contexto.json")
 
 
 if __name__ == "__main__":

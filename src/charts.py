@@ -70,6 +70,19 @@ def pollard_by_group(effects: pd.DataFrame):
     return fig
 
 
+def correlation_heatmap(matrix: pd.DataFrame, titulo="Matriz de correlação"):
+    """Heatmap de uma matriz de correlação, com escala fixa em [-1, 1]."""
+    fig = go.Figure(go.Heatmap(
+        z=matrix.values, x=list(matrix.columns), y=list(matrix.index),
+        zmin=-1, zmax=1, zmid=0, colorscale="RdBu",
+        text=matrix.round(2).astype(str).values, texttemplate="%{text}",
+        colorbar=dict(title="rho"),
+    ))
+    fig.update_layout(title=titulo, xaxis_tickangle=-40,
+                      yaxis=dict(autorange="reversed"), separators=",.")
+    return fig
+
+
 def team_home_advantage_chart(team_df: pd.DataFrame):
     """Ranking de vantagem casa−fora (pontos/jogo), com IC 95%."""
     fig = go.Figure(go.Bar(

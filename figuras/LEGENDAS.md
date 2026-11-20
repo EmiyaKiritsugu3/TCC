@@ -51,6 +51,11 @@ Pollard por contexto da partida (clássico, distância, mesma UF, estádio,
 descanso, força, era e pandemia), com IC 95% e linha de 50%.
 Fonte: Elaboração própria, a partir da base validada.
 
+**Figura 11 — `fig11_correlacoes_equipe.png`.**
+Matriz de correlação de Spearman por equipe-temporada (HA × desempenho,
+contexto e temporada), 2006–2024.
+Fonte: Elaboração própria, a partir da base validada.
+
 **Tabela 1 — `tab1_indicadores_temporada.csv`.**
 Indicadores por temporada (n, proporções, médias de gols, pontos, Pollard e IC
 95% do Pollard). 2016 com n = 379 (partida cancelada, ver metodologia); 2020
@@ -65,4 +70,10 @@ Fonte: Elaboração própria, a partir da base validada.
 **Tabela 6 — `tab6_equipes.csv`.**
 Vantagem casa−fora por equipe (pontos/jogo), com n e IC 95%; a monografia
 mostra os extremos entre equipes com pelo menos cinco temporadas.
+Fonte: Elaboração própria, a partir da base validada.
+
+**Tabela 7 — `tab7_correlacoes_equipe.csv`.**
+Correlações de Spearman com a vantagem casa−fora por equipe-temporada.
+A matriz completa (12×12) está em `matriz_equipe.csv`; a de partida, em
+`matriz_partida.csv`.
 Fonte: Elaboração própria, a partir da base validada.

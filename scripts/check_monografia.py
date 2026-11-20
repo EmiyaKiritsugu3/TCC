@@ -11,6 +11,7 @@ from pathlib import Path
 
 RAIZ = Path(__file__).resolve().parent.parent
 
+import numpy as np
 import pandas as pd
 from metrics import by_season, summarize, team_season
 from context import rest_bucket
@@ -58,6 +59,10 @@ def _linhas_tabela(bloco: str, ncols: int, cabecalho: str) -> list[list[str]]:
     return linhas
 
 
+def _num_pt(texto: str) -> float:
+    return float(texto.replace("−", "-").replace(",", "."))
+
+
 def _ic(texto: str) -> tuple[float, float, float]:
     """Lê '58,23 (53,99–62,45)' e devolve (ponto, lo, hi)."""
     m = re.fullmatch(r"(-?[\d,]+) \((-?[\d,]+)–(-?[\d,]+)\)", texto)
@@ -67,7 +72,9 @@ def _ic(texto: str) -> tuple[float, float, float]:
 
 
 def conferir(texto: str, df: pd.DataFrame, tab1: pd.DataFrame,
-             tab5: pd.DataFrame, tab6: pd.DataFrame, contexto: dict) -> list[str]:
+             tab5: pd.DataFrame, tab6: pd.DataFrame, tab7: pd.DataFrame,
+             mat_eq: pd.DataFrame, mat_part: pd.DataFrame,
+             contexto: dict) -> list[str]:
     """Executa todas as conferências e devolve as mensagens de divergência."""
     ERROS.clear()
     T = texto
@@ -97,19 +104,21 @@ def conferir(texto: str, df: pd.DataFrame, tab1: pd.DataFrame,
                    "63,7%", "12.554", "7.166", "58,2% (2017)", "69,5% (2018)",
                    "28,9%", "17,9%", "60,2%", "n = 379", "379 jogos",
                    "62,4% em 2019", "61,8% em 2021", "11,3 p.p",
-                   "2.659 de 2.660", "99,96%", "19/19", "99 testes", "99 passed",
+                   "2.659 de 2.660", "99,96%", "19/19", "104 testes", "104 passed",
                    "25/02/2021", "Flamengo 2019: 53/37/90/38",
                    "64,9% em 2006–2018", "61,0% em 2019–2024", "3,9 p.p.",
                    "2,1–5,6", "4,5 p.p.", "3,0–6,0", "53,4–62,6",
                    "63,4%", "63,8%", "63,9%", "58,2% (IC 53,99–62,45)",
                    "4,7 p.p.", "0,13 ponto", "55,6%", "5,6 p.p.", "73,3%",
                    "17,7 p.p.", "0,46", "5.388", "12.554 vs. 7.166",
-                   "Tabela 6", "Figura 9", "Figura 10", "65,1%", "60,6%",
-                   "4,5 p.p.", "3,0–6,0", "−1,1"]:
+                   "Tabela 6", "Tabela 7", "Figura 9", "Figura 10",
+                   "Figura 11", "65,1%", "60,6%", "4,5 p.p.", "3,0–6,0",
+                   "−1,1", "0,57", "−0,46", "−0,01", "0,10", "0,19",
+                   "380 equipe-temporadas"]:
         confere(pedaco in T, f"trecho ausente: {pedaco!r}")
     confere("12.554 × 7.166" not in T, "comparação de pontos ainda usa ×")
     confere("`tests/test_context.py` (20)" in T, "contagem de test_context no Apendice D")
-    confere("`tests/test_associations.py` (15)" in T, "contagem de test_associations no Apendice D")
+    confere("`tests/test_associations.py` (19)" in T, "contagem de test_associations no Apendice D")
 
     # --- extremos anuais ---
     confere(round(t.loc[2017, "pollard"], 2) == 58.24, "pollard 2017")
@@ -259,6 +268,38 @@ def conferir(texto: str, df: pd.DataFrame, tab1: pd.DataFrame,
         confere(round(lo, 2) == round(r["lo"], 2), f"Tabela 6 IC inferior {time}")
         confere(round(hi, 2) == round(r["hi"], 2), f"Tabela 6 IC superior {time}")
 
+    # --- Tabela 7 == correlações com HA ---
+    mapa7 = {
+        "Casa pts/jogo": "home_ppg", "% vitórias casa": "home_win_pct",
+        "Fora pts/jogo": "away_ppg", "% vitórias fora": "away_win_pct",
+        "Gols casa/jogo": "home_goals_pg", "Gols fora/jogo": "away_goals_pg",
+        "Temporada": "season", "% estádio habitual": "usual_stadium_share",
+        "Posição final": "rank", "Pontos": "pts", "Distância média": "avg_away_km",
+    }
+    bloco7 = secao("**Tabela 7").split("Fonte:", 1)[0]
+    linhas7 = _linhas_tabela(bloco7, 3, "Variável")
+    confere(len(linhas7) == len(tab7),
+            f"Tabela 7 tem {len(linhas7)} linhas, esperado {len(tab7)}")
+    idx7 = {r.variavel: r for _, r in tab7.iterrows()}
+    for rotulo, rho_txt, n_txt in linhas7:
+        variavel = mapa7.get(rotulo)
+        confere(variavel is not None, f"Tabela 7 rótulo desconhecido: {rotulo}")
+        if variavel is None or variavel not in idx7:
+            continue
+        r = idx7[variavel]
+        confere(n_txt == _num(r["n"]), f"Tabela 7 n {rotulo}")
+        confere(abs(_num_pt(rho_txt) - r["rho"]) < 0.006,
+                f"Tabela 7 rho {rotulo}")
+        confere(abs(mat_eq.loc["ha", variavel] - r["rho"]) < 1e-4,
+                f"matriz_equipe HA x {variavel}")
+
+    confere(mat_eq.shape == (12, 12), f"matriz_equipe {mat_eq.shape} != (12, 12)")
+    confere(mat_part.shape == (8, 8), f"matriz_partida {mat_part.shape} != (8, 8)")
+    for nome, matriz in (("equipe", mat_eq), ("partida", mat_part)):
+        confere(np.allclose(np.diag(matriz), 1.0), f"diagonal da matriz {nome}")
+        confere(np.allclose(matriz.values, matriz.values.T, equal_nan=True),
+                f"matriz {nome} não simétrica")
+
     # --- descanso: ausentes não são imputados ---
     d = df.copy()
     d["rest_bucket"] = rest_bucket(d)
@@ -274,8 +315,8 @@ def conferir(texto: str, df: pd.DataFrame, tab1: pd.DataFrame,
         nums.append(int(n))
         if int(n) not in ordem:
             ordem.append(int(n))
-    confere(ordem == list(range(1, 11)), f"ordem figuras {ordem}")
-    for i in range(1, 7):
+    confere(ordem == list(range(1, 12)), f"ordem figuras {ordem}")
+    for i in range(1, 8):
         confere(f"Tabela {i}" in T, f"Tabela {i} ausente")
 
     # --- citações x referências ---
@@ -328,14 +369,18 @@ def main(argv: list[str] | None = None) -> int:
     df = pd.read_csv(RAIZ / "data" / "processed" / "matches_processed.csv")
     figuras = RAIZ / "figuras"
     for nome in ("tab1_indicadores_temporada.csv", "tab5_contexto.csv",
-                 "tab6_equipes.csv", "contexto.json"):
+                 "tab6_equipes.csv", "tab7_correlacoes_equipe.csv",
+                 "matriz_equipe.csv", "matriz_partida.csv", "contexto.json"):
         if not (figuras / nome).exists():
             p.error(f"artefato ausente: figuras/{nome}; rode scripts/analyze_context.py")
     tab1 = pd.read_csv(figuras / "tab1_indicadores_temporada.csv").sort_values("season")
     tab5 = pd.read_csv(figuras / "tab5_contexto.csv")
     tab6 = pd.read_csv(figuras / "tab6_equipes.csv")
+    tab7 = pd.read_csv(figuras / "tab7_correlacoes_equipe.csv")
+    mat_eq = pd.read_csv(figuras / "matriz_equipe.csv", index_col=0)
+    mat_part = pd.read_csv(figuras / "matriz_partida.csv", index_col=0)
     contexto = json.loads((figuras / "contexto.json").read_text(encoding="utf-8"))
-    erros = conferir(texto, df, tab1, tab5, tab6, contexto)
+    erros = conferir(texto, df, tab1, tab5, tab6, tab7, mat_eq, mat_part, contexto)
     return 1 if erros else 0
 
 

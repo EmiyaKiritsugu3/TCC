@@ -683,6 +683,361 @@
     ],
     "n_equipes": 43
   },
+  "correlacoes": {
+    "metodo": "spearman",
+    "equipe": {
+      "n": 380,
+      "matriz": {
+        "season": {
+          "season": 1.0,
+          "ha": -0.1886,
+          "home_ppg": -0.1021,
+          "away_ppg": 0.0974,
+          "pts": -0.0164,
+          "rank": 0.0007,
+          "home_win_pct": -0.1024,
+          "away_win_pct": 0.0895,
+          "home_goals_pg": -0.2801,
+          "away_goals_pg": -0.1174,
+          "avg_away_km": 0.1743,
+          "usual_stadium_share": -0.0042
+        },
+        "ha": {
+          "season": -0.1886,
+          "ha": 1.0,
+          "home_ppg": 0.5667,
+          "away_ppg": -0.4626,
+          "pts": 0.082,
+          "rank": -0.0828,
+          "home_win_pct": 0.5395,
+          "away_win_pct": -0.452,
+          "home_goals_pg": 0.355,
+          "away_goals_pg": -0.3002,
+          "avg_away_km": -0.0124,
+          "usual_stadium_share": 0.1018
+        },
+        "home_ppg": {
+          "season": -0.1021,
+          "ha": 0.5667,
+          "home_ppg": 1.0,
+          "away_ppg": 0.3937,
+          "pts": 0.8437,
+          "rank": -0.834,
+          "home_win_pct": 0.9713,
+          "away_win_pct": 0.3667,
+          "home_goals_pg": 0.7059,
+          "away_goals_pg": 0.2891,
+          "avg_away_km": -0.1795,
+          "usual_stadium_share": -0.0314
+        },
+        "away_ppg": {
+          "season": 0.0974,
+          "ha": -0.4626,
+          "home_ppg": 0.3937,
+          "away_ppg": 1.0,
+          "pts": 0.8077,
+          "rank": -0.7901,
+          "home_win_pct": 0.3962,
+          "away_win_pct": 0.9552,
+          "home_goals_pg": 0.3504,
+          "away_goals_pg": 0.6795,
+          "avg_away_km": -0.2023,
+          "usual_stadium_share": -0.1594
+        },
+        "pts": {
+          "season": -0.0164,
+          "ha": 0.082,
+          "home_ppg": 0.8437,
+          "away_ppg": 0.8077,
+          "pts": 1.0,
+          "rank": -0.9832,
+          "home_win_pct": 0.8288,
+          "away_win_pct": 0.7644,
+          "home_goals_pg": 0.6423,
+          "away_goals_pg": 0.5663,
+          "avg_away_km": -0.231,
+          "usual_stadium_share": -0.104
+        },
+        "rank": {
+          "season": 0.0007,
+          "ha": -0.0828,
+          "home_ppg": -0.834,
+          "away_ppg": -0.7901,
+          "pts": -0.9832,
+          "rank": 1.0,
+          "home_win_pct": -0.8203,
+          "away_win_pct": -0.7504,
+          "home_goals_pg": -0.6149,
+          "away_goals_pg": -0.5445,
+          "avg_away_km": 0.2377,
+          "usual_stadium_share": 0.1144
+        },
+        "home_win_pct": {
+          "season": -0.1024,
+          "ha": 0.5395,
+          "home_ppg": 0.9713,
+          "away_ppg": 0.3962,
+          "pts": 0.8288,
+          "rank": -0.8203,
+          "home_win_pct": 1.0,
+          "away_win_pct": 0.3669,
+          "home_goals_pg": 0.7207,
+          "away_goals_pg": 0.312,
+          "avg_away_km": -0.1696,
+          "usual_stadium_share": -0.0551
+        },
+        "away_win_pct": {
+          "season": 0.0895,
+          "ha": -0.452,
+          "home_ppg": 0.3667,
+          "away_ppg": 0.9552,
+          "pts": 0.7644,
+          "rank": -0.7504,
+          "home_win_pct": 0.3669,
+          "away_win_pct": 1.0,
+          "home_goals_pg": 0.332,
+          "away_goals_pg": 0.658,
+          "avg_away_km": -0.1861,
+          "usual_stadium_share": -0.1444
+        },
+        "home_goals_pg": {
+          "season": -0.2801,
+          "ha": 0.355,
+          "home_ppg": 0.7059,
+          "away_ppg": 0.3504,
+          "pts": 0.6423,
+          "rank": -0.6149,
+          "home_win_pct": 0.7207,
+          "away_win_pct": 0.332,
+          "home_goals_pg": 1.0,
+          "away_goals_pg": 0.3708,
+          "avg_away_km": -0.2146,
+          "usual_stadium_share": -0.0481
+        },
+        "away_goals_pg": {
+          "season": -0.1174,
+          "ha": -0.3002,
+          "home_ppg": 0.2891,
+          "away_ppg": 0.6795,
+          "pts": 0.5663,
+          "rank": -0.5445,
+          "home_win_pct": 0.312,
+          "away_win_pct": 0.658,
+          "home_goals_pg": 0.3708,
+          "away_goals_pg": 1.0,
+          "avg_away_km": -0.1737,
+          "usual_stadium_share": -0.1038
+        },
+        "avg_away_km": {
+          "season": 0.1743,
+          "ha": -0.0124,
+          "home_ppg": -0.1795,
+          "away_ppg": -0.2023,
+          "pts": -0.231,
+          "rank": 0.2377,
+          "home_win_pct": -0.1696,
+          "away_win_pct": -0.1861,
+          "home_goals_pg": -0.2146,
+          "away_goals_pg": -0.1737,
+          "avg_away_km": 1.0,
+          "usual_stadium_share": 0.2859
+        },
+        "usual_stadium_share": {
+          "season": -0.0042,
+          "ha": 0.1018,
+          "home_ppg": -0.0314,
+          "away_ppg": -0.1594,
+          "pts": -0.104,
+          "rank": 0.1144,
+          "home_win_pct": -0.0551,
+          "away_win_pct": -0.1444,
+          "home_goals_pg": -0.0481,
+          "away_goals_pg": -0.1038,
+          "avg_away_km": 0.2859,
+          "usual_stadium_share": 1.0
+        }
+      },
+      "com_ha": [
+        {
+          "variavel": "home_ppg",
+          "rho": 0.5667,
+          "n": 380
+        },
+        {
+          "variavel": "home_win_pct",
+          "rho": 0.5395,
+          "n": 380
+        },
+        {
+          "variavel": "away_ppg",
+          "rho": -0.4626,
+          "n": 380
+        },
+        {
+          "variavel": "away_win_pct",
+          "rho": -0.452,
+          "n": 380
+        },
+        {
+          "variavel": "home_goals_pg",
+          "rho": 0.355,
+          "n": 380
+        },
+        {
+          "variavel": "away_goals_pg",
+          "rho": -0.3002,
+          "n": 380
+        },
+        {
+          "variavel": "season",
+          "rho": -0.1886,
+          "n": 380
+        },
+        {
+          "variavel": "usual_stadium_share",
+          "rho": 0.1018,
+          "n": 380
+        },
+        {
+          "variavel": "rank",
+          "rho": -0.0828,
+          "n": 380
+        },
+        {
+          "variavel": "pts",
+          "rho": 0.082,
+          "n": 380
+        },
+        {
+          "variavel": "avg_away_km",
+          "rho": -0.0124,
+          "n": 380
+        }
+      ]
+    },
+    "partida": {
+      "n": 7219,
+      "matriz": {
+        "goal_diff": {
+          "goal_diff": 1.0,
+          "travel_km": 0.01,
+          "rest_diff": 0.0064,
+          "rank_diff": 0.192,
+          "derby": -0.0351,
+          "usual_stadium": 0.0308,
+          "var_era": -0.047,
+          "pandemia": -0.0297
+        },
+        "travel_km": {
+          "goal_diff": 0.01,
+          "travel_km": 1.0,
+          "rest_diff": 0.0113,
+          "rank_diff": 0.002,
+          "derby": -0.4224,
+          "usual_stadium": 0.0425,
+          "var_era": 0.0898,
+          "pandemia": 0.0827
+        },
+        "rest_diff": {
+          "goal_diff": 0.0064,
+          "travel_km": 0.0113,
+          "rest_diff": 1.0,
+          "rank_diff": -0.0132,
+          "derby": -0.017,
+          "usual_stadium": 0.0139,
+          "var_era": -0.0125,
+          "pandemia": 0.0042
+        },
+        "rank_diff": {
+          "goal_diff": 0.192,
+          "travel_km": 0.002,
+          "rest_diff": -0.0132,
+          "rank_diff": 1.0,
+          "derby": 0.0135,
+          "usual_stadium": -0.0083,
+          "var_era": 0.0079,
+          "pandemia": 0.0089
+        },
+        "derby": {
+          "goal_diff": -0.0351,
+          "travel_km": -0.4224,
+          "rest_diff": -0.017,
+          "rank_diff": 0.0135,
+          "derby": 1.0,
+          "usual_stadium": -0.0665,
+          "var_era": -0.0106,
+          "pandemia": -0.0152
+        },
+        "usual_stadium": {
+          "goal_diff": 0.0308,
+          "travel_km": 0.0425,
+          "rest_diff": 0.0139,
+          "rank_diff": -0.0083,
+          "derby": -0.0665,
+          "usual_stadium": 1.0,
+          "var_era": 0.0506,
+          "pandemia": 0.0328
+        },
+        "var_era": {
+          "goal_diff": -0.047,
+          "travel_km": 0.0898,
+          "rest_diff": -0.0125,
+          "rank_diff": 0.0079,
+          "derby": -0.0106,
+          "usual_stadium": 0.0506,
+          "var_era": 1.0,
+          "pandemia": 0.5049
+        },
+        "pandemia": {
+          "goal_diff": -0.0297,
+          "travel_km": 0.0827,
+          "rest_diff": 0.0042,
+          "rank_diff": 0.0089,
+          "derby": -0.0152,
+          "usual_stadium": 0.0328,
+          "var_era": 0.5049,
+          "pandemia": 1.0
+        }
+      },
+      "com_goal_diff": [
+        {
+          "variavel": "rank_diff",
+          "rho": 0.192,
+          "n": 7219
+        },
+        {
+          "variavel": "var_era",
+          "rho": -0.047,
+          "n": 7219
+        },
+        {
+          "variavel": "derby",
+          "rho": -0.0351,
+          "n": 7219
+        },
+        {
+          "variavel": "usual_stadium",
+          "rho": 0.0308,
+          "n": 7219
+        },
+        {
+          "variavel": "pandemia",
+          "rho": -0.0297,
+          "n": 7219
+        },
+        {
+          "variavel": "travel_km",
+          "rho": 0.01,
+          "n": 7219
+        },
+        {
+          "variavel": "rest_diff",
+          "rho": 0.0064,
+          "n": 7025
+        }
+      ]
+    }
+  },
   "contagens": {
     "classicos": 458,
     "estadio_habitual": 6543,

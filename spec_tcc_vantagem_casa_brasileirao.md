@@ -303,7 +303,7 @@ Se houver tempo, permitir baixar como CSV a tabela filtrada e/ou um resumo por t
 
 ### RF12 — Analisar o contexto da partida (extensão descritiva)
 
-O sistema deve permitir explorar o índice de Pollard por clássico, faixa de distância, mesma unidade federativa, estádio habitual, diferença de descanso, posição relativa na tabela, era e pandemia, exibindo n e intervalo de confiança. A funcionalidade é **descritiva**: não estima efeito causal de torcida, arbitragem, viagem ou qualidade do elenco.
+O sistema deve permitir explorar o índice de Pollard por clássico, faixa de distância, mesma unidade federativa, estádio habitual, diferença de descanso, posição relativa na tabela, era e pandemia, exibindo n e intervalo de confiança. Deve incluir também uma matriz de correlação (Spearman) entre indicadores e contexto, por equipe-temporada e por partida. A funcionalidade é **descritiva**: não estima efeito causal de torcida, arbitragem, viagem ou qualidade do elenco.
 
 ## 12. Organização das telas
 

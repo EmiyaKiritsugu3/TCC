@@ -15,7 +15,7 @@
 > a análise está fechada e o repositório está na branch
 > `feat/contexto-vantagem-casa`: 7.219 partidas 2006–2024, Pollard 63,7% no período
 > (58,2% em 2017 – 69,5% em 2018), validação cruzada 99,96% e 19/19 campeões
-> recalculados, 99 testes passando. A versão 3 acrescenta a mudança de nível
+> recalculados, 104 testes passando. A versão 3 acrescenta a mudança de nível
 > pós-2018 (64,9% → 61,0%) e a análise contextual (viagem, clássico, estádio,
 > descanso, força e era), com ICs. Monografia consolidada em
 > `docs/monografia_v2.md` (+ rascunho formatado `docs/monografia_draft_abnt.docx`,

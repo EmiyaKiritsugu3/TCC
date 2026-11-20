@@ -16,7 +16,7 @@ e índice de Pollard por temporada e por equipe. Sem previsão, sem IA, sem apos
 - Base primária auditada: zero duplicatas, zero placares ausentes, zero divergências
   vencedor×placar; 2016 com 379 jogos (Chapecoense×Atlético-MG cancelada) e 2020
   estendida até 25/02/2021 — ambos documentados.
-- Pipeline reproduzível + **99 testes automatizados** passando (90 rápidos + 9 de integração).
+- Pipeline reproduzível + **104 testes automatizados** passando (95 rápidos + 9 de integração).
 - Monografia v2 fechada (04/11/2026): Tabela 1 no texto, figuras 1–8 em ordem,
   referências ABNT alfabéticas, apêndices A–D preenchidos; ampliação proativa
   da fundamentação em curso (meta ≥ 5.500 palavras), sem alterar resultados.
@@ -26,12 +26,19 @@ e índice de Pollard por temporada e por equipe. Sem previsão, sem IA, sem apos
   download pinado no build + citação (ver `data/raw/FONTE.md`).
 - **Variáveis contextuais (fase adicional):** `src/context.py` e `src/associations.py`
   com viagem, clássico, estádio, descanso, força e era (Tabela 5 na monografia),
-  além de mudança de nível, ICs anuais e vantagem por equipe (Tabela 6).
+  além de mudança de nível, ICs anuais, vantagem por equipe (Tabela 6) e
+  matriz de correlação (Tabela 7 e Figura 11).
   Achados principais: a distância não move o índice (63,37% / 63,80% / 63,90%);
   clássicos sem viagem ficam em 58,23%; estádio habitual 64,10% vs. outro 59,40%;
   mandante zebra ainda fica em 55,65%. A série tem mudança de nível pós-2018:
   64,88% em 2006–2018 vs. 61,01% em 2019–2024 (diferença 3,87 p.p.; IC 2,15–5,58).
   Tudo descritivo, sem leitura causal, pendente de validação do orientador.
+- **Matriz de correlação (Spearman):** por equipe-temporada (n=380), o HA
+  correlaciona-se +0,57 com o desempenho em casa e −0,46 com o de fora
+  (componentes mecânicos), mas −0,01 com a distância média, +0,10 com o
+  estádio habitual, +0,08 com pontos e −0,08 com a posição. No nível de
+  partida (n=7.219), a maior associação contextual é a diferença de posição
+  (+0,19); as demais ficam entre −0,05 e +0,03.
 
 ## 3. Resultados preliminares (respondem à pergunta de pesquisa)
 

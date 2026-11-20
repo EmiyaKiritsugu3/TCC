@@ -120,6 +120,34 @@ def fig_contexto(tab5: pd.DataFrame):
     plt.close(fig)
 
 
+def fig_correlacoes(mat: pd.DataFrame):
+    rotulos = {
+        "ha": "HA", "home_ppg": "Casa pts/jogo", "away_ppg": "Fora pts/jogo",
+        "pts": "Pontos", "rank": "Posição", "home_win_pct": "% vit. casa",
+        "away_win_pct": "% vit. fora", "home_goals_pg": "Gols casa/jogo",
+        "away_goals_pg": "Gols fora/jogo", "avg_away_km": "Distância média",
+        "usual_stadium_share": "% estádio habitual", "season": "Temporada",
+    }
+    d = mat.rename(index=rotulos, columns=rotulos)
+    fig, ax = plt.subplots(figsize=(10, 9))
+    im = ax.imshow(d.values, cmap="RdBu", vmin=-1, vmax=1)
+    ax.set_xticks(range(len(d.columns)))
+    ax.set_yticks(range(len(d.index)))
+    ax.set_xticklabels(d.columns, rotation=45, ha="right", fontsize=8)
+    ax.set_yticklabels(d.index, fontsize=8)
+    for i in range(d.shape[0]):
+        for j in range(d.shape[1]):
+            valor = d.values[i, j]
+            if pd.notna(valor):
+                ax.text(j, i, f"{valor:.2f}", ha="center", va="center",
+                        fontsize=6, color="black")
+    fig.colorbar(im, ax=ax, shrink=0.8, label="rho de Spearman")
+    ax.set_title("Matriz de correlação por equipe-temporada (Spearman)", fontsize=11)
+    fig.tight_layout()
+    fig.savefig(FIG / "fig11_correlacoes_equipe.png", dpi=150)
+    plt.close(fig)
+
+
 def main():
     FIG.mkdir(parents=True, exist_ok=True)
     df = pd.read_csv(RAIZ / "data" / "processed" / "matches_processed.csv")
@@ -133,6 +161,7 @@ def main():
     fig_gols(t)
     fig_serie_ic(anual, payload["nivel_2019"])
     fig_contexto(tab5)
+    fig_correlacoes(pd.DataFrame(payload["correlacoes"]["equipe"]["matriz"]))
     tab1 = t.merge(anual[["season", "lo", "hi"]].rename(
         columns={"lo": "pollard_lo", "hi": "pollard_hi"}), on="season", how="left")
     tab1.round(2).to_csv(FIG / "tab1_indicadores_temporada.csv", index=False)
