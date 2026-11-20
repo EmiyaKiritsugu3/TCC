@@ -12,6 +12,61 @@ import pandas as pd
 
 # Clube -> (latitude, longitude) da cidade-sede. Aproximadas; suficientes
 # para faixas de distância (<500, 500–1500, >1500 km).
+CLUB_STATE: dict[str, str] = {
+    "America-MG": "MG",
+    "America-RN": "RN",
+    "Athletico-PR": "PR",
+    "Atletico-GO": "GO",
+    "Atletico-MG": "MG",
+    "Avai": "SC",
+    "Bahia": "BA",
+    "Barueri": "SP",
+    "Botafogo-RJ": "RJ",
+    "Bragantino": "SP",
+    "CSA": "AL",
+    "Ceara": "CE",
+    "Chapecoense": "SC",
+    "Corinthians": "SP",
+    "Coritiba": "PR",
+    "Criciuma": "SC",
+    "Cruzeiro": "MG",
+    "Cuiaba": "MT",
+    "Figueirense": "SC",
+    "Flamengo": "RJ",
+    "Fluminense": "RJ",
+    "Fortaleza": "CE",
+    "Goias": "GO",
+    "Gremio": "RS",
+    "Gremio Prudente": "SP",
+    "Guarani": "SP",
+    "Internacional": "RS",
+    "Ipatinga": "MG",
+    "Joinville": "SC",
+    "Juventude": "RS",
+    "Nautico": "PE",
+    "Palmeiras": "SP",
+    "Parana": "PR",
+    "Ponte Preta": "SP",
+    "Portuguesa": "SP",
+    "Santa Cruz": "PE",
+    "Santo Andre": "SP",
+    "Santos": "SP",
+    "Sao Caetano": "SP",
+    "Sao Paulo": "SP",
+    "Sport": "PE",
+    "Vasco": "RJ",
+    "Vitoria": "BA",
+}
+
+REGIAO: dict[str, str] = {
+    "AC": "N", "AM": "N", "AP": "N", "PA": "N", "RO": "N", "RR": "N", "TO": "N",
+    "AL": "NE", "BA": "NE", "CE": "NE", "MA": "NE", "PB": "NE", "PE": "NE",
+    "PI": "NE", "RN": "NE", "SE": "NE",
+    "DF": "CO", "GO": "CO", "MT": "CO", "MS": "CO",
+    "ES": "SE", "MG": "SE", "RJ": "SE", "SP": "SE",
+    "PR": "S", "RS": "S", "SC": "S",
+}
+
 CLUB_COORDS: dict[str, tuple[float, float]] = {
     "America-MG": (-19.92, -43.94),
     "America-RN": (-5.79, -35.21),
@@ -169,3 +224,107 @@ def add_era_flags(df: pd.DataFrame) -> pd.DataFrame:
     d["var_era"] = d["season"] >= 2019
     d["pandemia"] = d["season"].isin([2020, 2021])
     return d
+
+
+def _estados(df: pd.DataFrame, lado: str) -> pd.Series:
+    """UF de cada clube, com falha explícita para clube desconhecido."""
+    if lado not in ("home", "away"):
+        raise ValueError(f"Lado inválido: {lado!r}")
+    coluna = f"{lado}_team"
+    if coluna not in df.columns:
+        raise ValueError(f"Coluna obrigatória ausente: {coluna}")
+    uf = df[coluna].map(CLUB_STATE)
+    if df[coluna].isna().any():
+        raise ValueError(f"Clube vazio em {coluna}")
+    faltam = sorted(df.loc[uf.isna(), coluna].unique())
+    if faltam:
+        raise ValueError(f"Clube sem estado: {faltam}")
+    return uf
+
+
+def same_state(df: pd.DataFrame) -> pd.Series:
+    """True quando mandante e visitante são do mesmo estado."""
+    return (_estados(df, "home") == _estados(df, "away")).rename("same_state")
+
+
+def region(df: pd.DataFrame, side: str) -> pd.Series:
+    """Região do clube (N, NE, CO, SE, S) para o lado pedido."""
+    return _estados(df, side).map(REGIAO).rename(f"{side}_region")
+
+
+def usual_stadium(df: pd.DataFrame) -> pd.Series:
+    """True quando o jogo ocorre no estádio mais frequente da equipe-temporada.
+
+    Empate de frequência é resolvido pelo nome alfabeticamente, para que a
+    escolha seja determinística e reproduzível.
+    """
+    for coluna in ("season", "home_team", "stadium"):
+        if coluna not in df.columns:
+            raise ValueError(f"Coluna obrigatória ausente: {coluna}")
+    d = df[["season", "home_team", "stadium"]].copy()
+    d["stadium"] = d["stadium"].fillna("")
+
+    def _moda(serie: pd.Series) -> str:
+        contagem = serie.value_counts()
+        return sorted(contagem[contagem == contagem.max()].index)[0]
+
+    moda = (d.groupby(["season", "home_team"], sort=False)["stadium"]
+            .agg(_moda).rename("usual"))
+    j = d.join(moda, on=["season", "home_team"])
+    return j["stadium"].eq(j["usual"]).set_axis(df.index).rename("usual_stadium")
+
+
+def rest_bucket(df: pd.DataFrame) -> pd.Series:
+    """Faixa de diferença de descanso (mandante − visitante).
+
+    Usa `home_rest`/`away_rest` se já existirem; senão calcula com
+    `rest_days`. Partidas sem descanso anterior ficam como `None`, e não
+    como “descanso máximo”.
+    """
+    if {"home_rest", "away_rest"}.issubset(df.columns):
+        casa, fora = df["home_rest"], df["away_rest"]
+    else:
+        r = rest_days(df)
+        casa, fora = r["home_rest"], r["away_rest"]
+    faixas: list[str | None] = []
+    for h, a in zip(casa, fora):
+        if pd.isna(h) or pd.isna(a):
+            faixas.append(None)
+            continue
+        diff = float(h) - float(a)
+        if diff >= 3:
+            faixas.append("casa +3")
+        elif diff >= 1:
+            faixas.append("casa +1-2")
+        elif diff == 0:
+            faixas.append("igual")
+        elif diff >= -2:
+            faixas.append("fora +1-2")
+        else:
+            faixas.append("fora +3")
+    return pd.Series(faixas, index=df.index, dtype="object").rename("rest_bucket")
+
+
+def table_bucket(df: pd.DataFrame) -> pd.Series:
+    """Posição relativa antes da partida, com margem de 3 posições.
+
+    `favorito`: mandante ao menos 4 posições melhor; `zebra`: ao menos 4
+    posições pior; `equilibrado`: diferença de até 3 posições. Partidas sem
+    posição anterior ficam como `None`.
+    """
+    if {"home_pos_before", "away_pos_before"}.issubset(df.columns):
+        casa, fora = df["home_pos_before"], df["away_pos_before"]
+    else:
+        s = table_snapshot(df)
+        casa, fora = s["home_pos_before"], s["away_pos_before"]
+    faixas: list[str | None] = []
+    for h, a in zip(casa, fora):
+        if pd.isna(h) or pd.isna(a):
+            faixas.append(None)
+        elif h + 3 < a:
+            faixas.append("favorito")
+        elif h > a + 3:
+            faixas.append("zebra")
+        else:
+            faixas.append("equilibrado")
+    return pd.Series(faixas, index=df.index, dtype="object").rename("table_bucket")
