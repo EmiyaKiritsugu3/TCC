@@ -29,6 +29,7 @@ python3 scripts/analyze_context.py   # gera tab5, tab6 e contexto.json
 python3 scripts/make_figures.py      # gera figuras e tab1
 python3 -m pytest tests/ -q          # 104 testes (95 rápidos + 9 de integração)
 python3 scripts/validate_cross.py    # validação OpenFootball 2018–2024
+python3 scripts/build_deck.py        # gera o deck de defesa (PPTX)
 python3 -m streamlit run app.py
 ```
 
@@ -78,7 +79,7 @@ python3 scripts/audit_data.py
 - `app.py` — dashboard (5 abas, incluindo Contexto)
 - `pyproject.toml` — empacotamento (`pip install -e .`) e configuração do pytest
 - `src/load_data.py`, `src/clean_data.py`, `src/metrics.py`, `src/context.py`, `src/associations.py`, `src/charts.py`
-- `scripts/bootstrap.py`, `scripts/build_processed.py`, `scripts/analyze_context.py`, `scripts/audit_data.py`, `scripts/check_monografia.py`
+- `scripts/bootstrap.py`, `scripts/build_processed.py`, `scripts/analyze_context.py`, `scripts/audit_data.py`, `scripts/check_monografia.py`, `scripts/build_deck.py`
 - `tests/` — testes rápidos com fixtures em `tests/data/`; testes com o CSV real levam o marker `integration`
 - `.github/workflows/ci.yml` — cadeia de validação (instalação, base, testes, validações, auditoria)
 - `docs/auditoria_fase1.md`, `docs/data_dictionary.md`

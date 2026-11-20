@@ -12,14 +12,16 @@
 
 > Prof. Barboza,
 >
-> a análise está fechada e o repositório está na branch
-> `feat/contexto-vantagem-casa`: 7.219 partidas 2006–2024, Pollard 63,7% no período
+> a análise está fechada e o repositório está na `main` (PR #2 mergeada):
+> 7.219 partidas 2006–2024, Pollard 63,7% no período
 > (58,2% em 2017 – 69,5% em 2018), validação cruzada 99,96% e 19/19 campeões
 > recalculados, 104 testes passando. A versão 3 acrescenta a mudança de nível
-> pós-2018 (64,9% → 61,0%) e a análise contextual (viagem, clássico, estádio,
-> descanso, força e era), com ICs. Monografia consolidada em
-> `docs/monografia_v2.md` (+ rascunho formatado `docs/monografia_draft_abnt.docx`,
-> NBR 14724:2024) e resumo do estado em `docs/resumo_orientador.md`.
+> pós-2018 (64,9% → 61,0%), a análise contextual (viagem, clássico, estádio,
+> descanso, força, era e pandemia) e a seção 5.6 de público/arbitragem
+> (6.618 registros de público, 6.821 jogos com árbitro, 177 árbitros). Monografia
+> consolidada em `docs/monografia_v2.md` (Tabelas 1–10, Figuras 1–12; rascunho
+> formatado `docs/monografia_draft_abnt.docx`, NBR 14724:2024), com resumo em
+> `docs/resumo_orientador.md` e auditoria de dados em `docs/auditoria_dados.md`.
 >
 > Preciso das suas 5 decisões para fechar:
 >

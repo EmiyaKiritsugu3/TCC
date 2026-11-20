@@ -1,29 +1,58 @@
-# Roteiro de apresentação e demonstração (10 min; Sprint 6)
+# Roteiro de apresentação e demonstração (10 min; deck de 14 slides)
 
-## Slides (10 slides, conforme o deck em `apresentacao/apresentacao_tcc.pptx`)
+## Slides
 
-1. **Problema** — qual a magnitude da vantagem de jogar em casa no Brasileirão 2006–2024?
-2. **Método em 1 figura** — pipeline: fonte → limpeza → métricas → dashboard
-   (cite auditoria + validação cruzada 99,96% — é o slide que blinda a banca).
-3. **Resultado geral** — `fig1_distribuicao_geral.png` (Figura 5) + Pollard 63,7% (H1).
-4. **Evolução** — `fig2_pollard_temporadas.png` (Figura 7) (58,2%–69,5%; H2) + `fig9_serie_ic.png` (Figura 9): mudança de nível pós-2018 (64,9% → 61,0%; IC 2,1–5,6); destaque 2017 × 2018 com cautela sobre ICs.
-5. **Gols** — `fig4_gols_temporadas.png` (Figura 6) (1,49 × 1,00).
-6. **Contexto (slide extra, se houver tempo)** — `fig10_contexto.png` (Figura 10): viagem não é o principal; clássico 58,2%; estádio habitual 64,1% vs. 59,4%; zebra 55,6%.
-7. **Matriz de correlação** — `fig11_correlacoes_equipe.png` (Figura 11): HA × casa +0,57, fora −0,46, distância −0,01, estádio +0,10, temporada −0,19.
-8. **Casos metodológicos** — 2016 (379 jogos) e 2020 (pandemia/VAR) em 2 bullets; 2020 não é o piso (2017 é menor).
-9. **Limitações** — 3 bullets da spec §19 (sem causalidade; sem torcida/arbitragem/elenco; contexto por proxies).
-10. **Conclusão** — resposta em 1 frase + contribuição (série longa + sistema reproduzível + decomposição descritiva).
+**Núcleo (≈ 9 min):**
+
+1. **Capa** — título, autor, orientador.
+2. **Problema** — magnitude da vantagem de jogar em casa na Série A 2006–2024.
+3. **Método em uma figura** — fonte pinada → limpeza → métricas → dashboard →
+   validação dupla; 2.659/2.660 e 19/19 campeões.
+4. **Resultado geral** — `fig1_distribuicao_geral.png`; 49,0% / 63,7% / 1,49 × 1,00.
+5. **Evolução (H2)** — `fig2_pollard_temporadas.png`; 58,2%–69,5%.
+6. **Mudança de nível pós-2018** — `fig9_serie_ic.png`; 64,9% → 61,0%
+   (IC 2,1–5,6); ponto de quebra 2019, com VAR e pandemia no mesmo período.
+7. **Gols** — `fig4_gols_temporadas.png`; +0,49 gol/jogo.
+8. **Contexto** — `fig10_contexto.png`; distância 63,4%–63,9%, clássico 58,2%,
+   estádio 64,1% vs. 59,4%, zebra 55,6%.
+9. **Público e arbitragem** — `fig12_publico_ha.png`; 6.618 registros, 177 árbitros,
+   ρ público × HA = 0,04 e ρ público × pontos = 0,79; 2020 60,2% × 2022–2024 60,6%.
+10. **Dois anos, duas notas de método** — 2016 (379 jogos) e 2020 (portões fechados).
+11. **Limitações** — observacional; público é proxy; arbitragem só identidade;
+   2008 parcial e 2024 completado pelo FBref; sem causalidade.
+12. **Conclusão** — 63,7% em 19 temporadas; contribuição: série longa + pipeline
+    reproduzível + dashboard.
+
+**Backup (se a banca pedir):**
+
+13. **Matriz de correlação** — `fig11_correlacoes_equipe.png`; +0,57/−0,46 são
+    componentes mecânicos; distância −0,01, estádio +0,10, temporada −0,19.
+14. **Anexo — resultados por temporada** — tabela completa no CSV + roteiro da demo.
+
+## Tempo sugerido
+
+| Bloco | Slides | Tempo |
+|---|---|---:|
+| Problema + método | 2–3 | 1,5 min |
+| Resultados gerais e evolução | 4–6 | 3,0 min |
+| Contexto e público/arbitragem | 8–9 | 2,0 min |
+| Método, limitações e conclusão | 10–12 | 2,5 min |
+| Perguntas / backup | 13–14 | restante |
 
 ## Demonstração ao vivo (3 min, ensaiar nesta ordem)
 
-1. Abrir aba Visão geral com recorte total → ler os 7 cartões.
-2. Mudar filtro para 2020 → mostrar Pollard 60,2% (gancho para falar da pandemia).
-3. Aba Equipes: Flamengo 2019 (17V-2E-0D em casa) → mostrar tabela + download CSV.
-4. Aba Contexto: alternar Clássico → Distância → Estádio; mostrar IC e ranking por equipe.
-5. Aba Contexto → Matriz de correlação: alternar Equipe-temporada → Partida; destacar distância ~0.
-6. Aba Metodologia: apontar fonte, fórmula e relatório de qualidade.
+1. Abrir **Visão geral** com recorte total → ler os cartões.
+2. Mudar filtro para **2020** → Pollard 60,2% (gancho para pandemia).
+3. Aba **Equipes**: Flamengo 2019 (17V-2E-0D em casa) → tabela + download CSV.
+4. Aba **Contexto**: alternar Clássico → Distância → Estádio; mostrar IC e ranking.
+5. Aba **Contexto → Matriz**: alternar Equipe-temporada → Partida; destacar distância ~0.
+6. Aba **Metodologia**: fonte, fórmula, relatório de qualidade e validação.
+
+> A seção de público/arbitragem está na monografia (Tabelas 8–10, Figura 12);
+> o dashboard atual não tem aba externa. Se a banca pedir, usar o slide 9 e o
+> `docs/analise_publico_arbitragem.md`.
 
 ## Plano B (se a internet/demo falhar)
 
-Figuras `figuras/*.png` + `tab1_indicadores_temporada.csv` já exportados —
-a apresentação anda sem o app no ar.
+Figuras `figuras/*.png`, `figuras/tab1_indicadores_temporada.csv` e o PDF do deck
+já estão exportados — a apresentação anda sem o app no ar.
