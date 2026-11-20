@@ -16,7 +16,7 @@ sys.path.insert(0, str(RAIZ / "scripts"))
 
 from associations import team_season_features  # noqa: E402
 from join_external import carregar_bd, juntar, validar_fbref  # noqa: E402
-from metrics import by_season, pollard, summarize  # noqa: E402
+from metrics import by_season, summarize  # noqa: E402
 
 FALHAS: list[str] = []
 OK = 0
