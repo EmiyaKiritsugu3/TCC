@@ -57,6 +57,14 @@ Antes de alterar qualquer número no texto, rode `python3 scripts/check_monograf
 O PDF final de depósito (`docs/monografia_final.pdf`) será adicionado quando existir.
 Titularidade e proveniência em `NOTICE.md`.
 
+## Dados externos (opcional)
+
+A avaliação de público e arbitragem está em `docs/fontes_externas.md`.
+Os scripts `fetch_basedosdados.py`, `parse_fbref.py`, `join_external.py` e
+`analyze_external.py` geram dados locais em `data/external/` (não versionados
+por licença). A Base dos Dados exige um projeto de billing no BigQuery; o
+FBref exige extração manual no navegador por causa do Cloudflare.
+
 ## Estrutura
 
 - `app.py` — dashboard (5 abas, incluindo Contexto)

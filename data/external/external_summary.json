@@ -1,0 +1,169 @@
+{
+  "cobertura": {
+    "2006": {
+      "n": 380,
+      "com_base_externa": 376,
+      "publico": 0,
+      "publico_zero": 0,
+      "arbitro": 0,
+      "faltas": 0
+    },
+    "2007": {
+      "n": 380,
+      "com_base_externa": 380,
+      "publico": 380,
+      "publico_zero": 4,
+      "arbitro": 380,
+      "faltas": 0
+    },
+    "2008": {
+      "n": 380,
+      "com_base_externa": 380,
+      "publico": 380,
+      "publico_zero": 217,
+      "arbitro": 380,
+      "faltas": 0
+    },
+    "2009": {
+      "n": 380,
+      "com_base_externa": 380,
+      "publico": 380,
+      "publico_zero": 6,
+      "arbitro": 380,
+      "faltas": 0
+    },
+    "2010": {
+      "n": 380,
+      "com_base_externa": 380,
+      "publico": 380,
+      "publico_zero": 1,
+      "arbitro": 380,
+      "faltas": 0
+    },
+    "2011": {
+      "n": 380,
+      "com_base_externa": 380,
+      "publico": 380,
+      "publico_zero": 2,
+      "arbitro": 380,
+      "faltas": 0
+    },
+    "2012": {
+      "n": 380,
+      "com_base_externa": 380,
+      "publico": 380,
+      "publico_zero": 0,
+      "arbitro": 380,
+      "faltas": 0
+    },
+    "2013": {
+      "n": 380,
+      "com_base_externa": 380,
+      "publico": 380,
+      "publico_zero": 0,
+      "arbitro": 380,
+      "faltas": 0
+    },
+    "2014": {
+      "n": 380,
+      "com_base_externa": 380,
+      "publico": 380,
+      "publico_zero": 5,
+      "arbitro": 380,
+      "faltas": 0
+    },
+    "2015": {
+      "n": 380,
+      "com_base_externa": 380,
+      "publico": 380,
+      "publico_zero": 6,
+      "arbitro": 380,
+      "faltas": 0
+    },
+    "2016": {
+      "n": 379,
+      "com_base_externa": 379,
+      "publico": 379,
+      "publico_zero": 0,
+      "arbitro": 379,
+      "faltas": 0
+    },
+    "2017": {
+      "n": 380,
+      "com_base_externa": 380,
+      "publico": 380,
+      "publico_zero": 3,
+      "arbitro": 380,
+      "faltas": 0
+    },
+    "2018": {
+      "n": 380,
+      "com_base_externa": 380,
+      "publico": 380,
+      "publico_zero": 0,
+      "arbitro": 380,
+      "faltas": 211
+    },
+    "2019": {
+      "n": 380,
+      "com_base_externa": 380,
+      "publico": 380,
+      "publico_zero": 1,
+      "arbitro": 380,
+      "faltas": 168
+    },
+    "2020": {
+      "n": 380,
+      "com_base_externa": 380,
+      "publico": 380,
+      "publico_zero": 380,
+      "arbitro": 380,
+      "faltas": 374
+    },
+    "2021": {
+      "n": 380,
+      "com_base_externa": 380,
+      "publico": 380,
+      "publico_zero": 218,
+      "arbitro": 380,
+      "faltas": 375
+    },
+    "2022": {
+      "n": 380,
+      "com_base_externa": 380,
+      "publico": 380,
+      "publico_zero": 3,
+      "arbitro": 380,
+      "faltas": 373
+    },
+    "2023": {
+      "n": 380,
+      "com_base_externa": 380,
+      "publico": 380,
+      "publico_zero": 12,
+      "arbitro": 380,
+      "faltas": 378
+    },
+    "2024": {
+      "n": 380,
+      "com_base_externa": 286,
+      "publico": 286,
+      "publico_zero": 0,
+      "arbitro": 286,
+      "faltas": 211
+    }
+  },
+  "equipe_temporada": {
+    "n": 380,
+    "com_publico": 360,
+    "spearman_ha_publico": 0.02508958058500961,
+    "spearman_pts_publico": 0.438657858525312
+  },
+  "partida": {
+    "n_publico": 6745,
+    "spearman_gol_diff_publico": 0.07066235849574813,
+    "n_faltas": 2090,
+    "media_faltas_casa_menos_fora": 0.3291866028708134,
+    "spearman_faltas_publico": -0.028380182438503647
+  }
+}

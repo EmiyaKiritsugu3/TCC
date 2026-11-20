@@ -10,6 +10,11 @@ __pycache__/
 !docs/monografia_final.pdf
 !docs/monografia_draft_abnt.pdf
 
+# Dados externos com licença incerta (público/arbitragem)
+data/external/basedosdados/*.csv
+data/external/fbref/*.csv
+data/external/joined_*.csv
+
 # Ambiente e artefatos de sessão
 .venv/
 .playwright-mcp/
