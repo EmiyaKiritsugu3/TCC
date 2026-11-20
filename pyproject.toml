@@ -7,6 +7,7 @@ requires-python = ">=3.11"
 # que a instalação do pacote seja reproduzível sem depender de resolução de faixas.
 dependencies = [
     "pandas==3.1.0",
+    "numpy==2.4.6",
     "plotly==7.1.0",
     "streamlit==1.66.1",
     "matplotlib==3.11.2",
@@ -19,6 +20,7 @@ build-backend = "setuptools.build_meta"
 [tool.setuptools]
 package-dir = {"" = "src"}
 py-modules = [
+    "associations",
     "charts",
     "clean_data",
     "context",
