@@ -201,10 +201,12 @@ def within_team_season(df: pd.DataFrame, groups: pd.Series,
     """
     d = df.copy()
     d["_grupo"] = pd.Series(groups, index=df.index)
+    # A média da equipe-temporada usa TODAS as partidas do clube, inclusive
+    # aquelas sem grupo (ex.: estreia sem descanso anterior).
+    d["_media"] = d.groupby(["season", "home_team"])[outcome].transform("mean")
     d = d[d["_grupo"].notna()].copy()
     if d.empty:
         return pd.DataFrame(columns=["grupo", "n", "mean_deviation"])
-    d["_media"] = d.groupby(["season", "home_team"])[outcome].transform("mean")
     d["_desvio"] = d[outcome] - d["_media"]
     out = (d.groupby("_grupo")
            .agg(n=(outcome, "size"), mean_deviation=("_desvio", "mean"))

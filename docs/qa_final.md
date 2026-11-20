@@ -6,7 +6,7 @@
 
 ## Atualização 19/11/2026 — branch `feat/contexto-vantagem-casa`
 
-- `pytest tests/ -q` → **93 passed** (84 rápidos + 9 de integração).
+- `pytest tests/ -q` → **94 passed** (85 rápidos + 9 de integração).
 - `scripts/analyze_context.py` → `tab5_contexto.csv`, `tab6_equipes.csv`,
   `contexto.json`; Geral 63,66% (IC 62,63–64,70); quebra em 2019.
 - `scripts/make_figures.py` → Figura 9 (série com IC) e Figura 10 (contexto).
@@ -61,7 +61,7 @@
 
 ## 5. Deck e PDF (`apresentacao/`)
 
-- `apresentacao_tcc.pptx`: 10 slides; continha `63,7%`, link do repositório e `22 testes` (snapshot histórico; o deck diz `71 testes`; a suíte atual tem `93 testes`).
+- `apresentacao_tcc.pptx`: 10 slides; continha `63,7%`, link do repositório e `22 testes` (snapshot histórico; o deck diz `71 testes`; a suíte atual tem `94 testes`).
 - `apresentacao_tcc.pdf`: 10 páginas, regenerado via LibreOffice após a correção do slide 9.
 
 ## Artefatos de entrega

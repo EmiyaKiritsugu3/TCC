@@ -109,6 +109,19 @@ def test_within_team_season_desvio_da_media():
     assert out.loc["X", "n"] == 1
 
 
+def test_within_team_season_media_inclui_partidas_sem_grupo():
+    d = _df([
+        (2019, "A", "B", 3, 0),
+        (2019, "A", "C", 0, 3),
+        (2019, "A", "D", 3, 0),
+    ])
+    grupos = pd.Series(["X", None, "X"], index=d.index)
+    out = within_team_season(d, grupos).set_index("grupo")
+    # média da equipe-temporada = (3 + 0 + 3) / 3 = 2; X = 3 -> desvio +1
+    assert out.loc["X", "mean_deviation"] == pytest.approx(1.0)
+    assert out.loc["X", "n"] == 2
+
+
 def test_team_season_home_advantage_e_split_half():
     rows = []
     for i, team in enumerate(["A", "B", "C", "D"]):
