@@ -1,7 +1,7 @@
 # Decisões do orientador — TCC vantagem de jogar em casa
 
 **Aluno:** José Inamar de Medeiros Júnior · **Curso:** Sistemas de Informação
-**Última atualização:** 17/11/2026 (ampliação proativa, sem resposta do orientador ainda)
+**Última atualização:** 20/11/2026 (auditoria de dados e seção 5.6; sem resposta do orientador ainda)
 
 > Em 04/11/2026 o orientador ainda não havia respondido às 5 pendências. Por
 > decisão do autor, a monografia foi ampliada proativamente à meta de 5.500
@@ -121,3 +121,20 @@ números validados da versão 2:
 
 Pendência: validação do orientador para manter H3–H5 e a mudança de nível como
 análise exploratória no depósito. Nada foi classificado como causal.
+
+
+## Atualização 2026-11-20 — auditoria de dados e seção 5.6
+
+- **PR #2 mergeada** na `main`; branch `feat/contexto-vantagem-casa` removida.
+- **Monografia v3:** Tabelas 1–10, Figuras 1–12, com a seção 5.6 de público e
+  arbitragem (6.618 registros de público, 6.821 jogos com árbitro, 177 árbitros
+  após normalização de nomes).
+- **Auditoria de dados:** 150 verificações, 0 falhas (`docs/auditoria_dados.md`);
+  SHA-256 do bruto, reconstrução byte a byte, junção 7.121/7.219, validação
+  2.659/2.660 e 19/19 campeões.
+- **Deck:** 14 slides (`apresentacao/apresentacao_tcc.pptx/.pdf`), com mudança de
+  nível, contexto, matriz, público/arbitragem e anexo.
+- **Resumo do orientador** atualizado em `docs/resumo_orientador.md`.
+
+Pendências externas seguem: 5 decisões, autorização escrita do autor do dataset,
+template oficial UFRN/CERES-BSI + ficha SISBI + folha de avaliação e banca.

@@ -1,6 +1,6 @@
 # Resumo executivo para o orientador — TCC vantagem de jogar em casa
 
-**Aluno:** José Inamar de Medeiros Júnior · **Curso:** Sistemas de Informação · **Data:** 19/11/2026
+**Aluno:** José Inamar de Medeiros Júnior · **Curso:** Sistemas de Informação · **Data:** 20/11/2026
 **Título proposto:** *Análise estatística da vantagem de jogar em casa no Campeonato
 Brasileiro Série A: desenvolvimento de um dashboard interativo para análise de
 resultados históricos* (alternativo curto na spec, §2).
@@ -13,54 +13,83 @@ e índice de Pollard por temporada e por equipe. Sem previsão, sem IA, sem apos
 
 ## 2. Status (software pronto, dados validados)
 
-- Base primária auditada: zero duplicatas, zero placares ausentes, zero divergências
-  vencedor×placar; 2016 com 379 jogos (Chapecoense×Atlético-MG cancelada) e 2020
-  estendida até 25/02/2021 — ambos documentados.
+- Base primária auditada: **7.219 partidas**, 19 temporadas, zero duplicatas, zero
+  placares ausentes, zero divergências vencedor×placar; 2016 com 379 jogos
+  (Chapecoense×Atlético-MG cancelada) e 2020 estendida até 25/02/2021.
 - Pipeline reproduzível + **104 testes automatizados** passando (95 rápidos + 9 de integração).
-- Monografia v2 fechada (04/11/2026): Tabela 1 no texto, figuras 1–8 em ordem,
-  referências ABNT alfabéticas, apêndices A–D preenchidos; ampliação proativa
-  da fundamentação em curso (meta ≥ 5.500 palavras), sem alterar resultados.
-- **Validação cruzada:** confronto com OpenFootball (domínio público, CC0) em
-  2018–2024 → 2.659/2.660 partidas idênticas, zero divergências de placar.
-- Fonte sem licença explícita → adotado plano B: CSV bruto não versionado,
-  download pinado no build + citação (ver `data/raw/FONTE.md`).
-- **Variáveis contextuais (fase adicional):** `src/context.py` e `src/associations.py`
-  com viagem, clássico, estádio, descanso, força e era (Tabela 5 na monografia),
-  além de mudança de nível, ICs anuais, vantagem por equipe (Tabela 6) e
-  matriz de correlação (Tabela 7 e Figura 11).
-  Achados principais: a distância não move o índice (63,37% / 63,80% / 63,90%);
-  clássicos sem viagem ficam em 58,23%; estádio habitual 64,10% vs. outro 59,40%;
-  mandante zebra ainda fica em 55,65%. A série tem mudança de nível pós-2018:
-  64,88% em 2006–2018 vs. 61,01% em 2019–2024 (diferença 3,87 p.p.; IC 2,15–5,58).
-  Tudo descritivo, sem leitura causal, pendente de validação do orientador.
-- **Matriz de correlação (Spearman):** por equipe-temporada (n=380), o HA
-  correlaciona-se +0,57 com o desempenho em casa e −0,46 com o de fora
-  (componentes mecânicos), mas −0,01 com a distância média, +0,10 com o
-  estádio habitual, +0,08 com pontos e −0,08 com a posição. No nível de
-  partida (n=7.219), a maior associação contextual é a diferença de posição
-  (+0,19); as demais ficam entre −0,05 e +0,03.
+- **Monografia v3** (20/11/2026): Tabelas 1–10, Figuras 1–12, §5.6 de público e
+  arbitragem; auditor numérico confere todos os números citados.
+- **Auditoria de dados:** 150 verificações, 0 falhas (`docs/auditoria_dados.md`);
+  SHA-256 do bruto, reconstrução byte a byte, unicidade e cobertura conferidos.
+- **Validação cruzada:** OpenFootball (CC0) em 2018–2024 → **2.659/2.660**
+  partidas idênticas, zero divergências de placar; **19/19 campeões** recalculados.
+- Fonte sem licença explícita → plano B: CSV bruto não versionado, download
+  pinado + SHA-256 (ver `data/raw/FONTE.md`).
+- **Contexto (v3):** viagem, clássico, estádio, descanso, força, era e pandemia
+  (Tabelas 5–7; Figuras 10–11), com ICs e leitura descritiva.
+- **Base externa (v3):** 6.618 registros de público (91,7%) e 6.821 jogos com
+  árbitro (94,5%); 177 árbitros após normalização de nomes; 2024 completado pelo
+  FBref (376 com público, 362 com árbitro). 2008 tem cobertura parcial; 2020–2021
+  têm zeros reais de portões fechados.
+- **PR #2 mergeada** na `main`; repositório limpo e CI verde.
 
-## 3. Resultados preliminares (respondem à pergunta de pesquisa)
+## 3. Resultados
 
 - Mandante venceu **49,0%**, empates 26,8%, visitante 24,1%; gols 1,49 vs. 1,00.
 - **Pollard geral: 63,7%** → H1 (> 50%) confirmada no período.
-- Pollard anual **58,2% (2017) – 69,5% (2018)** → H2 (variação entre temporadas) sustentada,
-  com mudança de nível pós-2018 (64,9% → 61,0%; IC 2,1–5,6).
-- Contexto: viagem não é o principal; estádio habitual e força modulam; torcida/arbitragem
-  seguem não medidas. A conclusão é multifatorial, não causal.
+- Pollard anual **58,2% (2017) – 69,5% (2018)** → H2 sustentada, com mudança de
+  nível pós-2018: **64,9% → 61,0%** (diferença 3,9 p.p.; IC 2,1–5,6); ponto de
+  quebra em 2019.
+- Contexto: distância não move o índice (63,4%–63,9%); clássicos sem viagem ficam
+  em 58,2%; estádio habitual 64,1% vs. 59,4%; mandante zebra ainda 55,6%.
+- **Matriz de correlação (Spearman):** por equipe-temporada (n=380), HA × casa
+  +0,57 e HA × fora −0,46 (componentes mecânicos), distância −0,01, estádio +0,10,
+  temporada −0,19, pontos +0,08 e posição −0,08. No nível de partida (n=7.219), a
+  maior associação é a diferença de posição (+0,19); as demais ficam entre −0,05
+  e +0,03.
+- **Público:** público médio × HA = 0,068 (sem 2020–2021: −0,010); público × pontos
+  = 0,461. Os pontos sobem de 43,1 (Q1) para 59,4 (Q4), enquanto o HA fica entre
+  0,657 e 0,815, sem tendência. Em 2020, sem torcida, Pollard 60,2%; em 2022–2024,
+  com público de volta, 60,6% — o retorno não restaurou o patamar pré-2019.
+- **Arbitragem:** 6.821 jogos, 177 árbitros, mediana de 14 jogos, máximo de 284;
+  vitória do mandante 48,9%; entre os 50 árbitros com 40+ jogos, faixa de
+  40,8%–67,4%, com apenas 1 fora de ±2 DP (esperado: 2,3). A base identifica
+  **quem apitou**, não o que decidiu; sem cartões/pênaltis, não há teste de viés.
+
+Tudo descritivo, sem leitura causal, pendente de validação do orientador.
 
 ## 4. Decisões solicitadas (spec §23)
 
 1. Aprovar recorte 2006–2024 e título.
 2. Aceitar dashboard + pesquisa quantitativa como artefato de SI.
 3. Confirmar fonte e plano B de licença.
-4. **Validar a análise exploratória de tendência/mudança de nível e as associações
-   contextuais (H3–H5)** — o texto atual já as apresenta como descritivas; falta o
-   aval do orientador para mantê-las no depósito.
+4. **Validar a análise exploratória de tendência/mudança de nível, as associações
+   contextuais (H3–H5) e a seção 5.6 de público/arbitragem** — o texto já as
+   apresenta como descritivas; falta o aval do orientador para mantê-las no depósito.
 5. Formato exigido de projeto/TCC e avaliação do software.
 
 ## 5. Riscos assumidos e mitigação
 
-Escopo fechado (§7 da spec: fora previsão, IA, apostas, Séries B–D); análise
-observacional sem alegação causal; nomes de clubes normalizados com tabela de
-decisões documentada.
+- Escopo fechado (§7 da spec): fora previsão, IA, apostas e Séries B–D.
+- Análise observacional, sem alegação causal; público é proxy (não medida exata de
+  torcida) e a arbitragem é conhecida apenas pela identidade.
+- 2006 tem 4 divergências de mando/placar entre a base primária e a Base dos Dados;
+  como 2006 não tem público/árbitro, não afetam a análise externa.
+- 2008 tem cobertura parcial de público (163/380); excluir 2008 não muda a conclusão
+  (ρ HA = −0,009; pontos = 0,777).
+- 2024 combina 286 jogos da Base dos Dados e 90 do FBref; os 90 preenchidos têm
+  média ~6% maior, então a média de 2024 é mais incerta.
+
+## 6. Pronto para envio
+
+- `docs/monografia_v2.md` — texto vigente (v3).
+- `docs/monografia_draft_abnt.docx` e `.pdf` — rascunho formatado (NBR 14724:2024).
+- `apresentacao/apresentacao_tcc.pptx` e `.pdf` — **14 slides** (inclui mudança de
+  nível, contexto, matriz, público/arbitragem e anexo).
+- `docs/resumo_orientador.md` — este resumo.
+- `docs/auditoria_dados.md` — auditoria de dados (150 verificações).
+- Repositório `main` com CI verde e PR #2 mergeada.
+
+Pendências externas: 5 decisões do orientador; autorização escrita do autor do
+dataset; template oficial UFRN/CERES-BSI + ficha SISBI + folha de avaliação;
+indicação da banca.

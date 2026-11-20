@@ -62,11 +62,13 @@
 
 ## 5. Deck e PDF (`apresentacao/`)
 
-- `apresentacao_tcc.pptx`: 10 slides; continha `63,7%`, link do repositório e `22 testes` (snapshot histórico; o deck foi atualizado para `104 testes` e a suíte atual também tem `104`).
-- `apresentacao_tcc.pdf`: 10 páginas, regenerado via LibreOffice após a correção do slide 9.
+- `apresentacao_tcc.pptx`: **14 slides** (v3), gerado por `scripts/build_deck.py`;
+  inclui mudança de nível, contexto, matriz e público/arbitragem. O snapshot
+  histórico de 10 slides foi substituído.
+- `apresentacao_tcc.pdf`: **14 páginas**, regenerado via LibreOffice.
 
 ## Artefatos de entrega
 
-- `apresentacao/apresentacao_tcc.pdf` (10 p.)
-- `apresentacao/apresentacao_tcc.pptx` (10 slides)
+- `apresentacao/apresentacao_tcc.pdf` (14 p.)
+- `apresentacao/apresentacao_tcc.pptx` (14 slides)
 - `docs/monografia_final.pdf` — pendente (template do curso)
