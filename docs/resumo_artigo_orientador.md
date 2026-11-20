@@ -30,7 +30,7 @@ Qual foi a magnitude da vantagem de jogar em casa no Campeonato Brasileiro Séri
 
 ## O que o artigo entrega
 
-- A série anual contínua mais longa do tema com base auditada e validação externa.
+- A série anual contínua de 19 temporadas com base auditada e validação externa.
 - Um retrato da magnitude, da variação e da mudança de nível da vantagem de casa.
 - Uma decomposição descritiva dos fatores associados, separando o que os dados permitem dizer do que não permitem.
 - Um pipeline reproduzível e um dashboard como artefato de apoio, sem transformar o artigo em relatório de software.
@@ -62,7 +62,7 @@ Qual foi a magnitude da vantagem de jogar em casa no Campeonato Brasileiro Séri
 - O desenho é observacional; não há alegação causal.
 - Público é um proxy de torcida, não uma medida direta.
 - 2020 concentra pandemia, calendário atípico, protocolos e VAR; o desenho não separa esses choques.
-- Cartões refletem arbítrio e comportamento do jogador; pênaltis e decisões discricionárias não são observados.
+- Cartões refletem arbítrio e comportamento do jogador; pênaltis e outras decisões não são observados.
 - A fonte primária não tem licença explícita; o bruto não é redistribuído e a reprodução usa download pinado.
 
 ## Decisões que preciso do orientador
