@@ -2,13 +2,21 @@ Assunto: pedido de autorização de uso acadêmico (TCC/UFRN)
 
 Olá, Adao,
 
-sou graduando em Sistemas de Informação na UFRN (Caicó–RN) e uso o seu `Brasileirao_Dataset` (commit `15f027c`) como fonte do meu TCC sobre a vantagem de jogar em casa na Série A 2006–2024 (7.219 partidas), com atribuição completa no trabalho e no repositório.
+sou graduando em Sistemas de Informação na UFRN (Caicó–RN) e uso o seu
+Brasileirao_Dataset (commit 15f027c) como fonte do meu TCC sobre a vantagem de
+jogar em casa na Série A 2006–2024 (7.219 partidas), com atribuição completa no
+trabalho e no repositório: https://github.com/EmiyaKiritsugu3/TCC
 
 Como o repositório não traz arquivo LICENSE, peço autorização escrita para:
 (a) usar os placares na análise acadêmica sem fins comerciais; e
-(b) redistribuir a base processada/derivada (placares 2006–2024 com coluna de atribuição) no repositório do TCC. O CSV bruto original não será redistribuído sem a sua permissão.
+(b) redistribuir a base processada/derivada (placares 2006–2024 com coluna de
+atribuição) no repositório do TCC. O CSV bruto original não será redistribuído
+sem a sua permissão.
 
-Se preferir negar ou impor condições (ex.: só com link para o original), basta responder — ajusto o repositório de imediato.
+Se concordar, uma resposta por e-mail já serve como autorização escrita; se
+preferir, posso enviar o texto exato da autorização para você apenas confirmar.
+Se preferir negar ou impor condições (ex.: só com link para o original), basta
+responder — ajusto o repositório de imediato.
 
 Obrigado,
 José Inamar de Medeiros Júnior (TCC/UFRN, 2026)

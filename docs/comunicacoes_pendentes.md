@@ -1,63 +1,33 @@
-# Comunicações pendentes — rascunhos para envio
+# Comunicações pendentes — textos prontos para envio
 
-> Ambos os envios são atos do aluno. Estes textos são ponto de partida;
-> ajustar tom/dados antes de enviar e registrar as respostas em
-> `docs/decisoes_orientador.md`.
+> Os envios são atos do aluno. Os textos abaixo estão prontos; ajuste o tom e
+> registre as respostas em `docs/decisoes_orientador.md`.
 
----
+## 1. Ao orientador
 
-## 1. Ao orientador (5 decisões — spec §23)
+- **Para:** Prof. Dr. Francisco Marcio Barboza
+- **Arquivo:** `docs/email_orientador_preparado.txt`
+- **Assunto:** TCC vantagem de jogar em casa — 5 decisões + versão atual para leitura
+- **Conteúdo:** status da `main` (PRs #2 e #3 mergeadas), 7.219 partidas,
+  Pollard 63,7%, 104 testes, auditoria de dados (150 verificações), seção 5.6
+  de público/arbitragem, links da monografia/deck/resumo e as 5 decisões.
+- **Pendências:** recorte/título, artefato de SI, fonte/licença, H3–H5 + seção
+  5.6, formato/avaliação do software e template NBR.
 
-**Assunto:** TCC vantagem de jogar em casa — 5 decisões + versão atual para leitura
+## 2. Ao autor do dataset
 
-> Prof. Barboza,
->
-> a análise está fechada e o repositório está na `main` (PR #2 mergeada):
-> 7.219 partidas 2006–2024, Pollard 63,7% no período
-> (58,2% em 2017 – 69,5% em 2018), validação cruzada 99,96% e 19/19 campeões
-> recalculados, 104 testes passando. A versão 3 acrescenta a mudança de nível
-> pós-2018 (64,9% → 61,0%), a análise contextual (viagem, clássico, estádio,
-> descanso, força, era e pandemia) e a seção 5.6 de público/arbitragem
-> (6.618 registros de público, 6.821 jogos com árbitro, 177 árbitros). Monografia
-> consolidada em `docs/monografia_v2.md` (Tabelas 1–10, Figuras 1–12; rascunho
-> formatado `docs/monografia_draft_abnt.docx`, NBR 14724:2024), com resumo em
-> `docs/resumo_orientador.md` e auditoria de dados em `docs/auditoria_dados.md`.
->
-> Preciso das suas 5 decisões para fechar:
->
-> 1. **Recorte e título** — manter 2006–2024 e o título atual?
-> 2. **Artefato** — dashboard + pesquisa quantitativa valem como artefato de SI?
-> 3. **Fonte e licença** — manter o plano B (bruto não redistribuído, download
->    pinado + SHA-256)? Autoriza eu pedir autorização escrita ao autor?
-> 4. **Tendência/contexto** — manter a análise exploratória de mudança de nível
->    pós-2018 e as associações contextuais (H3–H5) ou só o descritivo básico?
-> 5. **Formato e software** — qual o formato exigido de projeto/TCC e como o
->    software será avaliado? Qual edição da NBR a banca adota (14724:2024)?
->
-> Sem as respostas, travo: confronto CBF por amostra, revisão final do
-> Resumo/Abstract, ficha/folha de avaliação e o PDF final.
+- **Para:** adaoduquesn@gmail.com
+- **Arquivo:** `docs/email_autor_dataset_preparado.txt`
+- **Assunto:** pedido de autorização de uso acadêmico (TCC/UFRN)
+- **Conteúdo:** uso acadêmico do `Brasileirao_Dataset` (commit `15f027c`),
+  atribuição, pedido de autorização escrita para uso e redistribuição da base
+  derivada; o CSV bruto não será redistribuído.
+- **Pendência:** resposta escrita (e-mail serve).
 
----
+## Checklist de envio
 
-## 2. Ao autor do dataset (autorização escrita)
-
-**Para:** adaoduquesn@gmail.com — **Assunto:** pedido de autorização de uso acadêmico (TCC/UFRN)
-
-> Olá, Adao,
->
-> sou graduando em Sistemas de Informação na UFRN (Caicó–RN) e uso o seu
-> `Brasileirao_Dataset` (commit `15f027c`) como fonte do meu TCC sobre a
-> vantagem de jogar em casa na Série A 2006–2024 (7.219 partidas), com
-> atribuição completa no trabalho e no repositório.
->
-> Como o repositório não traz arquivo LICENSE, peço autorização escrita para:
-> (a) usar os placares na análise acadêmica sem fins comerciais; e
-> (b) redistribuir a base processada/derivada (placares 2006–2024 com coluna de
-> atribuição) no repositório do TCC. O CSV bruto original não será
-> redistribuído sem a sua permissão.
->
-> Se preferir negar ou impor condições (ex.: só com link para o original),
-> basta responder — ajusto o repositório de imediato.
->
-> Obrigado,
-> José Inamar de Medeiros Júnior (TCC/UFRN, 2026)
+- [ ] Revisar tom e dados dos dois textos.
+- [ ] Enviar o e-mail ao orientador com os links do deck e da monografia.
+- [ ] Enviar o e-mail ao autor do dataset.
+- [ ] Registrar as respostas em `docs/decisoes_orientador.md`.
+- [ ] Anexar/atualizar a autorização no repositório quando chegar.
