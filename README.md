@@ -29,7 +29,6 @@ python3 scripts/analyze_context.py   # gera tab5, tab6 e contexto.json
 python3 scripts/make_figures.py      # gera figuras e tab1
 python3 -m pytest tests/ -q          # 104 testes (95 rápidos + 9 de integração)
 python3 scripts/validate_cross.py    # validação OpenFootball 2018–2024
-python3 scripts/audit_data.py        # auditoria de dados (base + externos)
 python3 -m streamlit run app.py
 ```
 
@@ -63,10 +62,16 @@ Titularidade e proveniência em `NOTICE.md`.
 A avaliação de público e arbitragem está em `docs/fontes_externas.md`,
 `docs/analise_publico_arbitragem.md` e `docs/auditoria_dados.md`. Os scripts `fetch_basedosdados.py`,
 `parse_fbref.py`, `join_external.py`, `build_external.py` e
-`analyze_external.py` geram CSVs locais em `data/external/`; metadados e
-resumos derivados são versionados. Requerem `pip install -e .` ou
+`analyze_external.py` geram arquivos locais em `data/external/` (CSVs e JSON);
+metadados e resumos derivados são versionados. Requerem `pip install -e .` ou
 `PYTHONPATH=src`. A Base dos Dados exige um projeto de billing no BigQuery;
 o FBref exige extração manual no navegador por causa do Cloudflare.
+
+Depois do pipeline externo, a auditoria completa dos dados:
+
+```bash
+python3 scripts/audit_data.py
+```
 
 ## Estrutura
 

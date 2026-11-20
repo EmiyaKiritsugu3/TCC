@@ -225,7 +225,8 @@ Nenhum.
 
 ```bash
 # Base primária
-python3 scripts/fetch_raw.py --check
+python3 scripts/fetch_raw.py          # baixa o bruto
+python3 scripts/fetch_raw.py --check  # confere o SHA-256
 python3 scripts/build_processed.py
 
 # Validações independentes
