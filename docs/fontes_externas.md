@@ -53,8 +53,10 @@ Consulta: 7.126 linhas, 35 colunas, acesso em 20/11/2026.
 Leituras:
 
 - **2006 não tem público nem árbitro** na tabela; o Join ainda usa 376 jogos para outras variáveis.
-- **2008 tem 217 zeros** e média de público muito baixa (7.844): provavelmente
-  ausência codificada como zero, não portões fechados. Precisa de limpeza.
+- **2008 tem 217 zeros** e média de público muito baixa (7.844) se contados:
+  os zeros estão espalhados por todos os clubes e meses, e a média dos 163
+  jogos não-zero é 18.287. São tratados como ausência codificada como zero,
+  não portões fechados.
 - **2020 tem 380 zeros**: são portões fechados (COVID-19), não missing.
 - **2021 tem 218 zeros**: retorno parcial de público, com parte dos jogos sem torcida.
 - **2024 está incompleto** (286/380) no snapshot; usar FBref para completar.
@@ -100,25 +102,36 @@ As diferenças provavelmente vêm de critérios distintos (público pagante vs.
 público total) e de alguns jogos com arredondamento/erro. Para o TCC, o
 público deve ser tratado como **proxy**, não como medida exata.
 
-## 6. Correlações preliminares
+## 6. Resultados da base limpa
 
-Com a base externa unida (sem limpeza fina de 2008/2020/2021):
+A análise final, com a limpeza de 2008 e o complemento do FBref em 2024,
+está em **`docs/analise_publico_arbitragem.md`**. Resumo:
 
 | Relação | Spearman | n |
 |---|---:|---:|
-| HA (casa − fora) × público médio por equipe-temporada | **0,025** | 360 |
-| Pontos × público médio por equipe-temporada | **0,439** | 360 |
-| Saldo de gols por partida × público | **0,071** | 6.745 |
-| Faltas (casa − fora) × público | **−0,028** | 2.090 |
+| HA (casa − fora) × público médio por equipe-temporada | **0,068** | 360 |
+| HA × público médio, sem 2020–2021 | **−0,010** | 320 |
+| Pontos × público médio por equipe-temporada | **0,461** | 360 |
+| Saldo de gols por partida × público (bruto) | **0,079** | 6.618 |
+| Saldo × público, controlando equipe-temporada e rank pré-jogo | **−0,042** | 6.618 |
 
-Leitura: o público médio está associado à **força do clube** (pontos, 0,44),
-mas não à **vantagem casa−fora** (0,025). No nível de partida, a associação
-com o saldo de gols é fraca (0,07), e a diferença de faltas não se move com
-o público (−0,03). Isso **não refuta** a hipótese da torcida: o público médio
-é dominado pelo tamanho do clube e a variação relevante é dentro de
-equipe-temporada, além do experimento natural de 2020–2021. Mas é um sinal
-de que a análise precisa ser bem desenhada, não apenas correlacionar
-público com resultado.
+Leitura: o público médio é um **proxy de tamanho/força do clube** (pontos,
+0,46), mas não da vantagem casa−fora (0,07; −0,01 sem as temporadas
+pandêmicas). No nível de partida, a associação bruta positiva (0,08) é
+confundida pela composição de confrontos: controlando equipe-temporada e
+força pré-jogo, ela fica levemente negativa (−0,04). Jogos de maior público
+tendem a ser contra adversários mais fortes, e não a favor do mandante.
+
+O contraste de 2020 é o achado mais forte: o Pollard cai de 64,9%
+(2007–2018) para 60,2% com portões fechados, mas **não desaparece**; em
+2022–2024, com público de volta, fica em 60,6%. O retorno da torcida não
+trouxe a vantagem de volta ao patamar pré-2019. Isso reforça a leitura
+multifatorial do TCC e a cautela contra atribuir a queda à torcida.
+
+A arbitragem tem 6.821 jogos e 185 árbitros, mas a identidade do árbitro
+não mede viés: a faixa de vitória do mandante entre árbitros com 40+ jogos
+(40,8%–67,4%) é compatível com ruído (1 de 48 fora de ±2 DP; esperado 2,2).
+Sem cartões e pênaltis, não há como testar o canal arbitral.
 
 ## 7. Limitações e cuidados
 
@@ -141,11 +154,14 @@ público com resultado.
 1. Usar a **Base dos Dados como fonte primária** de público/árbitro para
    2007–2024, com limpeza documentada de 2008 e 2020–2021.
 2. Usar o **FBref 2024** para completar a temporada e validar o público.
-3. Fazer uma **amostra de 20–30 borderôs da CBF** para estimar a taxa de
+3. Incorporar ao TCC apenas o que a análise sustenta: público como proxy de
+   tamanho de clube, contraste de 2020 e ausência de associação com HA.
+   Não tratar público como medida de torcida nem a matriz como causal.
+4. Não colocar arbitragem na matriz: a identidade do árbitro não mede viés;
+   usar como cobertura/limitação e, se houver, uma nota descritiva.
+5. Fazer uma **amostra de 20–30 borderôs da CBF** para estimar a taxa de
    erro do público e escolher o critério (pagante vs. total).
-4. Só depois incorporar `publico` à matriz de correlação e ao dashboard,
-   com uma aba/seção de qualidade da base externa.
-5. Para cartões e arbitragem fina, usar FBref (2014–2024) ou
+6. Para cartões e pênaltis, usar FBref (2014–2024) ou
    BrazilianFootball/Data (2013–2025); a Base dos Dados cobre faltas,
    não cartões.
 
@@ -158,10 +174,13 @@ python3 scripts/fetch_basedosdados.py --project SEU_PROJETO
 # 2. FBref: extrair a tabela no navegador e salvar o JSON; depois:
 python3 scripts/parse_fbref.py --input .playwright-mcp/fbref_2024.json
 
-# 3. Junção e validação
+# 3. Junção bruta e validação
 python3 scripts/join_external.py
 
-# 4. Resumo
+# 4. Base limpa (2008 como ausente; FBref completa 2024)
+python3 scripts/build_external.py
+
+# 5. Análise final
 python3 scripts/analyze_external.py
 ```
 

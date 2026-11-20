@@ -14,6 +14,7 @@ __pycache__/
 data/external/basedosdados/*.csv
 data/external/fbref/*.csv
 data/external/joined_*.csv
+data/external/context_clean.csv
 
 # Ambiente e artefatos de sessão
 .venv/

@@ -13,10 +13,13 @@ python3 scripts/fetch_basedosdados.py --project SEU_PROJETO
 # FBref: extrair o JSON no navegador (ver fbref/FONTE.md)
 python3 scripts/parse_fbref.py --input .playwright-mcp/fbref_2024.json
 
-# Junção com data/processed/matches_processed.csv
+# Junção bruta com data/processed/matches_processed.csv
 python3 scripts/join_external.py
 
-# Resumo de cobertura e correlações
+# Base limpa (2008 como ausente; FBref completa 2024)
+python3 scripts/build_external.py
+
+# Análise final
 python3 scripts/analyze_external.py
 ```
 
@@ -26,8 +29,12 @@ python3 scripts/analyze_external.py
 - `basedosdados/FETCH_METADATA.json` — consulta, data, linhas e SHA-256.
 - `fbref/2024_serie_a.csv` — 380 jogos de 2024.
 - `fbref/FETCH_METADATA.json` — URL, linhas, cobertura e SHA-256.
-- `joined_context.csv` — base do TCC + público/árbitro/faltas.
-- `external_summary.json` — cobertura e correlações preliminares.
+- `joined_context.csv` — junção bruta (sem limpeza de 2008).
+- `context_clean.csv` — base final com público/árbitro/faltas e flags.
+- `quality_external.json` — cobertura por temporada e regras de limpeza.
+- `external_summary.json` — análise final (blocos, correlações, arbitragem).
+
+O relatório interpretativo está em `docs/analise_publico_arbitragem.md`.
 
 ## Licença
 

@@ -1,169 +1,739 @@
 {
-  "cobertura": {
-    "2006": {
+  "cobertura": [
+    {
+      "season": 2006,
       "n": 380,
-      "com_base_externa": 376,
-      "publico": 0,
+      "publico_n": 0,
+      "publico_medio": null,
+      "publico_mediana": null,
       "publico_zero": 0,
-      "arbitro": 0,
-      "faltas": 0
+      "publico_zero_real": 0,
+      "arbitro_n": 0,
+      "faltas_n": 0
     },
-    "2007": {
+    {
+      "season": 2007,
       "n": 380,
-      "com_base_externa": 380,
-      "publico": 380,
+      "publico_n": 380,
+      "publico_medio": 17659.023684210526,
+      "publico_mediana": 13521.5,
       "publico_zero": 4,
-      "arbitro": 380,
-      "faltas": 0
+      "publico_zero_real": 0,
+      "arbitro_n": 380,
+      "faltas_n": 0
     },
-    "2008": {
+    {
+      "season": 2008,
       "n": 380,
-      "com_base_externa": 380,
-      "publico": 380,
-      "publico_zero": 217,
-      "arbitro": 380,
-      "faltas": 0
+      "publico_n": 163,
+      "publico_medio": 18286.539877300613,
+      "publico_mediana": 14741.0,
+      "publico_zero": 0,
+      "publico_zero_real": 0,
+      "arbitro_n": 380,
+      "faltas_n": 0
     },
-    "2009": {
+    {
+      "season": 2009,
       "n": 380,
-      "com_base_externa": 380,
-      "publico": 380,
+      "publico_n": 380,
+      "publico_medio": 17711.80789473684,
+      "publico_mediana": 14830.0,
       "publico_zero": 6,
-      "arbitro": 380,
-      "faltas": 0
+      "publico_zero_real": 0,
+      "arbitro_n": 380,
+      "faltas_n": 0
     },
-    "2010": {
+    {
+      "season": 2010,
       "n": 380,
-      "com_base_externa": 380,
-      "publico": 380,
+      "publico_n": 380,
+      "publico_medio": 14825.805263157894,
+      "publico_mediana": 12339.0,
       "publico_zero": 1,
-      "arbitro": 380,
-      "faltas": 0
+      "publico_zero_real": 0,
+      "arbitro_n": 380,
+      "faltas_n": 0
     },
-    "2011": {
+    {
+      "season": 2011,
       "n": 380,
-      "com_base_externa": 380,
-      "publico": 380,
+      "publico_n": 380,
+      "publico_medio": 14929.986842105263,
+      "publico_mediana": 12794.0,
       "publico_zero": 2,
-      "arbitro": 380,
-      "faltas": 0
+      "publico_zero_real": 0,
+      "arbitro_n": 380,
+      "faltas_n": 0
     },
-    "2012": {
+    {
+      "season": 2012,
       "n": 380,
-      "com_base_externa": 380,
-      "publico": 380,
+      "publico_n": 380,
+      "publico_medio": 13733.331578947369,
+      "publico_mediana": 11613.5,
       "publico_zero": 0,
-      "arbitro": 380,
-      "faltas": 0
+      "publico_zero_real": 0,
+      "arbitro_n": 380,
+      "faltas_n": 0
     },
-    "2013": {
+    {
+      "season": 2013,
       "n": 380,
-      "com_base_externa": 380,
-      "publico": 380,
+      "publico_n": 380,
+      "publico_medio": 15759.002631578947,
+      "publico_mediana": 12154.5,
       "publico_zero": 0,
-      "arbitro": 380,
-      "faltas": 0
+      "publico_zero_real": 0,
+      "arbitro_n": 380,
+      "faltas_n": 0
     },
-    "2014": {
+    {
+      "season": 2014,
       "n": 380,
-      "com_base_externa": 380,
-      "publico": 380,
+      "publico_n": 380,
+      "publico_medio": 16725.418421052633,
+      "publico_mediana": 14044.5,
       "publico_zero": 5,
-      "arbitro": 380,
-      "faltas": 0
+      "publico_zero_real": 0,
+      "arbitro_n": 380,
+      "faltas_n": 0
     },
-    "2015": {
+    {
+      "season": 2015,
       "n": 380,
-      "com_base_externa": 380,
-      "publico": 380,
+      "publico_n": 380,
+      "publico_medio": 17223.915789473685,
+      "publico_mediana": 13055.5,
       "publico_zero": 6,
-      "arbitro": 380,
-      "faltas": 0
+      "publico_zero_real": 0,
+      "arbitro_n": 380,
+      "faltas_n": 0
     },
-    "2016": {
+    {
+      "season": 2016,
       "n": 379,
-      "com_base_externa": 379,
-      "publico": 379,
+      "publico_n": 379,
+      "publico_medio": 15725.461741424802,
+      "publico_mediana": 12087.0,
       "publico_zero": 0,
-      "arbitro": 379,
-      "faltas": 0
+      "publico_zero_real": 0,
+      "arbitro_n": 379,
+      "faltas_n": 0
     },
-    "2017": {
+    {
+      "season": 2017,
       "n": 380,
-      "com_base_externa": 380,
-      "publico": 380,
+      "publico_n": 380,
+      "publico_medio": 16921.897368421054,
+      "publico_mediana": 13576.0,
       "publico_zero": 3,
-      "arbitro": 380,
-      "faltas": 0
+      "publico_zero_real": 0,
+      "arbitro_n": 380,
+      "faltas_n": 0
     },
-    "2018": {
+    {
+      "season": 2018,
       "n": 380,
-      "com_base_externa": 380,
-      "publico": 380,
+      "publico_n": 380,
+      "publico_medio": 20357.92105263158,
+      "publico_mediana": 16280.0,
       "publico_zero": 0,
-      "arbitro": 380,
-      "faltas": 211
+      "publico_zero_real": 0,
+      "arbitro_n": 380,
+      "faltas_n": 211
     },
-    "2019": {
+    {
+      "season": 2019,
       "n": 380,
-      "com_base_externa": 380,
-      "publico": 380,
+      "publico_n": 380,
+      "publico_medio": 22649.415789473685,
+      "publico_mediana": 18909.5,
       "publico_zero": 1,
-      "arbitro": 380,
-      "faltas": 168
+      "publico_zero_real": 0,
+      "arbitro_n": 380,
+      "faltas_n": 168
     },
-    "2020": {
+    {
+      "season": 2020,
       "n": 380,
-      "com_base_externa": 380,
-      "publico": 380,
+      "publico_n": 380,
+      "publico_medio": 0.0,
+      "publico_mediana": 0.0,
       "publico_zero": 380,
-      "arbitro": 380,
-      "faltas": 374
+      "publico_zero_real": 380,
+      "arbitro_n": 380,
+      "faltas_n": 374
     },
-    "2021": {
+    {
+      "season": 2021,
       "n": 380,
-      "com_base_externa": 380,
-      "publico": 380,
+      "publico_n": 380,
+      "publico_medio": 6523.505263157895,
+      "publico_mediana": 0.0,
       "publico_zero": 218,
-      "arbitro": 380,
-      "faltas": 375
+      "publico_zero_real": 218,
+      "arbitro_n": 380,
+      "faltas_n": 375
     },
-    "2022": {
+    {
+      "season": 2022,
       "n": 380,
-      "com_base_externa": 380,
-      "publico": 380,
+      "publico_n": 380,
+      "publico_medio": 21482.023684210526,
+      "publico_mediana": 18288.5,
       "publico_zero": 3,
-      "arbitro": 380,
-      "faltas": 373
+      "publico_zero_real": 0,
+      "arbitro_n": 380,
+      "faltas_n": 373
     },
-    "2023": {
+    {
+      "season": 2023,
       "n": 380,
-      "com_base_externa": 380,
-      "publico": 380,
+      "publico_n": 380,
+      "publico_medio": 27081.18157894737,
+      "publico_mediana": 26616.5,
       "publico_zero": 12,
-      "arbitro": 380,
-      "faltas": 378
+      "publico_zero_real": 0,
+      "arbitro_n": 380,
+      "faltas_n": 378
     },
-    "2024": {
+    {
+      "season": 2024,
       "n": 380,
-      "com_base_externa": 286,
-      "publico": 286,
+      "publico_n": 376,
+      "publico_medio": 27330.864361702126,
+      "publico_mediana": 26582.0,
       "publico_zero": 0,
-      "arbitro": 286,
-      "faltas": 211
+      "publico_zero_real": 0,
+      "arbitro_n": 362,
+      "faltas_n": 211
     }
-  },
+  ],
+  "blocos": [
+    {
+      "bloco": "2006 (sem público)",
+      "n": 380,
+      "pollard": 64.23777564717163,
+      "lo": 59.79178886029886,
+      "hi": 68.57184026348291,
+      "saldo_medio": 0.46842105263157896,
+      "pts_casa": 1.763157894736842,
+      "vitoria_casa": 0.5026315789473684,
+      "publico_medio": null
+    },
+    {
+      "bloco": "2007–2018",
+      "n": 4559,
+      "pollard": 64.93621118510792,
+      "lo": 63.65588920251154,
+      "hi": 66.21309213757156,
+      "saldo_medio": 0.5422241719675367,
+      "pts_casa": 1.7751699934196095,
+      "vitoria_casa": 0.5029611756964246,
+      "publico_medio": 16573.684477199447
+    },
+    {
+      "bloco": "2019",
+      "n": 380,
+      "pollard": 62.38003838771593,
+      "lo": 57.80346820809249,
+      "hi": 66.95162835249043,
+      "saldo_medio": 0.45789473684210524,
+      "pts_casa": 1.7105263157894737,
+      "vitoria_casa": 0.4842105263157895,
+      "publico_medio": 22649.415789473685
+    },
+    {
+      "bloco": "2020 (portões fechados)",
+      "n": 380,
+      "pollard": 60.17441860465116,
+      "lo": 55.64127290260367,
+      "hi": 64.6944713870029,
+      "saldo_medio": 0.3368421052631579,
+      "pts_casa": 1.6342105263157896,
+      "vitoria_casa": 0.45,
+      "publico_medio": 0.0
+    },
+    {
+      "bloco": "2021 (retorno parcial)",
+      "n": 380,
+      "pollard": 61.830574488802334,
+      "lo": 57.507176153091265,
+      "hi": 66.31147293264327,
+      "saldo_medio": 0.3263157894736842,
+      "pts_casa": 1.6710526315789473,
+      "vitoria_casa": 0.45789473684210524,
+      "publico_medio": 6523.505263157895
+    },
+    {
+      "bloco": "2022–2024",
+      "n": 1140,
+      "pollard": 60.55252168326374,
+      "lo": 57.90444399351065,
+      "hi": 63.25500533191149,
+      "saldo_medio": 0.38421052631578945,
+      "pts_casa": 1.6535087719298245,
+      "vitoria_casa": 0.4614035087719298,
+      "publico_medio": 25290.865316901407
+    }
+  ],
   "equipe_temporada": {
-    "n": 380,
-    "com_publico": 360,
-    "spearman_ha_publico": 0.02508958058500961,
-    "spearman_pts_publico": 0.438657858525312
+    "todas": {
+      "n": 360,
+      "spearman_ha_publico": 0.06845208500001292,
+      "spearman_pts_publico": 0.461327536907843,
+      "spearman_ha_publico_cv": -0.13799630919619432
+    },
+    "2007_2019": {
+      "n": 260,
+      "spearman_ha_publico": 0.03277213064188339,
+      "spearman_pts_publico": 0.5453100386707288,
+      "spearman_ha_publico_cv": -0.21767036307316673
+    },
+    "2022_2024": {
+      "n": 60,
+      "spearman_ha_publico": 0.08504192183861833,
+      "spearman_pts_publico": 0.5885609368108504,
+      "spearman_ha_publico_cv": -0.05896499386064383
+    },
+    "sem_2020_2021": {
+      "n": 320,
+      "spearman_ha_publico": -0.00964223498413645,
+      "spearman_pts_publico": 0.5434585331541855,
+      "spearman_ha_publico_cv": -0.1287954834887192
+    },
+    "matriz": {
+      "ha": {
+        "ha": 1.0,
+        "home_ppg": 0.5667,
+        "away_ppg": -0.4626,
+        "pts": 0.082,
+        "rank": -0.0828,
+        "avg_away_km": NaN,
+        "usual_stadium_share": NaN,
+        "season": -0.1886,
+        "publico_medio": 0.0689,
+        "publico_cv": -0.1372
+      },
+      "home_ppg": {
+        "ha": 0.5667,
+        "home_ppg": 1.0,
+        "away_ppg": 0.3937,
+        "pts": 0.8437,
+        "rank": -0.834,
+        "avg_away_km": NaN,
+        "usual_stadium_share": NaN,
+        "season": -0.1021,
+        "publico_medio": 0.4137,
+        "publico_cv": -0.2682
+      },
+      "away_ppg": {
+        "ha": -0.4626,
+        "home_ppg": 0.3937,
+        "away_ppg": 1.0,
+        "pts": 0.8077,
+        "rank": -0.7901,
+        "avg_away_km": NaN,
+        "usual_stadium_share": NaN,
+        "season": 0.0974,
+        "publico_medio": 0.3771,
+        "publico_cv": -0.1253
+      },
+      "pts": {
+        "ha": 0.082,
+        "home_ppg": 0.8437,
+        "away_ppg": 0.8077,
+        "pts": 1.0,
+        "rank": -0.9832,
+        "avg_away_km": NaN,
+        "usual_stadium_share": NaN,
+        "season": -0.0164,
+        "publico_medio": 0.4614,
+        "publico_cv": -0.2278
+      },
+      "rank": {
+        "ha": -0.0828,
+        "home_ppg": -0.834,
+        "away_ppg": -0.7901,
+        "pts": -0.9832,
+        "rank": 1.0,
+        "avg_away_km": NaN,
+        "usual_stadium_share": NaN,
+        "season": 0.0007,
+        "publico_medio": -0.4595,
+        "publico_cv": 0.207
+      },
+      "avg_away_km": {
+        "ha": NaN,
+        "home_ppg": NaN,
+        "away_ppg": NaN,
+        "pts": NaN,
+        "rank": NaN,
+        "avg_away_km": NaN,
+        "usual_stadium_share": NaN,
+        "season": NaN,
+        "publico_medio": NaN,
+        "publico_cv": NaN
+      },
+      "usual_stadium_share": {
+        "ha": NaN,
+        "home_ppg": NaN,
+        "away_ppg": NaN,
+        "pts": NaN,
+        "rank": NaN,
+        "avg_away_km": NaN,
+        "usual_stadium_share": NaN,
+        "season": NaN,
+        "publico_medio": NaN,
+        "publico_cv": NaN
+      },
+      "season": {
+        "ha": -0.1886,
+        "home_ppg": -0.1021,
+        "away_ppg": 0.0974,
+        "pts": -0.0164,
+        "rank": 0.0007,
+        "avg_away_km": NaN,
+        "usual_stadium_share": NaN,
+        "season": 1.0,
+        "publico_medio": 0.0362,
+        "publico_cv": -0.137
+      },
+      "publico_medio": {
+        "ha": 0.0689,
+        "home_ppg": 0.4137,
+        "away_ppg": 0.3771,
+        "pts": 0.4614,
+        "rank": -0.4595,
+        "avg_away_km": NaN,
+        "usual_stadium_share": NaN,
+        "season": 0.0362,
+        "publico_medio": 1.0,
+        "publico_cv": -0.4667
+      },
+      "publico_cv": {
+        "ha": -0.1372,
+        "home_ppg": -0.2682,
+        "away_ppg": -0.1253,
+        "pts": -0.2278,
+        "rank": 0.207,
+        "avg_away_km": NaN,
+        "usual_stadium_share": NaN,
+        "season": -0.137,
+        "publico_medio": -0.4667,
+        "publico_cv": 1.0
+      }
+    },
+    "com_ha": [
+      {
+        "variavel": "home_ppg",
+        "rho": 0.5667,
+        "n": 380
+      },
+      {
+        "variavel": "away_ppg",
+        "rho": -0.4626,
+        "n": 380
+      },
+      {
+        "variavel": "season",
+        "rho": -0.1886,
+        "n": 380
+      },
+      {
+        "variavel": "publico_cv",
+        "rho": -0.138,
+        "n": 340
+      },
+      {
+        "variavel": "rank",
+        "rho": -0.0828,
+        "n": 380
+      },
+      {
+        "variavel": "pts",
+        "rho": 0.082,
+        "n": 380
+      },
+      {
+        "variavel": "publico_medio",
+        "rho": 0.0685,
+        "n": 360
+      },
+      {
+        "variavel": "avg_away_km",
+        "rho": NaN,
+        "n": 0
+      },
+      {
+        "variavel": "usual_stadium_share",
+        "rho": NaN,
+        "n": 0
+      }
+    ]
   },
   "partida": {
-    "n_publico": 6745,
-    "spearman_gol_diff_publico": 0.07066235849574813,
-    "n_faltas": 2090,
-    "media_faltas_casa_menos_fora": 0.3291866028708134,
-    "spearman_faltas_publico": -0.028380182438503647
+    "todas": {
+      "n_publico": 6618,
+      "spearman_gd_publico": 0.07926977941652272,
+      "n_parcial": 6618,
+      "spearman_parcial_controle_rank": -0.04171705697719959
+    },
+    "2007_2019": {
+      "n_publico": 4722,
+      "spearman_gd_publico": 0.06332405657330219,
+      "n_parcial": 4722,
+      "spearman_parcial_controle_rank": -0.05173891462630529
+    },
+    "2022_2024": {
+      "n_publico": 1136,
+      "spearman_gd_publico": 0.1333248297320526,
+      "n_parcial": 1136,
+      "spearman_parcial_controle_rank": -0.06287627620236728
+    },
+    "sem_2020_2021": {
+      "n_publico": 5858,
+      "spearman_gd_publico": 0.0687393867371891,
+      "n_parcial": 5858,
+      "spearman_parcial_controle_rank": -0.0533526332762689
+    },
+    "acima_abaixo_mediana": [
+      {
+        "grupo": "abaixo",
+        "n": 2792,
+        "publico": 12285.562,
+        "opp_pos": 11.529,
+        "saldo": 0.591,
+        "pts": 1.822,
+        "vitoria": 0.522,
+        "rank_diff": 0.094
+      },
+      {
+        "grupo": "acima",
+        "n": 2933,
+        "publico": 24596.029,
+        "opp_pos": 9.816,
+        "saldo": 0.429,
+        "pts": 1.678,
+        "vitoria": 0.467,
+        "rank_diff": -0.756
+      }
+    ],
+    "matriz": {
+      "goal_diff": {
+        "goal_diff": 1.0,
+        "publico": 0.0792,
+        "publico_dev": -0.0446,
+        "rank_diff": 0.192,
+        "travel_km": 0.01,
+        "derby": -0.0351,
+        "usual_stadium": 0.0308,
+        "var_era": -0.047,
+        "pandemia": -0.0297
+      },
+      "publico": {
+        "goal_diff": 0.0792,
+        "publico": 1.0,
+        "publico_dev": 0.5198,
+        "rank_diff": 0.1547,
+        "travel_km": -0.1056,
+        "derby": 0.1601,
+        "usual_stadium": -0.0059,
+        "var_era": -0.0574,
+        "pandemia": -0.46
+      },
+      "publico_dev": {
+        "goal_diff": -0.0446,
+        "publico": 0.5198,
+        "publico_dev": 1.0,
+        "rank_diff": -0.041,
+        "travel_km": -0.1364,
+        "derby": 0.169,
+        "usual_stadium": 0.0488,
+        "var_era": 0.0313,
+        "pandemia": 0.0126
+      },
+      "rank_diff": {
+        "goal_diff": 0.192,
+        "publico": 0.1547,
+        "publico_dev": -0.041,
+        "rank_diff": 1.0,
+        "travel_km": 0.002,
+        "derby": 0.0135,
+        "usual_stadium": -0.0083,
+        "var_era": 0.0079,
+        "pandemia": 0.0089
+      },
+      "travel_km": {
+        "goal_diff": 0.01,
+        "publico": -0.1056,
+        "publico_dev": -0.1364,
+        "rank_diff": 0.002,
+        "travel_km": 1.0,
+        "derby": -0.4224,
+        "usual_stadium": 0.0425,
+        "var_era": 0.0898,
+        "pandemia": 0.0827
+      },
+      "derby": {
+        "goal_diff": -0.0351,
+        "publico": 0.1601,
+        "publico_dev": 0.169,
+        "rank_diff": 0.0135,
+        "travel_km": -0.4224,
+        "derby": 1.0,
+        "usual_stadium": -0.0665,
+        "var_era": -0.0106,
+        "pandemia": -0.0152
+      },
+      "usual_stadium": {
+        "goal_diff": 0.0308,
+        "publico": -0.0059,
+        "publico_dev": 0.0488,
+        "rank_diff": -0.0083,
+        "travel_km": 0.0425,
+        "derby": -0.0665,
+        "usual_stadium": 1.0,
+        "var_era": 0.0506,
+        "pandemia": 0.0328
+      },
+      "var_era": {
+        "goal_diff": -0.047,
+        "publico": -0.0574,
+        "publico_dev": 0.0313,
+        "rank_diff": 0.0079,
+        "travel_km": 0.0898,
+        "derby": -0.0106,
+        "usual_stadium": 0.0506,
+        "var_era": 1.0,
+        "pandemia": 0.5049
+      },
+      "pandemia": {
+        "goal_diff": -0.0297,
+        "publico": -0.46,
+        "publico_dev": 0.0126,
+        "rank_diff": 0.0089,
+        "travel_km": 0.0827,
+        "derby": -0.0152,
+        "usual_stadium": 0.0328,
+        "var_era": 0.5049,
+        "pandemia": 1.0
+      }
+    },
+    "com_goal_diff": [
+      {
+        "variavel": "rank_diff",
+        "rho": 0.192,
+        "n": 7219
+      },
+      {
+        "variavel": "publico",
+        "rho": 0.0793,
+        "n": 6618
+      },
+      {
+        "variavel": "var_era",
+        "rho": -0.047,
+        "n": 7219
+      },
+      {
+        "variavel": "publico_dev",
+        "rho": -0.0446,
+        "n": 6618
+      },
+      {
+        "variavel": "derby",
+        "rho": -0.0351,
+        "n": 7219
+      },
+      {
+        "variavel": "usual_stadium",
+        "rho": 0.0308,
+        "n": 7219
+      },
+      {
+        "variavel": "pandemia",
+        "rho": -0.0297,
+        "n": 7219
+      },
+      {
+        "variavel": "travel_km",
+        "rho": 0.01,
+        "n": 7219
+      }
+    ]
+  },
+  "arbitragem": {
+    "n_jogos": 6821,
+    "n_arbitros": 185,
+    "jogos_por_arbitro_mediana": 13.0,
+    "jogos_por_arbitro_max": 284,
+    "taxa_vitoria_casa_geral": 0.4893710599618824,
+    "arbitros_com_40_jogos": 48,
+    "taxa_vitoria_casa_min": 0.40789473684210525,
+    "taxa_vitoria_casa_max": 0.6739130434782609,
+    "top10_jogos": [
+      {
+        "arbitro": "Leandro Pedro Vuaden",
+        "n": 284,
+        "vitoria_casa": 0.493,
+        "publico": 17568.88
+      },
+      {
+        "arbitro": "Wilton Sampaio",
+        "n": 272,
+        "vitoria_casa": 0.478,
+        "publico": 20550.982
+      },
+      {
+        "arbitro": "Marcelo de Lima Henrique",
+        "n": 262,
+        "vitoria_casa": 0.489,
+        "publico": 16715.864
+      },
+      {
+        "arbitro": "Anderson Daronco",
+        "n": 243,
+        "vitoria_casa": 0.461,
+        "publico": 19860.161
+      },
+      {
+        "arbitro": "Raphael Claus",
+        "n": 230,
+        "vitoria_casa": 0.443,
+        "publico": 18680.261
+      },
+      {
+        "arbitro": "Héber Lopes",
+        "n": 221,
+        "vitoria_casa": 0.525,
+        "publico": 16022.686
+      },
+      {
+        "arbitro": "Ricardo Marques Ribeiro",
+        "n": 217,
+        "vitoria_casa": 0.452,
+        "publico": 15801.799
+      },
+      {
+        "arbitro": "Luiz Flávio de Oliveira",
+        "n": 208,
+        "vitoria_casa": 0.5,
+        "publico": 16094.102
+      },
+      {
+        "arbitro": "Braulio da Silva Machado",
+        "n": 173,
+        "vitoria_casa": 0.503,
+        "publico": 21182.705
+      },
+      {
+        "arbitro": "Wagner do Nascimento Magalhães",
+        "n": 151,
+        "vitoria_casa": 0.437,
+        "publico": 15939.397
+      }
+    ]
   }
 }
