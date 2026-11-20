@@ -130,3 +130,23 @@ def test_team_season_home_advantage_usa_pontos():
     assert a["home_ppg"] == 3.0
     assert a["away_ppg"] == 1.0
     assert a["ha"] == 2.0
+
+
+@pytest.mark.integration
+def test_build_outputs_cobre_a_base_real():
+    from pathlib import Path
+
+    from analyze_context import build_outputs
+
+    base = Path(__file__).resolve().parent.parent / "data" / "processed" / "matches_processed.csv"
+    if not base.exists():
+        pytest.skip("rode scripts/build_processed.py")
+    df, tab5, tab6, payload = build_outputs()
+    assert len(df) == 7219
+    assert payload["geral"]["n"] == 7219
+    assert payload["quebra"]["cut"] == 2019
+    assert len(tab6) == 43
+    for variavel in ("Clássico", "Distância", "Mesmo estado", "Estádio",
+                     "Força na tabela", "Era", "Pandemia"):
+        assert tab5.loc[tab5["variavel"] == variavel, "n"].sum() == 7219
+    assert tab5.loc[tab5["variavel"] == "Descanso", "n"].sum() == 7188

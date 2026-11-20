@@ -328,3 +328,27 @@ def table_bucket(df: pd.DataFrame) -> pd.Series:
         else:
             faixas.append("equilibrado")
     return pd.Series(faixas, index=df.index, dtype="object").rename("table_bucket")
+
+
+def build_context_frame(df: pd.DataFrame) -> pd.DataFrame:
+    """Base com todas as variáveis contextuais derivadas (uma linha por partida).
+
+    Não altera placar, mando ou resultado. É a entrada única do script de
+    análise, das figuras e da aba Contexto do dashboard.
+    """
+    d = df.copy()
+    d["travel_km"] = travel_km(d)
+    d["derby"] = d["travel_km"] == 0
+    descanso = rest_days(d)
+    d["home_rest"] = descanso["home_rest"]
+    d["away_rest"] = descanso["away_rest"]
+    tabela = table_snapshot(d)
+    for coluna in tabela.columns:
+        d[coluna] = tabela[coluna]
+    d["same_state"] = same_state(d)
+    d["home_region"] = region(d, "home")
+    d["away_region"] = region(d, "away")
+    d["usual_stadium"] = usual_stadium(d)
+    d["rest_bucket"] = rest_bucket(d)
+    d["table_bucket"] = table_bucket(d)
+    return add_era_flags(d)
