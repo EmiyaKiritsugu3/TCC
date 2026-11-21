@@ -17,109 +17,28 @@ from pathlib import Path
 
 from docx import Document
 from docx.enum.text import WD_ALIGN_PARAGRAPH
-from docx.oxml import OxmlElement
-from docx.oxml.ns import qn
-from docx.shared import Cm, Pt, RGBColor
+from docx.shared import Cm
+
+from docx_common import configurar, pagina, paragrafo, tabela
 
 RAIZ = Path(__file__).resolve().parent.parent
 ENTRADA = RAIZ / "docs" / "artigo_2013_2024_abnt.md"
 SAIDA = RAIZ / "docs" / "artigo_2013_2024_abnt.docx"
-PRETO = RGBColor(0, 0, 0)
-CINZA = RGBColor(0x44, 0x44, 0x44)
+SAIDA_P4 = RAIZ / "docs" / "artigo_2013_2024_abnt_p4.docx"
 
 
-def _runs(par, texto: str, tamanho: float = 12, negrito: bool = False,
-          italico: bool = False) -> None:
-    for parte in re.split(r"(\*\*.+?\*\*|\*.+?\*|`.+?`)", texto):
-        if not parte:
-            continue
-        if parte.startswith("**") and parte.endswith("**"):
-            run = par.add_run(parte[2:-2])
-            run.bold = True
-            run.italic = italico
-        elif parte.startswith("`") and parte.endswith("`"):
-            run = par.add_run(parte[1:-1])
-            run.italic = True
-        elif parte.startswith("*") and parte.endswith("*"):
-            run = par.add_run(parte[1:-1])
-            run.italic = True
-        else:
-            run = par.add_run(parte)
-            run.bold = negrito
-            run.italic = italico
-        run.font.name = "Times New Roman"
-        run.font.size = Pt(tamanho)
-        run.font.color.rgb = PRETO
-
-
-def _paragrafo(doc, texto: str, *, tamanho: float = 12, negrito: bool = False,
-               italico: bool = False, central: bool = False,
-               espaco: float = 1.5, antes: int = 0, depois: int = 0,
-               recuo: bool = True, hanging: bool = False,
-               alinhamento: str = "justify") -> None:
-    par = doc.add_paragraph()
-    if central:
-        par.alignment = WD_ALIGN_PARAGRAPH.CENTER
-    elif alinhamento == "left":
-        par.alignment = WD_ALIGN_PARAGRAPH.LEFT
-    else:
-        par.alignment = WD_ALIGN_PARAGRAPH.JUSTIFY
-    fmt = par.paragraph_format
-    fmt.line_spacing = espaco
-    fmt.space_before = Pt(antes)
-    fmt.space_after = Pt(depois)
-    if hanging:
-        fmt.left_indent = Cm(0.0)
-        fmt.first_line_indent = Cm(0.0)
-    elif recuo:
-        fmt.first_line_indent = Cm(1.25)
-    _runs(par, texto, tamanho=tamanho, negrito=negrito, italico=italico)
+def _paragrafo(doc, texto: str, **kwargs) -> None:
+    kwargs.setdefault("indent", 1.25)
+    paragrafo(doc, texto, **kwargs)
 
 
 def _tabela(doc, linhas: list[list[str]], larguras: list[float],
             fonte: float = 9.0) -> None:
-    tab = doc.add_table(rows=len(linhas), cols=len(linhas[0]))
-    tab.style = "Table Grid"
-    tab.autofit = False
-    for i, linha in enumerate(linhas):
-        for j, celula in enumerate(linha):
-            cel = tab.cell(i, j)
-            cel.text = ""
-            _runs(cel.paragraphs[0], celula.strip(), tamanho=fonte,
-                  negrito=(i == 0))
-            cel.paragraphs[0].paragraph_format.line_spacing = 1.0
-            cel.paragraphs[0].paragraph_format.space_after = Pt(0)
-    for j, largura in enumerate(larguras):
-        for celula in tab.columns[j].cells:
-            celula.width = Cm(largura)
-    doc.add_paragraph()
+    tabela(doc, linhas, larguras=larguras, fonte=fonte)
 
 
 def _pagina(doc, inicio: int = 1) -> None:
-    header = doc.sections[0].header.paragraphs[0]
-    header.alignment = WD_ALIGN_PARAGRAPH.RIGHT
-    fld = OxmlElement("w:fldSimple")
-    fld.set(qn("w:instr"), "PAGE")
-    run = OxmlElement("w:r")
-    txt = OxmlElement("w:t")
-    txt.text = str(inicio)
-    run.append(txt)
-    fld.append(run)
-    header._p.append(fld)
-    if inicio != 1:
-        pg = OxmlElement("w:pgNumType")
-        pg.set(qn("w:start"), str(inicio))
-        doc.sections[0]._sectPr.append(pg)
-
-
-def _configurar(doc) -> None:
-    for secao in doc.sections:
-        secao.page_width, secao.page_height = Cm(21.0), Cm(29.7)
-        secao.top_margin, secao.left_margin = Cm(3.0), Cm(3.0)
-        secao.bottom_margin, secao.right_margin = Cm(2.0), Cm(2.0)
-    normal = doc.styles["Normal"]
-    normal.font.name = "Times New Roman"
-    normal.font.size = Pt(12)
+    pagina(doc, inicio)
 
 
 def _titulo_secao(titulo: str) -> tuple[str, bool]:
@@ -232,20 +151,16 @@ def _renderizar(doc, linhas: list[str]) -> None:
 
 def main(argv: list[str] | None = None) -> None:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--entrada", type=Path, default=ENTRADA)
-    parser.add_argument("--saida", type=Path, default=SAIDA)
     parser.add_argument("--inicio", type=int, default=1)
     args = parser.parse_args(argv)
-    entrada = args.entrada if args.entrada.is_absolute() else RAIZ / args.entrada
-    saida = args.saida if args.saida.is_absolute() else RAIZ / args.saida
-    linhas = entrada.read_text(encoding="utf-8").splitlines()
+    saida = SAIDA_P4 if args.inicio == 4 else SAIDA
+    linhas = ENTRADA.read_text(encoding="utf-8").splitlines()
     doc = Document()
-    _configurar(doc)
+    configurar(doc, top=3.0, left=3.0, bottom=2.0, right=2.0, tamanho=12)
     doc.core_properties.title = "Vantagem de jogar em casa na Série A (2013–2024)"
     doc.core_properties.author = "José Inamar de Medeiros Júnior"
     _renderizar(doc, linhas)
     _pagina(doc, args.inicio)
-    saida.parent.mkdir(parents=True, exist_ok=True)
     doc.save(saida)
     print(f"gravado em: {saida}")
     subprocess.run(

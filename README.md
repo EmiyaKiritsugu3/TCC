@@ -110,10 +110,8 @@ editável e `build_artigo.py` gera `.docx` e `.pdf`. A versão em português usa
 `docs/artigo_2013_2024_pt.md`:
 
 ```bash
-PYTHONPATH=src python3 scripts/build_artigo.py \
-  --entrada docs/artigo_2013_2024_pt.md \
-  --saida docs/artigo_2013_2024_pt.docx \
-  --header "Vantagem de jogar em casa na Série A (2013–2024)"
+PYTHONPATH=src python3 scripts/build_artigo.py        # inglês
+PYTHONPATH=src python3 scripts/build_artigo.py --pt   # português
 ```
 
 O resumo para o orientador fica em `docs/resumo_artigo_orientador.pdf`.
@@ -131,10 +129,8 @@ Para gerar o pacote com capa, folha de rosto e folha de avaliação
 (numeração do artigo começando em 4):
 
 ```bash
-PYTHONPATH=src python3 scripts/build_artigo_abnt.py \
-  --saida docs/artigo_2013_2024_abnt_p4.docx --inicio 4
-PYTHONPATH=src python3 scripts/build_capa_artigo.py \
-  --artigo docs/artigo_2013_2024_abnt_p4.pdf
+PYTHONPATH=src python3 scripts/build_artigo_abnt.py --inicio 4
+PYTHONPATH=src python3 scripts/build_capa_artigo.py
 ```
 
 Saídas: `docs/capa_folha_rosto_artigo.pdf`, `.docx` e

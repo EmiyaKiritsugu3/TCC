@@ -8,7 +8,6 @@ Saídas:
 """
 from __future__ import annotations
 
-import argparse
 import subprocess
 from pathlib import Path
 
@@ -18,7 +17,7 @@ from docx.shared import Cm, Pt
 
 RAIZ = Path(__file__).resolve().parent.parent
 SAIDA = RAIZ / "docs" / "capa_folha_rosto_artigo.docx"
-ARTIGO = RAIZ / "docs" / "artigo_2013_2024_abnt.pdf"
+ARTIGO = RAIZ / "docs" / "artigo_2013_2024_abnt_p4.pdf"
 COMPLETO = RAIZ / "docs" / "artigo_2013_2024_abnt_completo.pdf"
 
 TITULO = ("VANTAGEM DE JOGAR EM CASA NA SÉRIE A: UMA ANÁLISE BASEADA "
@@ -120,11 +119,7 @@ def _avaliacao(doc: Document) -> None:
     _texto(doc, "[TITULAÇÃO] — [INSTITUIÇÃO]", depois=0)
 
 
-def main(argv: list[str] | None = None) -> None:
-    parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--artigo", type=Path, default=ARTIGO)
-    args = parser.parse_args(argv)
-    artigo = args.artigo if args.artigo.is_absolute() else RAIZ / args.artigo
+def main() -> None:
     doc = Document()
     _configurar(doc)
     _capa(doc)
@@ -140,7 +135,7 @@ def main(argv: list[str] | None = None) -> None:
     )
     subprocess.run(
         ["pdfunite",
-         str(SAIDA.with_suffix(".pdf")), str(artigo), str(COMPLETO)],
+         str(SAIDA.with_suffix(".pdf")), str(ARTIGO), str(COMPLETO)],
         check=True,
     )
     print(f"gravado em: {SAIDA}")
