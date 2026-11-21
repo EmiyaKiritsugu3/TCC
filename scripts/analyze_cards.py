@@ -109,12 +109,11 @@ def _ols_cluster(y: np.ndarray, X: np.ndarray, nomes: list[str],
     return beta, se, nomes
 
 
-def _did(df: pd.DataFrame) -> dict:
+def _did(df: pd.DataFrame, outcome: str = "yellow_diff") -> dict:
     """DiD 2019 vs 2020 com efeitos fixos de mandante e visitante."""
     d = df[df["season"].isin([2019, 2020])].copy()
     d["post"] = (d["season"] == 2020).astype(float)
-    d["yellow_diff"] = d["yellow_home"] - d["yellow_away"]
-    y = d["yellow_diff"].to_numpy(dtype=float)
+    y = d[outcome].to_numpy(dtype=float)
 
     def matriz(sub: pd.DataFrame) -> tuple[np.ndarray, list[str]]:
         base = pd.DataFrame({
@@ -138,12 +137,12 @@ def _did(df: pd.DataFrame) -> dict:
         "se": float(se[i]),
         "lo": float(beta[i] - 1.96 * se[i]),
         "hi": float(beta[i] + 1.96 * se[i]),
-        "modelo": ("yellow_diff ~ post + C(home_team) + C(away_team); "
+        "modelo": (f"{outcome} ~ post + C(home_team) + C(away_team); "
                    "EP conservador: máximo entre clusters de mandante e visitante"),
     }
 
 
-def _did_comum(df: pd.DataFrame) -> dict:
+def _did_comum(df: pd.DataFrame, outcome: str = "yellow_diff") -> dict:
     """DiD restrito às equipes presentes em 2019 e 2020 (amostra equilibrada)."""
     t19 = set(df.loc[df["season"] == 2019, "home_team"]) | set(df.loc[df["season"] == 2019, "away_team"])
     t20 = set(df.loc[df["season"] == 2020, "home_team"]) | set(df.loc[df["season"] == 2020, "away_team"])
@@ -152,8 +151,7 @@ def _did_comum(df: pd.DataFrame) -> dict:
     d = d[d["home_team"].isin(comuns) & d["away_team"].isin(comuns)].copy()
     d = d.reset_index(drop=True)
     d["post"] = (d["season"] == 2020).astype(float)
-    d["yellow_diff"] = d["yellow_home"] - d["yellow_away"]
-    y = d["yellow_diff"].to_numpy(dtype=float)
+    y = d[outcome].to_numpy(dtype=float)
     base = pd.DataFrame({"intercepto": 1.0, "post": d["post"].to_numpy(dtype=float)})
     casa = pd.get_dummies(d["home_team"], prefix="casa", drop_first=True, dtype=float)
     fora = pd.get_dummies(d["away_team"], prefix="fora", drop_first=True, dtype=float)
@@ -238,7 +236,8 @@ def _figura(tab: pd.DataFrame) -> None:
 
 
 def _relatorio(tab: pd.DataFrame, did: dict, did_comum: dict,
-               por_falta: pd.DataFrame) -> str:
+               por_falta: pd.DataFrame, did_pen: dict, did_pen_comum: dict,
+               pen_tab: pd.DataFrame) -> str:
     d19 = float(tab.loc[tab["season"] == 2019, "amarelos_diff"].iloc[0])
     d20 = float(tab.loc[tab["season"] == 2020, "amarelos_diff"].iloc[0])
     bruta = d20 - d19
@@ -319,7 +318,26 @@ def _relatorio(tab: pd.DataFrame, did: dict, did_comum: dict,
             "de cartões por falta serve como robustez, não como teste definitivo.",
             "",
         ]
+    p19 = pen_tab.loc[pen_tab["season"] == 2019].iloc[0]
+    p20 = pen_tab.loc[pen_tab["season"] == 2020].iloc[0]
     linhas += [
+        "## Pênaltis convertidos (piloto)",
+        "",
+        f"Em 2019, o mandante converteu {_pt(p19['pen_home'], 3)} pênalti por jogo, "
+        f"contra {_pt(p19['pen_away'], 3)} do visitante; em 2020, "
+        f"{_pt(p20['pen_home'], 3)} contra {_pt(p20['pen_away'], 3)}.",
+        f"- Amostra completa: **{_pt(did_pen['coef'], 3, True)}** pênaltis por jogo "
+        f"(EP {_pt(did_pen['se'], 3)}; IC 95% {_pt(did_pen['lo'], 3, True)} a "
+        f"{_pt(did_pen['hi'], 3, True)}; n={did_pen['n']}).",
+        f"- Equipes presentes nos dois anos: **{_pt(did_pen_comum['coef'], 3, True)}** "
+        f"(EP {_pt(did_pen_comum['se'], 3)}; IC 95% "
+        f"{_pt(did_pen_comum['lo'], 3, True)} a {_pt(did_pen_comum['hi'], 3, True)}; "
+        f"n={did_pen_comum['n']}).",
+        "",
+        "O JSON do BrazilianFootball/Data marca gols de pênalti com `PN`, mas não "
+        "registra pênaltis perdidos nem pênaltis não convertidos; o piloto mede "
+        "pênaltis **convertidos**, não pênaltis **marcados**.",
+        "",
         "## Limitações",
         "",
         "- Cartão é decisão do árbitro, mas também reflete comportamento do jogador.",
@@ -366,10 +384,19 @@ def main(argv: list[str] | None = None) -> int:
                    if c in contexto.columns]
         df = cartoes.merge(contexto[colunas], on="match_id", how="left",
                            validate="many_to_one")
+    df["yellow_diff"] = df["yellow_home"] - df["yellow_away"]
+    df["pen_diff"] = df["pen_home"] - df["pen_away"]
     tab = _tabela_temporadas(df)
     did = _did(df)
     did_comum = _did_comum(df)
+    did_pen = _did(df, "pen_diff")
+    did_pen_comum = _did_comum(df, "pen_diff")
     por_falta = _cartoes_por_falta(df)
+    pen_tab = (df.groupby("season")
+               .agg(jogos=("match_id", "size"),
+                    pen_home=("pen_home", "mean"),
+                    pen_away=("pen_away", "mean"))
+               .reset_index())
 
     FIG.mkdir(parents=True, exist_ok=True)
     tab.round(4).to_csv(TABELA, index=False)
@@ -380,14 +407,21 @@ def main(argv: list[str] | None = None) -> int:
         "temporadas": _registros(tab),
         "did_2019_2020": _arredondar(did),
         "did_2019_2020_equipes_comuns": _arredondar(did_comum),
+        "did_penaltis_2019_2020": _arredondar(did_pen),
+        "did_penaltis_2019_2020_equipes_comuns": _arredondar(did_pen_comum),
+        "penaltis_por_temporada": _registros(pen_tab),
         "cartoes_por_falta": _registros(por_falta),
     }
     RESUMO.write_text(json.dumps(resumo, ensure_ascii=False, indent=2, allow_nan=False) + "\n",
                       encoding="utf-8")
-    RELATORIO.write_text(_relatorio(tab, did, did_comum, por_falta), encoding="utf-8")
+    RELATORIO.write_text(
+        _relatorio(tab, did, did_comum, por_falta, did_pen, did_pen_comum,
+                   pen_tab),
+        encoding="utf-8")
     print(tab.round(3).to_string(index=False))
     print("\nDiD:", json.dumps(did, ensure_ascii=False))
     print("DiD equipes comuns:", json.dumps(did_comum, ensure_ascii=False))
+    print("DiD pênaltis:", json.dumps(did_pen, ensure_ascii=False))
     print(f"-> {TABELA}")
     print(f"-> {FIGURA}")
     print(f"-> {RESUMO}")

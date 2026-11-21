@@ -15,6 +15,7 @@
     2012
   ],
   "nao_atribuidos": 1,
+  "penaltis_nao_atribuidos": 0,
   "divergencias_placar": [
     {
       "match_id": 6880,
@@ -34,7 +35,8 @@
       "cobertura": 1.0,
       "nao_atribuidos": 0,
       "amarelos": 1682,
-      "vermelhos": 49
+      "vermelhos": 49,
+      "penaltis": 62
     },
     "2014": {
       "base": 380,
@@ -42,7 +44,8 @@
       "cobertura": 1.0,
       "nao_atribuidos": 0,
       "amarelos": 1692,
-      "vermelhos": 79
+      "vermelhos": 79,
+      "penaltis": 62
     },
     "2015": {
       "base": 380,
@@ -50,7 +53,8 @@
       "cobertura": 1.0,
       "nao_atribuidos": 0,
       "amarelos": 1877,
-      "vermelhos": 105
+      "vermelhos": 105,
+      "penaltis": 74
     },
     "2016": {
       "base": 379,
@@ -58,7 +62,8 @@
       "cobertura": 1.0,
       "nao_atribuidos": 0,
       "amarelos": 1728,
-      "vermelhos": 84
+      "vermelhos": 84,
+      "penaltis": 79
     },
     "2017": {
       "base": 380,
@@ -66,7 +71,8 @@
       "cobertura": 1.0,
       "nao_atribuidos": 0,
       "amarelos": 1798,
-      "vermelhos": 70
+      "vermelhos": 70,
+      "penaltis": 85
     },
     "2018": {
       "base": 380,
@@ -74,7 +80,8 @@
       "cobertura": 1.0,
       "nao_atribuidos": 0,
       "amarelos": 1844,
-      "vermelhos": 93
+      "vermelhos": 93,
+      "penaltis": 72
     },
     "2019": {
       "base": 380,
@@ -82,7 +89,8 @@
       "cobertura": 1.0,
       "nao_atribuidos": 0,
       "amarelos": 1666,
-      "vermelhos": 94
+      "vermelhos": 94,
+      "penaltis": 95
     },
     "2020": {
       "base": 380,
@@ -90,7 +98,8 @@
       "cobertura": 1.0,
       "nao_atribuidos": 0,
       "amarelos": 1661,
-      "vermelhos": 103
+      "vermelhos": 103,
+      "penaltis": 108
     },
     "2021": {
       "base": 380,
@@ -98,7 +107,8 @@
       "cobertura": 1.0,
       "nao_atribuidos": 0,
       "amarelos": 1695,
-      "vermelhos": 76
+      "vermelhos": 76,
+      "penaltis": 86
     },
     "2022": {
       "base": 380,
@@ -106,7 +116,8 @@
       "cobertura": 1.0,
       "nao_atribuidos": 1,
       "amarelos": 1840,
-      "vermelhos": 102
+      "vermelhos": 102,
+      "penaltis": 98
     },
     "2023": {
       "base": 380,
@@ -114,7 +125,8 @@
       "cobertura": 1.0,
       "nao_atribuidos": 0,
       "amarelos": 1996,
-      "vermelhos": 101
+      "vermelhos": 101,
+      "penaltis": 95
     },
     "2024": {
       "base": 380,
@@ -122,7 +134,8 @@
       "cobertura": 1.0,
       "nao_atribuidos": 0,
       "amarelos": 1950,
-      "vermelhos": 120
+      "vermelhos": 120,
+      "penaltis": 77
     }
   }
 }

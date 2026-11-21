@@ -35,8 +35,10 @@ e índice de Pollard por temporada e por equipe. Sem previsão, sem IA, sem apos
   (BrazilianFootball/Data, MIT), com 1 cartão não atribuído. Em 2019 o mandante
   recebia 0,18 amarelo a menos; em 2020, +0,11; a mudança com efeitos fixos de
   equipe é +0,35 (IC 95% −0,03 a +0,72, com erros-padrão conservadores: máximo
-  entre clusters de mandante e visitante; inclui zero). O padrão é sugestivo do
-  canal da arbitragem, mas não conclusivo.
+  entre clusters de mandante e visitante; inclui zero). Pênaltis convertidos:
+  +0,05 por jogo (IC 95% −0,06 a +0,15), sem mudança detectável; a fonte não
+  registra pênaltis perdidos. O padrão é sugestivo do canal da arbitragem, mas
+  não conclusivo.
 - **PR #2 mergeada** na `main`; repositório limpo e CI verde.
 
 ## 3. Resultados

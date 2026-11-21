@@ -30,7 +30,7 @@ Qual foi a magnitude da vantagem de jogar em casa no Campeonato Brasileiro Séri
 
 ![Figura 2 — Público médio versus vantagem de casa e versus pontos por equipe-temporada (2013–2024).](figuras/artigo_publico_ha.png)
 
-5. **Cartões são um canal promissor, mas a evidência é sugestiva.** Em 2019, o mandante recebia 0,18 amarelo a menos que o visitante; em 2020, a diferença passou a +0,11. Com efeitos fixos de equipe, a mudança é **+0,35**, mas o IC 95% (**−0,03 a +0,72**) inclui zero. Não é resultado conclusivo; é uma extensão que mostra que o canal arbitral pode ser medido.
+5. **Cartões são um canal promissor, mas a evidência é sugestiva.** Em 2019, o mandante recebia 0,18 amarelo a menos que o visitante; em 2020, a diferença passou a +0,11. Com efeitos fixos de equipe, a mudança é **+0,35**, mas o IC 95% (**−0,03 a +0,72**) inclui zero. Pênaltis convertidos: **+0,05** por jogo (IC 95% −0,06 a +0,15), sem mudança detectável; a fonte não registra pênaltis perdidos. Não é resultado conclusivo; é uma extensão que mostra que o canal arbitral pode ser medido.
 
 ![Figura 3 — Diferença de cartões amarelos casa−fora por temporada, com intervalo descritivo de 95%.](figuras/fig13_cartoes.png)
 

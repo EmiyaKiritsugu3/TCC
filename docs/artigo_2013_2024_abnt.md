@@ -117,7 +117,7 @@ Para a extensão disciplinar, seja D_ijt a diferença entre cartões amarelos re
 
 `D_ijt = β_0 + β_1 Post_t + α_i + α_j + ε_ijt`
 
-em que Post_t = 1 para 2020 e α_i, α_j são efeitos fixos de mandante e visitante. O coeficiente β_1 é uma estimativa de diferenças em diferenças: compara a diferença de cartões casa–fora em 2020 com a diferença em 2019, após absorver diferenças invariantes no tempo entre equipes. Os erros-padrão são conservadores: calculamos variâncias robustas por cluster unidirecional por mandante e por visitante e tomamos o maior erro-padrão, o que evita o problema de variâncias negativas que a inclusão–exclusão multiway pode produzir em amostras pequenas (CAMERON; MILLER, 2015). A estimativa é descritiva; cartões refletem tanto decisões de arbitragem quanto comportamento dos jogadores.
+em que Post_t = 1 para 2020 e α_i, α_j são efeitos fixos de mandante e visitante. O coeficiente β_1 é uma estimativa de diferenças em diferenças: compara a diferença de cartões casa–fora em 2020 com a diferença em 2019, após absorver diferenças invariantes no tempo entre equipes. Os erros-padrão são conservadores: calculamos variâncias robustas por cluster unidirecional por mandante e por visitante e tomamos o maior erro-padrão, o que evita o problema de variâncias negativas que a inclusão–exclusão multiway pode produzir em amostras pequenas (CAMERON; MILLER, 2015). A estimativa é descritiva; cartões refletem tanto decisões de arbitragem quanto comportamento dos jogadores. O JSON também marca gols de pênalti com `PN`; usamos essa marcação em um piloto, mas não observamos pênaltis perdidos ou marcados.
 
 ### 3.6 Público
 
@@ -169,7 +169,7 @@ Fonte: elaboração do autor; BrazilianFootball/Data (MIT) e Base dos Dados/Tran
 
 ### 4.5 Cartões
 
-A extensão disciplinar é sugestiva, mas não conclusiva (Figura 3). Em 2019, o mandante recebeu 0,18 cartão amarelo a menos que o visitante; em 2020, a diferença passou a +0,11. A mudança bruta é +0,29. Com efeitos fixos de mandante e visitante, a estimativa de diferenças em diferenças é +0,35 (EP 0,190; IC 95% −0,03 a +0,72; n = 760). Restringindo a amostra às 16 equipes presentes nos dois anos, obtemos +0,34 (IC 95% −0,04 a +0,72; n = 480). O ponto estimado é consistente com um canal de arbitragem/torcida, mas o intervalo inclui zero, e 2020 também mudou o calendário, os protocolos e o ambiente do VAR. Tratamos o resultado, portanto, como um sinal de robustez, não como evidência de efeito causal da arbitragem.
+A extensão disciplinar é sugestiva, mas não conclusiva (Figura 3). Em 2019, o mandante recebeu 0,18 cartão amarelo a menos que o visitante; em 2020, a diferença passou a +0,11. A mudança bruta é +0,29. Com efeitos fixos de mandante e visitante, a estimativa de diferenças em diferenças é +0,35 (EP 0,190; IC 95% −0,03 a +0,72; n = 760). Restringindo a amostra às 16 equipes presentes nos dois anos, obtemos +0,34 (IC 95% −0,04 a +0,72; n = 480). O ponto estimado é consistente com um canal de arbitragem/torcida, mas o intervalo inclui zero, e 2020 também mudou o calendário, os protocolos e o ambiente do VAR. Tratamos o resultado, portanto, como um sinal de robustez, não como evidência de efeito causal da arbitragem. No mesmo recorte, os pênaltis convertidos não mostram mudança detectável: +0,05 por jogo (EP 0,052; IC 95% −0,06 a +0,15; n = 760).
 
 ![Figura 3 – Diferença de cartões amarelos entre mandante e visitante, 2013–2024. Os pontos são médias por temporada; a faixa sombreada é um intervalo descritivo de 95% por bootstrap; a faixa vermelha marca 2020.](figuras/fig13_cartoes.png)
 
@@ -185,7 +185,7 @@ O terceiro resultado é que a heterogeneidade entre equipes é pequena. Apenas c
 
 O quarto resultado é que o público não é um correlato forte da vantagem de casa. Isso pode parecer surpreendente, mas é consistente com a visão multicanal: o apoio da torcida é um insumo, e seu efeito pode ser compensado por qualidade das equipes, táticas e comportamento da arbitragem. A literatura de jogos sem torcida encontrou efeitos de público em algumas ligas (FISCHER; HAUCAP, 2021; SCOPPA, 2021; ENDRICH; GESCHE, 2020; BRYSON et al., 2021), mas as magnitudes variam e a identificação não é uniforme. Nossa evidência brasileira aponta para uma associação modesta, não dominante.
 
-O resultado de cartões é o mais especulativo. O ponto estimado está na direção esperada, mas o intervalo inclui zero e a temporada 2020 é um conjunto de tratamentos. O exercício é útil principalmente para mostrar que o canal da arbitragem pode ser medido com dados abertos; não é um teste causal. Um desenho mais forte combinaria pênaltis, faltas e tipos de cartão, e usaria o retorno gradual do público como contraste adicional.
+O resultado de cartões é o mais especulativo. O ponto estimado está na direção esperada, mas o intervalo inclui zero e a temporada 2020 é um conjunto de tratamentos. O exercício é útil principalmente para mostrar que o canal da arbitragem pode ser medido com dados abertos; não é um teste causal. O piloto de pênaltis convertidos não sustenta um canal arbitral forte: o intervalo é estreito em torno de zero, mas a medida exclui pênaltis perdidos. Um desenho mais forte combinaria pênaltis, faltas e tipos de cartão, e usaria o retorno gradual do público como contraste adicional.
 
 ### 5.1 Limitações
 
@@ -197,7 +197,22 @@ Para previsão e avaliação de equipes, a principal implicação é que o efeit
 
 ## 6. Conclusão
 
-Usando 4.559 partidas de 2013 a 2024 e uma base aberta licenciada em MIT, mostramos que a vantagem de jogar em casa na Série A foi 63,0% dos pontos, com quebra em 2019: 65,0% antes e 61,0% depois. A queda sobrevive a um modelo de Poisson de ataque–defesa com efeitos de equipe e temporada: a vantagem de gols esperados do mandante caiu de +56,5% para +37,7%, uma redução de 12,0%. O público tem associação fraca com a vantagem de casa e forte com a força da equipe; apenas cerca de 2% da variância da vantagem por equipe-temporada está entre equipes; cartões nos jogos sem torcida de 2020 se movem na direção esperada, mas permanecem imprecisos. Os resultados são descritivos, não causais, e sugerem que referenciais pós-2019, modelos de nível de liga e explicações multicanal são a direção certa para trabalhos futuros.
+A pergunta era dupla: qual foi a magnitude da vantagem de jogar em casa na Série A entre 2013 e 2024 e ela mudou? A resposta curta é: **a vantagem foi grande, mas o referencial mudou**. O mandante conquistou **63,0%** dos pontos (IC 61,7–64,3), com quebra estimada em **2019**: **65,0% em 2013–2018** contra **61,0% em 2019–2024** (4,0 p.p.; IC 0,9–6,6). Para uso prático, o número relevante é a faixa **60,6–61,0%** do regime pós-2019, não os 65,0% do regime anterior.
+
+A diferença não é só de pontos. No modelo de Poisson de ataque–defesa, a vantagem de gols esperados do mandante caiu de **+56,5%** para **+37,7%**, uma redução de **12,0%** (IC −18,1% a −5,5%). Em termos concretos, uma equipe com expectativa de **1,0 gol fora de casa** passaria de cerca de **1,57 gol esperado em casa** no regime antigo para cerca de **1,38** no regime atual. Um modelo calibrado em 2013–2018, portanto, superestima a vantagem de casa em cerca de **4 p.p. de pontos** e **0,19 gol** nesse exemplo.
+
+A vantagem também não é um traço estável de cada clube. Apenas **2,2%** da variância da vantagem por equipe-temporada está entre equipes; **97,8%** está dentro das equipes ao longo das temporadas. Isso tem uma implicação prática: rankings de "quem tem mais vantagem de casa" são pouco confiáveis com 12 temporadas, e um parâmetro comum de liga é mais defensável do que estimativas isoladas por clube. Clubes e analistas devem evitar tratar a vantagem de casa como uma característica permanente da equipe.
+
+Os canais testados não explicam a queda sozinhos. O público tem correlação fraca com a vantagem de casa (**ρ = 0,08**), embora forte com a força da equipe (**ρ = 0,41**); em 2020, sem torcida, o Pollard foi **60,2%**, e em 2022–2024, com público de volta, **60,6%** — o retorno não restaurou o padrão pré-2019. Os cartões se movem na direção esperada (**+0,35**), mas o IC inclui zero (**−0,03 a +0,72**), e 2020 concentra pandemia, calendário e protocolos. A leitura responsável é multicanal: VAR (2019), pandemia (2020), calendário, público e arbitragem podem contribuir, mas este desenho não separa esses choques.
+
+**O que fica de concreto:**
+
+- adotar **60,6–61,0%** como referência pós-2019 em análises e previsões;
+- não classificar clubes por vantagem de casa sem encolhimento e intervalos de confiança;
+- tratar 2020 como choque de público, não como experimento isolado;
+- usar o pipeline aberto para atualizar a série a cada temporada.
+
+As limitações são as de um estudo observacional de 12 temporadas: a série começa em 2013 por causa dos borderôs eletrônicos; há uma divergência de placar e uma exceção de data na validação; não há pênaltis nem faltas atribuídas ao árbitro; e a quebra de 2019 coincide com o VAR. A agenda futura é objetiva: **(i)** atualizar com 2025; **(ii)** estimar um modelo hierárquico bayesiano para a vantagem por equipe; **(iii)** incorporar pênaltis, faltas e tipos de cartão; **(iv)** replicar em Séries B–D e no futebol feminino; **(v)** testar o VAR como evento e o retorno gradual da torcida como contraste; **(vi)** usar odds ou Elo para separar expectativa de qualidade.
 
 ## Disponibilidade de dados e código
 
