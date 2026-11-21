@@ -2,7 +2,7 @@
 
 Professor Barboza,
 
-Depois da nossa conversa sobre o formato, fechei o trabalho como artigo no recorte **2013–2024**, com base aberta e licenciada em MIT, em vez da monografia extensa. O texto está em inglês, em português e em formato ABNT; este resumo resume o que ficou pronto, os números principais e o que ainda depende do senhor.
+Depois da nossa conversa sobre o formato, fechei o trabalho como artigo no recorte **2013–2024**, usando a base de partidas do `BrazilianFootball/Data` (MIT), em vez da monografia extensa. O texto está em inglês, em português e em formato ABNT; este resumo resume o que ficou pronto, os números principais e o que ainda depende do senhor.
 
 ## A pergunta
 

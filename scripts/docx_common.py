@@ -38,7 +38,7 @@ def runs(par, texto: str, tamanho: float = 11, negrito: bool = False,
 
 def paragrafo(doc, texto: str, *, tamanho: float = 11, negrito: bool = False,
               italico: bool = False, central: bool = False,
-              espaco: float = 1.5, antes: int = 0, depois: int = 0,
+              espaco: float = 1.12, antes: int = 0, depois: int = 0,
               recuo: bool = False, indent: float = 0.6,
               hanging: bool = False, alinhamento: str = "justify",
               cor: RGBColor | None = None) -> None:

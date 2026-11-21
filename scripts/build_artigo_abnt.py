@@ -29,6 +29,7 @@ SAIDA_P4 = RAIZ / "docs" / "artigo_2013_2024_abnt_p4.docx"
 
 def _paragrafo(doc, texto: str, **kwargs) -> None:
     kwargs.setdefault("indent", 1.25)
+    kwargs.setdefault("espaco", 1.5)
     paragrafo(doc, texto, **kwargs)
 
 
