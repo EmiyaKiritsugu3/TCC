@@ -129,7 +129,7 @@ def _renderizar(doc, linhas: list[str]) -> None:
             i += 1
             continue
         if s.startswith("Fonte:") or s.startswith("Nota:"):
-            _paragrafo(doc, s, tamanho=9, central=True, espaco=1.0,
+            _paragrafo(doc, s, tamanho=9, espaco=1.0,
                        depois=6, recuo=False, alinhamento="left")
             i += 1
             continue

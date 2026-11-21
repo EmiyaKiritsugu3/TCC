@@ -8,6 +8,7 @@ Saídas:
 """
 from __future__ import annotations
 
+import shutil
 import subprocess
 from pathlib import Path
 
@@ -120,6 +121,10 @@ def _avaliacao(doc: Document) -> None:
 
 
 def main() -> None:
+    if shutil.which("pdfunite") is None:
+        raise SystemExit(
+            "pdfunite ausente; instale poppler-utils (Linux) ou equivalente"
+        )
     doc = Document()
     _configurar(doc)
     _capa(doc)

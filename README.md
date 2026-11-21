@@ -85,15 +85,17 @@ Relatório: `docs/analise_cartoes.md`; figura: `figuras/fig13_cartoes.png`.
 
 A versão do artigo usa a base aberta do `BrazilianFootball/Data` (MIT), com
 resultados, gols, estádios e cartões de 2013–2024. Requer
-`pip install -r requirements-dev.txt` (inclui `python-docx`) e LibreOffice para
-o PDF. A Figura 2 usa `data/external/context_clean.csv`, gerado pelo pipeline
-externo descrito em `docs/fontes_externas.md`.
+`pip install -r requirements-dev.txt` (inclui `python-docx`), LibreOffice para
+o PDF e Poppler (`pdfunite`, `pdfinfo`) para o pacote completo. A Figura 2 usa
+`data/external/context_clean.csv`, gerado pelo pipeline externo descrito em
+`docs/fontes_externas.md`.
 
 ```bash
-PYTHONPATH=src python3 scripts/fetch_cards.py
-PYTHONPATH=src python3 scripts/build_cards.py
-PYTHONPATH=src python3 scripts/analyze_cards.py
 PYTHONPATH=src python3 scripts/build_mit_base.py
+PYTHONPATH=src python3 scripts/fetch_cards.py
+PYTHONPATH=src python3 scripts/build_cards.py \
+  --base data/processed/matches_processed_2013_2024.csv
+PYTHONPATH=src python3 scripts/analyze_cards.py
 PYTHONPATH=src python3 scripts/analyze_artigo.py
 PYTHONPATH=src python3 scripts/analyze_models.py
 PYTHONPATH=src python3 scripts/build_artigo.py

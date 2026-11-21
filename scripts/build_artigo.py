@@ -56,8 +56,9 @@ def _renderizar(doc, linhas: list[str]) -> None:
             continue
         if s.startswith("## "):
             titulo = s[3:]
-            refs = titulo.lower() == "references"
-            abstract = titulo.lower() == "abstract"
+            chave = titulo.lower()
+            refs = chave in {"references", "referências", "referencias"}
+            abstract = chave in {"abstract", "resumo"}
             paragrafo(doc, titulo, tamanho=12.5, negrito=True, antes=12,
                        depois=3, cor=VERDE)
             i += 1
@@ -101,15 +102,19 @@ def _renderizar(doc, linhas: list[str]) -> None:
             paragrafo(doc, s, tamanho=9.5, central=True, antes=4, depois=2)
             i += 1
             continue
-        if s.startswith("**Table ") or s.startswith("**Figure "):
+        if s.startswith("**Table ") or s.startswith("**Figure ") \
+                or s.startswith("**Tabela ") or s.startswith("**Figura "):
             paragrafo(doc, s, tamanho=9.5, central=True, antes=4, depois=2)
             i += 1
             continue
-        if s.startswith("Notes:"):
+        if s.startswith("Notes:") or s.startswith("Notas:") \
+                or s.startswith("Nota:") or s.startswith("Fonte:"):
             paragrafo(doc, s, tamanho=8.3, italico=True, depois=8, cor=CINZA)
             i += 1
             continue
-        if s.startswith("**Keywords:**") or s.startswith("**JEL codes:**"):
+        if s.startswith("**Keywords:**") or s.startswith("**JEL codes:**") \
+                or s.startswith("**Palavras-chave:**") \
+                or s.startswith("**Códigos JEL:**"):
             paragrafo(doc, s, tamanho=9.8, depois=3)
             abstract = False
             i += 1
@@ -138,7 +143,7 @@ def main(argv: list[str] | None = None) -> None:
     doc.core_properties.title = header
     doc.core_properties.author = "José Inamar de Medeiros Júnior"
     _renderizar(doc, linhas)
-    pagina(doc)
+    pagina(doc, cabecalho=header)
     doc.save(saida)
     print(f"gravado em: {saida}")
     subprocess.run(

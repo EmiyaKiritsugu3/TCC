@@ -5,6 +5,7 @@ Saídas:
   figuras/artigo_serie_pollard.png
   figuras/artigo_publico_ha.png
   figuras/artigo_indicadores.csv
+  figuras/artigo_pollard_geral.csv
 """
 from __future__ import annotations
 
@@ -16,8 +17,8 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 
-from associations import (annual_pollard_ci, change_point, cluster_bootstrap_diff,
-                          team_season_features)
+from associations import (annual_pollard_ci, bootstrap_pollard_ci, change_point,
+                          cluster_bootstrap_diff, team_season_features)
 from metrics import by_season, summarize
 
 RAIZ = Path(__file__).resolve().parent.parent
@@ -32,6 +33,7 @@ plt.rcParams.update({"font.size": 11, "axes.grid": True, "grid.alpha": 0.3,
 
 def _serie(df: pd.DataFrame) -> dict:
     anual = annual_pollard_ci(df, n=4000)
+    geral_lo, geral_hi = bootstrap_pollard_ci(df, n=4000, seed=42)
     corte = change_point(df)
     diff = cluster_bootstrap_diff(df, df["season"].between(2013, 2018),
                                   df["season"].between(2019, 2024), n=5000)
@@ -53,7 +55,8 @@ def _serie(df: pd.DataFrame) -> dict:
     fig.tight_layout()
     fig.savefig(FIG / "artigo_serie_pollard.png", dpi=150)
     plt.close(fig)
-    return {"anual": anual, "corte": corte, "nivel": diff}
+    return {"anual": anual, "corte": corte, "nivel": diff,
+            "geral_lo": geral_lo, "geral_hi": geral_hi}
 
 
 def _publico(df: pd.DataFrame) -> None:
@@ -121,6 +124,9 @@ def main() -> None:
     t = t.merge(dados["anual"][["season", "lo", "hi"]], on="season")
     t.to_csv(FIG / "tab_artigo_temporadas.csv", index=False)
     t.to_csv(FIG / "artigo_indicadores.csv", index=False)
+    pd.DataFrame([{"n": int(s["n"]), "pollard": float(s["pollard"]),
+                   "lo": dados["geral_lo"], "hi": dados["geral_hi"]}]).round(4).to_csv(
+        FIG / "artigo_pollard_geral.csv", index=False)
     _publico(df)
     _contexto(df)
     print(f"n={len(df)}; pollard={s['pollard']:.2f}%")

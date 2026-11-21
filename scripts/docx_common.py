@@ -39,14 +39,14 @@ def runs(par, texto: str, tamanho: float = 11, negrito: bool = False,
 def paragrafo(doc, texto: str, *, tamanho: float = 11, negrito: bool = False,
               italico: bool = False, central: bool = False,
               espaco: float = 1.5, antes: int = 0, depois: int = 0,
-              recuo: bool = True, indent: float = 0.6,
+              recuo: bool = False, indent: float = 0.6,
               hanging: bool = False, alinhamento: str = "justify",
               cor: RGBColor | None = None) -> None:
     par = doc.add_paragraph()
-    if central:
-        par.alignment = WD_ALIGN_PARAGRAPH.CENTER
-    elif alinhamento == "left":
+    if alinhamento == "left":
         par.alignment = WD_ALIGN_PARAGRAPH.LEFT
+    elif central:
+        par.alignment = WD_ALIGN_PARAGRAPH.CENTER
     else:
         par.alignment = WD_ALIGN_PARAGRAPH.JUSTIFY
     fmt = par.paragraph_format
@@ -54,9 +54,9 @@ def paragrafo(doc, texto: str, *, tamanho: float = 11, negrito: bool = False,
     fmt.space_before = Pt(antes)
     fmt.space_after = Pt(depois)
     if hanging:
-        fmt.left_indent = Cm(0.0)
-        fmt.first_line_indent = Cm(0.0)
-    elif recuo:
+        fmt.left_indent = Cm(indent)
+        fmt.first_line_indent = Cm(-indent)
+    elif recuo and not central:
         fmt.first_line_indent = Cm(indent)
     runs(par, texto, tamanho=tamanho, negrito=negrito, italico=italico)
     if cor is not None:
@@ -96,9 +96,7 @@ def configurar(doc: Document, *, top: float = 3.0, left: float = 3.0,
     normal.font.size = Pt(tamanho)
 
 
-def pagina(doc: Document, inicio: int = 1) -> None:
-    header = doc.sections[0].header.paragraphs[0]
-    header.alignment = WD_ALIGN_PARAGRAPH.RIGHT
+def _campo_pagina(par, inicio: int) -> None:
     fld = OxmlElement("w:fldSimple")
     fld.set(qn("w:instr"), "PAGE")
     run = OxmlElement("w:r")
@@ -106,8 +104,32 @@ def pagina(doc: Document, inicio: int = 1) -> None:
     txt.text = str(inicio)
     run.append(txt)
     fld.append(run)
-    header._p.append(fld)
+    par._p.append(fld)
+
+
+def pagina(doc: Document, inicio: int = 1, *,
+           cabecalho: str | None = None) -> None:
+    """Numera as páginas; com `cabecalho`, usa título no topo e número no rodapé."""
+    secao = doc.sections[0]
+    if cabecalho:
+        header = secao.header.paragraphs[0]
+        header.alignment = WD_ALIGN_PARAGRAPH.RIGHT
+        run = header.add_run(cabecalho)
+        run.font.name = FONTE
+        run.font.size = Pt(8)
+        run.font.color.rgb = RGBColor(0x55, 0x55, 0x55)
+        footer = secao.footer.paragraphs[0]
+        footer.alignment = WD_ALIGN_PARAGRAPH.CENTER
+        _campo_pagina(footer, inicio)
+    else:
+        header = secao.header.paragraphs[0]
+        header.alignment = WD_ALIGN_PARAGRAPH.RIGHT
+        _campo_pagina(header, inicio)
     if inicio != 1:
         pg = OxmlElement("w:pgNumType")
         pg.set(qn("w:start"), str(inicio))
-        doc.sections[0]._sectPr.append(pg)
+        cols = secao._sectPr.find(qn("w:cols"))
+        if cols is not None:
+            cols.addprevious(pg)
+        else:
+            secao._sectPr.append(pg)
