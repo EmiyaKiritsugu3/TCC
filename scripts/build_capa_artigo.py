@@ -113,11 +113,11 @@ def _avaliacao(doc: Document) -> None:
     _texto(doc, "Prof. Dr. Francisco Marcio Barboza", negrito=True, depois=0)
     _texto(doc, "Orientador — DCT/UFRN", depois=0)
     _texto(doc, "________________________________________", antes=18, depois=0)
-    _texto(doc, "[2º membro da banca — aguardar indicação do orientador]",
-           depois=0)
+    _texto(doc, "[NOME DO 2º MEMBRO]", negrito=True, depois=0)
+    _texto(doc, "[TITULAÇÃO] — [INSTITUIÇÃO]", depois=0)
     _texto(doc, "________________________________________", antes=18, depois=0)
-    _texto(doc, "[3º membro da banca — aguardar indicação do orientador]",
-           depois=0)
+    _texto(doc, "[NOME DO 3º MEMBRO]", negrito=True, depois=0)
+    _texto(doc, "[TITULAÇÃO] — [INSTITUIÇÃO]", depois=0)
 
 
 def main(argv: list[str] | None = None) -> None:
