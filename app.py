@@ -43,7 +43,8 @@ def carregar():
         st.error(
             f"Base processada não encontrada em `{PROCESSED}`. "
             "Rode `scripts/build_mit_base.py` (2013–2024) ou "
-            "`scripts/build_processed.py` (2006–2024). (RF01)"
+            "`scripts/build_processed.py` (2006–2024) e aponte "
+            "`TCC_PROCESSED` para o CSV gerado. (RF01)"
         )
         st.stop()
     if df.empty:

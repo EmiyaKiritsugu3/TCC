@@ -26,7 +26,7 @@ VERDE = RGBColor(0x14, 0x53, 0x2D)
 CINZA = RGBColor(0x55, 0x55, 0x55)
 
 
-def _renderizar(doc, linhas: list[str]) -> None:
+def _renderizar(doc, linhas: list[str], pasta: Path) -> None:
     i = 0
     refs = False
     abstract = False
@@ -89,7 +89,7 @@ def _renderizar(doc, linhas: list[str]) -> None:
         imagem = re.fullmatch(r"!\[(.*?)\]\((.+?)\)", s)
         if imagem:
             legenda, caminho = imagem.groups()
-            arquivo = RAIZ / caminho
+            arquivo = (pasta / caminho).resolve()
             if not arquivo.exists():
                 raise FileNotFoundError(f"figura ausente: {arquivo}")
             doc.add_picture(str(arquivo), width=Cm(13.5))
@@ -142,7 +142,7 @@ def main(argv: list[str] | None = None) -> None:
     configurar(doc, top=2.0, left=2.3, bottom=1.8, right=2.3, tamanho=10.6)
     doc.core_properties.title = header
     doc.core_properties.author = "José Inamar de Medeiros Júnior"
-    _renderizar(doc, linhas)
+    _renderizar(doc, linhas, entrada.parent)
     pagina(doc, cabecalho=header)
     doc.save(saida)
     print(f"gravado em: {saida}")

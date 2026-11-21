@@ -52,7 +52,7 @@ def _titulo_secao(titulo: str) -> tuple[str, bool]:
     return titulo.upper(), True
 
 
-def _renderizar(doc, linhas: list[str]) -> None:
+def _renderizar(doc, linhas: list[str], pasta: Path) -> None:
     i = 0
     refs = False
     resumo = False
@@ -111,7 +111,7 @@ def _renderizar(doc, linhas: list[str]) -> None:
         imagem = re.fullmatch(r"!\[(.*?)\]\((.+?)\)", s)
         if imagem:
             legenda, caminho = imagem.groups()
-            arquivo = RAIZ / caminho
+            arquivo = (pasta / caminho).resolve()
             if not arquivo.exists():
                 raise FileNotFoundError(f"figura ausente: {arquivo}")
             _paragrafo(doc, legenda, tamanho=9.5, central=True,
@@ -159,7 +159,7 @@ def main(argv: list[str] | None = None) -> None:
     configurar(doc, top=3.0, left=3.0, bottom=2.0, right=2.0, tamanho=12)
     doc.core_properties.title = "Vantagem de jogar em casa na Série A (2013–2024)"
     doc.core_properties.author = "José Inamar de Medeiros Júnior"
-    _renderizar(doc, linhas)
+    _renderizar(doc, linhas, ENTRADA.parent)
     _pagina(doc, args.inicio)
     doc.save(saida)
     print(f"gravado em: {saida}")
