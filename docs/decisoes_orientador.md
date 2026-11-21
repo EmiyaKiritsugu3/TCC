@@ -119,7 +119,7 @@ números validados da versão 2:
 - **104 testes** (95 rápidos + 9 de integração); auditor numérico cobre os novos
   números.
 
-Atualização 20/11/2026: **114 testes** (104 rápidos + 10 de integração); a seção
+Atualização 20/11/2026: **117 testes** (106 rápidos + 11 de integração); a seção
 5.7, a Tabela 11 e a Figura 13 incorporam a extensão de cartões (2013–2024).
 
 Pendência: validação do orientador para manter H3–H5 e a mudança de nível como
@@ -148,6 +148,6 @@ template oficial UFRN/CERES-BSI + ficha SISBI + folha de avaliação e banca.
   cartões (4.559 partidas de 2013–2024, 1 cartão não atribuído) usa DiD 2019→2020
   com efeitos fixos de equipe e IC conservador (+0,35; IC 95% −0,03 a +0,72).
 - **Deck:** 16 slides, com dois slides de cartões.
-- **Testes:** 114 (104 rápidos + 10 de integração); auditor numérico cobre a
+- **Testes:** 117 (106 rápidos + 11 de integração); auditor numérico cobre a
   Tabela 11 e a Figura 13.
 - **PR #4** com o pipeline de cartões e a versão atualizada do texto/deck.

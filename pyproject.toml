@@ -30,6 +30,7 @@ py-modules = [
     "integrity",
     "load_data",
     "metrics",
+    "mit_data",
     "openfootball",
     "paths",
     "referees",

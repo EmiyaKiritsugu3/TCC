@@ -191,8 +191,10 @@ não têm cartões nessa fonte. A análise está em `docs/analise_cartoes.md`.
 Em 2019, o mandante recebia 0,18 amarelo a menos que o visitante; em 2020,
 +0,11; a mudança com efeitos fixos de equipe é **+0,35** (IC 95% −0,03 a +0,72,
 com erros-padrão conservadores (máximo entre clusters de mandante e visitante);
-o intervalo inclui zero). O padrão é compatível com o canal da arbitragem, mas
-não prova causalidade.
+o intervalo inclui zero). Pênaltis convertidos: **+0,05** por jogo (IC 95%
+−0,06 a +0,15), sem mudança detectável; a fonte registra o gol de pênalti
+(`PN`), não o pênalti perdido. O padrão é compatível com o canal da arbitragem,
+mas não prova causalidade.
 
 ## 7. Validações independentes
 
@@ -200,7 +202,7 @@ não prova causalidade.
 |---|---|
 | OpenFootball 2018–2024 | **2.659/2.660** placares idênticos; 1 exceção de data conhecida (jogo de dois dias em 2023) |
 | Campeões recalculados | **19/19** |
-| Testes automatizados | **114 passed** |
+| Testes automatizados | **117 passed** |
 | Auditor da monografia | **tudo confere** |
 
 ## 8. Achados

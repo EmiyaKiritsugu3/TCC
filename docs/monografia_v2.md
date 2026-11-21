@@ -233,7 +233,7 @@ A motivação para este trabalho nasce de dois interesses que correram em parale
 
 A temática é adequada a Sistemas de Informação porque envolve aquisição e tratamento de dados, definição de indicadores, visualização interativa e construção de um sistema de apoio à análise — uma aplicação direta do que a análise de negócios descritiva discute, respondendo "o que aconteceu?" (SHARDA; DELEN; TURBAN, 2019). A contribuição não é alegar ineditismo do fenômeno, e sim combinar um recorte histórico longo e homogêneo (19 temporadas), um fluxo de tratamento reproduzível e auditado e um dashboard interativo para exploração dos dados, permanecendo útil como ferramenta de consulta após o término do curso.
 
-Em termos práticos, a contribuição se desdobra em três entregas verificáveis. A primeira é a série anual homogênea de 19 temporadas (2006–2024), com 7.219 partidas válidas, regras de limpeza documentadas e dois casos metodológicos tratados sem imputação (2016 e 2020). A segunda é o fluxo reproduzível e auditado: download pinado por commit com verificação SHA-256, construção determinística da base processada, validação cruzada externa de 99,96% e recálculo dos 19 campeões a partir dos placares. A terceira é o dashboard reutilizável, com cinco abas que cobrem do panorama geral à consulta por equipe e à análise de contexto, coberto por 114 testes automatizados (104 rápidos + 10 de integração) e formatado em português. A análise contextual não muda a pergunta central: ela delimita o que os dados permitem dizer sobre os fatores associados, sem converter associação em causa. Nenhuma das três depende de alegação causal: o valor está na medida repetível e na exploração assistida, não na explicação do fenômeno.
+Em termos práticos, a contribuição se desdobra em três entregas verificáveis. A primeira é a série anual homogênea de 19 temporadas (2006–2024), com 7.219 partidas válidas, regras de limpeza documentadas e dois casos metodológicos tratados sem imputação (2016 e 2020). A segunda é o fluxo reproduzível e auditado: download pinado por commit com verificação SHA-256, construção determinística da base processada, validação cruzada externa de 99,96% e recálculo dos 19 campeões a partir dos placares. A terceira é o dashboard reutilizável, com cinco abas que cobrem do panorama geral à consulta por equipe e à análise de contexto, coberto por 117 testes automatizados (106 rápidos + 11 de integração) e formatado em português. A análise contextual não muda a pergunta central: ela delimita o que os dados permitem dizer sobre os fatores associados, sem converter associação em causa. Nenhuma das três depende de alegação causal: o valor está na medida repetível e na exploração assistida, não na explicação do fenômeno.
 
 ## 1.6 Estrutura do trabalho
 
@@ -371,7 +371,7 @@ Legenda: fonte, período, regras de limpeza e relatório de qualidade. Fonte: El
 
 ## 4.4 Testes
 
-Cento e quatorze testes automatizados (Pytest; 104 rápidos e 10 de integração) cobrem o caso de referência da especificação (três partidas manuais → índice de Pollard exatamente 50%), proporções, tratamento de denominador zero, recorte vazio, pontuação por equipe/temporada (incluindo Flamengo 2019: 53/37/90/38), variáveis contextuais (viagem, clássico, estádio, descanso, tabela, eras), funções de associação (bootstrap, mudança de nível, matriz de correlação, vantagem por equipe), parser de cartões, filtros das abas, formatação pt-BR, integridade SHA-256 e regras de limpeza. Todos passam (`114 passed`). Complemento de verificação externa: a validação cruzada contra o OpenFootball atingiu 99,96% de concordância (seção 3.2).
+Cento e dezessete testes automatizados (Pytest; 106 rápidos e 11 de integração) cobrem o caso de referência da especificação (três partidas manuais → índice de Pollard exatamente 50%), proporções, tratamento de denominador zero, recorte vazio, pontuação por equipe/temporada (incluindo Flamengo 2019: 53/37/90/38), variáveis contextuais (viagem, clássico, estádio, descanso, tabela, eras), funções de associação (bootstrap, mudança de nível, matriz de correlação, vantagem por equipe), parser de cartões, filtros das abas, formatação pt-BR, integridade SHA-256 e regras de limpeza. Todos passam (`117 passed`). Complemento de verificação externa: a validação cruzada contra o OpenFootball atingiu 99,96% de concordância (seção 3.2).
 
 **Tabela 4 — Síntese dos testes por grupo.**
 
@@ -395,7 +395,8 @@ Cento e quatorze testes automatizados (Pytest; 104 rápidos e 10 de integração
 | `test_review_fixes` | regressões das revisões (download, exceção, CI, placares) | 9 passed |
 | `test_bootstrap_checks` | bootstrap/check read-only, pins e instalação editável | 4 passed |
 | `test_cards` | parser de cartões, normalização de times e desempates | 9 passed |
-| **Total** | **104 rápidos + 10 de integração** | **114 passed** |
+| `test_mit_data` | base 2013–2024, resultado/pontos e cobertura | 3 passed |
+| **Total** | **106 rápidos + 11 de integração** | **117 passed** |
 
 Fonte: Elaboração própria; detalhamento em Apêndice D.
 
@@ -792,7 +793,7 @@ Validação dos cartões (`scripts/build_cards.py` e `scripts/analyze_cards.py`)
 
 ## APÊNDICE D — Casos de teste e instruções de execução
 
-Suíte Pytest (`python3 -m pytest tests/ -q`): **114 passed** (104 rápidos + 10 de integração).
+Suíte Pytest (`python3 -m pytest tests/ -q`): **117 passed** (106 rápidos + 11 de integração).
 
 - `tests/test_metrics.py`: caso de referência de três partidas (Pollard exatamente 50%); tudo-mandante acima de 50% e tudo-visitante abaixo; proporções somam 100; Pollard indefinido sem pontos; recorte vazio não quebra; agregação `by_season`; `team_season` separa pontos de casa e fora; Flamengo 2019 (53/37/90/38); `teams_in_season` respeita a temporada.
 - `tests/test_context.py` (20): haversine (São Paulo–Rio ≈ 360 km; zero na mesma cidade); clássicos locais com viagem zero; distância interestadual na faixa esperada; descanso em dias (incluindo estreia sem anterior e jogo no mesmo dia); pontos e posição antes da partida; flags de era; mesma UF, região, estádio habitual, faixas de descanso e de posição; cobertura dos 43 clubes e somas da base real (7.219).
@@ -803,6 +804,7 @@ Suíte Pytest (`python3 -m pytest tests/ -q`): **114 passed** (104 rápidos + 10
 - `tests/test_formatting.py`: formatação pt-BR (`49,0%`, `63,66%`, `—`, `1,49`, `+0,49`); gráfico usa separador pt-BR (`,.`).
 - `tests/test_integrity.py`: `verify_sha256` aceita hash correto e rejeita incorreto.
 - `tests/test_cards.py` (9): normalização de times e aliases; parser de cartões; regra da última menção; desempate por UF e por especificidade; cartão não atribuído; `parse_resultado` e `parse_data`.
+- `tests/test_mit_data.py` (3): parser da base 2013–2024, derivação de resultado/pontos e cobertura por temporada.
 
 Execução (conforme `README.md`):
 
@@ -816,7 +818,7 @@ python3 scripts/make_figures.py      # gera figuras e tab1
 PYTHONPATH=src python3 scripts/fetch_cards.py    # cartões 2013–2024 (MIT)
 PYTHONPATH=src python3 scripts/build_cards.py    # junta cartões à base
 PYTHONPATH=src python3 scripts/analyze_cards.py  # Tabela 11 e Figura 13
-python3 -m pytest tests/ -q          # 114 testes (104 rápidos + 10 de integração)
+python3 -m pytest tests/ -q          # 117 testes (106 rápidos + 11 de integração)
 python3 scripts/validate_cross.py    # validação OpenFootball 2018–2024
 python3 -m streamlit run app.py
 ```

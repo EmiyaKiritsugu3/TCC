@@ -5,12 +5,12 @@
 > As seções 1–5 são o registro histórico do commit `9b9540c`.
 
 > As seções históricas abaixo mantêm os números do commit da época (104 testes,
-> 14 slides). A versão atual está na seção de 20/11/2026 (114 testes, 16 slides).
+> 14 slides). A versão atual está na seção de 20/11/2026 (117 testes, 16 slides).
 
 ## Atualização 20/11/2026 — cartões (branch `feat/cartoes`)
 
-- `pytest tests/ -q --cov=src --cov-report=term --cov-fail-under=90` → **114 passed**
-  (104 rápidos + 10 de integração); cobertura **91,2%**.
+- `pytest tests/ -q --cov=src --cov-report=term --cov-fail-under=90` → **117 passed**
+  (106 rápidos + 11 de integração); cobertura **91,2%**.
 - `scripts/check_monografia.py` → **AUDITORIA NUMÉRICA: tudo confere**
   (Tabela 11, Figura 13, DiD 2019→2020 e contagem de testes).
 - `scripts/audit_data.py` → **150 verificações, 0 falhas**.
