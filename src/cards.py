@@ -165,7 +165,9 @@ def parse_partida(jogo: dict) -> dict:
 
     amarelos = {"H": 0, "A": 0}
     vermelhos = {"H": 0, "A": 0}
+    penaltis = {"H": 0, "A": 0}
     nao_atribuidos: list[str] = []
+    pen_nao_atribuidos = 0
     for cartao in jogo.get("Yellow cards", []) or []:
         lado = _lado_cartao(cartao, casa, fora, uf_casa, uf_fora)
         if lado is None:
@@ -178,6 +180,14 @@ def parse_partida(jogo: dict) -> dict:
             nao_atribuidos.append(cartao)
         else:
             vermelhos[lado] += 1
+    for gol in jogo.get("Goals", []) or []:
+        if not re.search(r"\dPN", gol):
+            continue
+        lado = _lado_cartao(gol, casa, fora, uf_casa, uf_fora)
+        if lado is None:
+            pen_nao_atribuidos += 1
+        else:
+            penaltis[lado] += 1
 
     return {
         "date": parse_data(jogo["Date"]),
@@ -189,6 +199,9 @@ def parse_partida(jogo: dict) -> dict:
         "yellow_away": amarelos["A"],
         "red_home": vermelhos["H"],
         "red_away": vermelhos["A"],
+        "pen_home": penaltis["H"],
+        "pen_away": penaltis["A"],
+        "pen_nao_atribuidos": pen_nao_atribuidos,
         "nao_atribuidos": len(nao_atribuidos),
         "cartoes_total": len(jogo.get("Yellow cards", []) or [])
         + len(jogo.get("Red cards", []) or []),

@@ -111,8 +111,8 @@ def conferir(texto: str, df: pd.DataFrame, tab1: pd.DataFrame,
                    "63,7%", "12.554", "7.166", "58,2% (2017)", "69,5% (2018)",
                    "28,9%", "17,9%", "60,2%", "n = 379", "379 jogos",
                    "62,4% em 2019", "61,8% em 2021", "11,3 p.p",
-                   "2.659 de 2.660", "99,96%", "19/19", "114 testes", "114 passed",
-                   "104 rápidos", "Tabela 11", "Figura 13", "4.559",
+                   "2.659 de 2.660", "99,96%", "19/19", "117 testes", "117 passed",
+                   "106 rápidos", "Tabela 11", "Figura 13", "4.559",
                    "1 cartão não atribuído", "0,35", "−0,03", "+0,72",
                    "Cameron e Miller (2015)", "BrazilianFootball/Data",
                    "25/02/2021", "Flamengo 2019: 53/37/90/38",
@@ -134,6 +134,7 @@ def conferir(texto: str, df: pd.DataFrame, tab1: pd.DataFrame,
     confere("`tests/test_context.py` (20)" in T, "contagem de test_context no Apendice D")
     confere("`tests/test_associations.py` (19)" in T, "contagem de test_associations no Apendice D")
     confere("`tests/test_cards.py` (9)" in T, "contagem de test_cards no Apendice D")
+    confere("`tests/test_mit_data.py` (3)" in T, "contagem de test_mit_data no Apendice D")
 
     # --- extremos anuais ---
     confere(_quase(round(t.loc[2017, "pollard"], 2), 58.24), "pollard 2017")

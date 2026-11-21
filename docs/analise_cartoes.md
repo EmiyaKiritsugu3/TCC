@@ -48,6 +48,14 @@ O IC 95% com erros-padrão conservadores inclui zero; a mudança é sugestiva, m
   arbitragem, mas não identifica causalidade: VAR, calendário, protocolos
   e comportamento dos jogadores também mudaram.
 
+## Pênaltis convertidos (piloto)
+
+Em 2019, o mandante converteu 0,150 pênalti por jogo, contra 0,100 do visitante; em 2020, 0,161 contra 0,124.
+- Amostra completa: **+0,046** pênaltis por jogo (EP 0,052; IC 95% -0,056 a +0,147; n=760).
+- Equipes presentes nos dois anos: **+0,050** (EP 0,052; IC 95% -0,051 a +0,151; n=480).
+
+O JSON do BrazilianFootball/Data marca gols de pênalti com `PN`, mas não registra pênaltis perdidos nem pênaltis não convertidos; o piloto mede pênaltis **convertidos**, não pênaltis **marcados**.
+
 ## Limitações
 
 - Cartão é decisão do árbitro, mas também reflete comportamento do jogador.

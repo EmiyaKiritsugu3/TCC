@@ -27,7 +27,7 @@ python3 scripts/fetch_raw.py --check # confere o SHA-256 das cópias locais
 python3 scripts/build_processed.py   # gera data/processed/
 python3 scripts/analyze_context.py   # gera tab5, tab6 e contexto.json
 python3 scripts/make_figures.py      # gera figuras e tab1
-python3 -m pytest tests/ -q          # 114 testes (104 rápidos + 10 de integração)
+python3 -m pytest tests/ -q          # 117 testes (106 rápidos + 11 de integração)
 python3 scripts/validate_cross.py    # validação OpenFootball 2018–2024
 python3 scripts/build_deck.py        # gera o deck de defesa (PPTX)
 python3 -m streamlit run app.py
@@ -80,6 +80,63 @@ PYTHONPATH=src python3 scripts/analyze_cards.py
 ```
 
 Relatório: `docs/analise_cartoes.md`; figura: `figuras/fig13_cartoes.png`.
+
+### Recorte 2013–2024 (artigo, base MIT)
+
+A versão do artigo usa a base aberta do `BrazilianFootball/Data` (MIT), com
+resultados, gols, estádios e cartões de 2013–2024. Requer
+`pip install -r requirements-dev.txt` (inclui `python-docx`), LibreOffice para
+o PDF e Poppler (`pdfunite`, `pdfinfo`) para o pacote completo. A Figura 2 usa
+`data/external/context_clean.csv`, gerado pelo pipeline externo descrito em
+`docs/fontes_externas.md`.
+
+```bash
+PYTHONPATH=src python3 scripts/build_mit_base.py
+PYTHONPATH=src python3 scripts/fetch_cards.py
+PYTHONPATH=src python3 scripts/build_cards.py \
+  --base data/processed/matches_processed_2013_2024.csv
+PYTHONPATH=src python3 scripts/analyze_cards.py
+PYTHONPATH=src python3 scripts/analyze_artigo.py
+PYTHONPATH=src python3 scripts/analyze_models.py
+PYTHONPATH=src python3 scripts/build_artigo.py
+TCC_PROCESSED=data/processed/matches_processed_2013_2024.csv \
+TCC_QUALITY=data/processed/quality_report_2013_2024.json \
+python3 -m streamlit run app.py
+```
+
+O dashboard continua usando a base 2006–2024 por padrão; as variáveis
+`TCC_PROCESSED` e `TCC_QUALITY` selecionam o recorte sem alterar o código.
+
+O artigo é escrito em inglês (2013–2024); `docs/artigo_2013_2024.md` é a fonte
+editável e `build_artigo.py` gera `.docx` e `.pdf`. A versão em português usa
+`docs/artigo_2013_2024_pt.md`:
+
+```bash
+PYTHONPATH=src python3 scripts/build_artigo.py        # inglês
+PYTHONPATH=src python3 scripts/build_artigo.py --pt   # português
+```
+
+O resumo para o orientador fica em `docs/resumo_artigo_orientador.pdf`.
+
+Versão ABNT (NBR 6022), com referências NBR 6023:
+
+```bash
+PYTHONPATH=src python3 scripts/build_artigo_abnt.py
+```
+
+Saídas: `docs/artigo_2013_2024_abnt.docx` e `.pdf`; a fonte editável é
+`docs/artigo_2013_2024_abnt.md`.
+
+Para gerar o pacote com capa, folha de rosto e folha de avaliação
+(numeração do artigo começando em 4):
+
+```bash
+PYTHONPATH=src python3 scripts/build_artigo_abnt.py --inicio 4
+PYTHONPATH=src python3 scripts/build_capa_artigo.py
+```
+
+Saídas: `docs/capa_folha_rosto_artigo.pdf`, `.docx` e
+`docs/artigo_2013_2024_abnt_completo.pdf` (pré-textuais + artigo).
 
 Depois do pipeline externo, a auditoria completa dos dados:
 

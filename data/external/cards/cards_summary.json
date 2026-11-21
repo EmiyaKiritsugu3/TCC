@@ -219,5 +219,112 @@
       "Vasco"
     ]
   },
+  "did_penaltis_2019_2020": {
+    "n": 760,
+    "coef": 0.04587,
+    "se": 0.051779,
+    "lo": -0.055617,
+    "hi": 0.147357,
+    "modelo": "pen_diff ~ post + C(home_team) + C(away_team); EP conservador: máximo entre clusters de mandante e visitante"
+  },
+  "did_penaltis_2019_2020_equipes_comuns": {
+    "n": 480,
+    "coef": 0.05,
+    "se": 0.051755,
+    "lo": -0.05144,
+    "hi": 0.15144,
+    "equipes_comuns": [
+      "Athletico-PR",
+      "Atletico-MG",
+      "Bahia",
+      "Botafogo-RJ",
+      "Ceara",
+      "Corinthians",
+      "Flamengo",
+      "Fluminense",
+      "Fortaleza",
+      "Goias",
+      "Gremio",
+      "Internacional",
+      "Palmeiras",
+      "Santos",
+      "Sao Paulo",
+      "Vasco"
+    ]
+  },
+  "penaltis_por_temporada": [
+    {
+      "season": 2013,
+      "jogos": 380,
+      "pen_home": 0.1053,
+      "pen_away": 0.0579
+    },
+    {
+      "season": 2014,
+      "jogos": 380,
+      "pen_home": 0.1,
+      "pen_away": 0.0632
+    },
+    {
+      "season": 2015,
+      "jogos": 380,
+      "pen_home": 0.1158,
+      "pen_away": 0.0789
+    },
+    {
+      "season": 2016,
+      "jogos": 379,
+      "pen_home": 0.1187,
+      "pen_away": 0.0897
+    },
+    {
+      "season": 2017,
+      "jogos": 380,
+      "pen_home": 0.1316,
+      "pen_away": 0.0921
+    },
+    {
+      "season": 2018,
+      "jogos": 380,
+      "pen_home": 0.1184,
+      "pen_away": 0.0711
+    },
+    {
+      "season": 2019,
+      "jogos": 380,
+      "pen_home": 0.15,
+      "pen_away": 0.1
+    },
+    {
+      "season": 2020,
+      "jogos": 380,
+      "pen_home": 0.1605,
+      "pen_away": 0.1237
+    },
+    {
+      "season": 2021,
+      "jogos": 380,
+      "pen_home": 0.1368,
+      "pen_away": 0.0895
+    },
+    {
+      "season": 2022,
+      "jogos": 380,
+      "pen_home": 0.1526,
+      "pen_away": 0.1053
+    },
+    {
+      "season": 2023,
+      "jogos": 380,
+      "pen_home": 0.1368,
+      "pen_away": 0.1132
+    },
+    {
+      "season": 2024,
+      "jogos": 380,
+      "pen_home": 0.1289,
+      "pen_away": 0.0737
+    }
+  ],
   "cartoes_por_falta": []
 }

@@ -205,10 +205,12 @@ Não há, portanto, evidência descritiva de heterogeneidade além do acaso na
 taxa de vitória do mandante.
 
 Mais importante: a base identifica **quem apitou**, não **o que decidiu**.
-Sem cartões, pênaltis e faltas por árbitro, não é possível testar viés
-arbitral. As faltas da Base dos Dados só existem a partir de 2018 e têm
-lacunas; não cobrem a série. Por isso a arbitragem entra como **cobertura e
-limitação**, não como variável da matriz de correlação.
+A base de cartões de 2013–2024 (BrazilianFootball/Data, MIT) permite um
+teste descritivo do canal arbitral, mas não observa faltas por árbitro nem
+pênaltis marcados/perdidos; apenas pênaltis convertidos. As faltas da Base
+dos Dados só existem a partir de 2018 e têm lacunas; não cobrem a série.
+Por isso a arbitragem entra como **cobertura e limitação**, e os cartões como
+extensão separada, não como variável da matriz de correlação.
 
 ## 6. O que isso acrescenta ao TCC
 
@@ -222,8 +224,9 @@ limitação**, não como variável da matriz de correlação.
    retorna ao patamar pré-2019. Isso reforça a leitura multifatorial e a
    cautela contra atribuir a queda à torcida.
 4. **Arbitragem**: a identidade do árbitro não mede viés; a variação bruta
-   é compatível com ruído. Para testar o canal arbitral seriam necessários
-   cartões/pênaltis das súmulas da CBF, que ficam como trabalho futuro.
+   é compatível com ruído. A extensão de cartões (2013–2024) mede um canal
+   possível, mas não decisões arbitrais nem pênaltis marcados/perdidos;
+   essas medidas seguem como trabalho futuro.
 
 ## 7. Limitações
 
@@ -237,7 +240,8 @@ limitação**, não como variável da matriz de correlação.
   sanitária, não por demanda.
 - **Público é endógeno**: depende de adversário, fase, preço, clima e
   expectativa. O desenho observacional não isola a torcida.
-- **Arbitragem**: identidade não é decisão; a base não tem cartões/pênaltis.
+- **Arbitragem**: identidade não é decisão; a base de cartões é separada, e
+  pênaltis marcados/perdidos e faltas por árbitro não estão disponíveis.
 - **2024:** a média combina 286 jogos da BD e 90 do FBref; os 90 preenchidos
   são cerca de 6% maiores, então a média de 2024 é mais incerta.
 - **2008:** a cobertura parcial (163/380) adiciona ruído; excluir 2008 não

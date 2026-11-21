@@ -1,0 +1,4 @@
+parametro,coef,se,lo,hi
+vantagem de casa (log),0.448195,0.026233,0.396779,0.499612
+interação casa × pós-2019,-0.128154,0.036776,-0.200234,-0.056073
+vantagem de casa pós-2019 (log),0.320042,0.025773,0.269527,0.370557

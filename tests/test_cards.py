@@ -50,6 +50,10 @@ def test_parse_partida_separa_cartoes_por_equipe():
             "30:00 1T12Pedro Souza Palmeiras/SP",
         ],
         "Red cards": ["40:00 2T9Jogador Santos/SP"],
+        "Goals": [
+            "10:00 1T9PNJogador Um Palmeiras/SP",
+            "20:00 1T10PNJogador Dois Santos/SP",
+        ],
     }
     item = parse_partida(jogo)
     assert item["home_team"] == "Palmeiras"
@@ -58,6 +62,9 @@ def test_parse_partida_separa_cartoes_por_equipe():
     assert item["yellow_away"] == 1
     assert item["red_home"] == 0
     assert item["red_away"] == 1
+    assert item["pen_home"] == 1
+    assert item["pen_away"] == 1
+    assert item["pen_nao_atribuidos"] == 0
     assert item["nao_atribuidos"] == 0
     assert item["cartoes_total"] == 4
 

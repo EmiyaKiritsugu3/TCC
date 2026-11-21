@@ -16,7 +16,7 @@ e índice de Pollard por temporada e por equipe. Sem previsão, sem IA, sem apos
 - Base primária auditada: **7.219 partidas**, 19 temporadas, zero duplicatas, zero
   placares ausentes, zero divergências vencedor×placar; 2016 com 379 jogos
   (Chapecoense×Atlético-MG cancelada) e 2020 estendida até 25/02/2021.
-- Pipeline reproduzível + **114 testes automatizados** passando (104 rápidos + 10 de integração).
+- Pipeline reproduzível + **117 testes automatizados** passando (106 rápidos + 11 de integração).
 - **Monografia v3 atualizada** (20/11/2026): Tabelas 1–11, Figuras 1–13, §5.6 de
   público/arbitragem e §5.7 de cartões; auditor numérico confere todos os números citados.
 - **Auditoria de dados:** 150 verificações, 0 falhas (`docs/auditoria_dados.md`);
@@ -35,8 +35,10 @@ e índice de Pollard por temporada e por equipe. Sem previsão, sem IA, sem apos
   (BrazilianFootball/Data, MIT), com 1 cartão não atribuído. Em 2019 o mandante
   recebia 0,18 amarelo a menos; em 2020, +0,11; a mudança com efeitos fixos de
   equipe é +0,35 (IC 95% −0,03 a +0,72, com erros-padrão conservadores: máximo
-  entre clusters de mandante e visitante; inclui zero). O padrão é sugestivo do
-  canal da arbitragem, mas não conclusivo.
+  entre clusters de mandante e visitante; inclui zero). Pênaltis convertidos
+  (piloto 2019–2020, n=760): +0,05 por jogo (IC 95% −0,06 a +0,15), sem
+  mudança detectável; a fonte não registra pênaltis perdidos. O padrão é
+  sugestivo do canal da arbitragem, mas não conclusivo.
 - **PR #2 mergeada** na `main`; repositório limpo e CI verde.
 
 ## 3. Resultados

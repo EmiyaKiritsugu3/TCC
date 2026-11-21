@@ -367,7 +367,7 @@ def _conclusao(prs):
            "auditado + dashboard reutilizável + extensão de cartões.",
            0.9, 2.95, 8.4, 0.9, size=16, color=GOLD)
     _texto(s,
-           "7.219 partidas  •  114 testes  •  validação 99,96%  •  11 tabelas / 13 figuras",
+           "7.219 partidas  •  117 testes  •  validação 99,96%  •  11 tabelas / 13 figuras",
            0.9, 3.95, 8.4, 0.35, size=12, color=DARK_TEXT)
     _texto(s, "github.com/EmiyaKiritsugu3/TCC", 0.9, 4.3, 8.4, 0.35,
            size=13, color=DARK_MUTED)

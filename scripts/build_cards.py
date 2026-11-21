@@ -113,8 +113,9 @@ def main(argv: list[str] | None = None) -> int:
     junto = junto.sort_values(["season", "date", "home_team"]).reset_index(drop=True)
     colunas = ["match_id", "season", "date", "home_team", "away_team",
                "home_goals", "away_goals", "placar_fonte", "yellow_home",
-               "yellow_away", "red_home", "red_away", "nao_atribuidos",
-               "cartoes_total", "jogo_fonte"]
+               "yellow_away", "red_home", "red_away", "pen_home", "pen_away",
+               "pen_nao_atribuidos", "nao_atribuidos", "cartoes_total",
+               "jogo_fonte"]
     junto = junto[colunas]
     out.parent.mkdir(parents=True, exist_ok=True)
     junto.to_csv(out, index=False)
@@ -128,6 +129,7 @@ def main(argv: list[str] | None = None) -> int:
             "nao_atribuidos": int(grupo["nao_atribuidos"].sum()),
             "amarelos": int(grupo["yellow_home"].sum() + grupo["yellow_away"].sum()),
             "vermelhos": int(grupo["red_home"].sum() + grupo["red_away"].sum()),
+            "penaltis": int(grupo["pen_home"].sum() + grupo["pen_away"].sum()),
         }
     elegiveis = base[base["season"].between(2013, 2024)]
     qualidade = {
@@ -139,6 +141,7 @@ def main(argv: list[str] | None = None) -> int:
         "cobertura_2013_2024": round(len(junto) / len(elegiveis), 4),
         "anos_sem_fonte": [2006, 2007, 2008, 2009, 2010, 2011, 2012],
         "nao_atribuidos": int(junto["nao_atribuidos"].sum()),
+        "penaltis_nao_atribuidos": int(junto["pen_nao_atribuidos"].sum()),
         "divergencias_placar": divergencias.to_dict(orient="records"),
         "por_temporada": cobertura,
     }

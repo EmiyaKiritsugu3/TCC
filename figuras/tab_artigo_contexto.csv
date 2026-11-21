@@ -1,0 +1,11 @@
+dimensao,grupo,n,pollard,lo,hi
+Distância,Curta (<500 km),1624,63.7042,61.6591,65.8681
+Distância,Longa (≥1.500 km),912,62.0024,58.9649,64.8444
+Distância,Média (500–1.499 km),2023,62.8541,60.9517,64.9269
+Clássico,Clássico (mesma cidade),280,59.0789,53.7544,64.3785
+Clássico,Não clássico,4279,63.2398,61.8441,64.5824
+Estádio,Estádio habitual,4050,63.2719,61.93,64.6389
+Estádio,Outro estádio,509,60.6831,56.9992,64.4606
+Força na tabela,equilibrado,1452,62.1396,59.6649,64.3091
+Força na tabela,favorito,1479,73.3399,71.2813,75.5282
+Força na tabela,zebra,1628,54.177,51.9276,56.3962
