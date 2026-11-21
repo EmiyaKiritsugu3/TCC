@@ -46,7 +46,7 @@ def _runs(par, texto: str, tamanho: float = 10.3, negrito: bool = False) -> None
 
 
 def _paragrafo(doc, texto: str, *, tamanho: float = 10.3, negrito: bool = False,
-               espaco: float = 1.03, antes: int = 0, depois: int = 4,
+               espaco: float = 1.0, antes: int = 0, depois: int = 2,
                recuo: bool = False, cor: RGBColor | None = None) -> None:
     par = doc.add_paragraph()
     par.alignment = WD_ALIGN_PARAGRAPH.JUSTIFY
@@ -143,7 +143,7 @@ def _renderizar(doc, linhas: list[str]) -> None:
             legenda, caminho = imagem.groups()
             arquivo = RAIZ / caminho
             if arquivo.exists():
-                doc.add_picture(str(arquivo), width=Cm(11.0))
+                doc.add_picture(str(arquivo), width=Cm(9.5))
                 doc.paragraphs[-1].alignment = WD_ALIGN_PARAGRAPH.CENTER
                 par = doc.add_paragraph()
                 par.alignment = WD_ALIGN_PARAGRAPH.CENTER
@@ -170,7 +170,7 @@ def main() -> None:
     linhas = ENTRADA.read_text(encoding="utf-8").splitlines()
     doc = Document()
     _configurar(doc)
-    doc.core_properties.title = "Resumo para o orientador — proposta de artigo"
+    doc.core_properties.title = "Resumo para o orientador — artigo final"
     doc.core_properties.author = "José Inamar de Medeiros Júnior"
     _renderizar(doc, linhas)
     _rodape(doc)
