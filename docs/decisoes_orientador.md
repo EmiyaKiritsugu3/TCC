@@ -151,3 +151,41 @@ template oficial UFRN/CERES-BSI + ficha SISBI + folha de avaliação e banca.
 - **Testes:** 117 (106 rápidos + 11 de integração); auditor numérico cobre a
   Tabela 11 e a Figura 13.
 - **PR #4** com o pipeline de cartões e a versão atualizada do texto/deck.
+
+## Atualização 2026-11-21 — artigo final 2013–2024 (PR #5)
+
+O trabalho foi fechado como **artigo** no recorte **2013–2024**, com a base
+aberta `BrazilianFootball/Data` (MIT). A PR #5 foi mergeada na `main`
+(commit `6c34577`) e a branch `feat/artigo-2013-2024` removida.
+
+**Pacote final:**
+
+| Arquivo | Conteúdo | Páginas |
+|---|---|---:|
+| `docs/artigo_2013_2024.pdf` | artigo em inglês | 9 |
+| `docs/artigo_2013_2024_pt.pdf` | artigo em português | 10 |
+| `docs/artigo_2013_2024_abnt.pdf` | artigo em ABNT (NBR 6022/6023) | 15 |
+| `docs/artigo_2013_2024_abnt_completo.pdf` | capa + folha de rosto + avaliação + artigo | 18 |
+| `docs/resumo_artigo_orientador.pdf` | resumo para o orientador | 2 |
+
+**Resultados principais:** Pollard 63,0% (IC 95% 61,7–64,3); queda de 65,0%
+(2013–2018) para 61,0% (2019–2024), diferença de 4,0 p.p. (IC 0,9–6,6), quebra
+em 2019; Poisson com multiplicador de gols do mandante −12,0% (1,565 → 1,377)
+e prêmio de +56,5% para +37,7%; ICC 2,2% entre equipes; público ρ = 0,08 com a
+vantagem e 0,41 com pontos; cartões +0,35 (IC −0,03 a +0,72); pênaltis
+convertidos +0,05 (IC −0,06 a +0,15), piloto 2019–2020.
+
+**Decisões pendentes para o artigo (substituem a tabela de 2006–2024):**
+
+| # | Decisão | Resposta | Data | Impacto |
+|---|---|---|---|---|
+| 1 | Confirmar formato artigo e recorte 2013–2024 | pendente | — | entrega final |
+| 2 | Template oficial UFRN/CERES-BSI e ficha SISBI | pendente | — | capa, paginação e ficha |
+| 3 | Nomes, titulação, instituição, data e nota da banca | pendente | — | folha de avaliação |
+| 4 | Manter seções de público e cartões ou só o núcleo | pendente | — | extensão do artigo |
+| 5 | Dashboard como artefato complementar ou link | pendente | — | avaliação e repositório |
+
+A tabela original de 2006–2024 e as seções 5.6/5.7 da monografia permanecem
+como registro histórico. O artigo 2013–2024 não depende da autorização do
+`Brasileirao_Dataset`, pois usa a base MIT; o pedido ao autor da base antiga só
+é necessário se a monografia histórica continuar publicada.

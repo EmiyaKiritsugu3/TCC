@@ -85,3 +85,20 @@
 - `apresentacao/apresentacao_tcc.pdf` (14 p.)
 - `apresentacao/apresentacao_tcc.pptx` (14 slides)
 - `docs/monografia_final.pdf` — pendente (template do curso)
+
+## 6. Artigo final 2013–2024 (2026-11-21)
+
+- **PR #5 mergeada** na `main` (`6c34577`); branch `feat/artigo-2013-2024`
+  removida.
+- **Base:** 4.559 partidas, 12 temporadas, `BrazilianFootball/Data` (MIT);
+  validação 2.658/2.660 (99,92%) e 12/12 campeões.
+- **Pacote:** artigo em inglês (9 p.), português (10 p.), ABNT (15 p.) e pacote
+  completo com pré-textuais (18 p.); resumo para o orientador (2 p.).
+- **Validações:** 117 testes; `check_monografia.py` com auditoria numérica OK;
+  `audit_data.py` com 150 verificações e 0 falhas; CI, SonarCloud e GitGuardian
+  verdes.
+- **Revisão:** threads do cubic/CodeRabbit resolvidas; o check final do cubic
+  concluiu sem novos achados.
+- **Pendências externas:** template UFRN/CERES-BSI, ficha SISBI, dados da banca
+  (nomes, titulação, instituição, data e nota) e as 5 decisões do orientador
+  registradas em `docs/decisoes_orientador.md`.

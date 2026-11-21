@@ -1,53 +1,61 @@
-Assunto: TCC vantagem de jogar em casa — 5 decisões + versão atual para leitura
+Assunto: TCC — artigo final 2013–2024 para avaliação
 
 Prof. Barboza,
 
-A análise está fechada e a versão atual está na main (PRs #2–#4 mergeadas):
-7.219 partidas 2006–2024, Pollard 63,7% no período (58,2% em 2017 – 69,5% em
-2018), validação cruzada 99,96% e 19/19 campeões recalculados, 117 testes
-passando.
+Fechei o trabalho no formato de artigo e substituí a monografia extensa pelo
+recorte 2013–2024. A versão final está na main (PR #5 mergeada) e usa a base
+aberta BrazilianFootball/Data (MIT): 4.559 partidas, 12 temporadas.
 
-A versão 3 acrescenta:
-- mudança de nível pós-2018 (64,9% → 61,0%; IC 2,1–5,6);
-- análise contextual (viagem, clássico, estádio, descanso, força, era e pandemia);
-- seção 5.6 de público e arbitragem: 6.618 registros de público (91,7%), 6.821
-  jogos com árbitro (94,5%) e 177 árbitros após normalização; o público não
-  explica a vantagem de casa, e o contraste de 2020 mostra queda sem
-  desaparecimento;
-- seção 5.7 de cartões: 4.559 partidas (2013–2024), com 1 cartão não atribuído;
-  em 2019 o mandante recebia 0,18 amarelo a menos e, em 2020, +0,11; a mudança
-  com efeitos fixos de equipe é +0,35, mas o IC 95% (−0,03 a +0,72) inclui zero
-  — evidência sugestiva, não conclusiva;
-- auditoria de dados com 150 verificações, 0 falhas.
+Resultados principais:
+- Pollard de 63,0% (IC 95% 61,7–64,3), 13,0 pontos percentuais acima da
+  neutralidade.
+- Queda de 65,0% em 2013–2018 para 61,0% em 2019–2024 (diferença de 4,0 p.p.;
+  IC bootstrap por cluster 0,9–6,6), com ponto de quebra estimado em 2019.
+- Modelo de Poisson de ataque–defesa: o multiplicador de gols do mandante cai
+  12,0% (de 1,565 para 1,377), e o prêmio de gols em casa cai de +56,5% para
+  +37,7% (18,8 p.p.).
+- Apenas 2,2% da variância da vantagem por equipe-temporada está entre equipes;
+  os 97,8% restantes são variação equipe-temporada.
+- Público: associação fraca com a vantagem de casa (ρ = 0,08) e forte com a
+  força do clube (ρ = 0,41). Em 2020, sem torcida, o Pollard foi 60,2%; em
+  2022–2024, com público de volta, 60,6%.
+- Cartões: diferença-em-diferenças de +0,35 (IC 95% −0,03 a +0,72), ainda
+  imprecisa. Pênaltis convertidos no piloto 2019–2020 (n = 760): +0,05 por jogo
+  (IC 95% −0,06 a +0,15), sem mudança detectável.
+- Validação: 2.658 de 2.660 placares idênticos ao OpenFootball (99,92%),
+  12/12 campeões recalculados; 117 testes; auditoria de dados com 150
+  verificações e 0 falhas.
 
-Monografia em docs/monografia_v2.md (Tabelas 1–11, Figuras 1–13), rascunho ABNT
-em docs/monografia_draft_abnt.pdf, resumo em docs/resumo_orientador.md,
-auditoria em docs/auditoria_dados.md e deck de 16 slides em
-apresentacao/apresentacao_tcc.pdf.
+Entregáveis:
+- docs/artigo_2013_2024.pdf — artigo em inglês (9 p.)
+- docs/artigo_2013_2024_pt.pdf — artigo em português (10 p.)
+- docs/artigo_2013_2024_abnt.pdf — artigo em ABNT (15 p.)
+- docs/artigo_2013_2024_abnt_completo.pdf — capa, folha de rosto, avaliação e
+  artigo (18 p.; o artigo começa na página 4)
+- docs/resumo_artigo_orientador.pdf — resumo para o senhor (2 p.)
 
 Links:
 - Repositório: https://github.com/EmiyaKiritsugu3/TCC
-- Monografia: https://github.com/EmiyaKiritsugu3/TCC/blob/main/docs/monografia_v2.md
-- Rascunho ABNT: https://github.com/EmiyaKiritsugu3/TCC/blob/main/docs/monografia_draft_abnt.pdf
-- Deck: https://github.com/EmiyaKiritsugu3/TCC/blob/main/apresentacao/apresentacao_tcc.pdf
-- Resumo: https://github.com/EmiyaKiritsugu3/TCC/blob/main/docs/resumo_orientador.md
-- Auditoria de dados: https://github.com/EmiyaKiritsugu3/TCC/blob/main/docs/auditoria_dados.md
+- Artigo em inglês: https://github.com/EmiyaKiritsugu3/TCC/blob/main/docs/artigo_2013_2024.pdf
+- Artigo em português: https://github.com/EmiyaKiritsugu3/TCC/blob/main/docs/artigo_2013_2024_pt.pdf
+- Pacote ABNT completo: https://github.com/EmiyaKiritsugu3/TCC/blob/main/docs/artigo_2013_2024_abnt_completo.pdf
+- Resumo: https://github.com/EmiyaKiritsugu3/TCC/blob/main/docs/resumo_artigo_orientador.pdf
 
-Preciso das suas 5 decisões para fechar:
+Preciso das suas decisões para fechar o depósito:
 
-1. Recorte e título — manter 2006–2024 e o título atual?
-2. Artefato — dashboard + pesquisa quantitativa valem como artefato de SI?
-3. Fonte e licença — manter o plano B (bruto não redistribuído, download pinado
-   + SHA-256)? Autoriza eu pedir autorização escrita ao autor?
-4. Tendência/contexto — manter a análise exploratória de mudança de nível
-   pós-2018, as associações contextuais (H3–H5), a seção 5.6 de
-   público/arbitragem e a seção 5.7 de cartões, ou só o descritivo básico?
-5. Formato e software — qual o formato exigido de projeto/TCC e como o software
-   será avaliado? Qual edição da NBR a banca adota (14724:2024)? Poderia me
-   enviar o template (.dotx/.ott) se tiver?
+1. O senhor confirma o formato artigo e o recorte 2013–2024 como entrega final?
+2. Poderia me enviar o template oficial UFRN/CERES-BSI e orientar sobre a ficha
+   SISBI?
+3. Quais são os nomes, a titulação, a instituição e a data da banca? Se a nota
+   já estiver definida, envio a folha de avaliação preenchida.
+4. Mantenho as seções de público e cartões como extensões do artigo ou deixo
+   apenas o núcleo (Pollard, mudança de nível e Poisson)?
+5. O dashboard entra como artefato complementar, com link no artigo, ou apenas
+   como material de reprodutibilidade?
 
-Sem as respostas, travo: confronto CBF por amostra, revisão final do
-Resumo/Abstract, ficha/folha de avaliação e o PDF final.
+Os placeholders de nome, titulação, instituição, data e nota estão explícitos
+na folha de avaliação. Assim que o senhor enviar o template e os dados da
+banca, aplico e fecho o PDF de depósito.
 
 Atenciosamente,
 José Inamar de Medeiros Júnior

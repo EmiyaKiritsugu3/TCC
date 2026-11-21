@@ -7,28 +7,33 @@
 
 - **Para:** Prof. Dr. Francisco Marcio Barboza
 - **Arquivo:** `docs/email_orientador_preparado.txt`
-- **Assunto:** TCC vantagem de jogar em casa — 5 decisões + versão atual para leitura
-- **Conteúdo:** status da `main` (PRs #2–#4 mergeadas), 7.219 partidas,
-  Pollard 63,7%, 117 testes, auditoria de dados (150 verificações), seções 5.6
-  (público/arbitragem) e 5.7 (cartões), links da monografia/deck/resumo e as 5
-  decisões.
-- **Pendências:** recorte/título, artefato de SI, fonte/licença, H3–H5 + seções
-  5.6 e 5.7, formato/avaliação do software e template NBR.
+- **Assunto:** TCC — artigo final 2013–2024 para avaliação
+- **Conteúdo:** status da `main` (PR #5 mergeada), artigo 2013–2024 com base
+  MIT (4.559 partidas), Pollard 63,0%, mudança de 65,0% para 61,0%, Poisson
+  (−12,0% no multiplicador de gols), ICC 2,2%, 117 testes, auditoria de dados
+  (150 verificações), links dos artigos em inglês/português/ABNT e as decisões
+  pendentes (formato, template, banca, seções de público/cartões, dashboard).
+- **Pendências:** confirmação do formato artigo e recorte, template oficial
+  UFRN/CERES-BSI, ficha SISBI, dados da banca e nota, seções 4.4–4.5 e
+  dashboard.
 
-## 2. Ao autor do dataset
+## 2. Ao autor do dataset (histórico)
 
 - **Para:** adaoduquesn@gmail.com
 - **Arquivo:** `docs/email_autor_dataset_preparado.txt`
 - **Assunto:** pedido de autorização de uso acadêmico (TCC/UFRN)
-- **Conteúdo:** uso acadêmico do `Brasileirao_Dataset` (commit `15f027c`),
-  atribuição, pedido de autorização escrita para uso e redistribuição da base
-  derivada; o CSV bruto não será redistribuído.
-- **Pendência:** resposta escrita (e-mail serve).
+- **Status:** o artigo 2013–2024 usa o `BrazilianFootball/Data` (MIT) e não
+  depende dessa autorização. O pedido continua relevante apenas para a
+  monografia histórica 2006–2024, que usa o `Brasileirao_Dataset` sem licença
+  explícita.
+- **Pendência:** resposta escrita (e-mail serve), se a monografia histórica for
+  mantida publicamente.
 
 ## Checklist de envio
 
-- [ ] Revisar tom e dados dos dois textos.
-- [ ] Enviar o e-mail ao orientador com os links do deck e da monografia.
-- [ ] Enviar o e-mail ao autor do dataset.
+- [x] Atualizar o e-mail do orientador para o artigo final 2013–2024.
+- [ ] Revisar tom e dados do texto.
+- [ ] Enviar o e-mail ao orientador com os links dos PDFs.
 - [ ] Registrar as respostas em `docs/decisoes_orientador.md`.
-- [ ] Anexar/atualizar a autorização no repositório quando chegar.
+- [ ] Aplicar o template e preencher a banca quando recebidos.
+- [ ] Decidir se o pedido ao autor do dataset histórico ainda será enviado.
