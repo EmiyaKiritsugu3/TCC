@@ -18,15 +18,15 @@ Qual foi a magnitude da vantagem de jogar em casa no Campeonato Brasileiro Séri
 
 4. **Heterogeneidade.** Apenas **2,2%** da variância da vantagem por equipe-temporada está entre equipes; os 97,8% restantes são variação equipe-temporada. A decomposição não estima parâmetros por clube: um modelo hierárquico seria necessário para separar efeitos persistentes de ruído, e rankings de "quem tem mais vantagem em casa" são pouco confiáveis com 12 temporadas.
 
-5. **Contexto e público.** Distância, clássico e estádio explicam pouco. O público tem associação fraca com a vantagem de casa (ρ = 0,08) e forte com a força do clube (ρ = 0,41); excluir os 30 zeros esparsos de público não muda o padrão (0,08 e 0,39). O canal da torcida existe, mas não é o único.
+5. **Contexto e público.** Distância, clássico e estádio explicam pouco. O público tem associação fraca com a vantagem de casa (ρ = 0,08) e forte com a força do clube (ρ = 0,41); excluir os 30 zeros esparsos de público não muda o padrão (0,08 e 0,39). Os dados são compatíveis com a torcida como um dos possíveis canais, mas não identificam seu efeito.
 
 6. **Cartões e pênaltis.** Em 2019, o mandante recebia 0,18 amarelo a menos que o visitante; em 2020, a diferença passou a +0,11. Com efeitos fixos de equipe, a mudança é **+0,35** (IC 95% −0,03 a +0,72), ainda imprecisa. Pênaltis convertidos no piloto 2019–2020 (n = 760): **+0,05** por jogo (IC 95% −0,06 a +0,15), sem mudança detectável; a fonte não registra pênaltis perdidos.
 
-![Figura 1 — Índice de Pollard por temporada, com intervalo de 95% e mudança de nível em 2019 (2013–2024).](figuras/artigo_serie_pollard.png)
+![Figura 1 — Índice de Pollard por temporada, com intervalo de 95% e mudança de nível em 2019 (2013–2024).](../figuras/artigo_serie_pollard.png)
 
-![Figura 2 — Público médio versus vantagem de casa e versus pontos por equipe-temporada (2013–2024).](figuras/artigo_publico_ha.png)
+![Figura 2 — Público médio versus vantagem de casa e versus pontos por equipe-temporada (2013–2024).](../figuras/artigo_publico_ha.png)
 
-![Figura 3 — Diferença de cartões amarelos casa−fora por temporada, com intervalo descritivo de 95%.](figuras/fig13_cartoes.png)
+![Figura 3 — Diferença de cartões amarelos casa−fora por temporada, com intervalo descritivo de 95%.](../figuras/fig13_cartoes.png)
 
 ## O que mudou em relação à proposta
 

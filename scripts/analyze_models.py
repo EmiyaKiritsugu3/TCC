@@ -140,7 +140,7 @@ def decomposicao_variancia(df: pd.DataFrame) -> dict:
     var_entre = max(0.0, (ms_entre - ms_dentro) / n0) if n0 else 0.0
     var_dentro = ms_dentro
     total = var_entre + var_dentro
-    estimavel = n > k and total > 0
+    estimavel = k > 1 and n > k and total > 0
     return {"n": int(n), "times": int(k), "media": grande,
             "ss_entre": ss_entre, "ss_dentro": ss_dentro,
             "ms_entre": ms_entre, "ms_dentro": ms_dentro,

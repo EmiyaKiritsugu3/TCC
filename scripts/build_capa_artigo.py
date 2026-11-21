@@ -121,6 +121,10 @@ def _avaliacao(doc: Document) -> None:
 
 
 def main() -> None:
+    if shutil.which("libreoffice") is None:
+        raise SystemExit(
+            "libreoffice ausente; instale LibreOffice para gerar o DOCX/PDF"
+        )
     if shutil.which("pdfunite") is None:
         raise SystemExit(
             "pdfunite ausente; instale poppler-utils (Linux) ou equivalente"

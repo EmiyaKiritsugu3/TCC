@@ -46,7 +46,7 @@ def _runs(par, texto: str, tamanho: float = 10.3, negrito: bool = False) -> None
 
 
 def _paragrafo(doc, texto: str, *, tamanho: float = 10.3, negrito: bool = False,
-               espaco: float = 1.0, antes: int = 0, depois: int = 2,
+               espaco: float = 1.0, antes: int = 0, depois: int = 1,
                recuo: bool = False, cor: RGBColor | None = None) -> None:
     par = doc.add_paragraph()
     par.alignment = WD_ALIGN_PARAGRAPH.JUSTIFY
@@ -141,9 +141,9 @@ def _renderizar(doc, linhas: list[str]) -> None:
         imagem = re.fullmatch(r"!\[(.*?)\]\((.+?)\)", s)
         if imagem:
             legenda, caminho = imagem.groups()
-            arquivo = RAIZ / caminho
+            arquivo = (ENTRADA.parent / caminho).resolve()
             if arquivo.exists():
-                doc.add_picture(str(arquivo), width=Cm(9.5))
+                doc.add_picture(str(arquivo), width=Cm(9.0))
                 doc.paragraphs[-1].alignment = WD_ALIGN_PARAGRAPH.CENTER
                 par = doc.add_paragraph()
                 par.alignment = WD_ALIGN_PARAGRAPH.CENTER
