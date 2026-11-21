@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
-"""Gera capa e folha de rosto no padrão UFRN/CERES-BSI.
+"""Gera capa, folha de rosto e folha de avaliação no padrão UFRN/CERES-BSI.
 
 Saídas:
   docs/capa_folha_rosto_artigo.docx
   docs/capa_folha_rosto_artigo.pdf
-  docs/artigo_2013_2024_abnt_completo.pdf (capa + folha + artigo)
+  docs/artigo_2013_2024_abnt_completo.pdf (pré-textuais + artigo)
 """
 from __future__ import annotations
 
@@ -96,6 +96,28 @@ def _folha(doc: Document) -> None:
         _texto(doc, "", depois=0)
     _texto(doc, CIDADE, depois=0)
     _texto(doc, ANO, depois=0)
+    doc.add_page_break()
+
+
+def _avaliacao(doc: Document) -> None:
+    _texto(doc, AUTOR, negrito=True, depois=0)
+    _texto(doc, TITULO, tamanho=14, negrito=True, antes=48, depois=0)
+    _texto(doc, NATUREZA, tamanho=12, central=False, antes=48,
+           depois=0, esquerda=8.0)
+    _texto(doc, f"{CIDADE}, [dia] de [mês] de {ANO}.", antes=24, depois=0)
+    _texto(doc, "Aprovado em: ____/____/______ — Nota: ______",
+           antes=24, depois=0)
+    _texto(doc, "Banca Examinadora:", negrito=True, central=False,
+           antes=24, depois=0)
+    _texto(doc, "________________________________________", antes=18, depois=0)
+    _texto(doc, "Prof. Dr. Francisco Marcio Barboza", negrito=True, depois=0)
+    _texto(doc, "Orientador — DCT/UFRN", depois=0)
+    _texto(doc, "________________________________________", antes=18, depois=0)
+    _texto(doc, "[2º membro da banca — aguardar indicação do orientador]",
+           depois=0)
+    _texto(doc, "________________________________________", antes=18, depois=0)
+    _texto(doc, "[3º membro da banca — aguardar indicação do orientador]",
+           depois=0)
 
 
 def main(argv: list[str] | None = None) -> None:
@@ -107,6 +129,7 @@ def main(argv: list[str] | None = None) -> None:
     _configurar(doc)
     _capa(doc)
     _folha(doc)
+    _avaliacao(doc)
     doc.core_properties.title = TITULO
     doc.core_properties.author = AUTOR
     doc.save(SAIDA)

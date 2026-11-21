@@ -127,18 +127,18 @@ PYTHONPATH=src python3 scripts/build_artigo_abnt.py
 Saídas: `docs/artigo_2013_2024_abnt.docx` e `.pdf`; a fonte editável é
 `docs/artigo_2013_2024_abnt.md`.
 
-Para gerar o pacote com capa e folha de rosto (numeração do artigo começando
-em 3):
+Para gerar o pacote com capa, folha de rosto e folha de avaliação
+(numeração do artigo começando em 4):
 
 ```bash
 PYTHONPATH=src python3 scripts/build_artigo_abnt.py \
-  --saida docs/artigo_2013_2024_abnt_p3.docx --inicio 3
+  --saida docs/artigo_2013_2024_abnt_p4.docx --inicio 4
 PYTHONPATH=src python3 scripts/build_capa_artigo.py \
-  --artigo docs/artigo_2013_2024_abnt_p3.pdf
+  --artigo docs/artigo_2013_2024_abnt_p4.pdf
 ```
 
 Saídas: `docs/capa_folha_rosto_artigo.pdf`, `.docx` e
-`docs/artigo_2013_2024_abnt_completo.pdf` (capa + folha + artigo).
+`docs/artigo_2013_2024_abnt_completo.pdf` (pré-textuais + artigo).
 
 Depois do pipeline externo, a auditoria completa dos dados:
 
