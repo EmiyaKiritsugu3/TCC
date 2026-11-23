@@ -229,15 +229,16 @@ def _slide_dados(prs):
     x0, x1 = 5.2, 9.0
     escala = (x1 - x0) / (2024 - 2013)
     _rect(slide, x0, y, x1 - x0, 0.025, fill=MOSS, line=None)
-    marcos = [(2013, "2013"), (2019, "2019"), (2020, "2020"), (2024, "2024")]
-    for ano, rotulo in marcos:
+    marcos = [(2013, "2013", False), (2019, "2019", False),
+              (2020, "2020", True), (2024, "2024", False)]
+    for ano, rotulo, acima in marcos:
         xm = x0 + (ano - 2013) * escala
         dot = slide.shapes.add_shape(MSO_SHAPE.OVAL, Inches(xm - 0.06),
                                      Inches(y - 0.045), Inches(0.12), Inches(0.12))
         dot.fill.solid(); dot.fill.fore_color.rgb = MOSS
         dot.line.fill.background(); dot.shadow.inherit = False
-        _text(slide, rotulo, xm - 0.25, y + 0.12, 0.5, 0.2, size=8,
-              color=MUTED, align=PP_ALIGN.CENTER)
+        _text(slide, rotulo, xm - 0.25, y - 0.24 if acima else y + 0.12,
+              0.5, 0.2, size=8, color=MUTED, align=PP_ALIGN.CENTER)
     _text(slide, "recorte 2013–2024", x0, y - 0.28, 1.6, 0.2, size=8,
           color=MUTED)
     _text(slide, "2019: quebra estimada · 2020: pandemia", x0, y + 0.42,
