@@ -37,3 +37,6 @@ data/external/cards/*.csv
 htmlcov/
 *.egg-info/
 .monografia_teste/
+
+# Pasta local de entrega (cópias dos PDFs; não versionar)
+entrega_orientador/
