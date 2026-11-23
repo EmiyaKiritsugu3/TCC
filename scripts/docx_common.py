@@ -78,7 +78,9 @@ def tabela(doc, linhas: list[list[str]], larguras: list[float] | None = None,
             cel.paragraphs[0].paragraph_format.line_spacing = 1.0
             cel.paragraphs[0].paragraph_format.space_after = Pt(0)
     if larguras:
+        tab.autofit = False
         for j, largura in enumerate(larguras):
+            tab.columns[j].width = Cm(largura)
             for celula in tab.columns[j].cells:
                 celula.width = Cm(largura)
     doc.add_paragraph()

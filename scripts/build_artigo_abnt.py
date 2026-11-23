@@ -105,7 +105,7 @@ def _renderizar(doc, linhas: list[str], pasta: Path) -> None:
                 if "Vitória / empate / derrota" in cabecalho:
                     _tabela(doc, linhas_tab, [1.7, 1.7, 4.1, 2.7, 5.8], 8.5)
                 elif "Coeficiente" in cabecalho:
-                    _tabela(doc, linhas_tab, [4.6, 2.2, 1.6, 3.0, 3.0], 9.0)
+                    _tabela(doc, linhas_tab, [5.8, 2.0, 1.5, 2.8, 2.8], 9.0)
                 else:
                     _tabela(doc, linhas_tab, [3.2] * len(linhas_tab[0]), 9.0)
             continue

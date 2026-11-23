@@ -82,7 +82,7 @@ def _renderizar(doc, linhas: list[str], pasta: Path) -> None:
                             larguras=[1.6, 1.7, 4.2, 2.8, 5.7])
                 elif ncols == 5:
                     tabela(doc, linhas_tab, fonte=8.2,
-                            larguras=[4.5, 2.2, 1.6, 3.0, 3.0])
+                            larguras=[5.8, 2.0, 1.5, 2.8, 2.8])
                 else:
                     tabela(doc, linhas_tab)
             continue
