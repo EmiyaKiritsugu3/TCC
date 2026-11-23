@@ -121,7 +121,8 @@ PYTHONPATH=src python3 scripts/build_artigo.py --pt   # português
 O resumo para o orientador fica em `docs/resumo_artigo_orientador.pdf`.
 A apresentação do artigo (10 slides) fica em
 `apresentacao/apresentacao_artigo_2013_2024.pptx` e `.pdf`, gerada por
-`scripts/build_deck_artigo.py`.
+`scripts/build_deck_artigo.py`; as figuras de projeção vêm de
+`scripts/make_deck_figures.py`.
 
 Versão ABNT (NBR 6022), com referências NBR 6023:
 

@@ -29,9 +29,15 @@ MOSS = RGBColor(0x6A, 0x99, 0x4E)
 MOSS_LIGHT = RGBColor(0xDD, 0xE7, 0xD3)
 TERRA = RGBColor(0xC8, 0x55, 0x3D)
 TERRA_LIGHT = RGBColor(0xF1, 0xD8, 0xD0)
+MOSS_TEXT = RGBColor(0x4F, 0x7A, 0x3A)
+GOLD_DARK = RGBColor(0x8A, 0x5A, 0x00)
+TERRA_DARK = RGBColor(0xA8, 0x43, 0x2F)
+SALMON = RGBColor(0xF2, 0xB8, 0xA8)
+CARD_DARK = RGBColor(0x17, 0x4C, 0x3A)
+CARD_LINE = RGBColor(0x2E, 0x5B, 0x47)
 WHITE = RGBColor(0xFF, 0xFF, 0xFF)
 TEXT = RGBColor(0x1F, 0x2A, 0x24)
-MUTED = RGBColor(0x6F, 0x75, 0x6E)
+MUTED = RGBColor(0x5F, 0x65, 0x5E)
 LINE = RGBColor(0xDD, 0xD6, 0xC6)
 DARK_TEXT = RGBColor(0xF7, 0xF3, 0xE8)
 DARK_MUTED = RGBColor(0xB9, 0xC6, 0xB6)
@@ -100,7 +106,7 @@ def _image(slide, caminho: Path, left, top, max_w, max_h):
     )
 
 
-def _kicker(slide, texto: str, *, color=MOSS):
+def _kicker(slide, texto: str, *, color=MOSS_TEXT):
     _rect(slide, 0.55, 0.44, 0.07, 0.07, fill=color, line=None)
     _text(slide, texto.upper(), 0.72, 0.37, 8.5, 0.22, size=9.5, bold=True,
           color=color)
@@ -126,7 +132,7 @@ def _nota(slide, texto: str) -> None:
 def _slide(prs, kicker: str, titulo: str, pagina: int, *, dark=False):
     slide = prs.slides.add_slide(prs.slide_layouts[6])
     _bg(slide, DARK if dark else CREAM)
-    _kicker(slide, kicker, color=GOLD if dark else MOSS)
+    _kicker(slide, kicker, color=GOLD if dark else MOSS_TEXT)
     _titulo(slide, titulo, color=DARK_TEXT if dark else TEXT)
     _rodape(slide, pagina, dark=dark)
     return slide
@@ -156,18 +162,18 @@ def _titulo_slide(prs):
     _text(slide, "Orientador: Prof. Dr. Francisco Marcio Barboza", 0.85, 4.58,
           5.2, 0.25, size=9, color=DARK_MUTED)
 
-    ring = slide.shapes.add_shape(MSO_SHAPE.OVAL, Inches(6.55), Inches(0.85),
-                                  Inches(3.15), Inches(3.15))
+    ring = slide.shapes.add_shape(MSO_SHAPE.OVAL, Inches(6.35), Inches(0.85),
+                                  Inches(2.95), Inches(2.95))
     ring.fill.background()
     ring.line.color.rgb = MOSS
     ring.line.width = Pt(1.2)
     ring.shadow.inherit = False
 
-    _text(slide, "63,0%", 6.65, 1.4, 2.95, 0.9, font="Georgia", size=50,
+    _text(slide, "63,0%", 6.45, 1.4, 2.75, 0.9, font="Georgia", size=48,
           bold=True, color=GOLD, align=PP_ALIGN.CENTER)
-    _text(slide, "dos pontos ficaram\ncom o mandante", 6.75, 2.35, 2.75, 0.6,
+    _text(slide, "dos pontos ficaram\ncom o mandante", 6.55, 2.35, 2.55, 0.6,
           size=11.5, color=DARK_TEXT, align=PP_ALIGN.CENTER, spacing=1.05)
-    _text(slide, "IC 95% 61,7–64,3", 6.75, 3.0, 2.75, 0.25, size=8.5,
+    _text(slide, "IC 95% 61,7–64,3", 6.55, 3.0, 2.55, 0.25, size=8.5,
           color=DARK_MUTED, align=PP_ALIGN.CENTER)
     _text(slide, "github.com/EmiyaKiritsugu3/TCC", 0.85, 5.15, 5.0, 0.2,
           size=8, color=DARK_MUTED)
@@ -181,21 +187,21 @@ def _slide_pergunta(prs):
         ("01", "Qual a magnitude?",
          "O mandante somou 63,0% dos pontos (IC 95% 61,7–64,3)."),
         ("02", "Mudou após 2018?",
-         "65,0% em 2013–2018; 61,0% em 2019–2024. Quebra estimada em 2019."),
+         "65,0% (2013–18) → 61,0% (2019–24). Quebra em 2019."),
         ("03", "Quais canais?",
          "Público, viagem, cartões e arbitragem. O desenho é observacional."),
     ]
-    x = [0.55, 3.45, 6.35]
+    x = [0.55, 3.5, 6.45]
     for (num, titulo, corpo), left in zip(cartoes, x):
-        _rect(slide, left, 1.45, 2.75, 2.55, fill=WHITE, line=LINE, rounded=True)
+        _rect(slide, left, 1.45, 2.85, 2.2, fill=WHITE, line=LINE, rounded=True)
         _text(slide, num, left + 0.15, 1.6, 0.6, 0.4, font="Georgia",
-              size=24, bold=True, color=GOLD)
-        _text(slide, titulo, left + 0.15, 2.05, 2.45, 0.55, font="Georgia",
+              size=24, bold=True, color=GOLD_DARK)
+        _text(slide, titulo, left + 0.15, 2.05, 2.55, 0.4, font="Georgia",
               size=16, bold=True, color=TEXT, spacing=1.0)
-        _text(slide, corpo, left + 0.15, 2.65, 2.45, 1.15, size=10.5,
+        _text(slide, corpo, left + 0.15, 2.55, 2.55, 1.0, size=10.5,
               color=MUTED, spacing=1.08)
     _text(slide, "4.559 partidas · 12 temporadas · BrazilianFootball/Data (MIT)",
-          0.55, 4.55, 9.0, 0.25, size=10, color=MUTED)
+          0.55, 4.15, 9.0, 0.25, size=10, color=MUTED)
     _nota(slide, 'As três perguntas organizam o artigo: magnitude, mudança temporal e canais. A pergunta sobre canais é a mais delicada: o desenho é observacional e não identifica causalidade.')
     return slide
 
@@ -210,29 +216,32 @@ def _slide_dados(prs):
     ]
     x = [0.55, 2.8, 5.05, 7.3]
     for (valor, rotulo), left in zip(dados, x):
-        _stat(slide, left, 1.35, 2.1, 1.45, valor, rotulo, value_size=24)
+        _stat(slide, left, 1.35, 2.1, 1.25, valor, rotulo, value_size=24)
 
     _text(slide, "Base: BrazilianFootball/Data (MIT)\n"
                  "Validação: OpenFootball (CC0)\n"
                  "Público e arbitragem: Base dos Dados/Transfermarkt\n"
                  "1 divergência de placar e 1 exceção de data documentadas.",
-          0.55, 3.12, 4.4, 1.35, size=10, color=MUTED, spacing=1.15)
+          0.55, 2.85, 4.4, 1.25, size=9.5, color=MUTED, spacing=1.15)
 
-    # Linha do tempo
-    y = 3.95
-    _rect(slide, 5.2, y, 4.0, 0.025, fill=MOSS, line=None)
-    marcos = [(5.35, "2013"), (7.0, "2019"), (7.55, "2020"), (9.0, "2024")]
-    for xm, rotulo in marcos:
+    # Linha do tempo em escala linear (2013–2024)
+    y = 3.85
+    x0, x1 = 5.2, 9.0
+    escala = (x1 - x0) / (2024 - 2013)
+    _rect(slide, x0, y, x1 - x0, 0.025, fill=MOSS, line=None)
+    marcos = [(2013, "2013"), (2019, "2019"), (2020, "2020"), (2024, "2024")]
+    for ano, rotulo in marcos:
+        xm = x0 + (ano - 2013) * escala
         dot = slide.shapes.add_shape(MSO_SHAPE.OVAL, Inches(xm - 0.06),
                                      Inches(y - 0.045), Inches(0.12), Inches(0.12))
         dot.fill.solid(); dot.fill.fore_color.rgb = MOSS
         dot.line.fill.background(); dot.shadow.inherit = False
         _text(slide, rotulo, xm - 0.25, y + 0.12, 0.5, 0.2, size=8,
               color=MUTED, align=PP_ALIGN.CENTER)
-    _text(slide, "quebra", 6.72, y - 0.32, 0.6, 0.2, size=7.5,
-          color=TERRA, align=PP_ALIGN.CENTER)
-    _text(slide, "pandemia", 7.28, y - 0.32, 0.8, 0.2, size=7.5,
-          color=TERRA, align=PP_ALIGN.CENTER)
+    _text(slide, "recorte 2013–2024", x0, y - 0.28, 1.6, 0.2, size=8,
+          color=MUTED)
+    _text(slide, "2019: quebra estimada · 2020: pandemia", x0, y + 0.42,
+          3.8, 0.2, size=8, color=TERRA_DARK)
     _text(slide, "A base bruta não é redistribuída: o pipeline reconstrói o "
                  "recorte a partir do commit fixado.", 0.55, 4.72, 9.0, 0.3,
           size=9, color=MUTED)
@@ -246,11 +255,11 @@ def _slide_metodos(prs):
         ("01", "Pollard",
          "Pontos do mandante / pontos totais.\nIC 95% por bootstrap de partidas.\n63,0% no período (IC 61,7–64,3)."),
         ("02", "Mudança de nível",
-         "Regressão segmentada; quebra por mínimos quadrados.\nIC por cluster de temporada.\n65,0% → 61,0% (IC 0,9–6,6)."),
+         "Regressão segmentada; quebra por mínimos quadrados.\nIC por cluster de temporada.\n65,0% → 61,0% (−4,0 p.p.; IC −6,6 a −0,9)."),
         ("03", "Poisson ataque–defesa",
-         "log λ = μ + ataque_i − defesa_j + γ + θ_t.\nSepara qualidade do efeito de casa.\nPrêmio: +56,5% → +37,7%."),
+         "log λ = μ + ataque − defesa + γ + temporada.\nSepara qualidade do efeito de casa.\nPrêmio: +56,5% → +37,7%."),
         ("04", "Variância",
-         "Entre equipes vs. dentro de equipes/temporadas.\nICC = 2,2%.\n97,8% é variação equipe-temporada."),
+         "Entre equipes vs. dentro de equipes/temporadas.\nICC = 2,2%.\n97,8% é variação dentro de equipes/temporadas."),
     ]
     pos = [(0.55, 1.35), (5.05, 1.35), (0.55, 3.02), (5.05, 3.02)]
     for (num, titulo, corpo), (left, top) in zip(cartoes, pos):
@@ -262,7 +271,7 @@ def _slide_metodos(prs):
         _text(slide, corpo, left + 0.15, top + 0.55, 4.05, 0.8, size=9.5,
               color=MUTED, spacing=1.08)
     _text(slide, "Nenhum modelo identifica causalidade: o desenho é observacional.",
-          0.55, 4.7, 9.0, 0.25, size=10, color=TERRA, bold=True)
+          0.55, 4.7, 9.0, 0.25, size=10.5, color=TERRA_DARK, bold=True)
     _nota(slide, 'Explicar em uma frase cada camada. O Poisson é o que separa qualidade das equipes do efeito de casa; a decomposição mostra que a vantagem é da liga, não de um clube.')
     return slide
 
@@ -279,17 +288,17 @@ def _slide_resultado1(prs):
           size=9.5, color=MUTED)
     _text(slide, "−4,0 p.p.", 0.55, 3.45, 2.4, 0.5, font="Georgia", size=27,
           bold=True, color=TERRA)
-    _text(slide, "IC 95% 0,9–6,6 · quebra estimada em 2019", 0.55, 3.95,
+    _text(slide, "IC 95% −6,6 a −0,9 · quebra estimada em 2019", 0.55, 3.95,
           4.0, 0.25, size=9.5, color=MUTED)
 
-    _rect(slide, 4.45, 1.15, 5.05, 3.0, fill=WHITE, line=LINE, rounded=True)
-    _image(slide, FIG / "artigo_serie_pollard.png", 4.55, 1.25, 4.85, 2.55)
+    _rect(slide, 4.05, 1.15, 5.4, 3.0, fill=WHITE, line=LINE, rounded=True)
+    _image(slide, FIG / "deck_serie_pollard.png", 4.15, 1.25, 5.2, 2.75)
     _text(slide, "Figura 1 · Pollard por temporada; faixa = IC 95%.",
-          4.55, 3.85, 4.85, 0.2, size=7.5, color=MUTED, align=PP_ALIGN.CENTER)
+          4.15, 3.95, 5.2, 0.2, size=7.5, color=MUTED, align=PP_ALIGN.CENTER)
     _text(slide, "Fonte: BrazilianFootball/Data (MIT); cálculos do autor. "
                  "A queda não é só no índice: aparece também em gols.",
           0.55, 4.7, 9.0, 0.25, size=9, color=MUTED)
-    _nota(slide, 'O número de 63,0% é a média do período. A queda de 4,0 p.p. é o resultado central; a quebra em 2019 é estimada, não imposta. O IC 0,9–6,6 mostra que a queda é positiva.')
+    _nota(slide, 'O número de 63,0% é a média do período. A queda de 4,0 p.p. é o resultado central; a quebra em 2019 é estimada, não imposta. O IC −6,6 a −0,9 mostra que a queda é negativa e precisa.')
     return slide
 
 
@@ -319,7 +328,9 @@ def _slide_resultado2(prs):
                                    Inches(2.15), Inches(1.25), Inches(0.38))
     arrow.fill.solid(); arrow.fill.fore_color.rgb = TERRA
     arrow.line.fill.background(); arrow.shadow.inherit = False
-    _text(slide, "−12,0%", 4.3, 1.7, 1.35, 0.3, font="Georgia", size=14,
+    _text(slide, "variação relativa", 4.25, 1.45, 1.45, 0.2, size=7.5,
+          color=MUTED, align=PP_ALIGN.CENTER)
+    _text(slide, "−12,0%", 4.3, 1.68, 1.35, 0.3, font="Georgia", size=14,
           bold=True, color=TERRA, align=PP_ALIGN.CENTER)
 
     _text(slide, "Multiplicador de gols do mandante: 1,565 → 1,377 · "
@@ -340,7 +351,7 @@ def _slide_resultado3(prs):
           bold=True, color=TERRA)
     _text(slide, "da variância está entre equipes", 0.55, 2.1, 3.4, 0.25,
           size=10, color=MUTED)
-    _text(slide, "97,8% é variação equipe-temporada", 0.55, 2.45, 3.5, 0.25,
+    _text(slide, "97,8% é variação dentro de equipes/temporadas", 0.55, 2.45, 3.6, 0.25,
           size=10, color=MUTED)
     _text(slide, "Não é um traço permanente de clube.", 0.55, 2.95, 3.5, 0.3,
           size=12, bold=True, color=DARK)
@@ -348,19 +359,19 @@ def _slide_resultado3(prs):
           size=8.5, color=MUTED)
 
     _rect(slide, 5.15, 1.3, 4.3, 1.05, fill=WHITE, line=LINE, rounded=True)
-    _text(slide, "ρ = 0,08", 5.3, 1.42, 1.7, 0.4, font="Georgia", size=22,
-          bold=True, color=MOSS)
-    _text(slide, "público × vantagem de casa", 6.95, 1.45, 2.35, 0.25,
+    _text(slide, "ρ = 0,08", 5.3, 1.42, 1.6, 0.4, font="Georgia", size=22,
+          bold=True, color=MUTED)
+    _text(slide, "público × vantagem de casa", 7.05, 1.45, 2.25, 0.25,
           size=9.5, color=MUTED)
-    _text(slide, "associação fraca", 6.95, 1.72, 2.35, 0.2, size=8.5,
+    _text(slide, "associação fraca", 7.05, 1.72, 2.25, 0.2, size=8.5,
           color=MUTED)
 
     _rect(slide, 5.15, 2.55, 4.3, 1.05, fill=WHITE, line=LINE, rounded=True)
-    _text(slide, "ρ = 0,41", 5.3, 2.67, 1.7, 0.4, font="Georgia", size=22,
+    _text(slide, "ρ = 0,41", 5.3, 2.67, 1.6, 0.4, font="Georgia", size=22,
           bold=True, color=DARK)
-    _text(slide, "público × pontos", 6.95, 2.7, 2.35, 0.25, size=9.5,
+    _text(slide, "público × pontos", 7.05, 2.7, 2.25, 0.25, size=9.5,
           color=MUTED)
-    _text(slide, "associação forte", 6.95, 2.97, 2.35, 0.2, size=8.5,
+    _text(slide, "associação forte", 7.05, 2.97, 2.25, 0.2, size=8.5,
           color=MUTED)
 
     _text(slide, "2020: 60,2% · 2022–24: 60,6%", 5.15, 3.85, 4.3, 0.25,
@@ -378,44 +389,44 @@ def _slide_resultado3(prs):
 
 def _slide_canais(prs):
     slide = _slide(prs, "Canais", "Cartões e pênaltis: sinal, não prova", 8)
-    _rect(slide, 0.55, 1.25, 4.45, 1.55, fill=WHITE, line=LINE, rounded=True)
-    _text(slide, "CARTÕES AMARELOS", 0.75, 1.38, 3.9, 0.2, size=8.5, bold=True,
+    _rect(slide, 0.55, 1.25, 4.2, 1.5, fill=WHITE, line=LINE, rounded=True)
+    _text(slide, "CARTÕES AMARELOS", 0.75, 1.38, 3.6, 0.2, size=8.5, bold=True,
           color=MUTED)
     _text(slide, "+0,35", 0.75, 1.62, 2.0, 0.45, font="Georgia", size=28,
           bold=True, color=MOSS)
-    _text(slide, "diferença-em-diferenças 2019→2020", 0.75, 2.15, 3.9, 0.2,
+    _text(slide, "diferença-em-diferenças 2019→2020", 0.75, 2.15, 3.6, 0.2,
           size=8.5, color=MUTED)
-    _text(slide, "IC 95% −0,03 a +0,72", 0.75, 2.42, 3.9, 0.2, size=9,
+    _text(slide, "IC 95% −0,03 a +0,72", 0.75, 2.42, 3.6, 0.2, size=9,
           color=MUTED)
-    _rect(slide, 3.3, 1.38, 1.4, 0.3, fill=MOSS_LIGHT, line=None, rounded=True)
-    _text(slide, "sugestivo", 3.3, 1.42, 1.4, 0.2, size=8, bold=True,
-          color=MOSS, align=PP_ALIGN.CENTER)
+    _rect(slide, 3.35, 1.38, 1.3, 0.3, fill=MOSS_LIGHT, line=None, rounded=True)
+    _text(slide, "sugestivo", 3.35, 1.42, 1.3, 0.2, size=8, bold=True,
+          color=DARK, align=PP_ALIGN.CENTER)
 
-    _rect(slide, 0.55, 3.0, 4.45, 1.45, fill=WHITE, line=LINE, rounded=True)
-    _text(slide, "PÊNALTIS CONVERTIDOS", 0.75, 3.13, 3.9, 0.2, size=8.5,
+    _rect(slide, 0.55, 2.95, 4.2, 1.5, fill=WHITE, line=LINE, rounded=True)
+    _text(slide, "PÊNALTIS CONVERTIDOS", 0.75, 3.08, 3.6, 0.2, size=8.5,
           bold=True, color=MUTED)
-    _text(slide, "+0,05", 0.75, 3.37, 2.0, 0.45, font="Georgia", size=28,
-          bold=True, color=GOLD)
-    _text(slide, "piloto 2019–2020 · n = 760", 0.75, 3.9, 3.9, 0.2, size=8.5,
+    _text(slide, "+0,05", 0.75, 3.32, 2.0, 0.45, font="Georgia", size=28,
+          bold=True, color=DARK)
+    _text(slide, "piloto 2019–2020 · n = 760", 0.75, 3.85, 3.6, 0.2, size=8.5,
           color=MUTED)
-    _text(slide, "IC 95% −0,06 a +0,15", 0.75, 4.15, 3.9, 0.2, size=9,
+    _text(slide, "IC 95% −0,06 a +0,15", 0.75, 4.1, 3.6, 0.2, size=9,
           color=MUTED)
 
-    _rect(slide, 5.25, 1.25, 4.2, 2.7, fill=WHITE, line=LINE, rounded=True)
-    _image(slide, FIG / "fig13_cartoes.png", 5.35, 1.35, 4.0, 2.3)
-    _text(slide, "Figura 3 · cartões casa−fora; faixa = IC 95%. "
+    _rect(slide, 5.0, 1.25, 4.45, 2.7, fill=WHITE, line=LINE, rounded=True)
+    _image(slide, FIG / "deck_cartoes.png", 5.1, 1.35, 4.25, 2.35)
+    _text(slide, "Figura 2 · cartões casa−fora; faixa = IC 95%. "
                  "Fonte: BrazilianFootball/Data (MIT).",
-          5.35, 3.68, 4.0, 0.25, size=6.5, color=MUTED, align=PP_ALIGN.CENTER)
+          5.1, 3.75, 4.25, 0.2, size=6.8, color=MUTED, align=PP_ALIGN.CENTER)
     _text(slide, "2020 mistura pandemia, calendário e protocolos. O sinal é "
                  "compatível com canal arbitral, mas não é prova causal.",
-          0.55, 4.62, 9.0, 0.45, size=9.5, color=TERRA, spacing=1.05)
+          0.55, 4.62, 9.0, 0.45, size=9.5, color=TERRA_DARK, spacing=1.05)
     _nota(slide, 'Cartões vão na direção esperada, mas o IC inclui zero. Pênaltis convertidos não mostram mudança detectável. A leitura é sugestiva, não causal; 2020 mistura pandemia, calendário e protocolos.')
     return slide
 
 
 def _slide_conclusoes(prs):
     slide = _slide(prs, "Conclusões", "Evidência vs. especulação", 9, dark=True)
-    _rect(slide, 0.55, 1.35, 4.35, 2.6, fill=DARK2, line=None, rounded=True)
+    _rect(slide, 0.55, 1.35, 4.35, 2.35, fill=CARD_DARK, line=CARD_LINE, rounded=True)
     _text(slide, "SUSTENTA", 0.75, 1.5, 3.9, 0.25, size=9, bold=True, color=MOSS_LIGHT)
     linhas_ok = [
         "Vantagem grande: 63,0% (61,7–64,3)",
@@ -423,24 +434,24 @@ def _slide_conclusoes(prs):
         "Fenômeno da liga: ICC 2,2%",
         "Público é canal fraco; cartões são sugestivos",
     ]
-    _text(slide, "\n".join(f"✓  {l}" for l in linhas_ok), 0.75, 1.85, 3.9, 1.9,
+    _text(slide, "\n".join(f"✓  {l}" for l in linhas_ok), 0.75, 1.85, 3.9, 1.7,
           size=11.5, color=DARK_TEXT, spacing=1.25)
 
-    _rect(slide, 5.15, 1.35, 4.3, 2.6, fill=DARK2, line=None, rounded=True)
+    _rect(slide, 5.15, 1.35, 4.3, 2.35, fill=CARD_DARK, line=CARD_LINE, rounded=True)
     _text(slide, "NÃO SUSTENTA", 5.35, 1.5, 3.9, 0.25, size=9, bold=True,
-          color=TERRA)
+          color=SALMON)
     linhas_nao = [
         "Culpar VAR, torcida ou arbitragem",
         "Tratar 2019 como causa",
         "Rankear clubes por vantagem de casa",
         "Prever 2025 sem teste fora da amostra",
     ]
-    _text(slide, "\n".join(f"×  {l}" for l in linhas_nao), 5.35, 1.85, 3.9, 1.9,
+    _text(slide, "\n".join(f"×  {l}" for l in linhas_nao), 5.35, 1.85, 3.9, 1.7,
           size=11.5, color=DARK_TEXT, spacing=1.25)
 
-    _text(slide, "A queda é real; a causa segue em aberto.", 0.55, 4.25, 9.0, 0.35,
+    _text(slide, "A queda é real; a causa segue em aberto.", 0.55, 3.95, 9.0, 0.35,
           font="Georgia", size=17, bold=True, color=GOLD)
-    _text(slide, "Leitura descritiva; sem identificação causal.", 0.55, 4.75,
+    _text(slide, "Leitura descritiva; sem identificação causal.", 0.55, 4.45,
           9.0, 0.2, size=8.5, color=DARK_MUTED)
     _nota(slide, 'Separar claramente o que a evidência sustenta do que seria especulação. A frase de fechamento é: a queda é real; a causa segue em aberto.')
     return slide
@@ -451,7 +462,7 @@ def _slide_proximos(prs):
                    10, dark=True)
     itens = [
         ("01", "Template oficial", "UFRN/CERES-BSI + ficha SISBI"),
-        ("02", "Banca", "nomes, titulação, instituição, data e nota"),
+        ("02", "Banca", "nomes, titulação, instituição e data"),
         ("03", "Escopo do artigo", "manter público e cartões ou só o núcleo?"),
         ("04", "Dashboard", "artefato complementar ou link de reprodutibilidade?"),
     ]
@@ -467,7 +478,7 @@ def _slide_proximos(prs):
 
     _text(slide, "Obrigado.", 0.55, 4.15, 3.0, 0.5, font="Georgia", size=28,
           bold=True, color=GOLD)
-    _text(slide, "Fico à disposição para ajustar o que o senhor indicar.",
+    _text(slide, "Fico à disposição para ajustar o que for necessário.",
           0.55, 4.7, 6.0, 0.25, size=10, color=DARK_MUTED)
     _text(slide, "github.com/EmiyaKiritsugu3/TCC", 6.5, 4.95, 3.0, 0.2,
           size=8, color=DARK_MUTED, align=PP_ALIGN.RIGHT)
