@@ -488,6 +488,11 @@ def _slide_proximos(prs):
 
 
 def main() -> None:
+    for nome in ("deck_serie_pollard.png", "deck_cartoes.png"):
+        if not (FIG / nome).exists():
+            raise SystemExit(
+                f"figura ausente: {FIG / nome}; rode scripts/make_deck_figures.py"
+            )
     prs = Presentation()
     prs.slide_width = Inches(10)
     prs.slide_height = Inches(5.625)
