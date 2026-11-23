@@ -7,6 +7,7 @@ __pycache__/
 .streamlit/
 *.pdf
 !apresentacao/apresentacao_tcc.pdf
+!apresentacao/apresentacao_artigo_2013_2024.pdf
 !docs/monografia_final.pdf
 !docs/monografia_draft_abnt.pdf
 !docs/resumo_artigo_orientador.pdf
