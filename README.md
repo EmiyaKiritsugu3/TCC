@@ -98,6 +98,8 @@ PYTHONPATH=src python3 scripts/build_cards.py \
 PYTHONPATH=src python3 scripts/analyze_cards.py
 PYTHONPATH=src python3 scripts/analyze_artigo.py
 PYTHONPATH=src python3 scripts/analyze_models.py
+PYTHONPATH=src python3 scripts/validate_champions.py \
+  --base data/processed/matches_processed_2013_2024.csv
 PYTHONPATH=src python3 scripts/build_artigo.py
 TCC_PROCESSED=data/processed/matches_processed_2013_2024.csv \
 TCC_QUALITY=data/processed/quality_report_2013_2024.json \

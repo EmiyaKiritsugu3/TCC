@@ -15,3 +15,16 @@ base: data/processed/matches_processed_2013_2024.csv
 2024 |  380  380   380       380   0       0     0
 RESULTADO: DIVERGÊNCIAS ACIMA — investigar
 ```
+
+## Nota de auditoria (2026-11-23)
+
+A divergência de placar de **2019-12-08, Internacional × Atlético-MG** é
+conhecida: a base MIT registra 0–0; as fontes oficiais (ge.globo e ESPN)
+registram **2–1 para o Internacional**. O artigo a mantém como limitação
+explícita em vez de alterar a fonte bruta.
+
+Impacto estimado da correção: 1 partida em 4.559 (0,02%); o Pollard agregado
+permanece 63,0%, a mudança de nível permanece 65,0% → 61,0% e o coeficiente
+de interação do Poisson permanece −0,128. O ICC passaria de 2,2% para 2,3%
+(97,8% → 97,7% de variação equipe-temporada). As conclusões qualitativas não
+mudam.

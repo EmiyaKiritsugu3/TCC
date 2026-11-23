@@ -1,6 +1,9 @@
 #!/usr/bin/env python3
 """Validação da integridade da base: o campeão calculado por temporada
 confere com o campeão oficial? (Sprint 9)"""
+from __future__ import annotations
+
+import argparse
 from pathlib import Path
 
 import pandas as pd
@@ -34,10 +37,23 @@ def tabela(df):
     return t.sort_values(["pts", "vit", "sg"], ascending=False)
 
 
-def main():
-    df = pd.read_csv(RAIZ / "data" / "processed" / "matches_processed.csv")
+def main(argv: list[str] | None = None) -> int:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument(
+        "--base", type=Path,
+        default=RAIZ / "data" / "processed" / "matches_processed.csv",
+        help="CSV processado a validar (padrão: base 2006–2024)",
+    )
+    args = parser.parse_args(argv)
+    base = args.base if args.base.is_absolute() else RAIZ / args.base
+    df = pd.read_csv(base)
+    temporadas = [ano for ano in sorted(df["season"].unique()) if ano in ESPERADO]
+    if not temporadas:
+        print(f"nenhuma temporada esperada em {base}")
+        return 1
     erros = 0
-    for ano, esp in ESPERADO.items():
+    for ano in temporadas:
+        esp = ESPERADO[ano]
         g = df[df["season"] == ano]
         t = tabela(g)
         camp, pts = t.index[0], int(t.iloc[0]["pts"])
@@ -48,7 +64,9 @@ def main():
         print(f"{ano}: {camp} ({pts} pts, vice {vice_pts}) esperado {esp}  {flag}")
         if pts == vice_pts:
             print(f"  AVISO: empate em pontos no topo em {ano} — checar desempate manual.")
-    print("RESULTADO:", "PASS — 19/19 campeões" if erros == 0 else f"{erros} DIVERGÊNCIAS")
+    total = len(temporadas)
+    print("RESULTADO:", f"PASS — {total}/{total} campeões" if erros == 0
+          else f"{erros} DIVERGÊNCIAS em {total} temporadas")
     return erros
 
 
