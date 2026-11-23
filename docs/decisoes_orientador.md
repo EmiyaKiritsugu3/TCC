@@ -164,8 +164,8 @@ aberta `BrazilianFootball/Data` (MIT). A PR #5 foi mergeada na `main`
 |---|---|---:|
 | `docs/artigo_2013_2024.pdf` | artigo em inglês | 9 |
 | `docs/artigo_2013_2024_pt.pdf` | artigo em português | 10 |
-| `docs/artigo_2013_2024_abnt.pdf` | artigo em ABNT (NBR 6022/6023) | 15 |
-| `docs/artigo_2013_2024_abnt_completo.pdf` | capa + folha de rosto + avaliação + artigo | 18 |
+| `docs/artigo_2013_2024_abnt.pdf` | artigo em ABNT (NBR 6022/6023) | 16 |
+| `docs/artigo_2013_2024_abnt_completo.pdf` | capa + folha de rosto + avaliação + artigo | 19 |
 | `docs/resumo_artigo_orientador.pdf` | resumo para o orientador | 2 |
 
 **Resultados principais:** Pollard 63,0% (IC 95% 61,7–64,3); queda de 65,0%

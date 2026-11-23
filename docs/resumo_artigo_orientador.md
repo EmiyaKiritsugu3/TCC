@@ -40,8 +40,8 @@ Qual foi a magnitude da vantagem de jogar em casa no Campeonato Brasileiro Séri
 |---|---|---:|
 | `docs/artigo_2013_2024.pdf` | artigo em inglês | 9 |
 | `docs/artigo_2013_2024_pt.pdf` | artigo em português | 10 |
-| `docs/artigo_2013_2024_abnt.pdf` | artigo em ABNT (NBR 6022/6023) | 15 |
-| `docs/artigo_2013_2024_abnt_completo.pdf` | capa + folha de rosto + avaliação + artigo | 18 |
+| `docs/artigo_2013_2024_abnt.pdf` | artigo em ABNT (NBR 6022/6023) | 16 |
+| `docs/artigo_2013_2024_abnt_completo.pdf` | capa + folha de rosto + avaliação + artigo | 19 |
 | `docs/resumo_artigo_orientador.pdf` | este resumo | 3 |
 
 O pacote ABNT começa o artigo na página 4; a capa, a folha de rosto e a folha de avaliação estão nas páginas 1–3. Os placeholders de nome, titulação, instituição, data e nota da banca continuam explícitos para preenchimento posterior. O código, as tabelas derivadas e as figuras estão no repositório; a base bruta da CBF não é redistribuída.

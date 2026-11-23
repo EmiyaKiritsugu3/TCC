@@ -29,9 +29,9 @@ Resultados principais:
 Entregáveis:
 - docs/artigo_2013_2024.pdf — artigo em inglês (9 p.)
 - docs/artigo_2013_2024_pt.pdf — artigo em português (10 p.)
-- docs/artigo_2013_2024_abnt.pdf — artigo em ABNT (15 p.)
+- docs/artigo_2013_2024_abnt.pdf — artigo em ABNT (16 p.)
 - docs/artigo_2013_2024_abnt_completo.pdf — capa, folha de rosto, avaliação e
-  artigo (18 p.; o artigo começa na página 4)
+  artigo (19 p.; o artigo começa na página 4)
 - docs/resumo_artigo_orientador.pdf — resumo para o senhor (2 p.)
 
 Links:

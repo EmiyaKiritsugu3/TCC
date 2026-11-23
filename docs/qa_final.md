@@ -92,8 +92,8 @@
   removida.
 - **Base:** 4.559 partidas, 12 temporadas, `BrazilianFootball/Data` (MIT);
   validação 2.658/2.660 (99,92%) e 12/12 campeões.
-- **Pacote:** artigo em inglês (9 p.), português (10 p.), ABNT (15 p.) e pacote
-  completo com pré-textuais (18 p.); resumo para o orientador (2 p.).
+- **Pacote:** artigo em inglês (9 p.), português (10 p.), ABNT (16 p.) e pacote
+  completo com pré-textuais (19 p.); resumo para o orientador (2 p.).
 - **Validações:** 117 testes; `check_monografia.py` com auditoria numérica OK;
   `audit_data.py` com 150 verificações e 0 falhas; CI, SonarCloud e GitGuardian
   verdes.
