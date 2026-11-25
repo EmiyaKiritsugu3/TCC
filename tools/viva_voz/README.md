@@ -66,6 +66,6 @@ curl -L -o tools/viva_voz/models/pt_BR-faber-medium.onnx.json \
 - Não avalia entonação, pronúncia ou nervosismo; só o conteúdo transcrito.
 - O Whisper pode errar nomes próprios (“Pollard” → “Polarde”); leia a
   transcrição antes de avaliar.
-- O Ollama local tem modelos grandes que estão falhando com segfault nesta
-  máquina; por isso o treinador é scripted. Se quiser follow-ups dinâmicos,
-  um modelo menor (3B–7B) pode ser testado.
+- O treinador é scripted e não depende de LLM. Se quiser follow-ups
+  dinâmicos, um modelo local pequeno (3B–7B) pode ser baixado; os modelos
+  antigos do Ollama foram removidos.
