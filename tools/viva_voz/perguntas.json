@@ -1,0 +1,50 @@
+[
+  {
+    "tema": "Pollard",
+    "pergunta": "Explique o que é o índice de Pollard, como ele é calculado e por que 50% representa neutralidade."
+  },
+  {
+    "tema": "Pollard vs vitórias",
+    "pergunta": "O artigo diz que o mandante somou 63,0% dos pontos, mas venceu 48,4% das partidas. Explique por que esses dois números são diferentes."
+  },
+  {
+    "tema": "Escalas",
+    "pergunta": "Por que a queda de 4,0 pontos percentuais no Pollard não é a mesma coisa que a queda de 12,0% no multiplicador de gols do Poisson?"
+  },
+  {
+    "tema": "Poisson",
+    "pergunta": "Por que o artigo usa um modelo de Poisson ataque-defesa? O que ele separa que a média bruta de gols não separa? Explique também como ataque e defesa são identificados."
+  },
+  {
+    "tema": "ICC",
+    "pergunta": "O que significa o ICC de 2,2%? Explique o que ele mede e o que ele não permite concluir sobre clubes."
+  },
+  {
+    "tema": "Quebra",
+    "pergunta": "Por que o corte é em 2019 e não em 2020? Explique como o ano foi estimado."
+  },
+  {
+    "tema": "Causalidade",
+    "pergunta": "Você pode afirmar que o VAR causou a queda da vantagem de casa? Justifique e diga o que o desenho permite concluir."
+  },
+  {
+    "tema": "Público",
+    "pergunta": "O público explica a vantagem de casa? Explique as correlações de 0,08 e 0,41 e o contraste de 2020 com 2022 a 2024."
+  },
+  {
+    "tema": "Cartões e pênaltis",
+    "pergunta": "O que o artigo encontra sobre cartões e pênaltis? Por que os resultados são descritos como sugestivos e não conclusivos?"
+  },
+  {
+    "tema": "Validação",
+    "pergunta": "Como você valida a base? Quais são as duas exceções documentadas e qual é o impacto da divergência de placar?"
+  },
+  {
+    "tema": "Viagem e outras competições",
+    "pergunta": "O que o artigo mostra sobre distância e viagem? Por que não é possível concluir que times que viajam mais são piores por causa da viagem?"
+  },
+  {
+    "tema": "Contribuição e limites",
+    "pergunta": "Qual é a contribuição central do artigo e quais são as principais limitações? O que você faria com mais dados?"
+  }
+]

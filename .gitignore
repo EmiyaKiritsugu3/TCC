@@ -44,3 +44,9 @@ htmlcov/
 
 # Pasta local de entrega (cópias dos PDFs; não versionar)
 entrega_orientador/
+
+# Viva Voz: ambiente, voz e áudios locais
+tools/viva_voz/.venv/
+tools/viva_voz/models/
+tools/viva_voz/audio/
+tools/viva_voz/respostas/

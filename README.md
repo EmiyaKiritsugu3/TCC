@@ -120,7 +120,8 @@ PYTHONPATH=src python3 scripts/build_artigo.py --pt   # português
 
 O resumo para o orientador fica em `docs/resumo_artigo_orientador.pdf`.
 O guia de estudo para a banca fica em `docs/guia_estudo_banca.md` (e `.pdf`,
-gerado por `scripts/build_guia_banca.py`).
+gerado por `scripts/build_guia_banca.py`). O treinador de voz local fica em
+`tools/viva_voz/README.md`.
 A apresentação do artigo (10 slides) fica em
 `apresentacao/apresentacao_artigo_2013_2024.pptx` e `.pdf`, gerada por
 `scripts/build_deck_artigo.py`; as figuras de projeção vêm de
