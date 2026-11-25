@@ -181,8 +181,8 @@ def _titulo_slide(prs):
     return slide
 
 
-def _slide_pergunta(prs):
-    slide = _slide(prs, "A pergunta", "Três perguntas, uma base de 12 temporadas", 2)
+def _slide_pergunta(prs, pagina: int = 2):
+    slide = _slide(prs, "A pergunta", "Três perguntas, uma base de 12 temporadas", pagina)
     cartoes = [
         ("01", "Qual a magnitude?",
          "O mandante somou 63,0% dos pontos (IC 95% 61,7–64,3)."),
@@ -206,8 +206,8 @@ def _slide_pergunta(prs):
     return slide
 
 
-def _slide_dados(prs):
-    slide = _slide(prs, "Dados", "Uma base aberta, validada e reproduzível", 3)
+def _slide_dados(prs, pagina: int = 3):
+    slide = _slide(prs, "Dados", "Uma base aberta, validada e reproduzível", pagina)
     dados = [
         ("4.559", "partidas"),
         ("12", "temporadas"),
@@ -250,8 +250,8 @@ def _slide_dados(prs):
     return slide
 
 
-def _slide_metodos(prs):
-    slide = _slide(prs, "Métodos", "Quatro camadas de evidência", 4)
+def _slide_metodos(prs, pagina: int = 4):
+    slide = _slide(prs, "Métodos", "Quatro camadas de evidência", pagina)
     cartoes = [
         ("01", "Pollard",
          "Pontos do mandante / pontos totais.\nIC 95% por bootstrap de partidas.\n63,0% no período (IC 61,7–64,3)."),
@@ -277,8 +277,8 @@ def _slide_metodos(prs):
     return slide
 
 
-def _slide_resultado1(prs):
-    slide = _slide(prs, "Resultado 1", "A vantagem caiu a partir de 2019", 5)
+def _slide_resultado1(prs, pagina: int = 5):
+    slide = _slide(prs, "Resultado 1", "A vantagem caiu a partir de 2019", pagina)
     _text(slide, "63,0%", 0.55, 1.25, 2.2, 0.7, font="Georgia", size=34,
           bold=True, color=DARK)
     _text(slide, "dos pontos com o mandante", 0.55, 1.9, 3.0, 0.25, size=10,
@@ -303,8 +303,8 @@ def _slide_resultado1(prs):
     return slide
 
 
-def _slide_resultado2(prs):
-    slide = _slide(prs, "Resultado 2", "Em gols, o prêmio de casa caiu 12,0%", 6)
+def _slide_resultado2(prs, pagina: int = 6):
+    slide = _slide(prs, "Resultado 2", "Em gols, o prêmio de casa caiu 12,0%", pagina)
     _rect(slide, 0.55, 1.3, 3.65, 2.0, fill=WHITE, line=LINE, rounded=True)
     _text(slide, "2013–2018", 0.75, 1.45, 3.2, 0.2, size=8.5, bold=True,
           color=MUTED)
@@ -346,8 +346,8 @@ def _slide_resultado2(prs):
     return slide
 
 
-def _slide_resultado3(prs):
-    slide = _slide(prs, "Resultado 3", "A vantagem é da liga, não de um clube", 7)
+def _slide_resultado3(prs, pagina: int = 7):
+    slide = _slide(prs, "Resultado 3", "A vantagem é da liga, não de um clube", pagina)
     _text(slide, "2,2%", 0.55, 1.25, 2.6, 0.9, font="Georgia", size=46,
           bold=True, color=TERRA)
     _text(slide, "da variância está entre equipes", 0.55, 2.1, 3.4, 0.25,
@@ -388,8 +388,8 @@ def _slide_resultado3(prs):
     return slide
 
 
-def _slide_canais(prs):
-    slide = _slide(prs, "Canais", "Cartões e pênaltis: sinal, não prova", 8)
+def _slide_canais(prs, pagina: int = 8):
+    slide = _slide(prs, "Canais", "Cartões e pênaltis: sinal, não prova", pagina)
     _rect(slide, 0.55, 1.25, 4.2, 1.5, fill=WHITE, line=LINE, rounded=True)
     _text(slide, "CARTÕES AMARELOS", 0.75, 1.38, 3.6, 0.2, size=8.5, bold=True,
           color=MUTED)
@@ -425,8 +425,8 @@ def _slide_canais(prs):
     return slide
 
 
-def _slide_conclusoes(prs):
-    slide = _slide(prs, "Conclusões", "Evidência vs. especulação", 9, dark=True)
+def _slide_conclusoes(prs, pagina: int = 9):
+    slide = _slide(prs, "Conclusões", "Evidência vs. especulação", pagina, dark=True)
     _rect(slide, 0.55, 1.35, 4.35, 2.35, fill=CARD_DARK, line=CARD_LINE, rounded=True)
     _text(slide, "SUSTENTA", 0.75, 1.5, 3.9, 0.25, size=9, bold=True, color=MOSS_LIGHT)
     linhas_ok = [
@@ -458,9 +458,9 @@ def _slide_conclusoes(prs):
     return slide
 
 
-def _slide_proximos(prs):
+def _slide_proximos(prs, pagina: int = 10):
     slide = _slide(prs, "Próximos passos", "O que falta para fechar o depósito",
-                   10, dark=True)
+                   pagina, dark=True)
     itens = [
         ("01", "Template oficial", "UFRN/CERES-BSI + ficha SISBI"),
         ("02", "Banca", "nomes, titulação, instituição e data"),

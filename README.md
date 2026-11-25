@@ -122,7 +122,10 @@ O resumo para o orientador fica em `docs/resumo_artigo_orientador.pdf`.
 A apresentação do artigo (10 slides) fica em
 `apresentacao/apresentacao_artigo_2013_2024.pptx` e `.pdf`, gerada por
 `scripts/build_deck_artigo.py`; as figuras de projeção vêm de
-`scripts/make_deck_figures.py`.
+`scripts/make_deck_figures.py`. A versão de banca (11 slides), com literatura,
+contribuições e limitações, fica em
+`apresentacao/apresentacao_banca_2013_2024.pptx` e `.pdf`, gerada por
+`scripts/build_deck_banca.py`.
 
 Versão ABNT (NBR 6022), com referências NBR 6023:
 
