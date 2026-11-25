@@ -129,7 +129,10 @@ def _tts_only(perguntas: list[dict], piper: Path, modelo: Path) -> None:
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description=__doc__)
+    parser = argparse.ArgumentParser(
+        description=__doc__,
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+    )
     parser.add_argument("--segundos", type=int, default=60,
                         help="tempo de gravação por pergunta (padrão: 60)")
     parser.add_argument("--max", type=int, default=0,
