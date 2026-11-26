@@ -69,6 +69,9 @@ def tabela(doc, linhas: list[list[str]], larguras: list[float] | None = None,
     tab = doc.add_table(rows=len(linhas), cols=len(linhas[0]))
     tab.style = "Table Grid"
     tab.autofit = larguras is None
+    # Repete o cabeçalho quando a tabela quebra entre páginas.
+    tr_pr = tab.rows[0]._tr.get_or_add_trPr()
+    tr_pr.append(OxmlElement("w:tblHeader"))
     for i, linha in enumerate(linhas):
         for j, celula in enumerate(linha):
             cel = tab.cell(i, j)

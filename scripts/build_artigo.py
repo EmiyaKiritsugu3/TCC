@@ -49,6 +49,11 @@ def _renderizar(doc, linhas: list[str], pasta: Path) -> None:
                        depois=10, cor=CINZA)
             i += 1
             continue
+        if s.startswith("#### "):
+            paragrafo(doc, s[5:], tamanho=10.7, negrito=True, italico=True,
+                       antes=6, depois=2, cor=VERDE)
+            i += 1
+            continue
         if s.startswith("### "):
             paragrafo(doc, s[4:], tamanho=11.3, negrito=True, italico=True,
                        antes=8, depois=2, cor=VERDE)
@@ -130,6 +135,10 @@ def main(argv: list[str] | None = None) -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--pt", action="store_true",
                         help="gera a versão em português")
+    parser.add_argument("--entrada", type=Path, default=None,
+                        help="Markdown de entrada (opcional)")
+    parser.add_argument("--saida", type=Path, default=None,
+                        help="DOCX de saída (opcional)")
     args = parser.parse_args(argv)
     if args.pt:
         entrada, saida = ENTRADA_PT, SAIDA_PT
@@ -137,6 +146,10 @@ def main(argv: list[str] | None = None) -> None:
     else:
         entrada, saida = ENTRADA_EN, SAIDA_EN
         header = "Home advantage in Brazilian Série A (2013–2024)"
+    if args.entrada is not None:
+        entrada = args.entrada if args.entrada.is_absolute() else RAIZ / args.entrada
+    if args.saida is not None:
+        saida = args.saida if args.saida.is_absolute() else RAIZ / args.saida
     linhas = entrada.read_text(encoding="utf-8").splitlines()
     doc = Document()
     configurar(doc, top=2.0, left=2.3, bottom=1.8, right=2.3, tamanho=10.6)
