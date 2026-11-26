@@ -20,6 +20,7 @@ __pycache__/
 !docs/capa_folha_rosto_artigo.pdf
 !docs/guia_estudo_banca.pdf
 !docs/artigo_2013_2024_teste_estrutura.pdf
+!docs/artigo_2013_2024_teste_estrutura_abnt.pdf
 
 # Exemplo do orientador (PDF de terceiros; não versionar)
 artigo_exemplo/

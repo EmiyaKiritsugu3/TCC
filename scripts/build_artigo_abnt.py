@@ -75,6 +75,11 @@ def _renderizar(doc, linhas: list[str], pasta: Path) -> None:
             _paragrafo(doc, s, tamanho=10, central=True, depois=12, recuo=False)
             i += 1
             continue
+        if s.startswith("#### "):
+            _paragrafo(doc, s[5:], tamanho=11, negrito=True, antes=6,
+                       depois=2, recuo=False, espaco=1.2)
+            i += 1
+            continue
         if s.startswith("### "):
             _paragrafo(doc, s[4:], tamanho=12, negrito=True, antes=8,
                        depois=3, recuo=False)
@@ -153,14 +158,26 @@ def _renderizar(doc, linhas: list[str], pasta: Path) -> None:
 def main(argv: list[str] | None = None) -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--inicio", type=int, default=1)
+    parser.add_argument("--entrada", type=Path, default=None,
+                        help="Markdown de entrada (opcional)")
+    parser.add_argument("--saida", type=Path, default=None,
+                        help="DOCX de saída (opcional)")
     args = parser.parse_args(argv)
-    saida = SAIDA_P4 if args.inicio == 4 else SAIDA
-    linhas = ENTRADA.read_text(encoding="utf-8").splitlines()
+    entrada = args.entrada or ENTRADA
+    if args.saida is not None:
+        saida = args.saida
+    else:
+        saida = SAIDA_P4 if args.inicio == 4 else SAIDA
+    if not entrada.is_absolute():
+        entrada = RAIZ / entrada
+    if not saida.is_absolute():
+        saida = RAIZ / saida
+    linhas = entrada.read_text(encoding="utf-8").splitlines()
     doc = Document()
     configurar(doc, top=3.0, left=3.0, bottom=2.0, right=2.0, tamanho=12)
     doc.core_properties.title = "Vantagem de jogar em casa na Série A (2013–2024)"
     doc.core_properties.author = "José Inamar de Medeiros Júnior"
-    _renderizar(doc, linhas, ENTRADA.parent)
+    _renderizar(doc, linhas, entrada.parent)
     _pagina(doc, args.inicio)
     doc.save(saida)
     print(f"gravado em: {saida}")
